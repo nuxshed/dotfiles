@@ -159,7 +159,6 @@ require("packer").startup({
     use({
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
-      event = "BufRead",
     })
     use("karb94/neoscroll.nvim")
     use("folke/which-key.nvim")
