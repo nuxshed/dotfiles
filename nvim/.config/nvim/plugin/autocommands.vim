@@ -1,3 +1,4 @@
-" Use Templates
-" see :h skeleton
+" autocommands
+" TODO: migrate to autocommands.lua
+
 autocmd BufNewFile *.sh    0r ~/.config/nvim/templates/skeleton.sh
