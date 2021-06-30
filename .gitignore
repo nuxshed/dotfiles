@@ -1,0 +1,5 @@
+# gitignore file
+
+packer_compiled.vim
+openweathermap-api-key.sh
+log
