@@ -106,9 +106,7 @@ local function setup_servers()
     if lang == "lua" then
       require("lsp.lua").setup(on_attach)
     else
-      if lang == "rust" then
-        config.root_dir = require("lspconfig.util").root_pattern("Cargo.toml", ".git")
-      elseif lang == "vim" then
+      if lang == "vim" then
         config.init_options = { isNeovim = true }
       elseif lang == "vue" then
         config.root_dir = require("lspconfig.util").root_pattern("config.vue.js", "package.json")
@@ -128,5 +126,8 @@ require("lspinstall").post_install_hook = function()
   vim.cmd("bufdo e") -- triggers the FileType autocmd that starts the server
 end
 
+-- rust-analyzer is set up seperately because rust-tools
+-- but rust-analyzer is in the arch repos, so not really a problem
+require("lsp.rust").setup(on_attach)
 -- null_ls has it's own thing
 require("lsp.null-ls").setup(on_attach)

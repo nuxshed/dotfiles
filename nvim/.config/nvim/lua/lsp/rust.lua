@@ -1,0 +1,38 @@
+local M = {}
+
+M.setup = function(on_attach)
+  require("rust-tools").setup({
+    tools = {
+      autoSetHints = true,
+      hover_with_actions = true,
+      runnables = {
+        use_telescope = true,
+      },
+      inlay_hints = {
+        show_parameter_hints = true,
+        parameter_hints_prefix = "<-",
+        other_hints_prefix = "=>",
+        max_len_align = false,
+        max_len_align_padding = 1,
+        right_align = false,
+        right_align_padding = 7,
+      },
+      hover_actions = {
+        border = {
+          { "╭", "FloatBorder" },
+          { "─", "FloatBorder" },
+          { "╮", "FloatBorder" },
+          { "│", "FloatBorder" },
+          { "╯", "FloatBorder" },
+          { "─", "FloatBorder" },
+          { "╰", "FloatBorder" },
+          { "│", "FloatBorder" },
+        },
+      },
+    },
+    server = {
+      on_attach = on_attach,
+    },
+  })
+end
+return M

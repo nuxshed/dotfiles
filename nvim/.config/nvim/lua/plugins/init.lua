@@ -92,6 +92,7 @@ require("packer").startup({
       },
     })
 
+    use({ "simrat39/rust-tools.nvim" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
     -- use { "mfussenegger/nvim-dap" }
