@@ -67,7 +67,7 @@ local on_attach = function(client, bufnr)
   -- autocommands
   -- format-on-save
   if client.resolved_capabilities.document_formatting then
-    utils.augroup("LspFormatOnSave", "BufWritePre", "LspFormat")
+    utils.augroup("LspFormatOnSave", "BufWritePost", "LspFormat")
   end
   -- cursor commands
   if client and client.resolved_capabilities.document_highlight then
@@ -84,19 +84,38 @@ local on_attach = function(client, bufnr)
 end
 
 -- lspInstall
+
+-- config that activates keymaps and enables snippet support
+local function make_config()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.colorProvider = { dynamicRegistration = false }
+  return {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
+end
+
 local function setup_servers()
   require("lspinstall").setup()
 
   local lspconf = require("lspconfig")
   local servers = require("lspinstall").installed_servers()
   for _, lang in pairs(servers) do
+    local config = make_config()
     if lang == "lua" then
       require("lsp.lua").setup(on_attach)
     else
-      lspconf[lang].setup({
-        root_dir = vim.loop.cwd,
-        on_attach = on_attach,
-      })
+      if lang == "rust" then
+        config.root_dir = require("lspconfig.util").root_pattern("Cargo.toml", ".git")
+      elseif lang == "vim" then
+        config.init_options = { isNeovim = true }
+      elseif lang == "vue" then
+        config.root_dir = require("lspconfig.util").root_pattern("config.vue.js", "package.json")
+      elseif lang == "angular" then
+        config.root_dir = require("lspconfig.util").root_pattern("angular.json", "package.json")
+      end
+      lspconf[lang].setup(config)
     end
   end
 end

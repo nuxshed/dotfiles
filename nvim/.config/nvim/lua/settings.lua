@@ -32,6 +32,7 @@ vim.opt.fillchars = {
   foldclose = "▸",
 }
 
+vim.opt.emoji = false
 vim.opt.ruler = false
 vim.opt.ignorecase = true
 vim.opt.termguicolors = true
