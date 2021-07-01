@@ -40,8 +40,8 @@ cmd("hi LspReferenceRead gui=underline")
 cmd("hi LspReferenceWrite gui=underline")
 
 -- popup menu
-cmd("hi Pmenu guibg=" .. colors.lightbg)
-cmd("hi PmenuSbar guibg=" .. colors.lightbg)
+cmd("hi Pmenu guibg=" .. colors.dark_grey)
+cmd("hi PmenuSbar guibg=" .. colors.dark_grey)
 cmd("hi PmenuSel guibg=" .. colors.green)
 cmd("hi PmenuThumb guibg=" .. colors.grey)
 
@@ -51,7 +51,7 @@ cmd("hi DiffChange guibg=NONE guifg=" .. colors.yellow)
 cmd("hi DiffModified guibg=NONE guifg=" .. colors.cyan)
 
 -- highlight current line and number
-cmd("hi CursorLine guibg=" .. colors.dark_grey)
+cmd("hi CursorLine guibg=" .. colors.darker_grey)
 cmd("hi cursorlinenr guifg=" .. colors.fg)
 
 -- NvimTree
