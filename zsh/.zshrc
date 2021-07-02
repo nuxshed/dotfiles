@@ -69,7 +69,11 @@ zinit light-mode for \
     zinit-zsh/z-a-patch-dl \
     zinit-zsh/z-a-bin-gem-node
 
-zinit light zsh-users/zsh-autosuggestions
-zinit light zdharma/fast-syntax-highlighting
+if [[ "$TERM" != "linux" ]]; then
+  zinit light zsh-users/zsh-autosuggestions
+  zinit light zdharma/fast-syntax-highlighting
 
-eval "$(starship init zsh)"
+  eval "$(starship init zsh)"
+elif [[ "$TERM" == "linux" ]]; then
+  prompt suse
+fi
