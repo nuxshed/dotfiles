@@ -50,7 +50,6 @@ require("packer").startup({
     use({ "kyazdani42/nvim-web-devicons", config = [[require("plugins.devicons")]] })
     use({
       "lukas-reineke/indent-blankline.nvim",
-      branch = "lua",
       config = [[require("plugins.indentline")]],
     })
 
@@ -139,6 +138,9 @@ require("packer").startup({
 
     use("cespare/vim-toml")
 
+    -- tpope
+    use("tpope/vim-surround")
+
     -- comment
     use({
       "terrortylor/nvim-comment",
@@ -153,7 +155,10 @@ require("packer").startup({
     })
 
     -- git
-    use("lewis6991/gitsigns.nvim")
+    use({
+      "lewis6991/gitsigns.nvim",
+      config = [[require("gitsigns").setup()]],
+    })
 
     -- Utilities
     use("milisims/nvim-luaref")
