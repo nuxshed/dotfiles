@@ -105,6 +105,9 @@ local function setup_servers()
     local config = make_config()
     if lang == "lua" then
       require("lsp.lua").setup(on_attach)
+    elseif lang == "rust" then
+      -- do nothing
+      -- because rust-tools handles it all for us
     else
       if lang == "vim" then
         config.init_options = { isNeovim = true }
