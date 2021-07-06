@@ -18,7 +18,7 @@ if expand('%') =~# '^'.$VIMRUNTIME || &readonly
   nnoremap <silent><buffer> S ?\|\zs\S\+\ze\|<CR>
   finish
 else
-  setlocal spell spelllang=en_gb
+  setlocal spell spelllang=en_us
 endif
 
 setlocal formatexpr=HelpFormatExpr()

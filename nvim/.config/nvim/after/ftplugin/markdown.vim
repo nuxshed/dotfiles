@@ -1,2 +1,2 @@
-setlocal spell spelllang=en_US
+setlocal spell spelllang=en_us
 setlocal nonumber norelativenumber
