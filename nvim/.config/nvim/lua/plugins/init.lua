@@ -184,7 +184,7 @@ require("packer").startup({
       config = [[require("nvim-autopairs").setup()]],
     })
     use({ "karb94/neoscroll.nvim" })
-    use({ "folke/which-key.nvim" })
+    use({ "folke/which-key.nvim", require("which-key").setup() })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     use({ "monaqa/dial.nvim" })
     use({ "andymass/vim-matchup" })
