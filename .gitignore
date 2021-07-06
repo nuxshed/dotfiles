@@ -1,5 +1,5 @@
 # gitignore file
 
-packer_compiled.vim
+packer_compiled.*
 openweathermap-api-key.sh
 log
