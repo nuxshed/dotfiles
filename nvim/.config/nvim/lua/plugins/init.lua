@@ -37,8 +37,12 @@ require("packer").startup({
       "nvim-telescope/telescope.nvim",
       requires = {
         "nvim-lua/popup.nvim",
+        "nvim-telescope/telescope-media-files.nvim",
       },
       config = [[require("plugins.telescope")]],
+    })
+    use({
+      "nvim-telescope/telescope-github.nvim",
     })
 
     use({
@@ -189,6 +193,7 @@ require("packer").startup({
     use({ "monaqa/dial.nvim" })
     use({ "andymass/vim-matchup" })
     use({ "nacro90/numb.nvim" })
+    use({ "sudormrfbin/cheatsheet.nvim" })
 
     use({
       "plasticboy/vim-markdown",

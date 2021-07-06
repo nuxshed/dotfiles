@@ -10,6 +10,7 @@ require("telescope").setup({
     layout_config = {
       horizontal = {
         mirror = false,
+        preview_width = 0.6,
       },
       vertical = {
         mirror = false,
@@ -33,12 +34,19 @@ require("telescope").setup({
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
   },
 })
+
+require("telescope").load_extension("media_files")
+
 -- mappings
 local opt = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<Leader>ff", [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fb", [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fh", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fo", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fm", [[<Cmd> Neoformat<CR>]], opt)
 vim.api.nvim_set_keymap("n", "<Leader>fg", [[<Cmd> Telescope live_grep<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fn", [[<Cmd> DashboardNewFile<CR>]], opt)
+
+local map = require("utils").map
+map("n", "<Leader>ff", [[<Cmd> Telescope find_files<CR>]])
+map("n", "<Leader>fb", [[<Cmd> Telescope buffers<CR>]])
+map("n", "<Leader>fg", [[<Cmd> Telescope live_grep<CR>]])
+map("n", "<Leader>fm", [[<Cmd> Telescope media_files<CR>]])
