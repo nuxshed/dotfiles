@@ -1,6 +1,5 @@
 require("telescope").setup({
   defaults = {
-    prompt_position = "bottom",
     prompt_prefix = "> ",
     selection_caret = "> ",
     entry_prefix = "  ",
@@ -8,7 +7,7 @@ require("telescope").setup({
     selection_strategy = "reset",
     sorting_strategy = "descending",
     layout_strategy = "horizontal",
-    layout_defaults = {
+    layout_config = {
       horizontal = {
         mirror = false,
       },
@@ -17,14 +16,10 @@ require("telescope").setup({
       },
     },
     file_sorter = require("telescope.sorters").get_fuzzy_file,
-    file_ignore_patterns = { "%.jpg", "%.jpeg", "%.png", "%.otf", "%.ttf" },
+    file_ignore_patterns = {},
     generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
     shorten_path = true,
     winblend = 0,
-    width = 0.65,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
     border = {},
     borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     color_devicons = true,
@@ -38,7 +33,6 @@ require("telescope").setup({
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
   },
 })
-
 -- mappings
 local opt = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<Leader>ff", [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], opt)
