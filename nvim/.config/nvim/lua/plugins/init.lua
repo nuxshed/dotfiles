@@ -94,13 +94,15 @@ require("packer").startup({
     use({ "simrat39/rust-tools.nvim" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    -- use { "mfussenegger/nvim-dap" }
-    -- use {
-    --   "rcarriga/nvim-dap-ui",
-    --   requires = "nvim-dap",
-    --   after = "nvim-dap",
-    --   config = [[require("dapui").setup()]]
-    -- }
+    use({ "mfussenegger/nvim-dap" })
+    use({
+      "rcarriga/nvim-dap-ui",
+      requires = "nvim-dap",
+      after = "nvim-dap",
+      config = [[require("dapui").setup()]],
+    })
+    use({ "Pocco81/DAPInstall.nvim" })
+    use({ "jbyuki/one-small-step-for-vimkind" })
 
     use({ "folke/lua-dev.nvim" })
 
@@ -160,15 +162,33 @@ require("packer").startup({
       config = [[require("gitsigns").setup()]],
     })
 
+    -- use({ "f-person/git-blame.nvim" })
+    use({ "pwntester/octo.nvim", cmd = { "Octo" } })
+    use({ "sindrets/diffview.nvim" })
+
+    -- interactive scratchpad
+    use({ "metakirby5/codi.vim", cmd = "Codi" })
+
+    -- plugin for live html, css, and javascript editing
+    use({
+      "turbio/bracey.vim",
+      event = "BufRead",
+      ft = { "html", "css", "js" },
+      run = "npm install --prefix server",
+    })
+
     -- Utilities
-    use("milisims/nvim-luaref")
+    use({ "milisims/nvim-luaref" })
     use({
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
     })
-    use("karb94/neoscroll.nvim")
-    use("folke/which-key.nvim")
+    use({ "karb94/neoscroll.nvim" })
+    use({ "folke/which-key.nvim" })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
+    use({ "monaqa/dial.nvim" })
+    use({ "andymass/vim-matchup" })
+    use({ "nacro90/numb.nvim" })
 
     use({
       "plasticboy/vim-markdown",
@@ -187,7 +207,7 @@ require("packer").startup({
     use("tweekmonster/startuptime.vim")
 
     -- colors
-    use("siduck76/nvim-base16.lua")
+    use({ "siduck76/nvim-base16.lua" })
     use({ "norcalli/nvim-colorizer.lua", config = [[require'colorizer'.setup()]] })
   end,
   config = config,
