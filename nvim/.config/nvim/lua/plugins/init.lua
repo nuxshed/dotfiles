@@ -90,7 +90,7 @@ require("packer").startup({
           end,
         },
         { "onsails/lspkind-nvim", config = [[require("lspkind").init()]] },
-        { "glepnir/lspsaga.nvim" },
+        { "glepnir/lspsaga.nvim", disable = not O.plugin.lspsaga.enabled },
         { "kabouzeid/nvim-lspinstall" },
       },
     })
@@ -98,14 +98,18 @@ require("packer").startup({
     use({ "simrat39/rust-tools.nvim" })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    use({ "mfussenegger/nvim-dap" })
+    use({
+      "mfussenegger/nvim-dap",
+      config = [[require("plugins.dap")]],
+      disable = not O.plugin.dap.enabled,
+    })
+
     use({
       "rcarriga/nvim-dap-ui",
       requires = "nvim-dap",
-      after = "nvim-dap",
       config = [[require("dapui").setup()]],
     })
-    use({ "Pocco81/DAPInstall.nvim" })
+    use({ "Pocco81/DAPInstall.nvim", disable = not O.plugin.dap_install.enabled })
     use({ "jbyuki/one-small-step-for-vimkind" })
 
     use({ "folke/lua-dev.nvim" })
@@ -187,11 +191,10 @@ require("packer").startup({
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
     })
-    use({ "karb94/neoscroll.nvim" })
-    use({ "folke/which-key.nvim", require("which-key").setup() })
+    use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]] })
+    use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     use({ "monaqa/dial.nvim" })
-    use({ "andymass/vim-matchup" })
     use({ "nacro90/numb.nvim" })
     use({ "sudormrfbin/cheatsheet.nvim" })
 
