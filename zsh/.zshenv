@@ -9,4 +9,7 @@ typeset -U PATH path
 path=("$HOME/.local/bin" "$HOME/.emacs.d/bin" "$HOME/.node_modules/bin" "$HOME/.local/share/AppImages/" "$HOME/.go/bin" "$path[@]")
 export PATH
 
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH
+
 export GOPATH=$HOME/.go
