@@ -8,6 +8,7 @@ vim.cmd("syntax on")
 vim.g.mapleader = " "
 vim.g.colorscheme = "onedark"
 
+require("config")
 require("plugins")
 require("mappings")
 require("settings")

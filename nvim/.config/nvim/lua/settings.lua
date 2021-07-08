@@ -5,7 +5,7 @@ local fn = vim.fn
 vim.opt.showmode = false -- the mode is shown in the statusline
 
 vim.opt.number = true
-vim.opt.numberwidth = 2
+vim.opt.numberwidth = 4
 
 -- timing stuff
 vim.opt.updatetime = 300
@@ -22,10 +22,10 @@ vim.opt.eadirection = "hor"
 -- do not use split or vsplit to ensure we don't open any new windows
 vim.o.switchbuf = "useopen,uselast"
 vim.opt.fillchars = {
-  vert = "▕", -- alternatives │
+  vert = "│",
   fold = " ",
   eob = " ", -- suppress ~ at EndOfBuffer
-  diff = "╱", -- alternatives = ⣿ ░ ─
+  diff = "░", -- alternatives = ⣿ ─
   msgsep = "‾",
   foldopen = "▾",
   foldsep = "│",
