@@ -93,6 +93,8 @@ local function make_config()
   return {
     capabilities = capabilities,
     on_attach = on_attach,
+    init_options = {},
+    settings = {},
   }
 end
 
@@ -109,12 +111,32 @@ local function setup_servers()
       -- do nothing
       -- because rust-tools handles it all for us
     else
-      if lang == "vim" then
+      if lang == "angular" then
+        --
+      elseif lang == "bash" then
+        --
+      elseif lang == "cpp" then
+        local clangd_flags = { "--background-index" }
+        config.cmd = { vim.fn.stdpath("data") .. "/lspinstall/cpp/clangd/bin/clangd", unpack(clangd_flags) }
+        O.format_on_save = false
+      elseif lang == "css" then
+        --
+      elseif lang == "deno" then
+        --
+      elseif lang == "html" then
+        config.init_options = O.lang.html.init_options
+      elseif lang == "json" then
+        --
+      elseif lang == "python" then
+        --
+      elseif lang == "typescript" then
+        config.filetypes = O.lang.typescript.filetypes
+      elseif lang == "vim" then
         config.init_options = { isNeovim = true }
       elseif lang == "vue" then
-        config.root_dir = require("lspconfig.util").root_pattern("config.vue.js", "package.json")
-      elseif lang == "angular" then
-        config.root_dir = require("lspconfig.util").root_pattern("angular.json", "package.json")
+        --
+      elseif lang == "yaml" then
+        --
       end
       lspconf[lang].setup(config)
     end

@@ -41,9 +41,9 @@ require("packer").startup({
       },
       config = [[require("plugins.telescope")]],
     })
-    use({
-      "nvim-telescope/telescope-github.nvim",
-    })
+    -- use({
+    --   "nvim-telescope/telescope-github.nvim",
+    -- })
 
     use({
       "akinsho/nvim-toggleterm.lua",
@@ -66,6 +66,7 @@ require("packer").startup({
     use({
       "folke/trouble.nvim",
       requires = "nvim-web-devicons",
+      cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TodoTrouble" },
     })
 
     use({ "glepnir/dashboard-nvim", config = [[require("plugins.dashboard")]] })
@@ -90,26 +91,26 @@ require("packer").startup({
           end,
         },
         { "onsails/lspkind-nvim", config = [[require("lspkind").init()]] },
-        { "glepnir/lspsaga.nvim", disable = not O.plugin.lspsaga.enabled },
+        { "glepnir/lspsaga.nvim" },
         { "kabouzeid/nvim-lspinstall" },
       },
     })
 
-    use({ "simrat39/rust-tools.nvim" })
+    use({ "simrat39/rust-tools.nvim", disable = not O.lang.rust.rust_tools.enabled })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    use({
-      "mfussenegger/nvim-dap",
-      config = [[require("plugins.dap")]],
-      disable = not O.plugin.dap.enabled,
-    })
-
-    use({
-      "rcarriga/nvim-dap-ui",
-      requires = "nvim-dap",
-      config = [[require("dapui").setup()]],
-    })
-    use({ "Pocco81/DAPInstall.nvim", disable = not O.plugin.dap_install.enabled })
+    --     use({
+    --       "mfussenegger/nvim-dap",
+    --       config = [[require("plugins.dap")]],
+    --       disable = not O.plugin.dap.enabled,
+    --     })
+    --
+    --     use({
+    --       "rcarriga/nvim-dap-ui",
+    --       requires = "nvim-dap",
+    --       config = [[require("dapui").setup()]],
+    --     })
+    --     use({ "Pocco81/DAPInstall.nvim", disable = not O.plugin.dap_install.enabled })
     use({ "jbyuki/one-small-step-for-vimkind" })
 
     use({ "folke/lua-dev.nvim" })
@@ -146,8 +147,6 @@ require("packer").startup({
       config = [[require("plugins.treesitter")]],
     })
 
-    use("cespare/vim-toml")
-
     -- tpope
     use("tpope/vim-surround")
 
@@ -171,19 +170,32 @@ require("packer").startup({
     })
 
     -- use({ "f-person/git-blame.nvim" })
-    use({ "pwntester/octo.nvim", cmd = { "Octo" } })
-    use({ "sindrets/diffview.nvim" })
+    use({
+      "pwntester/octo.nvim",
+      cmd = { "Octo" },
+      disable = not O.plugin.octo.enabled,
+    })
+    use({
+      "sindrets/diffview.nvim",
+      cmd = {
+        "DiffviewOpen",
+        "DiffviewClose",
+        "DiffviewToggleFiles",
+        "DiffviewFocusFiles",
+        "DiffviewRefresh",
+      },
+    })
 
     -- interactive scratchpad
     use({ "metakirby5/codi.vim", cmd = "Codi" })
 
     -- plugin for live html, css, and javascript editing
-    use({
-      "turbio/bracey.vim",
-      event = "BufRead",
-      ft = { "html", "css", "js" },
-      run = "npm install --prefix server",
-    })
+    -- use({
+    --   "turbio/bracey.vim",
+    --   event = "BufRead",
+    --   ft = { "html", "css", "js" },
+    --   run = "npm install --prefix server",
+    -- })
 
     -- Utilities
     use({ "milisims/nvim-luaref" })
@@ -194,9 +206,9 @@ require("packer").startup({
     use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]] })
     use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
-    use({ "monaqa/dial.nvim" })
-    use({ "nacro90/numb.nvim" })
-    use({ "sudormrfbin/cheatsheet.nvim" })
+    -- use({ "monaqa/dial.nvim" })
+    -- use({ "nacro90/numb.nvim" })
+    -- use({ "sudormrfbin/cheatsheet.nvim" })
 
     use({
       "plasticboy/vim-markdown",
@@ -210,7 +222,10 @@ require("packer").startup({
       cmd = "MarkdownPreview",
     })
 
-    use("folke/zen-mode.nvim")
+    use({
+      "folke/zen-mode.nvim",
+      cmd = "ZenMode",
+    })
     use("phaazon/hop.nvim")
     use("tweekmonster/startuptime.vim")
 

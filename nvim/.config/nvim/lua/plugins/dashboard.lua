@@ -19,5 +19,5 @@ vim.g.dashboard_custom_section = {
 }
 
 vim.g.dashboard_custom_footer = {
-  "",
+  "lol",
 }

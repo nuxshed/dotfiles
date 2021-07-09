@@ -15,11 +15,15 @@ M.setup = function(on_attach)
           [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
         },
       },
-      on_attach = on_attach
+      on_attach = on_attach,
     },
   })
 
-  require("lspconfig").lua.setup(luadev)
+  if O.lang.lua.luadev.enabled then
+    require("lspconfig").lua.setup(luadev)
+  else
+    require("lspconfig").lua.setup({})
+  end
 end
 
 return M

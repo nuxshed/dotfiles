@@ -73,7 +73,7 @@ O = {
     },
     rust = {
       rust_tools = {
-        enabled = false,
+        enabled = true,
       },
       settings = {
         ["rust-analyzer"] = {
@@ -82,7 +82,9 @@ O = {
       },
       root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json", ".git"),
     },
-    typescript = {},
+    typescript = {
+      filetypes = { "javascript", "typescript", "typescriptreact" },
+    },
     vim = {},
     vue = {},
     yaml = {},
