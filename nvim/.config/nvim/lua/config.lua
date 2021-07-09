@@ -89,4 +89,7 @@ O = {
     vue = {},
     yaml = {},
   },
+  terminal = {
+    direction = "horizontal",
+  },
 }
