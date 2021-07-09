@@ -41,6 +41,7 @@ else
   M.setup = function(on_attach)
     require("lspconfig").rust_analyzer.setup({
       cmd = { vim.fn.stdpath("data") .. "/lspinstall/rust/rust-analyzer" },
+      on_attach = on_attach,
     })
   end
 end
