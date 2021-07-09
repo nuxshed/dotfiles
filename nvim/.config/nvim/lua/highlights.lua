@@ -10,14 +10,6 @@ local function set_syntax_theme()
     require("base16")(base16, true)
   elseif vim.g.colorscheme == "nord" then
     require("base16")(base16, true)
-    -- elseif vim.g.colorscheme == "gruvdark" then
-    --   base16(base16.themes["gruvbox-dark-hard"], true)
-    -- elseif vim.g.colorscheme == "gruvlight" then
-    --   base16(base16.themes["gruvbox-light-soft"], true)
-    -- elseif vim.g.colorscheme == "monokai" then
-    --   base16(base16.themes["monokai"], true)
-    -- elseif vim.g.colorscheme == "dracula" then
-    --   base16(base16.themes["dracula"], true)
   end
 end
 
@@ -89,3 +81,6 @@ cmd("hi LspDiagnosticsDefaultInformation guifg=" .. colors.green)
 cmd("hi LspDiagnosticsSignHint guifg=" .. colors.magenta)
 cmd("hi LspDiagnosticsVirtualTextHint guifg=" .. colors.magenta)
 cmd("hi LspDiagnosticsDefaultHint guifg=" .. colors.magenta)
+
+-- the background color for neovim
+cmd("hi Normal guibg=" .. colors.bg)
