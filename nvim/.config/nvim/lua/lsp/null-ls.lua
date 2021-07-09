@@ -8,8 +8,10 @@ function M.setup(on_attach)
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua,
-      nls.builtins.eslint_d,
-      nls.builtins.shellcheck,
+      nls.builtins.formatting.eslint_d,
+      nls.builtins.diagnostics.shellcheck,
+      nls.builtins.formatting.black,
+      nls.builtins.formatting.isort,
     },
   })
 end
