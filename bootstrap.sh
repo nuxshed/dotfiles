@@ -5,7 +5,7 @@
 
 if [[ $(uname) == "Linux" ]]; then
   echo "you are using linux"
-  if [[ $(cat /etc/issue | cut -d' ' -f1-2) == "Arch Linux" ]]; then
+  if [[ $(cut -d' ' -f1-2 /etc/issue) == "Arch Linux" ]]; then
     echo "you are using arch linux"
   else
     echo "there was an error determining which linux distro you use."
