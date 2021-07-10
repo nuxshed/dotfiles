@@ -41,9 +41,6 @@ require("packer").startup({
       },
       config = [[require("plugins.telescope")]],
     })
-    -- use({
-    --   "nvim-telescope/telescope-github.nvim",
-    -- })
 
     use({
       "akinsho/nvim-toggleterm.lua",
@@ -99,20 +96,6 @@ require("packer").startup({
     use({ "simrat39/rust-tools.nvim", disable = not O.lang.rust.rust_tools.enabled })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    --     use({
-    --       "mfussenegger/nvim-dap",
-    --       config = [[require("plugins.dap")]],
-    --       disable = not O.plugin.dap.enabled,
-    --     })
-    --
-    --     use({
-    --       "rcarriga/nvim-dap-ui",
-    --       requires = "nvim-dap",
-    --       config = [[require("dapui").setup()]],
-    --     })
-    --     use({ "Pocco81/DAPInstall.nvim", disable = not O.plugin.dap_install.enabled })
-    use({ "jbyuki/one-small-step-for-vimkind" })
-
     use({ "folke/lua-dev.nvim" })
 
     use({
@@ -120,11 +103,6 @@ require("packer").startup({
       config = [[require("plugins.compe")]],
       event = "InsertEnter",
     })
-
-    -- use {
-    -- "hrsh7th/vim-vsnip",
-    -- requires = { "rafamadriz/friendly-snippets", "hrsh7th/nvim-compe" },
-    -- }
 
     use({
       "L3MON4D3/LuaSnip",
@@ -147,9 +125,6 @@ require("packer").startup({
       config = [[require("plugins.treesitter")]],
     })
 
-    -- tpope
-    use("tpope/vim-surround")
-
     -- comment
     use({
       "terrortylor/nvim-comment",
@@ -169,7 +144,6 @@ require("packer").startup({
       config = [[require("gitsigns").setup()]],
     })
 
-    -- use({ "f-person/git-blame.nvim" })
     use({
       "pwntester/octo.nvim",
       cmd = { "Octo" },
@@ -206,9 +180,7 @@ require("packer").startup({
     use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]] })
     use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
-    -- use({ "monaqa/dial.nvim" })
-    -- use({ "nacro90/numb.nvim" })
-    -- use({ "sudormrfbin/cheatsheet.nvim" })
+    use({ "sudormrfbin/cheatsheet.nvim" })
 
     use({
       "plasticboy/vim-markdown",
@@ -216,12 +188,12 @@ require("packer").startup({
       requires = "godlygeek/tabular",
       ft = "markdown",
     })
-    use({
-      "iamcco/markdown-preview.nvim",
-      ft = "markdown",
-      cmd = "MarkdownPreview",
-    })
-
+    --     use({
+    --       "iamcco/markdown-preview.nvim",
+    --       ft = "markdown",
+    --       cmd = "MarkdownPreview",
+    --     })
+    --
     use({
       "folke/zen-mode.nvim",
       cmd = "ZenMode",
