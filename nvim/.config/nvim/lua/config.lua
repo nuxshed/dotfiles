@@ -6,6 +6,8 @@
 -- WIP
 
 O = {
+  colorscheme = "onedark",
+  leader = " ",
   format_on_save = true,
   treesitter = {
     ensure_installed = {

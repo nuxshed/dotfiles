@@ -4,7 +4,7 @@ local condition = require("galaxyline.condition")
 local gls = gl.section
 gl.short_line_list = { "packer", "NvimTree", "Outline", "LspTrouble" }
 
-local colors = require("colors/" .. vim.g.colorscheme).colors
+local colors = require("colors/" .. O.colorscheme).colors
 
 local mode_color = function()
   local mode_colors = {

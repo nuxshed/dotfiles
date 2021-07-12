@@ -1,14 +1,14 @@
-local colors = require("colors/" .. vim.g.colorscheme).colors
-local base16 = require("colors." .. vim.g.colorscheme).base16
+local colors = require("colors/" .. O.colorscheme).colors
+local base16 = require("colors." .. O.colorscheme).base16
 local cmd = vim.cmd
 
 -- syntax
 -- these are defined here so that the highlights defined below are not overridden by the syntax theme
 
 local function set_syntax_theme()
-  if vim.g.colorscheme == "onedark" then
+  if O.colorscheme == "onedark" then
     require("base16")(base16, true)
-  elseif vim.g.colorscheme == "nord" then
+  elseif O.colorscheme == "nord" then
     require("base16")(base16, true)
   end
 end
