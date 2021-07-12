@@ -141,7 +141,7 @@ require("packer").startup({
     -- git
     use({
       "lewis6991/gitsigns.nvim",
-      config = [[require("gitsigns").setup()]],
+      config = [[require("plugins.gitsigns")]],
     })
 
     use({

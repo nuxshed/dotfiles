@@ -38,9 +38,13 @@ cmd("hi PmenuSel guibg=" .. colors.green)
 cmd("hi PmenuThumb guibg=" .. colors.grey)
 
 -- git signs
-cmd("hi DiffAdd guibg=NONE guifg=" .. colors.green)
-cmd("hi DiffChange guibg=NONE guifg=" .. colors.yellow)
-cmd("hi DiffModified guibg=NONE guifg=" .. colors.cyan)
+-- this doesn't work when guibg is specified before/at the same time as guifg
+cmd("hi GitSignsAdd guibg=" .. colors.bg)
+cmd("hi GitSignsAdd guifg=" .. colors.green)
+cmd("hi GitSignsChange guibg=" .. colors.bg)
+cmd("hi GitSignsChange guifg=" .. colors.yellow)
+cmd("hi GitSignsDelete guibg=" .. colors.bg)
+cmd("hi GitSignsDelete guifg=" .. colors.red)
 
 -- highlight current line and number
 cmd("hi CursorLine guibg=" .. colors.darker_grey)
