@@ -62,6 +62,7 @@ gls.left[1] = {
         [83] = "S-LINE",
       }
       vim.api.nvim_command("hi GalaxyViMode guibg=" .. mode_color())
+      vim.api.nvim_command("hi GalaxyLinePercent guibg=" .. mode_color())
       local alias = aliases[vim.fn.mode():byte()]
       local mode
       if alias ~= nil then
@@ -121,33 +122,6 @@ gls.left[5] = {
   },
 }
 
-gls.left[6] = {
-  DiffAdd = {
-    provider = "DiffAdd",
-    condition = checkwidth,
-    icon = "  ",
-    highlight = { colors.white, colors.dark_grey },
-  },
-}
-
-gls.left[7] = {
-  DiffModified = {
-    provider = "DiffModified",
-    condition = checkwidth,
-    icon = "   ",
-    highlight = { colors.grey_fg2, colors.dark_grey },
-  },
-}
-
-gls.left[8] = {
-  DiffRemove = {
-    provider = "DiffRemove",
-    condition = checkwidth,
-    icon = "  ",
-    highlight = { colors.grey_fg2, colors.dark_grey },
-  },
-}
-
 gls.left[9] = {
   DiagnosticError = {
     provider = "DiagnosticError",
@@ -172,23 +146,51 @@ gls.left[10] = {
 }
 
 gls.right[1] = {
-  GitBranch = {
-    provider = {
-      function()
-        return "  "
-      end,
-      "GitBranch",
-      space(1),
-    },
-    condition = condition.check_git_workspace,
+  DiffAdd = {
+    provider = "DiffAdd",
+    condition = checkwidth,
+    icon = "+",
     highlight = { colors.green, colors.dark_grey },
   },
 }
 
 gls.right[2] = {
+  DiffModified = {
+    provider = "DiffModified",
+    condition = checkwidth,
+    icon = "~",
+    highlight = { colors.blue, colors.dark_grey },
+  },
+}
+
+gls.right[3] = {
+  DiffRemove = {
+    provider = "DiffRemove",
+    condition = checkwidth,
+    icon = "-",
+    highlight = { colors.red, colors.dark_grey },
+  },
+}
+
+gls.right[4] = {
+  GitBranch = {
+    provider = {
+      space(1),
+      function()
+        return "  "
+      end,
+      "GitBranch",
+      space(2),
+    },
+    condition = condition.check_git_workspace,
+    highlight = { colors.fgfaded, colors.dark_grey },
+  },
+}
+
+gls.right[5] = {
   LinePercent = {
     provider = { space(1), "LinePercent" },
-    highlight = { colors.fg, colors.lightbg },
+    highlight = { colors.bg, colors.bg },
   },
 }
 
