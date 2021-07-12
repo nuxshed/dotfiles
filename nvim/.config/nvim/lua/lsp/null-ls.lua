@@ -13,6 +13,7 @@ function M.setup(on_attach)
       nls.builtins.diagnostics.shellcheck,
       nls.builtins.formatting.black,
       nls.builtins.formatting.isort,
+      nls.builtins.code_actions.gitsigns,
     },
   })
 end
