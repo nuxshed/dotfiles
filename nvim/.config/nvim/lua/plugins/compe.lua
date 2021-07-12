@@ -20,7 +20,7 @@ require("compe").setup({
     -- vsnip = { kind = " ", true },
     emoji = { kind = "ﲃ", filetypes = { "markdown" } },
     spell = { filetypes = { "markdown" } },
-    nvim_lsp = true,
+    nvim_lsp = { priority = 101 },
     nvim_lua = true,
     path = { kind = "  " },
     calc = { kind = "  " },
