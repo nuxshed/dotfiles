@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+
+# a single script to display any status i want
+
+# ARGS: vol/volume. bat/battery, music/playerctl, wifi/net/internet, ram/mem, cpu
+
+status_volume() {
+  # this thing here gets the volume from ~/.cache/vol
+  # which is created when the set-vol script is run.
+  # this approach is better (and faster) than running pamixer/amixer every few seconds
+  # if you don't want to use the set-vol script, uncomment the if-else block below
+  # if [ -r ~/.cache/vol ]; then
+    vol=$(cat ~/.cache/vol)
+  # else
+  #     vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
+  echo "墳" "$vol%"
+}
+
+status_battery() {
+  CHARGE=$(cat /sys/class/power_supply/BAT0/capacity)
+  STATUS=$(cat /sys/class/power_supply/BAT0/status)
+
+  ramp0=; ramp1=; ramp2=; ramp3=; ramp4=; ramp5=
+  ramp6=; ramp7=; ramp8=; ramp9=; rampc=
+
+  if [ "$STATUS" = "Charging" ]; then
+    icon=$rampc
+  elif [ "$STATUS" = "Discharging" ]; then
+    if [ "$CHARGE" -lt 10 ]; then
+      icon=$ramp0
+    elif [ "$CHARGE" -lt 20 ]; then
+      icon=$ramp1
+    elif [ "$CHARGE" -lt 30 ]; then
+      icon=$ramp2
+    elif [ "$CHARGE" -lt 40 ]; then
+      icon=$ramp3
+    elif [ "$CHARGE" -lt 50 ]; then 
+      icon=$ramp4
+    elif [ "$CHARGE" -lt 60 ]; then
+      icon=$ramp5
+    elif [ "$CHARGE" -lt 70 ]; then
+      icon=$ramp6
+    elif [ "$CHARGE" -lt 80 ]; then
+      icon=$ramp7
+    elif [ "$CHARGE" -lt 90 ]; then
+      icon=$ramp8
+    elif [ "$CHARGE" -lt 100 ]; then
+      icon=$ramp9
+      icon=$ramp9
+    fi
+  elif [ "$STATUS" = "Full" ]; then
+    icon=$ramp9
+  fi
+
+  echo $icon "$CHARGE""%"
+}
+
+status_playerctl() {
+  player_status=$(playerctl status 2> /dev/null)
+  if [ "$player_status" = "Playing" ]; then
+    echo " $(playerctl metadata artist) - $(playerctl metadata title)"
+  elif [ "$player_status" = "Paused" ]; then
+    echo " $(playerctl metadata artist) - $(playerctl metadata title)"
+  else
+    echo ""
+  fi
+}
+
+status_network() {
+  ~/.config/polybar/scripts/networkmanager.sh
+}
+
+status_weather() {
+  ~/.config/polybar/scripts/weather.sh
+}
+
+status_updates() {
+  if ! updates=$(checkupdates 2> /dev/null | wc -l ); then
+    updates=0
+  fi
+
+  if [ "$updates" -gt 0 ]; then
+    echo " $updates updates available"
+  else
+    echo " "
+  fi
+}
+
+while [ "$1" ]; do
+  case "$1" in
+    vol | volume)
+      status_volume
+      exit ;;
+    bat | battery)
+      status_battery
+      exit ;;
+    music | playerctl)
+      status_playerctl
+      exit ;;
+    network)
+      status_network
+      exit ;;
+    weather)
+      status_weather
+      exit;;
+    updates)
+      status_updates
+      exit;;
+  esac
+done

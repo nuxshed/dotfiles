@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+update_vol() {
+  pamixer --get-volume > ~/.cache/vol
+}
+pactl set-sink-volume @DEFAULT_SINK@ "$1" &
+
+update_vol
