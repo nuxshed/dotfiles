@@ -16,8 +16,8 @@ end
 set_syntax_theme()
 
 --- indentline
-cmd("hi IndentBlanklineChar guifg=" .. colors.linebg)
-cmd("hi IndentBlanklineContextChar guifg=" .. colors.grey)
+cmd("hi IndentBlanklineChar guifg=" .. colors.dark_grey)
+cmd("hi IndentBlanklineContextChar guifg=" .. colors.linebg)
 
 -- misc
 cmd("hi LineNr guifg=" .. colors.grey)
