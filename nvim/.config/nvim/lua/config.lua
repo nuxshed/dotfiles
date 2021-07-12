@@ -35,10 +35,6 @@ O = {
   plugin = {
     dashboard = { enabled = true },
     colorizer = { enabled = true },
-    dap = { enabled = true },
-    dap_install = { enabled = true },
-    dial = { enabled = true },
-    numb = { enabled = true },
     octo = { enabled = false },
     lspsaga = { enabled = true },
     trouble = { enabled = true },
