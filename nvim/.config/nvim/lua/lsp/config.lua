@@ -110,6 +110,8 @@ local function setup_servers()
     elseif lang == "rust" then
       -- do nothing
       -- because rust-tools handles it all for us
+    elseif lang == "typescript" then
+      require("lsp.typescript").setup(on_attach)
     else
       if lang == "angular" then
         --
@@ -129,8 +131,6 @@ local function setup_servers()
         --
       elseif lang == "python" then
         --
-      elseif lang == "typescript" then
-        config.filetypes = O.lang.typescript.filetypes
       elseif lang == "vim" then
         config.init_options = { isNeovim = true }
       elseif lang == "vue" then

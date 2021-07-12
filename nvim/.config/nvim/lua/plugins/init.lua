@@ -116,7 +116,7 @@ require("packer").startup({
       end,
     })
 
-    use({ "jose-elias-alvarez/nvim-lsp-ts-utils", ft = "typescript" })
+    use({ "jose-elias-alvarez/nvim-lsp-ts-utils" })
 
     -- syntax
     use({
