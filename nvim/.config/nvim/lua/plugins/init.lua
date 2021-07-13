@@ -44,7 +44,20 @@ require("packer").startup({
 
     use({
       "akinsho/nvim-toggleterm.lua",
-      config = [[require("plugins.terminal")]],
+      config = function()
+        require("toggleterm").setup({
+          size = 20,
+          hide_numbers = true,
+          open_mapping = [[<M-`>]],
+          shade_filetypes = {},
+          start_in_insert = true,
+          persist_size = true,
+          direction = O.terminal.direction,
+        })
+
+        -- Esc twice to get to normal mode
+        vim.cmd([[tnoremap <esc><esc> <C-\><C-N>]])
+      end,
     })
 
     use("nvim-lua/plenary.nvim")
@@ -135,7 +148,7 @@ require("packer").startup({
 
     use({
       "folke/todo-comments.nvim",
-      config = [[require("plugins.todo-comments")]],
+      config = [[require("todo-comments").setup()]],
     })
 
     -- git
@@ -144,21 +157,21 @@ require("packer").startup({
       config = [[require("plugins.gitsigns")]],
     })
 
-    use({
-      "pwntester/octo.nvim",
-      cmd = { "Octo" },
-      disable = not O.plugin.octo.enabled,
-    })
-    use({
-      "sindrets/diffview.nvim",
-      cmd = {
-        "DiffviewOpen",
-        "DiffviewClose",
-        "DiffviewToggleFiles",
-        "DiffviewFocusFiles",
-        "DiffviewRefresh",
-      },
-    })
+    -- use({
+    --   "pwntester/octo.nvim",
+    --   cmd = { "Octo" },
+    --   disable = not O.plugin.octo.enabled,
+    -- })
+    -- use({
+    --   "sindrets/diffview.nvim",
+    --   cmd = {
+    --     "DiffviewOpen",
+    --     "DiffviewClose",
+    --     "DiffviewToggleFiles",
+    --     "DiffviewFocusFiles",
+    --     "DiffviewRefresh",
+    --   },
+    -- })
 
     -- interactive scratchpad
     use({ "metakirby5/codi.vim", cmd = "Codi" })
@@ -172,14 +185,14 @@ require("packer").startup({
     -- })
 
     -- Utilities
-    use({ "milisims/nvim-luaref" })
+    -- use({ "milisims/nvim-luaref" })
     use({
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
     })
     use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]] })
     use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
-    use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
+    -- use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     use({ "sudormrfbin/cheatsheet.nvim" })
 
     use({
