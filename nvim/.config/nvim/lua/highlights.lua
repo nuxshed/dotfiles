@@ -1,4 +1,4 @@
-local colors = require("colors/" .. O.colorscheme).colors
+local colors = require("colors." .. O.colorscheme).colors
 local base16 = require("colors." .. O.colorscheme).base16
 local cmd = vim.cmd
 
