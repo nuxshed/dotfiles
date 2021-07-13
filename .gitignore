@@ -3,3 +3,4 @@
 packer_compiled.*
 openweathermap-api-key.sh
 log
+__pycache__
