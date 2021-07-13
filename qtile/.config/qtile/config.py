@@ -129,15 +129,21 @@ for i in groups:
     )
 
 layouts = [
-    layout.Tile(
-        margin=10, border_width=2, border_focus="#61afef", border_normal="#282c34"
-    ),
-    layout.Floating(border_width=2, border_focus="#61afef"),
     layout.Bsp(
         margin=10,
         border_width=2,
         border_focus="#61afef",
         border_normal="#282c34",
+    ),
+    # layout.Tile(
+    #     margin=10, border_width=2, border_focus="#61afef", border_normal="#282c34"
+    # ),
+    layout.Floating(border_width=2, border_focus="#61afef"),
+    layout.MonadWide(
+        margin=5, border_width=2, border_focus="#61afef", border_normal="#282c34"
+    ),
+    layout.MonadTall(
+        margin=5, border_width=2, border_focus="#61afef", border_normal="#282c34"
     ),
     layout.Columns(
         margin=10,
@@ -147,12 +153,6 @@ layouts = [
         border_normal="#282c34",
     ),
     layout.Max(),
-    layout.MonadWide(
-        margin=5, border_width=2, border_focus="#61afef", border_normal="#282c34"
-    ),
-    layout.MonadTall(
-        margin=5, border_width=2, border_focus="#61afef", border_normal="#282c34"
-    ),
     # TODO: TreeTab seems interesting. work on this later
     layout.TreeTab(
         font="Fira Code Nerd Font",
