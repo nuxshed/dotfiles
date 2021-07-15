@@ -6,6 +6,6 @@
 
 require("config")
 require("plugins")
-require("mappings")
 require("settings")
+require("mappings")
 require("highlights")
