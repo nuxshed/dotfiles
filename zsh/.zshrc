@@ -9,7 +9,7 @@ bindkey -e
 zstyle :compinstall filename '/home/advait/.zshrc'
 
 autoload -Uz compinit promptinit
-compinit
+compinit -i
 promptinit
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
