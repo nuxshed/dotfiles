@@ -21,6 +21,7 @@ require("bufferline").setup({
     show_close_icon = false,
     show_tab_indicators = true,
     separator_style = "thin",
+    always_show_bufferline = true,
   },
   -- TODO: finish configuring highlights
   highlights = {
