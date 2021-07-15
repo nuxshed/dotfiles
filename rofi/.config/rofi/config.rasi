@@ -1,42 +1,49 @@
+/*                   __ _                       _  */
+/*   ___ ___  _ __  / _(_) __ _   _ __ __ _ ___(_) */
+/*  / __/ _ \| '_ \| |_| |/ _` | | '__/ _` / __| | */
+/* | (_| (_) | | | |  _| | (_| |_| | | (_| \__ \ | */
+/*  \___\___/|_| |_|_| |_|\__, (_)_|  \__,_|___/_| */
+/*                        |___/                    */
 
 configuration {
-	display-drun:    "Activate";
-	display-run:     "Execute";
-	display-window:  "Window";
+	display-drun:    "Run";
+	display-window:  "Win";
+        display-file-browser: "Files";
+        icon-theme:      "Papirus-Dark";
 	show-icons:      true;
-	sidebar-mode:    true;
+	sidebar-mode:    false;
+        modi:            "window,drun,file-browser";
 }
 
 * {
-	background-color:            #131519;
-	text-color:                  #abb2bf;
-        selected-text-color:         #131519;
-	selbg:                       #c678dd;
-	actbg:                       #c678dd;
-	urgbg:                       #e06c75;
-	winbg:			     #DDEDED;
+        bg:                          #131519;
+        fg:                          #abb2bf;
+        selbg:                       #c678dd;
+        selfg:                       #c678dd;
+        actbg:                       #1b1d23;
+        urgbg:                       #e06c75;
 
-	selected-normal-foreground:  @selected-text-color;
-	normal-foreground:           @text-color;
-	selected-normal-background:  @actbg;
-	normal-background:           @background-color;
+        background-color:            @bg;
+        text-color:                  @fg;
+        selected-normal-foreground:  @selfg;
+        normal-foreground:           @fg;
+        selected-normal-background:  @actbg;
+        normal-background:           @bg;
 
-	selected-urgent-foreground:  @background-color;
-	urgent-foreground:           @text-color;
-	selected-urgent-background:  @urgbg;
-	urgent-background:           @background-color;
+        selected-urgent-foreground:  @bg;
+        urgent-foreground:           @text-color;
+        selected-urgent-background:  @urgbg;
+        urgent-background:           @bg;
 
-	selected-active-foreground:  @winbg;
-	active-foreground:           @text-color;
-	selected-active-background:  @actbg;
-	active-background:           @selbg;
-	font: "FiraCode Nerd Font 11";
-	line-margin:                 2;
-	line-padding:                2;
-	separator-style:             "none";
-	hide-scrollbar:              "true";
-	margin:                      0;
-	padding:                     10;
+        selected-active-foreground:  @selfg;
+        active-foreground:           @fg;
+        selected-active-background:  @actbg;
+        active-background:           @bg;
+        font: "FiraCode Nerd Font 11";
+        separator-style:             "none";
+        hide-scrollbar:              "true";
+        margin:                      0;
+        padding:                     8;
 }
 
 window {
@@ -49,15 +56,15 @@ window {
 }
 
 mainbox {
-	spacing:  0.8em;
+	spacing:  0.6em;
 	children: [ entry, listview, sidebar ];
 }
 
 button { padding: 3px 1px; }
 
 button selected {
-	background-color: @active-background;
-	text-color:       @background-color;
+	background-color: @selected-normal-background;
+	text-color:       @selected-normal-foreground;
 }
 
 inputbar 
@@ -67,18 +74,24 @@ inputbar
 }
 
 listview {
-	spacing: 0.25em;
+	spacing: 0.5em;
 	dynamic: false;
 	cycle:   true;
 }
 
 element { padding: 1px; }
 
+element-icon { 
+  size: 20;
+  vertical-align: 1.0;  
+  horizontal-align: 1.0; 
+}
+
 entry {
 	expand:         false;
 	text-color:     @normal-foreground;
 	vertical-align: 1;
-	padding:        2px;
+	padding:        1px;
 }
 
 element normal.normal {
