@@ -1,0 +1,19 @@
+#!/bin/sh
+
+resolution=$(xdpyinfo | awk '/dimensions/ {print $2}')
+
+if [ "$1" ]; then
+  filename="$1"
+else
+  filename=~/Videos/Recordings/$(date).mkv
+fi
+ffmpeg \
+    -video_size "$resolution"\
+    -framerate 35 \
+    -f x11grab \
+    -i :0.0 \
+    -c:v libx264 \
+    -crf 0 \
+    -preset ultrafast \
+    -y \
+    "$filename"
