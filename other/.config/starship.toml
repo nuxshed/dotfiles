@@ -1,0 +1,10 @@
+# .config/starship.toml // config file for the starship prompt
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[character]
+# success_symbol = "[❯](bold purple)"
+# fail_symbol = "[❯](bold red)"
+success_symbol = "[>](bold purple)"
+fail_symbol = "[>](bold red)"
