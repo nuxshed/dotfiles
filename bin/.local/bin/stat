@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 # a single script to display any status i want
 
