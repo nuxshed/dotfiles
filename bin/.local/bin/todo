@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# a simple todo script
+
+TODOFILE=~/.todo
+
+[ "$1" ] ||exit 1
+
+add_todo() {
+  printf '%s\n' "$1" >> $TODOFILE
+}
+
+rm_todo() {
+  sed -i.old -E "/^$1$/d" "$TODOFILE"
+}
+
+while [ "$1" ]; do
+  case "$1" in 
+    add | new)
+      add_todo "$2"
+      exit ;;
+    list)
+      cat $TODOFILE
+      exit ;;
+    done)
+      rm_todo "$2"
+      exit ;;
+  esac
+done
