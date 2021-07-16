@@ -146,10 +146,17 @@ zinit light-mode for \
 # HISTORY SUBSTRING SEARCHING
 zinit light zsh-users/zsh-history-substring-search
 zinit ice wait'0b' lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
+
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
+zle -N history-substring-search-up
+zle -N history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
 
 # Load url-quote-magic & bracketed-paste-magic.
 autoload -U url-quote-magic bracketed-paste-magic
