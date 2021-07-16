@@ -128,6 +128,14 @@ zinit wait lucid for \
 zinit lucid wait'0a' for \
 as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
 
+# HISTORY SUBSTRING SEARCHING
+zinit light zsh-users/zsh-history-substring-search
+zinit ice wait'0b' lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
 # Load url-quote-magic & bracketed-paste-magic.
 autoload -U url-quote-magic bracketed-paste-magic
 zle -N self-insert url-quote-magic
