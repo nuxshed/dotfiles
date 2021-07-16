@@ -193,11 +193,3 @@ gls.right[5] = {
     highlight = { colors.bg, colors.bg },
   },
 }
-
-gls.short_line_left[1] = {
-  shortline_NULL = {
-    provider = { space(1) },
-    condition = condition.buffer_not_empty,
-    highlight = { colors.bg, colors.bg },
-  },
-}
