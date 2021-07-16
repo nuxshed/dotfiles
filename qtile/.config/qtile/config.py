@@ -69,28 +69,28 @@ keys = [
     Key(
         [],
         "Print",
-        lazy.spawn("screenshot screen"),
+        lazy.spawn("scr screen"),
     ),
     Key(
         ["control"],
         "Print",
-        lazy.spawn("screenshot window"),
+        lazy.spawn("scr window"),
     ),
     Key(
         ["shift"],
         "Print",
-        lazy.spawn("screenshot selection"),
+        lazy.spawn("scr selection"),
     ),
-    Key([mod], "Print", lazy.spawn("screenshot screentoclip")),
+    Key([mod], "Print", lazy.spawn("scr screentoclip")),
     Key(
         [mod, "control"],
         "Print",
-        lazy.spawn("screenshot windowtoclip"),
+        lazy.spawn("scr windowtoclip"),
     ),
     Key(
         [mod, "shift"],
         "Print",
-        lazy.spawn("screenshot selectiontoclip"),
+        lazy.spawn("scr selectiontoclip"),
     ),
     # XF86 key bindings
     Key([], "XF86AudioRaiseVolume", lazy.spawn("setvol +10%")),
