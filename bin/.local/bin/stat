@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/dash
 
 # a single script to display any status i want
 

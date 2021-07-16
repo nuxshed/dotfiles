@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/dash
 
 resolution=$(xdpyinfo | awk '/dimensions/ {print $2}')
 

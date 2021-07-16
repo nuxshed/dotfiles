@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/dash
 
 update_vol() {
   pamixer --get-volume > ~/.cache/vol
