@@ -136,8 +136,12 @@ zinit wait lucid for \
         OMZ::lib/git.zsh \
     atload"unalias grv" \
         OMZ::plugins/git/git.plugin.zsh
+
 zinit lucid wait'0a' for \
-as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+  as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
+
+zinit light-mode for \
+  OMZ::lib/grep.zsh
 
 # HISTORY SUBSTRING SEARCHING
 zinit light zsh-users/zsh-history-substring-search
