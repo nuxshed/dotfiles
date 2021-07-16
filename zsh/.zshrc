@@ -56,6 +56,7 @@ alias ls="exa"
 alias la="exa -a"
 alias li="exa --icons"
 alias btctl="bluetoothctl"
+alias pb="nc termbin.com 9999"
 alias cat="bat"
 alias grep="grep --color=auto" 
 alias clear='/bin/clear && printf "\033[3J"'
