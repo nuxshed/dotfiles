@@ -3,6 +3,7 @@
 # a simple todo script
 
 TODOFILE=~/.todo
+CAT=bat
 
 [ "$1" ] ||exit 1
 
@@ -20,7 +21,7 @@ while [ "$1" ]; do
       add_todo "$2"
       exit ;;
     list)
-      cat $TODOFILE
+      $CAT $TODOFILE
       exit ;;
     done)
       rm_todo "$2"
