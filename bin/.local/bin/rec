@@ -16,4 +16,6 @@ ffmpeg \
     -crf 0 \
     -preset ultrafast \
     -y \
+    -v error \
+    -stats \
     "$filename"
