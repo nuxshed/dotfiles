@@ -1,8 +1,5 @@
 # ~/.zshrc
 
-# written by zsh-newuser-install
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 # zsh options
 bindkey -e
 
@@ -30,6 +27,30 @@ setopt no_complete_aliases
 setopt menu_complete            # Do Not Autoselect The First Completion Entry.
 unsetopt flow_control           # Disable Start/Stop Characters In Shell Editor.
 
+# zstyle
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+zstyle ':completion:*' list-colors $LS_COLORS
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':fzf-tab:*' query-string prefix first
+zstyle ':fzf-tab:*' continuous-trigger '/'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
+zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:*' popup-pad 0 0
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:exa' file-sort modification
+zstyle ':completion:*:exa' sort false
+
 # History
 HISTFILE=~/.zsh_hist
 HISTSIZE=100000
@@ -49,6 +70,10 @@ setopt hist_save_no_dups        # Do Not Write A Duplicate Event To The History 
 setopt hist_verify              # Do Not Execute Immediately Upon History Expansion.
 setopt extended_history         # Show Timestamp In History.
 
+# fzf
+source /usr/share/fzf/key-bindings.zsh
+source /usr/share/fzf/completion.zsh``
+
 # aliases
 alias vim="nvim"
 alias vi="/bin/vim"
@@ -65,9 +90,6 @@ alias brightness="brightnessctl set"
 alias rotatescreen="xrandr --output eDP-1 --rotate"
 alias icat="kitty +kitten icat"
 alias luamake=/home/advait/.local/share/lua-language-server/3rd/luamake/luamake
-
-# jump to project
-alias proj="z projects"
 
 # kitty completion
 kitty + complete setup zsh | source /dev/stdin
@@ -105,11 +127,21 @@ zinit wait lucid for \
 zinit lucid wait'0a' for \
 as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
 
+# Load url-quote-magic & bracketed-paste-magic.
+autoload -U url-quote-magic bracketed-paste-magic
+zle -N self-insert url-quote-magic
+zle -N bracketed-paste bracketed-paste-magic
 
-
-
-
-
+### Fix Slowness Of Pastes With `zsh-syntax-highlighting`.
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic
+}
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
 
 if [[ "$TERM" != "linux" ]]; then
   zinit light zsh-users/zsh-autosuggestions
