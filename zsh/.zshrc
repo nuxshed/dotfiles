@@ -9,9 +9,9 @@ autoload -Uz compinit promptinit
 compinit -i
 promptinit
 
-# unsetopt case_glob              # Use Case-Insensitve Globbing.
-# setopt globdots                 # Glob Dotfiles As Well.
-# setopt extendedglob             # Use Extended Globbing.
+# unsetopt case_glob            # Use Case-Insensitve Globbing.
+setopt globdots                 # Glob Dotfiles As Well.
+setopt extendedglob             # Use Extended Globbing.
 setopt auto_cd                  # no need to specify cd
 setopt correct                  # Turn On Corrections
 
