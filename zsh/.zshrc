@@ -55,18 +55,14 @@ alias vi="/bin/vim"
 alias ls="exa"
 alias la="exa -a"
 alias li="exa --icons"
-alias cdls="cd '$@' && ls"
 alias btctl="bluetoothctl"
 alias cat="bat"
 alias grep="grep --color=auto" 
-alias wallpaper="feh --bg-scale"
 alias clear='/bin/clear && printf "\033[3J"'
 alias clearscreen="/bin/clear"
 alias brightness="brightnessctl set"
 alias rotatescreen="xrandr --output eDP-1 --rotate"
-alias weather="curl 'wttr.in/?T'"
 alias icat="kitty +kitten icat"
-alias qtilechk="python2 -m py_compile ~/.config/qtile/config.py"
 alias luamake=/home/advait/.local/share/lua-language-server/3rd/luamake/luamake
 
 # jump to project
