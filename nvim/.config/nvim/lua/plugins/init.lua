@@ -39,6 +39,7 @@ require("packer").startup({
         "nvim-lua/popup.nvim",
       },
       config = [[require("plugins.telescope")]],
+      command = "Telescope",
     })
 
     use({
@@ -63,7 +64,8 @@ require("packer").startup({
     use({ "kyazdani42/nvim-web-devicons", config = [[require("plugins.devicons")]] })
     use({
       "lukas-reineke/indent-blankline.nvim",
-      config = [[require("plugins.indentline")]],
+      setup = [[require("plugins.indentline")]],
+      event = "BufRead",
     })
 
     use({
@@ -72,11 +74,12 @@ require("packer").startup({
       config = [[require("plugins.nvim-tree")]],
     })
 
-    -- use({
-    -- 	"folke/trouble.nvim",
-    -- 	requires = "nvim-web-devicons",
-    -- 	cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TodoTrouble" },
-    -- })
+    use({
+      "folke/trouble.nvim",
+      requires = "nvim-web-devicons",
+      cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TodoTrouble" },
+      condition = O.plugin.trouble.enabled,
+    })
 
     use({ "glepnir/dashboard-nvim", config = [[require("plugins.dashboard")]] })
 
@@ -105,7 +108,7 @@ require("packer").startup({
       },
     })
 
-    use({ "simrat39/rust-tools.nvim", disable = not O.lang.rust.rust_tools.enabled })
+    use({ "simrat39/rust-tools.nvim", condition = O.lang.rust.rust_tools.enabled })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
     use({ "folke/lua-dev.nvim" })
@@ -114,11 +117,16 @@ require("packer").startup({
       "hrsh7th/nvim-compe",
       config = [[require("plugins.compe")]],
       event = "InsertEnter",
+      wants = { "LuaSnip" },
     })
 
     use({
       "L3MON4D3/LuaSnip",
-      requires = { "rafamadriz/friendly-snippets", "hrsh7th/nvim-compe" },
+      event = "InsertEnter",
+      requires = {
+        { "rafamadriz/friendly-snippets", event = "InsertCharPre" },
+        "hrsh7th/nvim-compe",
+      },
       config = function()
         require("luasnip").config.set_config({
           history = true,
@@ -135,6 +143,7 @@ require("packer").startup({
       "nvim-treesitter/nvim-treesitter",
       run = ":TSUpdate",
       config = [[require("plugins.treesitter")]],
+      event = "BufRead",
     })
 
     -- comment
@@ -143,6 +152,7 @@ require("packer").startup({
       config = function()
         require("nvim_comment").setup()
       end,
+      event = "BufRead",
     })
 
     use({
@@ -156,21 +166,22 @@ require("packer").startup({
       config = [[require("plugins.gitsigns")]],
     })
 
-    -- use({
-    --   "pwntester/octo.nvim",
-    --   cmd = { "Octo" },
-    --   disable = not O.plugin.octo.enabled,
-    -- })
-    -- use({
-    --   "sindrets/diffview.nvim",
-    --   cmd = {
-    --     "DiffviewOpen",
-    --     "DiffviewClose",
-    --     "DiffviewToggleFiles",
-    --     "DiffviewFocusFiles",
-    --     "DiffviewRefresh",
-    --   },
-    -- })
+    use({
+      "pwntester/octo.nvim",
+      cmd = { "Octo" },
+      condition = O.plugin.octo.enabled,
+    })
+    use({
+      "sindrets/diffview.nvim",
+      cmd = {
+        "DiffviewOpen",
+        "DiffviewClose",
+        "DiffviewToggleFiles",
+        "DiffviewFocusFiles",
+        "DiffviewRefresh",
+      },
+      condition = O.plugin.diffview.enabled,
+    })
 
     -- interactive scratchpad
     -- use({ "metakirby5/codi.vim", cmd = "Codi" })
@@ -188,8 +199,9 @@ require("packer").startup({
     use({
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
+      after = "nvim-compe",
     })
-    use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]] })
+    use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]], event = "WinScrolled" })
     use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
     -- use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     -- use({ "sudormrfbin/cheatsheet.nvim" })
@@ -218,12 +230,12 @@ require("packer").startup({
     --   cmd = "ZenMode",
     -- })
     -- use({ "folke/twilight.nvim" })
-    use("phaazon/hop.nvim")
-    use("tweekmonster/startuptime.vim")
+    -- use("phaazon/hop.nvim")
+    use({ "tweekmonster/startuptime.vim", cmd = "StartupTime" })
 
     -- colors
     use({ "siduck76/nvim-base16.lua" })
-    use({ "norcalli/nvim-colorizer.lua", config = [[require'colorizer'.setup()]] })
+    use({ "norcalli/nvim-colorizer.lua", config = [[require'colorizer'.setup()]], event = "BufRead" })
   end,
   config = config,
 })

@@ -38,6 +38,7 @@ O = {
     dashboard = { enabled = true },
     colorizer = { enabled = true },
     octo = { enabled = false },
+    diffview = { enabled = false },
     lspsaga = { enabled = true },
     trouble = { enabled = true },
   },
