@@ -41,6 +41,7 @@ O = {
     diffview = { enabled = false },
     lspsaga = { enabled = true },
     trouble = { enabled = true },
+    codi = { enabled = false },
   },
   lang = {
     angular = {},

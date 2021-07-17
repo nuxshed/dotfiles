@@ -81,7 +81,11 @@ require("packer").startup({
       condition = O.plugin.trouble.enabled,
     })
 
-    use({ "glepnir/dashboard-nvim", config = [[require("plugins.dashboard")]] })
+    use({
+      "glepnir/dashboard-nvim",
+      config = [[require("plugins.dashboard")]],
+      condition = O.plugin.dashboard.enabled,
+    })
 
     -- LSP, Debugging, Completion and Snippets
     use({
@@ -103,7 +107,7 @@ require("packer").startup({
           end,
         },
         { "onsails/lspkind-nvim", config = [[require("lspkind").init()]] },
-        { "glepnir/lspsaga.nvim" },
+        { "glepnir/lspsaga.nvim", condition = O.plugin.lspsaga.enabled },
         { "kabouzeid/nvim-lspinstall" },
       },
     })
@@ -184,7 +188,11 @@ require("packer").startup({
     })
 
     -- interactive scratchpad
-    -- use({ "metakirby5/codi.vim", cmd = "Codi" })
+    use({
+      "metakirby5/codi.vim",
+      cmd = "Codi",
+      condition = O.plugin.codi.enabled,
+    })
 
     -- plugin for live html, css, and javascript editing
     -- use({
@@ -235,7 +243,12 @@ require("packer").startup({
 
     -- colors
     use({ "siduck76/nvim-base16.lua" })
-    use({ "norcalli/nvim-colorizer.lua", config = [[require'colorizer'.setup()]], event = "BufRead" })
+    use({
+      "norcalli/nvim-colorizer.lua",
+      config = [[require'colorizer'.setup()]],
+      event = "BufRead",
+      condition = O.plugin.colorizer.enabled,
+    })
   end,
   config = config,
 })
