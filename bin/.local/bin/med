@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# med - play some media
+# TODO: automatically detect media type by extension
+
+case $1 in
+    a|audio)
+        [ ! -s ~/.mpd/pid ] && mpd ~/.mpdrc
+        exec ncmpcpp -c ~/.ncmpcpprc
+    ;;
+    v|video)
+        exec mpv --geometry=1280x720 \
+            --shuffle \
+            --x11-name=no-title \
+            -- ~/media/video/ 1>/dev/null 2>/dev/null &
+    ;;
+    *)
+        printf 'Usage: med a|audio|v|video\n'
+        exit
+    ;;
+esac
