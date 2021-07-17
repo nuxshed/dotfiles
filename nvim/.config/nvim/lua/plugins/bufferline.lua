@@ -23,7 +23,6 @@ require("bufferline").setup({
     separator_style = "thin",
     always_show_bufferline = true,
   },
-  -- TODO: finish configuring highlights
   highlights = {
     fill = {
       guibg = bg,
@@ -55,11 +54,17 @@ require("bufferline").setup({
       guifg = lightbg,
       guibg = lightbg,
     },
+    modified = {
+      guibg = bg,
+    },
     modified_visible = {
       guibg = lightbg,
     },
     modified_selected = {
       guibg = lightbg,
+    },
+    close_button = {
+      guibg = bg,
     },
     close_button_visible = {
       guibg = lightbg,
