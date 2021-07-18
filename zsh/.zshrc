@@ -140,13 +140,9 @@ zinit wait lucid for \
 zinit lucid wait'0a' for \
   as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
 
-zinit light-mode for \
-  OMZ::lib/grep.zsh
-
 # HISTORY SUBSTRING SEARCHING
 zinit light zsh-users/zsh-history-substring-search
 zinit ice wait'0b' lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
-
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
 zle -N history-substring-search-up
@@ -163,21 +159,9 @@ autoload -U url-quote-magic bracketed-paste-magic
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 
-### Fix Slowness Of Pastes With `zsh-syntax-highlighting`.
-pasteinit() {
-  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-  zle -N self-insert url-quote-magic
-}
-pastefinish() {
-  zle -N self-insert $OLD_SELF_INSERT
-}
-zstyle :bracketed-paste-magic paste-init pasteinit
-zstyle :bracketed-paste-magic paste-finish pastefinish
-
 if [[ "$TERM" != "linux" ]]; then
   zinit light zsh-users/zsh-autosuggestions
   zinit light zdharma/fast-syntax-highlighting
-
   eval "$(starship init zsh)"
 elif [[ "$TERM" == "linux" ]]; then
   prompt suse
