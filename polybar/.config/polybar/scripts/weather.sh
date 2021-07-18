@@ -1,5 +1,5 @@
 #!/bin/sh
-source ~/.config/polybar/scripts/openweathermap-api-key.sh
+. ~/.config/polybar/scripts/openweathermap-api-key.sh
 
 get_icon() {
     case $1 in
