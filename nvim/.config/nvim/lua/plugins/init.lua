@@ -5,250 +5,249 @@ local exec = vim.api.nvim_command
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 
 if fn.empty(fn.glob(install_path)) > 0 then
-  vim.notify("Downloading packer.nvim...")
-  exec("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-  exec("packadd packer.nvim")
+	vim.notify("Downloading packer.nvim...")
+	exec("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+	exec("packadd packer.nvim")
 end
 -----------------------------------------------------------------------------------------
 
 local config = {
-  profile = {
-    enable = true,
-    threshold = 1, -- the amount in ms that a plugins load time must be over for it to be included in the profile
-  },
+	profile = {
+		enable = true,
+		threshold = 1, -- the amount in ms that a plugins load time must be over for it to be included in the profile
+	},
 }
 
 require("packer").startup({
-  function(use)
-    -- Core
-    use("wbthomason/packer.nvim")
+	function(use)
+		-- Core
+		use("wbthomason/packer.nvim")
 
-    use({
-      "akinsho/nvim-bufferline.lua",
-      config = [[require("plugins.bufferline")]],
-    })
+		use({
+			"akinsho/nvim-bufferline.lua",
+			config = [[require("plugins.bufferline")]],
+		})
 
-    use({
-      "glepnir/galaxyline.nvim",
-      config = [[require("plugins.statusline")]],
-    })
+		use({
+			"glepnir/galaxyline.nvim",
+			config = [[require("plugins.statusline")]],
+		})
 
-    use({
-      "nvim-telescope/telescope.nvim",
-      requires = {
-        "nvim-lua/popup.nvim",
-      },
-      config = [[require("plugins.telescope")]],
-      command = "Telescope",
-    })
+		use({
+			"nvim-telescope/telescope.nvim",
+			requires = {
+				"nvim-lua/popup.nvim",
+			},
+			config = [[require("plugins.telescope")]],
+			command = "Telescope",
+		})
 
-    use({
-      "akinsho/nvim-toggleterm.lua",
-      config = function()
-        require("toggleterm").setup({
-          size = 20,
-          hide_numbers = true,
-          open_mapping = [[<M-`>]],
-          shade_filetypes = {},
-          start_in_insert = true,
-          persist_size = true,
-          direction = O.terminal.direction,
-        })
+		use({
+			"akinsho/nvim-toggleterm.lua",
+			config = function()
+				require("toggleterm").setup({
+					size = 20,
+					hide_numbers = true,
+					open_mapping = [[<M-`>]],
+					shade_filetypes = {},
+					start_in_insert = true,
+					persist_size = true,
+					direction = O.terminal.direction,
+				})
 
-        -- Esc twice to get to normal mode
-        vim.cmd([[tnoremap <esc><esc> <C-\><C-N>]])
-      end,
-    })
+				-- Esc twice to get to normal mode
+				vim.cmd([[tnoremap <esc><esc> <C-\><C-N>]])
+			end,
+		})
 
-    use("nvim-lua/plenary.nvim")
-    use({ "kyazdani42/nvim-web-devicons", config = [[require("plugins.devicons")]] })
-    use({
-      "lukas-reineke/indent-blankline.nvim",
-      setup = [[require("plugins.indentline")]],
-      event = "BufRead",
-    })
+		use("nvim-lua/plenary.nvim")
+		use({ "kyazdani42/nvim-web-devicons", config = [[require("plugins.devicons")]] })
+		use({
+			"lukas-reineke/indent-blankline.nvim",
+			setup = [[require("plugins.indentline")]],
+			event = "BufRead",
+		})
 
-    use({
-      "kyazdani42/nvim-tree.lua",
-      requires = "nvim-web-devicons",
-      config = [[require("plugins.nvim-tree")]],
-    })
+		use({
+			"kyazdani42/nvim-tree.lua",
+			requires = "nvim-web-devicons",
+			config = [[require("plugins.nvim-tree")]],
+		})
 
-    use({
-      "folke/trouble.nvim",
-      requires = "nvim-web-devicons",
-      cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TodoTrouble" },
-      condition = O.plugin.trouble.enabled,
-    })
+		use({
+			"folke/trouble.nvim",
+			requires = "nvim-web-devicons",
+			cmd = { "Trouble", "TroubleClose", "TroubleToggle", "TodoTrouble" },
+			condition = O.plugin.trouble.enabled,
+		})
 
-    use({
-      "glepnir/dashboard-nvim",
-      config = [[require("plugins.dashboard")]],
-      condition = O.plugin.dashboard.enabled,
-    })
+		use({
+			"glepnir/dashboard-nvim",
+			config = [[require("plugins.dashboard")]],
+			condition = O.plugin.dashboard.enabled,
+		})
 
-    -- LSP, Debugging, Completion and Snippets
-    use({
-      "neovim/nvim-lspconfig",
-      config = [[require("lsp.config")]],
-      requires = {
-        {
-          "nvim-lua/lsp-status.nvim",
-          config = function()
-            local status = require("lsp-status")
-            status.config({
-              indicator_hint = "",
-              indicator_info = "",
-              indicator_errors = "✗",
-              indicator_warnings = "",
-              status_symbol = " ",
-            })
-            status.register_progress()
-          end,
-        },
-        { "onsails/lspkind-nvim", config = [[require("lspkind").init()]] },
-        { "glepnir/lspsaga.nvim", condition = O.plugin.lspsaga.enabled },
-        { "kabouzeid/nvim-lspinstall" },
-      },
-    })
+		-- LSP, Debugging, Completion and Snippets
+		use({
+			"neovim/nvim-lspconfig",
+			config = [[require("lsp.config")]],
+			requires = {
+				{
+					"nvim-lua/lsp-status.nvim",
+					config = function()
+						local status = require("lsp-status")
+						status.config({
+							indicator_hint = "",
+							indicator_info = "",
+							indicator_errors = "✗",
+							indicator_warnings = "",
+							status_symbol = " ",
+						})
+						status.register_progress()
+					end,
+				},
+				{ "onsails/lspkind-nvim", config = [[require("lspkind").init()]] },
+				{ "glepnir/lspsaga.nvim", condition = O.plugin.lspsaga.enabled },
+				{ "kabouzeid/nvim-lspinstall" },
+			},
+		})
 
-    use({ "simrat39/rust-tools.nvim", condition = O.lang.rust.rust_tools.enabled })
-    use({ "jose-elias-alvarez/null-ls.nvim" })
+		use({ "simrat39/rust-tools.nvim", condition = O.lang.rust.rust_tools.enabled })
+		use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    use({ "folke/lua-dev.nvim" })
+		use({ "folke/lua-dev.nvim" })
 
-    use({
-      "hrsh7th/nvim-compe",
-      config = [[require("plugins.compe")]],
-      event = "InsertEnter",
-      wants = { "LuaSnip" },
-    })
+		use({
+			"hrsh7th/nvim-compe",
+			config = [[require("plugins.compe")]],
+			event = "InsertEnter",
+			wants = { "LuaSnip" },
+		})
 
-    use({
-      "L3MON4D3/LuaSnip",
-      event = "InsertEnter",
-      requires = {
-        { "rafamadriz/friendly-snippets", event = "InsertCharPre" },
-        "hrsh7th/nvim-compe",
-      },
-      config = function()
-        require("luasnip").config.set_config({
-          history = true,
-          updateevents = "TextChanged,TextChangedI",
-        })
-        require("luasnip/loaders/from_vscode").load()
-      end,
-    })
+		use({
+			"L3MON4D3/LuaSnip",
+			event = "InsertEnter",
+			requires = {
+				{ "rafamadriz/friendly-snippets", event = "InsertCharPre" },
+				"hrsh7th/nvim-compe",
+			},
+			config = function()
+				require("luasnip").config.set_config({
+					history = true,
+					updateevents = "TextChanged,TextChangedI",
+				})
+				require("luasnip/loaders/from_vscode").load()
+			end,
+		})
 
-    use({ "jose-elias-alvarez/nvim-lsp-ts-utils" })
+		use({ "jose-elias-alvarez/nvim-lsp-ts-utils" })
 
-    -- syntax
-    use({
-      "nvim-treesitter/nvim-treesitter",
-      run = ":TSUpdate",
-      config = [[require("plugins.treesitter")]],
-      event = "BufRead",
-    })
+		-- syntax
+		use({
+			"nvim-treesitter/nvim-treesitter",
+			run = ":TSUpdate",
+			config = [[require("plugins.treesitter")]],
+			event = "BufRead",
+		})
 
-    -- comment
-    use({
-      "terrortylor/nvim-comment",
-      config = function()
-        require("nvim_comment").setup()
-      end,
-      event = "BufRead",
-    })
+		-- comment
+		use({
+			"terrortylor/nvim-comment",
+			config = function()
+				require("nvim_comment").setup()
+			end,
+			event = "BufRead",
+		})
 
-    use({
-      "folke/todo-comments.nvim",
-      config = [[require("todo-comments").setup()]],
-    })
+		use({
+			"folke/todo-comments.nvim",
+			config = [[require("todo-comments").setup()]],
+		})
 
-    -- git
-    use({
-      "lewis6991/gitsigns.nvim",
-      config = [[require("plugins.gitsigns")]],
-    })
+		-- git
+		use({
+			"lewis6991/gitsigns.nvim",
+			config = [[require("plugins.gitsigns")]],
+		})
 
-    use({
-      "pwntester/octo.nvim",
-      cmd = { "Octo" },
-      condition = O.plugin.octo.enabled,
-    })
-    use({
-      "sindrets/diffview.nvim",
-      cmd = {
-        "DiffviewOpen",
-        "DiffviewClose",
-        "DiffviewToggleFiles",
-        "DiffviewFocusFiles",
-        "DiffviewRefresh",
-      },
-      condition = O.plugin.diffview.enabled,
-    })
+		use({
+			"pwntester/octo.nvim",
+			cmd = { "Octo" },
+			condition = O.plugin.octo.enabled,
+		})
+		use({
+			"sindrets/diffview.nvim",
+			cmd = {
+				"DiffviewOpen",
+				"DiffviewClose",
+				"DiffviewToggleFiles",
+				"DiffviewFocusFiles",
+				"DiffviewRefresh",
+			},
+			condition = O.plugin.diffview.enabled,
+		})
 
-    -- interactive scratchpad
-    use({
-      "metakirby5/codi.vim",
-      cmd = "Codi",
-      condition = O.plugin.codi.enabled,
-    })
+		-- interactive scratchpad
+		use({
+			"metakirby5/codi.vim",
+			cmd = "Codi",
+			condition = O.plugin.codi.enabled,
+		})
 
-    -- plugin for live html, css, and javascript editing
-    -- use({
-    --   "turbio/bracey.vim",
-    --   event = "BufRead",
-    --   ft = { "html", "css", "js" },
-    --   run = "npm install --prefix server",
-    -- })
+		-- plugin for live html, css, and javascript editing
+		-- use({
+		--   "turbio/bracey.vim",
+		--   event = "BufRead",
+		--   ft = { "html", "css", "js" },
+		--   run = "npm install --prefix server",
+		-- })
 
-    -- Utilities
-    -- use({ "milisims/nvim-luaref" })
-    use({
-      "windwp/nvim-autopairs",
-      config = [[require("nvim-autopairs").setup()]],
-      after = "nvim-compe",
-    })
-    use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]], event = "WinScrolled" })
-    use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
-    -- use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
-    -- use({ "sudormrfbin/cheatsheet.nvim" })
+		-- Utilities
+		-- use({ "milisims/nvim-luaref" })
+		use({
+			"windwp/nvim-autopairs",
+			config = [[require("nvim-autopairs").setup()]],
+			after = "nvim-compe",
+		})
+		use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]], event = "WinScrolled" })
+		use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
+		-- use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
+		-- use({ "sudormrfbin/cheatsheet.nvim" })
 
-    --     use({
-    --       "plasticboy/vim-markdown",
-    --       opt = true,
-    --       requires = "godlygeek/tabular",
-    --       ft = "markdown",
-    --     })
-    --     use({
-    --       "iamcco/markdown-preview.nvim",
-    --       ft = "markdown",
-    --       cmd = "MarkdownPreview",
-    --       run = function()
-    --         vim.fn["mkdp#util#install"]()
-    --       end,
-    --       config = function()
-    --         vim.g.mkdp_auto_start = 0
-    --         vim.g.mkdp_auto_close = 1
-    --       end,
-    --     })
-    --
-    -- use({
-    --   "folke/zen-mode.nvim",
-    --   cmd = "ZenMode",
-    -- })
-    -- use({ "folke/twilight.nvim" })
-    -- use("phaazon/hop.nvim")
-    use({ "tweekmonster/startuptime.vim", cmd = "StartupTime" })
+		--     use({
+		--       "plasticboy/vim-markdown",
+		--       opt = true,
+		--       requires = "godlygeek/tabular",
+		--       ft = "markdown",
+		--     })
+		--     use({
+		--       "iamcco/markdown-preview.nvim",
+		--       ft = "markdown",
+		--       cmd = "MarkdownPreview",
+		--       run = function()
+		--         vim.fn["mkdp#util#install"]()
+		--       end,
+		--       config = function()
+		--         vim.g.mkdp_auto_start = 0
+		--         vim.g.mkdp_auto_close = 1
+		--       end,
+		--     })
+		--
+		-- use({
+		--   "folke/zen-mode.nvim",
+		--   cmd = "ZenMode",
+		-- })
+		-- use({ "folke/twilight.nvim" })
+		-- use("phaazon/hop.nvim")
+		use({ "tweekmonster/startuptime.vim", cmd = "StartupTime" })
 
-    -- colors
-    use({ "siduck76/nvim-base16.lua" })
-    use({
-      "norcalli/nvim-colorizer.lua",
-      config = [[require'colorizer'.setup()]],
-      event = "BufRead",
-      condition = O.plugin.colorizer.enabled,
-    })
-  end,
-  config = config,
+		-- colors
+		use({ "siduck76/nvim-base16.lua" })
+		use({
+			"norcalli/nvim-colorizer.lua",
+			config = [[require'colorizer'.setup()]],
+			condition = O.plugin.colorizer.enabled,
+		})
+	end,
+	config = config,
 })
