@@ -248,6 +248,21 @@ require("packer").startup({
       condition = O.plugin.codi.enabled,
     })
 
+    -- tests
+    use({
+      "vim-test/vim-test",
+      cmd = { "TestFile", "TestNearest", "TestSuite", "TestVisit" },
+      setup = function()
+        local map = require("utils").map
+        map("n", "<leader>tn", [[ <Cmd> TestNearest<CR>]])
+        map("n", "<leader>tf", [[ <Cmd> TestFile<CR>]])
+        map("n", "<leader>ts", [[ <Cmd> TestSuite<CR>]])
+        map("n", "<leader>tl", [[ <Cmd> TestLast<CR>]])
+        map("n", "<leader>tv", [[ <Cmd> TestVisit<CR>]])
+        vim.g["test#strategy"] = "neovim"
+      end,
+    })
+
     -- plugin for live html, css, and javascript editing
     -- use({
     --   "turbio/bracey.vim",
