@@ -1,9 +1,7 @@
 -- config file for my neovim configuration
--- lol
 
 -- inspired by LunarVim's configuration
 -- https://github.com/ChristianChiarulli/LunarVim
--- WIP
 
 O = {
   colorscheme = "onedark",
@@ -80,6 +78,8 @@ O = {
           -- rust-analyzer settings here
         },
       },
+      -- this depends on lspconfig, which is a plugin
+      -- may cause issues with bootstrapping
       -- root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json", ".git"),
     },
     typescript = {

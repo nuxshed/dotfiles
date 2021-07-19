@@ -34,7 +34,7 @@ require("packer").startup({
 
     use({
       "glepnir/galaxyline.nvim",
-      event = "VimEnter",
+      event = "BufEnter",
       config = [[require("plugins.statusline")]],
     })
 

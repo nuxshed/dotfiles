@@ -5,6 +5,8 @@ map("n", "<leader>n", [[ <Cmd> set nu!<CR> ]])
 map("n", "<leader>nr", [[ <Cmd> set relativenumber!<CR> ]])
 map("n", "<leader>s", [[ <Cmd> set spell!<CR> ]])
 
+map("n", "<leader>,", [[ <Cmd>edit ~/.config/nvim/lua/config.lua<CR>]])
+
 -- clear search highlight on enter
 map("n", "<CR>", [[ <Cmd> nohl<CR>]])
 
