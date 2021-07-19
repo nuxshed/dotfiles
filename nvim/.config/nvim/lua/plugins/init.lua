@@ -279,7 +279,7 @@ require("packer").startup({
       after = "nvim-compe",
     })
     use({ "karb94/neoscroll.nvim", config = [[require("neoscroll").setup()]], event = "WinScrolled" })
-    use({ "folke/which-key.nvim", config = [[require("which-key").setup()]], event = "VimEnter" })
+    use({ "folke/which-key.nvim", config = [[require("which-key").setup()]] })
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     -- use({ "sudormrfbin/cheatsheet.nvim" })
 

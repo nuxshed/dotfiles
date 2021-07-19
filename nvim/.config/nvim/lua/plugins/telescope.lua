@@ -35,15 +35,20 @@ require("telescope").setup({
 })
 
 -- mappings
-local opt = { noremap = true, silent = true }
-vim.api.nvim_set_keymap("n", "<Leader>ff", [[<Cmd>lua require('telescope.builtin').find_files()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fb", [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fh", [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fo", [[<Cmd>lua require('telescope.builtin').oldfiles()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>fg", [[<Cmd> Telescope live_grep<CR>]], opt)
 
-local map = require("utils").map
-map("n", "<Leader>ff", [[<Cmd> Telescope find_files<CR>]])
-map("n", "<Leader>fb", [[<Cmd> Telescope buffers<CR>]])
-map("n", "<Leader>fg", [[<Cmd> Telescope live_grep<CR>]])
-map("n", "<Leader>fm", [[<Cmd> Telescope media_files<CR>]])
+require("which-key").register({
+  ["<leader>f"] = {
+    name = "+telescope",
+    f = { [[<Cmd>Telescope find_files<CR>]], "Find File" },
+    r = { [[<Cmd>Telescope oldfiles<CR>]], "Recent Files" },
+    b = { [[<Cmd>Telescope buffers<CR>]], "Find Buffer" },
+    w = { [[<Cmd>Telescope live_grep<CR>]], "Find Word" },
+    g = {
+      name = "+Telescope Git Stuff",
+      c = { [[<Cmd>Telescope git_commits<CR>]], "View Git Commits" },
+      f = { [[<Cmd>Telescope git_files<CR>]], "View Git Files" },
+      b = { [[<Cmd>Telescope git_branches<CR>]], "View Git Branches" },
+      s = { [[<Cmd>Telescope git_status<CR>]], "View Git Status" },
+    },
+  },
+})
