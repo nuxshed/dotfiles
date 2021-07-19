@@ -8,12 +8,13 @@ function M.setup(on_attach)
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua,
-      nls.builtins.diagnostics.selene,
       nls.builtins.formatting.eslint_d,
-      nls.builtins.diagnostics.shellcheck,
       nls.builtins.formatting.black,
       nls.builtins.formatting.isort,
+      nls.builtins.diagnostics.shellcheck,
+      nls.builtins.diagnostics.selene,
       nls.builtins.code_actions.gitsigns,
+      nls.builtins.diagnostics.markdownlint,
     },
   })
 end
