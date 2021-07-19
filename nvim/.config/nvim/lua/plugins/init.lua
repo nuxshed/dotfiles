@@ -283,11 +283,31 @@ require("packer").startup({
     use({ "simrat39/symbols-outline.nvim", cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" } })
     -- use({ "sudormrfbin/cheatsheet.nvim" })
 
+    -- markdown
     use({
       "plasticboy/vim-markdown",
       opt = true,
       requires = "godlygeek/tabular",
       ft = "markdown",
+    })
+
+    -- latex
+    use({
+      "lervag/vimtex",
+      ft = "latex",
+      setup = function()
+        vim.g.vimtex_quickfix_enabled = false
+        vim.g.vimtex_view_method = "zathura"
+        vim.g.vimtex_compiler_latexmk = {
+          options = {
+            "--shell-escape",
+            "--verbose",
+            "--file-line-error",
+            "synctex=1",
+            "interaction=nonstopmode",
+          },
+        }
+      end,
     })
     use({
       "folke/zen-mode.nvim",
