@@ -147,7 +147,12 @@ require("packer").startup({
             status.register_progress()
           end,
         },
-        { "glepnir/lspsaga.nvim", condition = O.plugin.lspsaga.enabled, after = "nvim-lspconfig" },
+        {
+          "glepnir/lspsaga.nvim",
+          config = [[require("plugins.lspsaga")]],
+          condition = O.plugin.lspsaga.enabled,
+          after = "nvim-lspconfig"
+        },
         { "kabouzeid/nvim-lspinstall", module = "lspinstall" },
       },
     })
