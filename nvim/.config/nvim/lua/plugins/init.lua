@@ -200,7 +200,7 @@ require("packer").startup({
       "nvim-treesitter/nvim-treesitter",
       run = ":TSUpdate",
       config = [[require("plugins.treesitter")]],
-      event = "BufRead",
+      -- event = "BufRead",
     })
 
     -- comment
