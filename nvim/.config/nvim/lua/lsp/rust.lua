@@ -1,7 +1,7 @@
 local M = {}
 
 if O.lang.rust.rust_tools.enabled then
-  M.setup = function(on_attach)
+  M.rust_tools_setup = function(on_attach)
     require("rust-tools").setup({
       tools = {
         autoSetHints = true,
@@ -37,12 +37,12 @@ if O.lang.rust.rust_tools.enabled then
       },
     })
   end
-else
-  M.setup = function(on_attach)
-    require("lspconfig").rust_analyzer.setup({
-      cmd = { vim.fn.stdpath("data") .. "/lspinstall/rust/rust-analyzer" },
-      on_attach = on_attach,
-    })
-  end
+end
+
+M.setup = function(on_attach)
+  require("lspconfig").rust_analyzer.setup({
+    cmd = { vim.fn.stdpath("data") .. "/lspinstall/rust/rust-analyzer" },
+    on_attach = on_attach,
+  })
 end
 return M

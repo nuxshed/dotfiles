@@ -39,7 +39,7 @@ O = {
     colorizer = { enabled = true },
     octo = { enabled = false },
     diffview = { enabled = false },
-    lspsaga = { enabled = true },
+    lspsaga = { enabled = false },
     trouble = { enabled = true },
     codi = { enabled = false },
   },
@@ -80,7 +80,7 @@ O = {
           -- rust-analyzer settings here
         },
       },
-      root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json", ".git"),
+      -- root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json", ".git"),
     },
     typescript = {
       filetypes = { "javascript", "typescript", "typescriptreact" },

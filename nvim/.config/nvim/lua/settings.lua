@@ -9,6 +9,7 @@ vim.opt.number = true
 vim.opt.numberwidth = 4
 vim.opt.title = true
 vim.opt.titlestring = "nvim"
+vim.g.autoformat = true
 
 -- timing stuff
 vim.opt.updatetime = 300
@@ -50,3 +51,14 @@ vim.opt.smartindent = true
 
 vim.o.grepprg = [[rg --hidden --glob "!.git" --no-heading --smart-case --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
+
+vim.g.loaded_gzip = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_spec = 1

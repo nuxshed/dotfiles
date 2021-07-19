@@ -66,7 +66,7 @@ local on_attach = function(client, bufnr)
 
   -- autocommands
   -- format-on-save
-  if client.resolved_capabilities.document_formatting then
+  if client.resolved_capabilities.document_formatting and vim.g.autoformat then
     utils.augroup("LspFormatOnSave", "BufWritePost", "LspFormat")
   end
   -- cursor commands
@@ -108,8 +108,11 @@ local function setup_servers()
     if lang == "lua" then
       require("lsp.lua").setup(on_attach)
     elseif lang == "rust" then
-      -- do nothing
-      -- because rust-tools handles it all for us
+      if O.lang.rust.rust_tools.enabled then
+        -- require("lsp.rust").rust_tools_setup(on_attach)
+      else
+        require("lsp.rust").setup(on_attach)
+      end
     elseif lang == "typescript" then
       require("lsp.typescript").setup(on_attach)
     else
@@ -151,8 +154,8 @@ require("lspinstall").post_install_hook = function()
   vim.cmd("bufdo e") -- triggers the FileType autocmd that starts the server
 end
 
--- rust-analyzer is set up seperately because rust-tools
--- but rust-analyzer is in the arch repos, so not really a problem
-require("lsp.rust").setup(on_attach)
+-- rust
 -- null_ls has it's own thing
 require("lsp.null-ls").setup(on_attach)
+
+return on_attach
