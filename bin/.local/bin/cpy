@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# cpy [ the output of a command ]
+
+$1 | xclip -selection clipboard
