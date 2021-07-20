@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# loc - lines of code
+
+[ -f "$1" ] || exit 1
+
+
+while IFS= read -r line || [ -n "$line" ]; do
+    lines=$((lines+1))
+    [ -z "$line" ] || {
+        sloc=$((sloc+1))
+    }
+done < "$1"
+
+printf '%s\n' "$lines lines ($sloc sloc)"
