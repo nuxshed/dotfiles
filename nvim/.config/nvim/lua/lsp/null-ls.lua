@@ -2,6 +2,8 @@ local nls = require("null-ls")
 
 local M = {}
 
+vim.env.PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath("config") .. "/.prettierrc"
+
 function M.setup(on_attach)
   nls.setup({
     on_attach = on_attach,
