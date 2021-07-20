@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# s̶t̶o̶l̶e̶n̶ borrowed from http://github.com/mitchweaver/bin
+
+# download stuff, with a handy mass-download feature
+
+
+if [ ! "$1" ] ; then
+    read -r inp
+    set "$inp"
+fi
+
+usage() {
+    >&2 print 'Usage: %s [-m] link <output>\n' "${0##*/}"
+    exit 1
+}
+
+download() {
+    case $1 in
+        *tube*|*invidious*|*vimeo*|*streamable*|*.gifv)
+            youtube-dl -c -R 50 --geo-bypass --prefer-ffmpeg "$1"
+            ;;
+        *)
+            curl -q4L -C - --retry 3 --url "$1" --output "${2:-${1##*/}}"
+    esac
+}
+
+mass_dl() {
+    tmp=/tmp/$$.dl
+    ${EDITOR:-vi} $tmp
+    count=0
+    while read -r url name ; do
+        count=$((count + 1))
+        download "$url" "$count-${name:-download.jpg}" &
+    done < $tmp
+    wait
+    rm $tmp
+}
+
+main() {
+    case ${1#-} in
+        h)
+            usage
+            ;;
+        m|v)
+            mass_dl
+            ;;
+        *)
+            download "$@"
+    esac
+}
+
+main "$@"
