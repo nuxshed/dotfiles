@@ -4,8 +4,8 @@
 [34;1m    ___      [33m${USER:-$(id -un)}[m@[33;1m$(hostname)[m
 [34;1m   ([37m.· [34m|     [31mos[m:     ${PRETTY_NAME:-Linux}
 [34;1m   ([35m<> [34m|     [31mshell[m:  ${SHELL:-/bin/sh}
-[34;1m  / [37m__  [34m\\    [31mpkgs[m:   420
-[34;1m ( [37m/  \\ [34m/|   [31muptime[m:${u:-0m}
+[34;1m  / [37m__  [34m\\    [31mpkgs[m:  $(pacman -Q | wc -l)
+[34;1m ( [37m/  \\ [34m/|   [31muptime[m: ${u:-0m}
 [35;1m_[34m/\\ [37m__)[34m/[35m_[34m)   [31mmemory[m: ${z:-?}MB / ${y:-?}MB
 [35;1m\/[34m-____[35m\/    [31mkernel[m: ${k:-linux}
 ") 2>/dev/null
