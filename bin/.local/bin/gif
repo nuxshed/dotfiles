@@ -1,0 +1,7 @@
+#!/bin/sh
+
+[ -f "$1" ] || exit 1
+
+ffmpeg -i "$1" \
+    -filter_complex "[0:v] fps=10,scale=720:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse" \
+    output.gif
