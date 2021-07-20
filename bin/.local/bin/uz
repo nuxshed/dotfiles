@@ -1,0 +1,58 @@
+#!/bin/sh
+
+ # uz - unzip stuff
+
+usage() {
+  >&2 printf '%s\n' "Usage: ${0##*/} [-c copy_path] file"
+  exit 1
+}
+
+decompress() {
+  case ${1##*.} in
+      gz|tgz)  gunzip -qdc "$1" ;;
+      xz|txz)  xz -qdcT 0 "$1"  ;;
+      bz2|tbz) bunzip2 -qdc "$1" ;;
+  esac
+}
+
+main() {
+  case $1 in
+    *tar.*|*.tgz|*.txz|*.tbz)
+      decompress "$1" | \
+      tar -C "${COPY_PATH:-$PWD}" -xpf -
+      exit ;;
+    *.xz|*.gz|*.bz2)
+      decompress "$1" "${COPY_PATH:-$PWD}/${1%.*}"
+      exit ;;
+    *.zip)
+      unzip -q "$1" -d "$2"
+      exit ;;
+    *.rar)
+      unrar x "$1"
+      exit ;;
+    *.7z)
+      command -v 7z >/dev/null || {
+        printf 'you need 7z to extract .7z'
+      exit 1
+      }
+      7z x "$1"
+      exit ;;
+    *)
+      >&2 echo "unrecognized compression format: ${1##*.}"
+      # >&2 echo "what the fuck is ${1##*.}"
+    esac
+}
+
+while [ "$1" ] ; do
+  case $1 in
+    -h|h)
+      usage
+      exit ;;
+    -C|-c)
+      COPY_PATH=$1
+      exit ;;
+    *)
+     main "$@"
+  esac
+  shift
+done
