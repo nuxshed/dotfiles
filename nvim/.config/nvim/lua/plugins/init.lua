@@ -151,7 +151,7 @@ require("packer").startup({
           "glepnir/lspsaga.nvim",
           config = [[require("plugins.lspsaga")]],
           condition = O.plugin.lspsaga.enabled,
-          after = "nvim-lspconfig"
+          after = "nvim-lspconfig",
         },
         { "kabouzeid/nvim-lspinstall", module = "lspinstall" },
       },
@@ -167,7 +167,7 @@ require("packer").startup({
     })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    use({ "folke/lua-dev.nvim" })
+    -- use({ "folke/lua-dev.nvim" })
 
     use({
       "hrsh7th/nvim-compe",
