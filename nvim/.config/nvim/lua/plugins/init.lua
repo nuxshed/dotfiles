@@ -130,8 +130,7 @@ require("packer").startup({
     -- LSP, Debugging, Completion and Snippets
     use({
       "neovim/nvim-lspconfig",
-      config = [[require("lsp.config")]],
-      event = "BufReadPre",
+      config = [[require("lsp")]],
       requires = {
         {
           "nvim-lua/lsp-status.nvim",
@@ -153,7 +152,7 @@ require("packer").startup({
           condition = O.plugin.lspsaga.enabled,
           after = "nvim-lspconfig",
         },
-        { "kabouzeid/nvim-lspinstall", module = "lspinstall" },
+        { "kabouzeid/nvim-lspinstall" },
       },
     })
 
@@ -161,13 +160,14 @@ require("packer").startup({
       "simrat39/rust-tools.nvim",
       condition = O.lang.rust.rust_tools.enabled,
       config = function()
-        require("lsp.rust").rust_tools_setup()
+        local on_attach = require("lsp").on_attach
+        require("lsp.ang.rust").setup(on_attach)
       end,
       ft = "rust",
     })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
-    -- use({ "folke/lua-dev.nvim" })
+    use({ "folke/lua-dev.nvim" })
 
     use({
       "hrsh7th/nvim-compe",
