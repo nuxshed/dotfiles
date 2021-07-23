@@ -322,6 +322,19 @@ require("packer").startup {
       ft = "markdown",
     }
 
+    use {
+      "iamcco/markdown-preview.nvim",
+      opt = true,
+      ft = "markdown",
+      run = function()
+        vim.fn["mkdp#util#install"]()
+      end,
+      config = function()
+        vim.g.mkdp_auto_start = 0
+        vim.g.mkdp_auto_close = 1
+      end,
+    }
+
     -- latex
     use {
       "lervag/vimtex",
