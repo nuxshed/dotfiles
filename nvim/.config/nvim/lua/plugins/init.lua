@@ -230,10 +230,18 @@ require("packer").startup({
     })
 
     use({
+      "TimUntersberger/neogit",
+      condition = O.plugin.neogit.enabled,
+      cmd = { "Neogit" },
+      config = [[require("plugins.neogit")]],
+    })
+
+    use({
       "pwntester/octo.nvim",
       cmd = { "Octo" },
       condition = O.plugin.octo.enabled,
     })
+
     use({
       "sindrets/diffview.nvim",
       cmd = {
