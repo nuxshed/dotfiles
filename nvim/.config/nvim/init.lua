@@ -6,6 +6,6 @@
 
 require "config"
 require "plugins"
-require "settings"
+require "options"
 require "mappings"
 require "highlights"
