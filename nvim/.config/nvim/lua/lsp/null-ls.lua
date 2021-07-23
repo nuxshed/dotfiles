@@ -16,7 +16,9 @@ function M.setup(on_attach)
       nls.builtins.formatting.black,
       nls.builtins.formatting.isort,
       nls.builtins.diagnostics.shellcheck,
-      -- nls.builtins.diagnostics.selene,
+      nls.builtins.diagnostics.selene.with({
+        args = { "--display-style", "json", "--config", vim.fn.stdpath("config") .. "/selene.toml", "-" },
+      }),
       nls.builtins.code_actions.gitsigns,
       nls.builtins.diagnostics.markdownlint,
     },
