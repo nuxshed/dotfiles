@@ -1,6 +1,6 @@
-local gl = require("galaxyline")
-local utils = require("utils")
-local condition = require("galaxyline.condition")
+local gl = require "galaxyline"
+local utils = require "utils"
+local condition = require "galaxyline.condition"
 local gls = gl.section
 gl.short_line_list = { "packer", "NvimTree", "Outline", "LspTrouble" }
 

@@ -1,4 +1,4 @@
-require("telescope").setup({
+require("telescope").setup {
   defaults = {
     prompt_prefix = "> ",
     selection_caret = "> ",
@@ -32,11 +32,11 @@ require("telescope").setup({
     -- Developer configurations: Not meant for general override
     buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
   },
-})
+}
 
 -- mappings
 
-require("which-key").register({
+require("which-key").register {
   ["<leader>f"] = {
     name = "+telescope",
     f = { [[<Cmd>Telescope find_files<CR>]], "Find File" },
@@ -51,4 +51,4 @@ require("which-key").register({
       s = { [[<Cmd>Telescope git_status<CR>]], "View Git Status" },
     },
   },
-})
+}

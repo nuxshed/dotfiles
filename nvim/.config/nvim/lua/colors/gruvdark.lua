@@ -2,7 +2,7 @@
 
 local M = {}
 
-M.base16 = require("base16")(require("base16").themes["gruvbox-dark-hard"], true)
+M.base16 = require "base16"(require("base16").themes["gruvbox-dark-hard"], true)
 
 M.colors = {
   fg = "#d5c4a1",

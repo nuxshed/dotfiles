@@ -4,7 +4,7 @@ local fg = colors.fg
 local lightbg = colors.lightbg
 local fgfaded = colors.fgfaded
 
-require("bufferline").setup({
+require("bufferline").setup {
   options = {
     mappings = false,
     buffer_close_icon = "",
@@ -15,7 +15,9 @@ require("bufferline").setup({
     max_name_length = 18,
     max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
     tab_size = 18,
-    offsets = { { filetype = "NvimTree", text = "File Explorer", text_align = "center" } },
+    offsets = {
+      { filetype = "NvimTree", text = "File Explorer", text_align = "center" },
+    },
     show_buffer_icons = true, -- disable filetype icons for buffers
     show_buffer_close_icons = true,
     show_close_icon = false,
@@ -79,7 +81,7 @@ require("bufferline").setup({
       guibg = lightbg,
     },
   },
-})
+}
 
 local opt = { silent = true }
 local map = vim.api.nvim_set_keymap

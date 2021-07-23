@@ -1,5 +1,5 @@
-local lspconfig = require("lspconfig")
-local ts_utils = require("nvim-lsp-ts-utils")
+local lspconfig = require "lspconfig"
+local ts_utils = require "nvim-lsp-ts-utils"
 
 local M = {}
 
@@ -18,14 +18,14 @@ local ts_utils_settings = {
   -- formatting
   enable_formatting = true,
   formatter = "eslint_d",
-  eslint_config_fallback = vim.fn.stdpath("config") .. "/.eslintrc.js",
+  eslint_config_fallback = vim.fn.stdpath "config" .. "/.eslintrc.js",
 
   -- update imports on file move
   update_imports_on_move = true,
 }
 
 M.setup = function(on_attach)
-  lspconfig.typescript.setup({
+  lspconfig.typescript.setup {
     on_attach = function(client, bufnr)
       on_attach(client)
 
@@ -33,6 +33,6 @@ M.setup = function(on_attach)
       ts_utils.setup_client(client)
     end,
     filetypes = O.lang.typescript.filetypes,
-  })
+  }
 end
 return M

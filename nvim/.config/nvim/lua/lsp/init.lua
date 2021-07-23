@@ -1,6 +1,6 @@
-local lspconfig = require("lspconfig")
-local lspinstall = require("lspinstall")
-local utils = require("utils")
+local lspconfig = require "lspconfig"
+local lspinstall = require "lspinstall"
+local utils = require "utils"
 
 local function on_attach(client, bufnr)
   require("lsp.commands").setup()
@@ -9,8 +9,8 @@ local function on_attach(client, bufnr)
   require("lsp.formatting").setup(client, bufnr)
 end
 
-require("lsp.diagnostics")
-require("lsp.signs")
+require "lsp.diagnostics"
+require "lsp.signs"
 
 -- config that activates keymaps and enables snippet support
 local function make_config()
@@ -50,7 +50,7 @@ setup_servers()
 -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
 lspinstall.post_install_hook = function()
   setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- triggers FileType autocmd that starts the server
+  vim.cmd "bufdo e"
 end
 
 -- null-ls

@@ -2,7 +2,7 @@
 
 local M = {}
 
-M.base16 = require("base16").theme_from_array({
+M.base16 = require("base16").theme_from_array {
   "2E3440",
   "3B4252",
   "434C5E",
@@ -19,7 +19,7 @@ M.base16 = require("base16").theme_from_array({
   "EBCB8B",
   "A3BE8C",
   "B48EAD",
-})
+}
 
 M.colors = {
   fg = "#e5e9f0",

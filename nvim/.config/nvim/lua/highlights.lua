@@ -7,9 +7,9 @@ local cmd = vim.cmd
 
 local function set_syntax_theme()
   if O.colorscheme == "onedark" then
-    require("base16")(base16, true)
+    require "base16"(base16, true)
   elseif O.colorscheme == "nord" then
-    require("base16")(base16, true)
+    require "base16"(base16, true)
   end
 end
 
@@ -28,8 +28,8 @@ cmd("hi! StatusLineNC gui=underline guifg=" .. colors.linebg)
 cmd("hi StatusLine guibg=" .. colors.bg .. " guifg=" .. colors.bg)
 
 -- underline all uses of the word under the cursor
-cmd("hi LspReferenceRead gui=underline")
-cmd("hi LspReferenceWrite gui=underline")
+cmd "hi LspReferenceRead gui=underline"
+cmd "hi LspReferenceWrite gui=underline"
 
 -- popup menu
 cmd("hi Pmenu guibg=" .. colors.dark_grey)

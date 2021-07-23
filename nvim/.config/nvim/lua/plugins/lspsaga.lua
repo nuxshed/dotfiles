@@ -1,11 +1,16 @@
-require("lspsaga").init_lsp_saga({
+require("lspsaga").init_lsp_saga {
   error_sign = "",
   warn_sign = "",
   hint_sign = "",
   infor_sign = "",
   dianostic_header_icon = "   ",
   code_action_icon = "💡",
-  code_action_prompt = { enable = true, sign = false, sign_priority = 2, virtual_text = false },
+  code_action_prompt = {
+    enable = true,
+    sign = false,
+    sign_priority = 2,
+    virtual_text = false,
+  },
   -- finder_definition_icon = '  ',
   -- finder_reference_icon = '  ',
   -- max_preview_lines = 10, -- preview lines of lsp_finder and definition preview
@@ -28,4 +33,4 @@ require("lspsaga").init_lsp_saga({
   -- the related filetypes into this table
   -- like server_filetype_map = {metals = {'sbt', 'scala'}}
   -- server_filetype_map = {}
-})
+}

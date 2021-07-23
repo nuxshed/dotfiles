@@ -68,7 +68,7 @@ end
 
 function M.is_buffer_empty()
   -- Check whether the current buffer is empty
-  return vim.fn.empty(vim.fn.expand("%:t")) == 1
+  return vim.fn.empty(vim.fn.expand "%:t") == 1
 end
 
 function M.has_width_gt(cols)
@@ -81,14 +81,14 @@ function M.check_git_workspace()
   if vim.bo.buftype == "terminal" then
     return false
   end
-  local current_file = vim.fn.expand("%:p")
+  local current_file = vim.fn.expand "%:p"
   local current_dir
   -- if file is a symlinks
   if vim.fn.getftype(current_file) == "link" then
     local real_file = vim.fn.resolve(current_file)
     current_dir = vim.fn.fnamemodify(real_file, ":h")
   else
-    current_dir = vim.fn.expand("%:p:h")
+    current_dir = vim.fn.expand "%:p:h"
   end
   local result = get_git_dir(current_dir)
   if not result then

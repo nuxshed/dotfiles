@@ -1,6 +1,6 @@
 local colors = require("colors.onedark").colors
 
-require("nvim-web-devicons").setup({
+require("nvim-web-devicons").setup {
   override = {
     html = {
       icon = "",
@@ -73,4 +73,4 @@ require("nvim-web-devicons").setup({
       name = "lock",
     },
   },
-})
+}
