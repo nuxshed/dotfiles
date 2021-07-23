@@ -17,13 +17,13 @@ rm_todo() {
 
 while [ "$1" ]; do
   case "$1" in 
-    add | new)
+    a | add | n | new)
       add_todo "$2"
       exit ;;
-    list)
+    l | ls | list)
       $CAT $TODOFILE
       exit ;;
-    done)
+    d | done | complete)
       rm_todo "$2"
       exit ;;
   esac
