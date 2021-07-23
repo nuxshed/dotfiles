@@ -38,6 +38,8 @@ local function setup_servers()
       -- require("lsp.lang.rust").setup(on_attach)
     elseif lang == "typescript" then
       require("lsp.lang.typescript").setup(on_attach)
+    elseif lang == "json" then
+      require("lsp.lang.json").setup(on_attach)
     else
       local config = make_config()
       lspconfig[lang].setup(config)
