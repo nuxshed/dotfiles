@@ -34,10 +34,8 @@ local function setup_servers()
   for _, lang in pairs(servers) do
     if lang == "lua" then
       require("lsp.lang.lua").setup(on_attach)
-    elseif lang == "rust" then
-      if not O.lang.rust.rust_tools.enabled then
-        require("lsp.lang.rust").setup(on_attach)
-      end
+      -- elseif lang == "rust" then
+      -- require("lsp.lang.rust").setup(on_attach)
     elseif lang == "typescript" then
       require("lsp.lang.typescript").setup(on_attach)
     else

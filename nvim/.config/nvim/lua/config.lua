@@ -35,6 +35,7 @@ O = {
   plugin = {
     dashboard = { enabled = true },
     colorizer = { enabled = true },
+    neogit = { enabled = true },
     octo = { enabled = false },
     diffview = { enabled = false },
     lspsaga = { enabled = false },

@@ -156,15 +156,16 @@ require("packer").startup({
       },
     })
 
-    use({
-      "simrat39/rust-tools.nvim",
-      condition = O.lang.rust.rust_tools.enabled,
-      config = function()
-        local on_attach = require("lsp").on_attach
-        require("lsp.ang.rust").setup(on_attach)
-      end,
-      ft = "rust",
-    })
+    -- use({
+    --   "simrat39/rust-tools.nvim",
+    --   condition = O.lang.rust.rust_tools.enabled,
+    --   config = function()
+    --     local on_attach = require("lsp").on_attach
+    --     require("lsp.lang.rust").setup(on_attach)
+    --   end,
+    --   ft = "rust",
+    --   event = "BufRead",
+    -- })
     use({ "jose-elias-alvarez/null-ls.nvim" })
 
     use({ "folke/lua-dev.nvim" })
