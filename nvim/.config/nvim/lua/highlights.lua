@@ -31,6 +31,9 @@ cmd("hi StatusLine guibg=" .. colors.bg .. " guifg=" .. colors.bg)
 cmd "hi LspReferenceRead gui=underline"
 cmd "hi LspReferenceWrite gui=underline"
 
+-- italic comments
+cmd "hi Comment gui=italic"
+
 -- popup menu
 cmd("hi Pmenu guibg=" .. colors.dark_grey)
 cmd("hi PmenuSbar guibg=" .. colors.dark_grey)
