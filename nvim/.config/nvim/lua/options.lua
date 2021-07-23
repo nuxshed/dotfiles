@@ -1,15 +1,13 @@
 -- settings.lua is for settings
 
-local fn = vim.fn
-
-vim.opt.showmode = false -- the mode is shown in the statusline
-vim.g.mapleader = O.leader
-vim.cmd "syntax on"
-vim.opt.number = true
-vim.opt.numberwidth = 4
-vim.opt.title = true
-vim.opt.titlestring = "nvim"
-vim.g.autoformat = true
+vim.opt.showmode = false -- disable mode indicator in cmdline
+vim.g.mapleader = O.leader -- set the leader
+vim.cmd "syntax on" -- enable syntax highlighting
+vim.opt.number = true -- show numbers
+vim.opt.numberwidth = 4 -- width of the number column
+vim.opt.title = true -- enable window title
+vim.opt.titlestring = "nvim" -- set the window title to "nvim"
+vim.g.format_on_save = true -- serves no purpose right now
 
 -- timing stuff
 vim.opt.updatetime = 300
@@ -36,18 +34,34 @@ vim.opt.fillchars = {
   foldclose = "▸",
 }
 
-vim.opt.emoji = false
-vim.opt.ruler = false
-vim.opt.ignorecase = true
-vim.opt.termguicolors = true
-vim.opt.cul = true
-vim.opt.mouse = "a"
-vim.opt.signcolumn = "yes"
-vim.opt.cmdheight = 1
-vim.opt.clipboard = "unnamedplus"
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.smartindent = true
+vim.opt.emoji = false -- no emoji
+vim.opt.ruler = false -- no ruler
+vim.opt.ignorecase = true -- iGnOre CaSe
+vim.opt.termguicolors = true -- C O L O R S
+vim.opt.cul = true -- cul stands for cursorline
+vim.opt.mouse = "a" -- mouse
+vim.opt.signcolumn = "yes" -- Always show the signcolumn, we don't want it to shift the text each time
+vim.opt.cmdheight = 1 -- height of the cmdline
+vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
+vim.opt.conceallevel = 2 -- Hide * markup for bold and italic
+vim.opt.inccommand = "split" -- preview incremental substitute
+vim.opt.joinspaces = false -- No double spaces with join after a dot
+vim.opt.list = true -- Show some invisible characters (tabs...
+vim.opt.expandtab = true -- use spaces when i press tab
+vim.opt.shiftwidth = 2 -- width of tab
+vim.opt.smartindent = true --sentient indenting
+vim.opt.list = true -- Show some invisible characters (tabs...
+vim.opt.hidden = true -- Enable modified buffers in background
+vim.opt.pumblend = 10 -- Popup blend
+vim.opt.pumheight = 10 -- Maximum number of entries in a popup
+vim.opt.undofile = true
+vim.opt.undolevels = 10000
+vim.opt.splitbelow = true -- Put new windows below current
+vim.opt.splitright = true -- Put new windows right of current
+vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
+vim.opt.wrap = false -- Disable line wrap
+vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
+vim.o.shortmess = "IToOlxfitn"
 
 -- markdown
 -- Use proper syntax highlighting in code blocks
@@ -78,6 +92,7 @@ vim.o.grepprg =
   [[rg --hidden --glob "!.git" --no-heading --smart-case --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 
+-- bloat.
 vim.g.loaded_gzip = 1
 vim.g.loaded_tar = 1
 vim.g.loaded_tarPlugin = 1
