@@ -1,15 +1,15 @@
 local lspconfig = require "lspconfig"
 local lspinstall = require "lspinstall"
-local utils = require "utils"
+-- local utils = require "utils"
 
 local function on_attach(client, bufnr)
   require("lsp.commands").setup()
   require("lsp.autocommands").setup(client)
   require("lsp.mappings").setup(bufnr)
   require("lsp.formatting").setup(client, bufnr)
+  require("lsp.diagnostics").setup()
 end
 
-require "lsp.diagnostics"
 require "lsp.signs"
 
 -- config that activates keymaps and enables snippet support
