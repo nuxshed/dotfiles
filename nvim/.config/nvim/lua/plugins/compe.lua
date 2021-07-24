@@ -28,11 +28,11 @@ require("compe").setup {
   },
 }
 
-local t = function(str)
+local function t(str)
   return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
-local check_back_space = function()
+local function check_back_space()
   local col = vim.fn.col "." - 1
   if col == 0 or vim.fn.getline("."):sub(col, col):match "%s" then
     return true
@@ -43,7 +43,7 @@ end
 
 -- tab completion
 
-_G.tab_complete = function()
+function _G.tab_complete()
   if vim.fn.pumvisible() == 1 then
     return t "<C-n>"
   elseif luasnip and luasnip.expand_or_jumpable() then
@@ -54,7 +54,8 @@ _G.tab_complete = function()
     return vim.fn["compe#complete"]()
   end
 end
-_G.s_tab_complete = function()
+
+function _G.s_tab_complete()
   if vim.fn.pumvisible() == 1 then
     return t "<C-p>"
   elseif luasnip and luasnip.jumpable(-1) then

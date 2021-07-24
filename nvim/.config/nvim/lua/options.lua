@@ -1,4 +1,4 @@
--- settings.lua is for settings
+local fn = vim.fn
 
 vim.opt.showmode = false -- disable mode indicator in cmdline
 vim.g.mapleader = O.leader -- set the leader
@@ -61,7 +61,6 @@ vim.opt.splitright = true -- Put new windows right of current
 vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
 vim.opt.wrap = false -- Disable line wrap
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
-vim.o.shortmess = "IToOlxfitn"
 
 -- markdown
 -- Use proper syntax highlighting in code blocks
@@ -92,7 +91,6 @@ vim.o.grepprg =
   [[rg --hidden --glob "!.git" --no-heading --smart-case --vimgrep --follow $*]]
 vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 
--- bloat.
 vim.g.loaded_gzip = 1
 vim.g.loaded_tar = 1
 vim.g.loaded_tarPlugin = 1

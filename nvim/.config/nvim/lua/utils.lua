@@ -1,7 +1,7 @@
 local api = vim.api
 local format = string.format
 
-local get_map_options = function(custom_options)
+local function get_map_options(custom_options)
   local options = { noremap = true, silent = true }
   if custom_options then
     options = vim.tbl_extend("force", options, custom_options)
@@ -12,17 +12,17 @@ end
 local M = {}
 
 -- to define mappings
-M.map = function(mode, target, source, opts)
+function M.map(mode, target, source, opts)
   api.nvim_set_keymap(mode, target, source, get_map_options(opts))
 end
 
-M.buf_map = function(mode, target, source, opts, bufnr)
+function M.buf_map(mode, target, source, opts, bufnr)
   api.nvim_buf_set_keymap(bufnr, mode, target, source, get_map_options(opts))
 end
 
 -- autocommands
 
-M.augroup = function(name, event, fn, ft)
+function M.augroup(name, event, fn, ft)
   api.nvim_exec(
     format(
       [[
@@ -40,7 +40,7 @@ M.augroup = function(name, event, fn, ft)
   )
 end
 
-M.buf_augroup = function(name, event, fn)
+function M.buf_augroup(name, event, fn)
   api.nvim_exec(
     format(
       [[

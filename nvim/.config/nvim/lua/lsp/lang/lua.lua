@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(on_attach)
+function M.setup(on_attach)
   local luadev = require("lua-dev").setup {
     library = {
       vimruntime = true,

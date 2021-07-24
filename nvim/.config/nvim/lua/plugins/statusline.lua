@@ -6,7 +6,7 @@ gl.short_line_list = { "packer", "NvimTree", "Outline", "LspTrouble" }
 
 local colors = require("colors/" .. O.colorscheme).colors
 
-local mode_color = function()
+local function mode_color()
   local mode_colors = {
     [110] = colors.magenta,
     [105] = colors.red,
@@ -28,17 +28,17 @@ local mode_color = function()
   end
 end
 
-local space = function(num)
+local function space(num)
   return function()
     return string.rep(" ", num)
   end
 end
 
-local checkwidth = function()
+local function checkwidth()
   return utils.has_width_gt(35) and condition.buffer_not_empty()
 end
 
-local LspStatus = function()
+local function LspStatus()
   if #vim.lsp.get_active_clients() > 0 then
     return require("lsp-status").status()
   end

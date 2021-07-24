@@ -2,7 +2,7 @@ local utils = require "utils"
 
 local M = {}
 
-M.setup = function(bufnr)
+function M.setup(bufnr)
   utils.buf_map("n", "gd", ":LspDef<CR>", nil, bufnr)
   utils.buf_map("n", "gD", ":LspTypeDef<CR>", nil, bufnr)
   utils.buf_map("n", "gi", ":LspImplementation<CR>", nil, bufnr)

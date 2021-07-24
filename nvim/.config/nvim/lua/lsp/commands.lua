@@ -2,7 +2,7 @@ local utils = require "utils"
 
 local M = {}
 
-M.setup = function()
+function M.setup()
   utils.lua_command("LspDef", "vim.lsp.buf.definition()")
   utils.lua_command("LspTypeDef", "vim.lsp.buf.type_definition()")
   utils.lua_command("LspImplementation", "vim.lsp.buf.implementation()")

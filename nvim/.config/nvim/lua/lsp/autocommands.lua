@@ -2,7 +2,7 @@ local utils = require "utils"
 
 local M = {}
 
-M.setup = function(client)
+function M.setup(client)
   -- format-on-save
   if client.resolved_capabilities.document_formatting then
     utils.augroup("LspFormatOnSave", "BufWritePost", "LspFormat")

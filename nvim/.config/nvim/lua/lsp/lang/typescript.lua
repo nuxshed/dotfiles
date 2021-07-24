@@ -24,7 +24,7 @@ local ts_utils_settings = {
   update_imports_on_move = true,
 }
 
-M.setup = function(on_attach)
+function M.setup(on_attach)
   lspconfig.typescript.setup {
     on_attach = function(client, bufnr)
       on_attach(client)
