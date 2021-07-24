@@ -1,19 +1,6 @@
-local colors = require("colors." .. O.colorscheme).colors
-local base16 = require("colors." .. O.colorscheme).base16
 local cmd = vim.cmd
-
--- syntax
--- these are defined here so that the highlights defined below are not overridden by the syntax theme
-
-local function set_syntax_theme()
-  if O.colorscheme == "onedark" then
-    require "base16"(base16, true)
-  elseif O.colorscheme == "nord" then
-    require "base16"(base16, true)
-  end
-end
-
-set_syntax_theme()
+local colors = require("colors." .. O.colorscheme).colors
+require("colors." .. O.colorscheme).base16()
 
 --- indentline
 cmd("hi IndentBlanklineChar guifg=" .. colors.dark_grey)
