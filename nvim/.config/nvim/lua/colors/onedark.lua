@@ -2,24 +2,28 @@
 
 local M = {}
 
-M.base16 = require("base16").theme_from_array {
-  "131519",
-  "1b1d23",
-  "3a404c",
-  "545862",
-  "565c64",
-  "abb2bf",
-  "b6bdca",
-  "c8ccd4",
-  "e06c75",
-  "d19a66",
-  "e5c07b",
-  "98c379",
-  "56b6c2",
-  "61afef",
-  "c678dd",
-  "be5046",
-}
+function M.base16()
+  local base16_onedark = require("base16").theme_from_array {
+    "131519",
+    "1b1d23",
+    "3a404c",
+    "545862",
+    "565c64",
+    "abb2bf",
+    "b6bdca",
+    "c8ccd4",
+    "e06c75",
+    "d19a66",
+    "e5c07b",
+    "98c379",
+    "56b6c2",
+    "61afef",
+    "c678dd",
+    "be5046",
+  }
+  local base16 = require "base16"
+  base16(base16_onedark, true)
+end
 
 M.colors = {
   fg = "#abb2bf",

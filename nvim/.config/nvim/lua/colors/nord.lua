@@ -1,42 +1,29 @@
--- nord
+-- gruvbox dark
 
 local M = {}
 
-M.base16 = require("base16").theme_from_array {
-  "2E3440",
-  "3B4252",
-  "434C5E",
-  "4C566A",
-  "D8DEE9",
-  "E5E9F0",
-  "ECEFF4",
-  "8FBCBB",
-  "88C0D0",
-  "81A1C1",
-  "5E81AC",
-  "BF616A",
-  "D08770",
-  "EBCB8B",
-  "A3BE8C",
-  "B48EAD",
-}
+function M.base16()
+  local base16 = require "base16"
+  base16(base16.themes["nvchad-nord"], true)
+end
 
 M.colors = {
-  fg = "#e5e9f0",
-  bg = "#1b1d23",
-  lightbg = "#434c5e",
-  linebg = "#434c5e",
-  fgfaded = "#545862",
-  grey = "#4c566a",
-  light_grey = "#6f737b",
-  dark_grey = "#3b4252",
+  fg = "#d8dee9",
+  bg = "#121419",
+  lightbg = "#2e3440",
+  linebg = "#2e3440",
+  fgfaded = "#565c68",
+  grey = "#3e4656",
+  light_grey = "#4c566a",
+  dark_grey = "#1f232b",
+  darker_grey = "#16181e",
   bright = "#eceff4",
   red = "#bf616a",
   green = "#a3be8c",
-  blue = "#81a1c1",
+  blue = "#88c0d0",
   yellow = "#ebcb8b",
   magenta = "#b48ead",
   orange = "#d08770",
-  cyan = "#88c0d0",
+  cyan = "#9fe2f4",
 }
 return M
