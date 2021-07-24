@@ -4,7 +4,7 @@ local M = {}
 
 M.setup = function(client)
   -- format-on-save
-  if client.resolved_capabilities.document_formatting and vim.g.autoformat then
+  if client.resolved_capabilities.document_formatting then
     utils.augroup("LspFormatOnSave", "BufWritePost", "LspFormat")
   end
   -- cursor commands
