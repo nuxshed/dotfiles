@@ -14,9 +14,9 @@ my qtile configuration
 my zsh config
 
 #### `bin/`
-my collection of scripts that all have names shorter than 5 characters
+my collection of scripts with very short names
 
 #### `other/`
-this shouldn't bother you. they exist simply to save me some time when im sarting from scratch
+this shouldn't bother you. they exist simply to save me some time when im starting from scratch
 
 im too lazy to list the rest, but you get it
