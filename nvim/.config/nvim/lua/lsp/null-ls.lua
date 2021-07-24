@@ -4,6 +4,22 @@ local M = {}
 
 vim.env.PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath "config" .. "/.prettierrc"
 
+local function get_stylua_config()
+  if vim.fn.filereadable(vim.fn.getcwd() .. "/stylua.toml") then
+    return vim.fn.getcwd() .. "/stylua.toml"
+  else
+    return vim.fn.stdpath "config" .. "/stylua.toml"
+  end
+end
+
+local function get_selene_config()
+  if vim.fn.filereadable(vim.fn.getcwd() .. "/selene.toml") then
+    return vim.fn.getcwd() .. "/selene.toml"
+  else
+    return vim.fn.stdpath "config" .. "/selene.toml"
+  end
+end
+
 function M.setup(on_attach)
   nls.setup {
     on_attach = on_attach,
@@ -12,7 +28,7 @@ function M.setup(on_attach)
       nls.builtins.formatting.stylua.with {
         args = {
           "--config-path",
-          vim.fn.stdpath "config" .. "/stylua.toml",
+          get_stylua_config(),
           "-",
         },
       },
@@ -25,7 +41,7 @@ function M.setup(on_attach)
           "--display-style",
           "json",
           "--config",
-          vim.fn.stdpath "config" .. "/selene.toml",
+          get_selene_config(),
           "-",
         },
       },
