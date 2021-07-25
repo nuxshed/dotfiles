@@ -94,3 +94,8 @@ O = {
     direction = "horizontal",
   },
 }
+
+-- source project config
+if vim.fn.filereadable(vim.fn.getcwd() .. "/.nvim-config.lua") then
+  vim.cmd("source" .. vim.fn.getcwd() .. "/.nvim-config.lua")
+end
