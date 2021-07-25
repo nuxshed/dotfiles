@@ -15,6 +15,10 @@ rm_todo() {
   sed -i.old -E "/^$1$/d" "$TODOFILE"
 }
 
+clear_todo() {
+  rm $TODOFILE
+}
+
 while [ "$1" ]; do
   case "$1" in 
     a | add | n | new)
@@ -25,6 +29,9 @@ while [ "$1" ]; do
       exit ;;
     d | done | complete)
       rm_todo "$2"
+      exit ;;
+    c | clear | clean)
+      clear_todo
       exit ;;
   esac
 done
