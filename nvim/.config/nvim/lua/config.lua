@@ -96,6 +96,6 @@ O = {
 }
 
 -- source project config
-if vim.fn.filereadable(vim.fn.getcwd() .. "/.nvim-config.lua") then
+if vim.fn.filereadable(vim.fn.getcwd() .. "/.nvim-config.lua") == 1 then
   vim.cmd("source" .. vim.fn.getcwd() .. "/.nvim-config.lua")
 end
