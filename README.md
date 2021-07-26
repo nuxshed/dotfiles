@@ -6,12 +6,15 @@ what's included:
 
 #### `nvim/`
 my neovim configuration
-  
+<img src="./nvim/.config/nvim/preview.png">
+
 #### `qtile/`
 my qtile configuration
+<img src="./qtile/.config/qtile/preview.png">
 
 #### `zsh/`
-my zsh config
+my zsh config <br />
+<img src="./zsh/preview.png">
 
 #### `bin/`
 my collection of scripts with very short names
@@ -19,4 +22,6 @@ my collection of scripts with very short names
 #### `other/`
 this shouldn't bother you. they exist simply to save me some time when im starting from scratch
 
-im too lazy to list the rest, but you get it
+<br />
+<br />
+im too lazy to list the rest
