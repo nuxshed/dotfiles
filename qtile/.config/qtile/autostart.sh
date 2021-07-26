@@ -2,5 +2,5 @@
 
 ~/.fehbg &
 setxkbmap gb &
-picom --experimental-backends &
+picom --experimental-backend &
 xss-lock slock &
