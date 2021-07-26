@@ -74,6 +74,9 @@ require("bufferline").setup {
     close_button_selected = {
       guibg = lightbg,
     },
+    duplicate = {
+      guibg = bg,
+    },
     duplicate_visible = {
       guibg = lightbg,
     },
