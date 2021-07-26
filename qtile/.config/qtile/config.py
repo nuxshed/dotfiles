@@ -63,7 +63,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    # Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "p", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "r", lazy.spawn("rofi -show drun"), desc="rofi"),
     # screenshot
     Key(
@@ -131,9 +131,6 @@ layouts = [
         border_focus="#61afef",
         border_normal="#282c34",
     ),
-    # layout.Tile(
-    #     margin=10, border_width=2, border_focus="#61afef", border_normal="#282c34"
-    # ),
     layout.Floating(border_width=2, border_focus="#61afef"),
     layout.MonadWide(
         margin=5, border_width=2, border_focus="#61afef", border_normal="#282c34"
@@ -170,6 +167,9 @@ layouts = [
         panel_width=200,
         sections=["Tabs"],
     ),
+    layout.Tile(
+        margin=10, border_width=2, border_focus="#61afef", border_normal="#282c34"
+    ),
     layout.Zoomy(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
@@ -193,7 +193,7 @@ screens = [
             [
                 widget.GroupBox(
                     active="#abb2bf",
-                    inactive="#545862",
+                    inactive="#72777f",
                     margin_x=0,
                     rounded=False,
                     highlight_method="block",
@@ -203,7 +203,7 @@ screens = [
                 ),
                 widget.CurrentLayoutIcon(
                     custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
-                    scale=0.4,
+                    scale=0.5,
                 ),
                 widget.WindowName(),
                 widget.Prompt(),
@@ -211,7 +211,7 @@ screens = [
                 widget.Systray(),
                 widget.TextBox(text="|", foreground="#545862"),
                 widget.TextBox(text="墳", foreground="#61afef"),
-                widget.Volume(foreground="#61afef", update_interval=5),
+                widget.Volume(foreground="#61afef", update_interval=2),
                 widget.TextBox(text="|", foreground="#545862"),
                 widget.Battery(
                     charge_char="",
@@ -220,10 +220,10 @@ screens = [
                     full_char="",
                     format="{char} {percent:2.0%}",
                     foreground="#98c379",
-                    update_interval=11,
+                    update_interval=6,
                 ),
                 widget.TextBox(text="|", foreground="#545862"),
-                widget.Clock(format=" %H:%M  ", foreground="#d19a66"),
+                widget.Clock(format=" %H:%M  ", foreground="#e06c75"),
             ],
             24,
         ),
@@ -253,6 +253,7 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
+        # *layout.Floating(border_width=2, border_focus="#61afef"),
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
