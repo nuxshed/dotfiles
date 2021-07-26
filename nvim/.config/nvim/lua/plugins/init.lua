@@ -367,7 +367,6 @@ require("packer").startup {
       "norcalli/nvim-colorizer.lua",
       config = [[require'colorizer'.setup()]],
       condition = O.plugin.colorizer.enabled,
-      event = "BufEnter",
     }
   end,
   config = config,
