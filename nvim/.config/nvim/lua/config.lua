@@ -60,7 +60,8 @@ O = {
     json = {},
     lua = {
       luadev = {
-        enabled = true,
+        -- don't load luadev unless explicitly asked to
+        enabled = false,
       },
     },
     python = {
