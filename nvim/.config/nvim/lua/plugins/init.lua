@@ -47,6 +47,15 @@ require("packer").startup {
       event = "CursorHold",
     }
 
+    -- Terminal
+    use {
+      "norcalli/nvim-terminal.lua",
+      ft = "terminal",
+      config = function()
+        require("terminal").setup()
+      end,
+    }
+
     use {
       "akinsho/nvim-toggleterm.lua",
       keys = { "<M-`>", "<leader>g" },
