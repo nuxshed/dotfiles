@@ -110,7 +110,8 @@ require("packer").startup {
               indicator_info = "",
               indicator_errors = "✗",
               indicator_warnings = "",
-              status_symbol = " ",
+              status_symbol = " LSP",
+              current_symbol = true,
             }
             status.register_progress()
           end,
@@ -180,11 +181,17 @@ require("packer").startup {
 
     -- comment
     use {
-      "terrortylor/nvim-comment",
+      "b3nj5m1n/kommentary",
+      opt = true,
+      wants = "nvim-ts-context-commentstring",
+      keys = { "gc", "gcc" },
       config = function()
-        require("nvim_comment").setup()
+        require("kommentary.config").configure_language(
+          "default",
+          { prefer_single_line_comments = true }
+        )
       end,
-      keys = "gc",
+      requires = "JoosepAlviste/nvim-ts-context-commentstring",
     }
 
     use {
