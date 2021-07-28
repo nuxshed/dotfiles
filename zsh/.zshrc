@@ -10,9 +10,15 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     setopt xtrace prompt_subst
 fi
 
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # zsh options
-bindkey -e
+bindkey -v
 
 zstyle :compinstall filename '$HOME/.zshrc'
 
@@ -162,7 +168,23 @@ zle -N bracketed-paste bracketed-paste-magic
 if [[ "$TERM" != "linux" ]]; then
   zinit light zsh-users/zsh-autosuggestions
   zinit light zdharma/fast-syntax-highlighting
+
+  # PROMPT
+
+  # Starship
   eval "$(starship init zsh)"
+
+  # Spaceship
+  # zinit light spaceship-prompt/spaceship-prompt
+
+  # Pure
+  # zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
+  # zinit light sindresorhus/pure
+
+  # Powerlevel10k
+  # zinit ice depth=1; zinit light romkatv/powerlevel10k
+  # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 elif [[ "$TERM" == "linux" ]]; then
   prompt suse
 fi
@@ -173,3 +195,6 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     exec 2>&3 3>&-
     zprof > ~/.zsh_profile$(date +'%s')
 fi
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
+[[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh
