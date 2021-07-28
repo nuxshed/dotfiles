@@ -211,7 +211,7 @@ screens = [
                 widget.Systray(),
                 widget.TextBox(text="|", foreground="#545862"),
                 widget.TextBox(text="墳", foreground="#61afef"),
-                widget.Volume(foreground="#61afef", update_interval=2),
+                widget.Volume(foreground="#61afef", update_interval=5),
                 widget.TextBox(text="|", foreground="#545862"),
                 widget.Battery(
                     charge_char="",
@@ -220,7 +220,7 @@ screens = [
                     full_char="",
                     format="{char} {percent:2.0%}",
                     foreground="#98c379",
-                    update_interval=6,
+                    update_interval=10,
                 ),
                 widget.TextBox(text="|", foreground="#545862"),
                 widget.Clock(format=" %H:%M  ", foreground="#e06c75"),
