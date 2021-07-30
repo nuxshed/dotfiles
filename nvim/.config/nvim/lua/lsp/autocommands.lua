@@ -4,7 +4,7 @@ local M = {}
 
 function M.setup(client)
   -- format-on-save
-  if client.resolved_capabilities.document_formatting then
+  if O.format_on_save and client.resolved_capabilities.document_formatting then
     utils.augroup("LspFormatOnSave", "BufWritePost", "LspFormat")
   end
   -- cursor commands
