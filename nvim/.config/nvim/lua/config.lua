@@ -4,7 +4,7 @@
 -- https://github.com/ChristianChiarulli/LunarVim
 
 O = {
-  colorscheme = "ayu",
+  colorscheme = "palenight",
   leader = " ",
   format_on_save = true,
   treesitter = {

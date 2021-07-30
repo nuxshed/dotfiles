@@ -4,7 +4,25 @@ local M = {}
 
 function M.base16()
   local base16 = require "base16"
-  base16(base16.themes["material-palenight"], true)
+  local base16_palenight = base16.theme_from_array {
+    "1f2230",
+    "32374c",
+    "32374D",
+    "697098",
+    "8796B0",
+    "bfc7d5",
+    "fbf1c7",
+    "32374c",
+    "bfc7d5",
+    "F78C6C",
+    "ffcb6b",
+    "C3E88D",
+    "80CBC4",
+    "82b1ff",
+    "c792ea",
+    "ff5370",
+  }
+  base16(base16_palenight, true)
 end
 
 M.colors = {
