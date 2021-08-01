@@ -8,9 +8,8 @@ local function on_attach(client, bufnr)
   require("lsp.mappings").setup(bufnr)
   require("lsp.formatting").setup(client, bufnr)
   require("lsp.diagnostics").setup()
+  require "lsp.signs"
 end
-
-require "lsp.signs"
 
 -- config that activates keymaps and enables snippet support
 local function make_config()
@@ -25,7 +24,7 @@ local function make_config()
   }
 end
 
--- lspInstall + lspconfig stuff
+-- Setup LSP Servers
 
 local function setup_servers()
   lspinstall.setup()
