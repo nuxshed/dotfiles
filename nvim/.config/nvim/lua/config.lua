@@ -7,6 +7,7 @@ O = {
   colorscheme = "palenight",
   leader = " ",
   format_on_save = true,
+  comment_style = "italic",
   treesitter = {
     ensure_installed = {
       "bash",

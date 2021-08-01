@@ -23,6 +23,8 @@ function M.base16()
     "ff5370",
   }
   base16(base16_palenight, true)
+  vim.cmd "hi TsTag guifg=#ff5370"
+  vim.cmd "hi TsTagDelimiter guifg=#89DDFF"
 end
 
 M.colors = {
@@ -33,7 +35,7 @@ M.colors = {
   fgfaded = "#697098",
   grey = "#3E4452",
   light_grey = "#4B5263",
-  dark_grey = "#1c1f2d",
+  dark_grey = "#262a3a",
   darker_grey = "#1c1f2c",
   bright = "#fbf1c7",
   red = "#ff5370",
@@ -44,4 +46,7 @@ M.colors = {
   orange = "#F78C6C",
   cyan = "#89DDFF",
 }
+
+M.overrides = function() end
+
 return M

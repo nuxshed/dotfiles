@@ -80,3 +80,5 @@ cmd("hi LspDiagnosticsDefaultHint guifg=" .. colors.magenta)
 
 -- the background color for neovim
 cmd("hi Normal guibg=" .. colors.bg)
+
+require("colors." .. O.colorscheme).overrides()

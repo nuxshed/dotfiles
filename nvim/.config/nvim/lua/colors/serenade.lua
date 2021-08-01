@@ -45,4 +45,7 @@ M.colors = {
   orange = "#e5a46b",
   cyan = "#87c095",
 }
+
+M.overrides = function() end
+
 return M
