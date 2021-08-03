@@ -5,14 +5,14 @@ local M = {}
 
 function M.base16()
   local base16_serenade = require("base16").theme_from_array {
-    "191c1e",
-    "2a2f33",
+    "23282b",
+    "343b3f",
     "474F54",
     "474F54",
     "a1a8af",
     "bfddb2",
     "ddffce",
-    "2a2f33",
+    "343b3f",
     "bfddb2",
     "d76e6e",
     "82abbc",
@@ -28,14 +28,14 @@ end
 
 M.colors = {
   fg = "#bfddb2",
-  bg = "#191c1e",
-  lightbg = "#2a2f33",
-  linebg = "#2a2f33",
+  bg = "#23282b",
+  lightbg = "#343b3f",
+  linebg = "#343b3f",
   fgfaded = "#474F54",
   grey = "#7f868c",
   light_grey = "#a1a8af",
-  dark_grey = "#1f2326",
-  darker_grey = "#191c1e",
+  dark_grey = "#2c3135",
+  darker_grey = "#282d30",
   bright = "#ddffce",
   red = "#d76e6e",
   green = "#ACB765",
