@@ -1,5 +1,5 @@
 local api = vim.api
-local format = string.format
+local fmt = string.format
 
 local function get_map_options(custom_options)
   local options = { noremap = true, silent = true }
@@ -22,44 +22,31 @@ end
 
 -- autocommands
 
-function M.augroup(name, event, fn, ft)
-  api.nvim_exec(
-    format(
-      [[
-    augroup %s
-        autocmd!
-        autocmd %s %s %s
-    augroup END
-    ]],
-      name,
-      event,
-      ft or "*",
-      fn
-    ),
-    false
-  )
-end
-
-function M.buf_augroup(name, event, fn)
-  api.nvim_exec(
-    format(
-      [[
-    augroup %s
-        autocmd! * <buffer>
-        autocmd %s <buffer> %s
-    augroup END
-    ]],
-      name,
-      event,
-      fn
-    ),
-    false
-  )
+function M.augroup(name, commands)
+  vim.cmd("augroup " .. name)
+  vim.cmd "autocmd!"
+  for _, c in ipairs(commands) do
+    local command = c.command
+    -- TODO:
+    -- if type(command) == "function" then
+    --   command = fmt "lua"
+    -- end
+    vim.cmd(
+      fmt(
+        "autocmd %s %s %s %s",
+        table.concat(c.events, ","),
+        table.concat(c.targets or {}, ","),
+        table.concat(c.modifiers or {}, " "),
+        command
+      )
+    )
+  end
+  vim.cmd "augroup END"
 end
 
 -- used to define commands
 function M.command(name, fn)
-  vim.cmd(format("command! %s %s", name, fn))
+  vim.cmd(fmt("command! %s %s", name, fn))
 end
 
 function M.lua_command(name, fn)
@@ -74,27 +61,6 @@ end
 function M.has_width_gt(cols)
   -- Check if the windows width is greater than a given number of columns
   return vim.fn.winwidth(0) / 2 > cols
-end
-
-function M.check_git_workspace()
-  local get_git_dir = require("galaxyline.provider_vcs").get_git_dir
-  if vim.bo.buftype == "terminal" then
-    return false
-  end
-  local current_file = vim.fn.expand "%:p"
-  local current_dir
-  -- if file is a symlinks
-  if vim.fn.getftype(current_file) == "link" then
-    local real_file = vim.fn.resolve(current_file)
-    current_dir = vim.fn.fnamemodify(real_file, ":h")
-  else
-    current_dir = vim.fn.expand "%:p:h"
-  end
-  local result = get_git_dir(current_dir)
-  if not result then
-    return false
-  end
-  return true
 end
 
 return M
