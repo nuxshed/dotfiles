@@ -4,7 +4,7 @@
 -- https://github.com/ChristianChiarulli/LunarVim
 
 O = {
-  colorscheme = "subliminal",
+  colorscheme = "nord",
   leader = " ",
   format_on_save = true,
   comment_style = "italic",

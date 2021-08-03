@@ -2,8 +2,6 @@ local cmd = vim.cmd
 local colors = require("colors." .. O.colorscheme).colors
 require("colors." .. O.colorscheme).base16()
 
--- TODO: a better way to manage my highlights
-
 --- indentline
 cmd("hi IndentBlanklineChar guifg=" .. colors.dark_grey)
 cmd("hi IndentBlanklineContextChar guifg=" .. colors.linebg)
