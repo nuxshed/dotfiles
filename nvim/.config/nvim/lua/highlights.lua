@@ -76,6 +76,9 @@ cmd("hi LspDiagnosticsSignHint guifg=" .. colors.magenta)
 cmd("hi LspDiagnosticsVirtualTextHint guifg=" .. colors.magenta)
 cmd("hi LspDiagnosticsDefaultHint guifg=" .. colors.magenta)
 
+-- whitespace
+cmd("hi whitespace guifg=" .. colors.grey)
+
 -- the background color for neovim
 cmd("hi Normal guibg=" .. colors.bg)
 
