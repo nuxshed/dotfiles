@@ -36,15 +36,15 @@ function M.setup(on_attach)
       nls.builtins.formatting.black,
       nls.builtins.formatting.isort,
       nls.builtins.diagnostics.shellcheck,
-      nls.builtins.diagnostics.selene.with {
-        args = {
-          "--display-style",
-          "json",
-          "--config",
-          get_selene_config(),
-          "-",
-        },
-      },
+      -- nls.builtins.diagnostics.selene.with {
+      --   args = {
+      --     "--display-style",
+      --     "json",
+      --     "--config",
+      --     get_selene_config(),
+      --     "-",
+      --   },
+      -- },
       nls.builtins.code_actions.gitsigns,
       nls.builtins.diagnostics.markdownlint,
     },

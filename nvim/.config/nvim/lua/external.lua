@@ -15,6 +15,13 @@ function M.kitty.set_background(bg)
     )
   end
 end
--- TODO: i should probavly add an autocmd to reset this
+
+function M.kitty.reset_background()
+  if vim.env.KITTY_LISTEN_ON then
+    fn.system(
+      fmt("kitty @ --to %s set-colors --reset", vim.env.KITTY_LISTEN_ON)
+    )
+  end
+end
 
 return M
