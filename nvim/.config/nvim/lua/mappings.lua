@@ -2,17 +2,28 @@ local utils = require "utils"
 local map = utils.map
 local wk = require "which-key"
 
-map("n", "<leader>n", [[ <Cmd> set nu!<CR> ]])
-map("n", "<leader>nr", [[ <Cmd> set relativenumber!<CR> ]])
-map("n", "<leader>s", [[ <Cmd> set spell!<CR> ]])
-
-map("n", "<leader>,", [[ <Cmd>edit ~/.config/nvim/lua/config.lua<CR>]])
-
--- packer commands
-map("n", "<leader>pu", [[ <Cmd> PackerUpdate<CR>]])
-map("n", "<leader>ps", [[ <Cmd> PackerSync<CR>]])
-map("n", "<leader>pc", [[ <Cmd> PackerCompile<CR>]])
-map("n", "<leader>pi", [[ <Cmd> PackerInstall<CR>]])
+wk.register({
+  p = {
+    name = "+packer",
+    u = { "<CMD>PackerUpdate<CR>", "Update Plugins" },
+    s = { "<CMD>PackerSync<CR>", "Sync Plugins" },
+    i = { "<CMD>PackerInstall<CR>", "Install Plugins" },
+    c = { "<CMD>PackerCompile<CR>", "Compile plugins.lua" },
+  },
+  [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
+  g = "lazygit",
+  h = {
+    name = "+gitsigns",
+    hs = "stage hunk",
+    hu = "undo stage hunk",
+    hr = "reset hunk",
+    hR = "reset buffer",
+    hp = "preview hunk",
+    hb = "blame line",
+  },
+}, {
+  prefix = "<leader>",
+})
 
 -- clear search highlight on enter
 map("n", "<CR>", [[ <Cmd> nohl<CR>]])

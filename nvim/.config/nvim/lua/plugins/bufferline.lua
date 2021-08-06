@@ -16,9 +16,10 @@ require("bufferline").setup {
     max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
     tab_size = 18,
     offsets = {
-      { filetype = "NvimTree", text = "File Explorer", text_align = "center" },
+      { filetype = "NvimTree", text = "Files", text_align = "center" },
+      { filetype = "packer", text = "packer", text_align = "center" },
     },
-    show_buffer_icons = true, -- disable filetype icons for buffers
+    show_buffer_icons = true,
     show_buffer_close_icons = true,
     show_close_icon = false,
     show_tab_indicators = true,
@@ -86,12 +87,11 @@ require("bufferline").setup {
   },
 }
 
-local opt = { silent = true }
-local map = vim.api.nvim_set_keymap
-vim.g.mapleader = " "
-
--- MAPPINGS
-map("n", "<S-t>", [[<Cmd>tabnew<CR>]], opt) -- new tab
-map("n", "<S-x>", [[<Cmd>bdelete<CR>]], opt) -- close tab
-map("n", "<TAB>", [[<Cmd>BufferLineCycleNext<CR>]], opt)
-map("n", "<S-TAB>", [[<Cmd>BufferLineCyclePrev<CR>]], opt)
+require("which-key").register {
+  ["gD"] = { "<cmd>BufferLinePickClose<CR>", "delete buffer" },
+  ["gb"] = { "<cmd>BufferLinePick<CR>", "pick buffer" },
+  ["<tab>"] = { "<cmd>BufferLineCycleNext<CR>", "bufferline: next" },
+  ["<S-tab>"] = { "<cmd>BufferLineCyclePrev<CR>", "bufferline: prev" },
+  ["[b"] = { "<cmd>BufferLineMoveNext<CR>", "bufferline: move next" },
+  ["]b"] = { "<cmd>BufferLineMovePrev<CR>", "bufferline: move prev" },
+}

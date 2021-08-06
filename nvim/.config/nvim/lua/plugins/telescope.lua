@@ -38,7 +38,7 @@ require("telescope").setup {
 
 require("which-key").register {
   ["<leader>f"] = {
-    name = "+telescope",
+    name = "+find",
     f = { [[<Cmd>Telescope find_files<CR>]], "Find File" },
     r = { [[<Cmd>Telescope oldfiles<CR>]], "Recent Files" },
     b = { [[<Cmd>Telescope buffers<CR>]], "Find Buffer" },

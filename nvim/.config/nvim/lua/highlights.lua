@@ -82,6 +82,6 @@ cmd("hi whitespace guifg=" .. colors.grey)
 -- the background color for neovim
 cmd("hi Normal guibg=" .. colors.bg)
 
-require("external").kitty.set_background(colors.bg)
+-- require("external").kitty.set_background(colors.bg)
 
 require("colors." .. O.colorscheme).overrides()

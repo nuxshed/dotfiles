@@ -34,12 +34,13 @@ require("packer").startup {
 
     use {
       "glepnir/galaxyline.nvim",
-      event = "BufEnter",
+      event = "BufWinEnter",
       config = [[require("plugins.statusline")]],
     }
 
     use {
       "nvim-telescope/telescope.nvim",
+      module = "telescope",
       requires = {
         "nvim-lua/popup.nvim",
       },
@@ -62,7 +63,7 @@ require("packer").startup {
       config = [[require("plugins.terminal")]],
     }
 
-    use "nvim-lua/plenary.nvim"
+    use { "nvim-lua/plenary.nvim", module = "plenary" }
     use {
       "kyazdani42/nvim-web-devicons",
       module = "nvim-web-devicons",
@@ -131,6 +132,8 @@ require("packer").startup {
       config = function()
         require "lsp.lang.rust"
       end,
+      wants = "nvim-lspconfig",
+      ft = "rust",
     }
 
     use { "jose-elias-alvarez/null-ls.nvim" }
@@ -173,7 +176,7 @@ require("packer").startup {
       "nvim-treesitter/nvim-treesitter",
       run = ":TSUpdate",
       config = [[require("plugins.treesitter")]],
-      -- event = "BufRead",
+      event = "BufRead",
     }
 
     -- comment
@@ -200,6 +203,7 @@ require("packer").startup {
     -- git
     use {
       "lewis6991/gitsigns.nvim",
+      wants = "plenary.nvim",
       config = [[require("plugins.gitsigns")]],
     }
 
@@ -226,6 +230,7 @@ require("packer").startup {
         "DiffviewRefresh",
       },
       condition = O.plugin.diffview.enabled,
+      module = "diffview",
     }
 
     -- interactive scratchpad
