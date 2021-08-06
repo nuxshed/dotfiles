@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# live edit md file in vim while viewing as pdf in zathura
+# script by pyratebeard - pyratebeard.net
+
+# dependencies:
+#	- pandoc
+#	- wkhtmltopdf engine
+#	- zathura
+#	- vim
+
+if [ -z "$1" ] ; then
+	echo "no file"
+	exit 1
+fi
+
+md="${1}"
+pdf=$( basename "${md}" .md)".pdf"
+
+if [ ! -f "${pdf}" ] ; then
+	pandoc "${md}" \
+	-f markdown \
+	-t html5 \
+	-o "${pdf}" 2>/dev/null
+fi
+
+zathura "${pdf}" &
+zpid=$!
+
+vim -c "autocmd BufWritePost *.md silent! \
+!pandoc % -o %:r.pdf \
+--pdf-engine=wkhtmltopdf \
+2>/dev/null" "${md}"
+
+kill ${zpid}
