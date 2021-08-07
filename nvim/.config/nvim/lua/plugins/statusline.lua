@@ -46,7 +46,20 @@ local function LspStatus()
 end
 
 -- LEFT
-gls.left[1] = {
+-- gls.left[1] = {
+--   LeftBar = {
+--     provider = {
+--       space(1),
+--       function()
+--         vim.api.nvim_command("hi GalaxyLeftBar guibg=" .. mode_color())
+--         vim.api.nvim_command("hi GalaxyRightBar guibg=" .. mode_color())
+--         vim.api.nvim_command("hi GalaxyViMode guifg=" .. mode_color())
+--       end,
+--     },
+--   },
+-- }
+
+gls.left[2] = {
   ViMode = {
     provider = function()
       local aliases = {
@@ -62,7 +75,8 @@ gls.left[1] = {
         [83] = "S-LINE",
       }
       vim.api.nvim_command("hi GalaxyViMode guibg=" .. mode_color())
-      vim.api.nvim_command("hi GalaxyLinePercent guibg=" .. mode_color())
+      vim.api.nvim_command("hi GalaxyRightBar guibg=" .. mode_color())
+
       local alias = aliases[vim.fn.mode():byte()]
       local mode
       if alias ~= nil then
@@ -82,7 +96,7 @@ gls.left[1] = {
   },
 }
 
-gls.left[2] = {
+gls.left[3] = {
   SPACE1 = {
     provider = {
       function()
@@ -94,7 +108,7 @@ gls.left[2] = {
   },
 }
 
-gls.left[3] = {
+gls.left[4] = {
   FileIcon = {
     provider = "FileIcon",
     condition = condition.buffer_not_empty,
@@ -102,7 +116,7 @@ gls.left[3] = {
   },
 }
 
-gls.left[4] = {
+gls.left[5] = {
   FileName = {
     provider = "FileName",
     condition = condition.buffer_not_empty,
@@ -110,7 +124,7 @@ gls.left[4] = {
   },
 }
 
-gls.left[5] = {
+gls.left[6] = {
   SPACE2 = {
     provider = {
       function()
@@ -177,19 +191,26 @@ gls.right[4] = {
     provider = {
       space(1),
       function()
-        return "  "
+        return "  "
       end,
       "GitBranch",
-      space(2),
+      space(1),
     },
     condition = condition.check_git_workspace,
-    highlight = { colors.fgfaded, colors.dark_grey },
+    highlight = { colors.orange, colors.dark_grey },
   },
 }
 
 gls.right[5] = {
-  LinePercent = {
-    provider = { space(1), "LinePercent" },
+  LineInfo = {
+    provider = { space(2), "LineColumn", "LinePercent" },
+    highlight = { colors.fg, colors.lightbg },
+  },
+}
+
+gls.right[6] = {
+  RightBar = {
+    provider = space(1),
     highlight = { colors.bg, colors.bg },
   },
 }

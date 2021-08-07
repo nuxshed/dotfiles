@@ -112,7 +112,7 @@ require("packer").startup {
               indicator_info = "",
               indicator_errors = "✗",
               indicator_warnings = "",
-              status_symbol = " LSP",
+              status_symbol = " [LSP]",
               current_symbol = true,
             }
             status.register_progress()
