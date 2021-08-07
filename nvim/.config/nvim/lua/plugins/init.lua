@@ -206,6 +206,7 @@ require("packer").startup {
       "lewis6991/gitsigns.nvim",
       wants = "plenary.nvim",
       config = [[require("plugins.gitsigns")]],
+      event = "BufRead",
     }
 
     use {
@@ -276,7 +277,11 @@ require("packer").startup {
       config = [[require("neoscroll").setup()]],
       event = "WinScrolled",
     }
-    use { "folke/which-key.nvim", config = [[require("which-key").setup()]] }
+    use {
+      "folke/which-key.nvim",
+      config = [[require("which-key").setup()]],
+      event = "BufWinEnter",
+    }
     use {
       "simrat39/symbols-outline.nvim",
       cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" },
@@ -336,6 +341,7 @@ require("packer").startup {
       "norcalli/nvim-colorizer.lua",
       config = [[require'colorizer'.setup()]],
       condition = O.plugin.colorizer.enabled,
+      cmd = "ColorizerToggle",
     }
   end,
   config = config,
