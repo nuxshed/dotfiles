@@ -17,7 +17,7 @@ function M.base16()
     "f1a5ab",
     "a9cfa4",
     "91c5d3",
-    "f1a5ab",
+    "7F7F7F",
     "7F7F7F",
     "e15a60",
   }
