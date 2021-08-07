@@ -36,6 +36,13 @@ cmd("hi GitSignsChange guifg=" .. colors.yellow)
 cmd("hi GitSignsDelete guibg=" .. colors.bg)
 cmd("hi GitSignsDelete guifg=" .. colors.red)
 
+-- Diff
+cmd("hi DiffRemoved guifg=" .. colors.red)
+
+-- packer
+cmd("hi packerTimeMedium guifg=" .. colors.yellow)
+cmd("hi packerTimeHigh guifg=" .. colors.red)
+
 -- highlight current line and number
 cmd("hi CursorLine guibg=" .. colors.darker_grey)
 cmd("hi cursorlinenr guifg=" .. colors.fg)
@@ -65,6 +72,9 @@ cmd("hi LspDiagnosticsDefaultError guifg=" .. colors.red)
 cmd("hi LspDiagnosticsSignWarning guifg=" .. colors.yellow)
 cmd("hi LspDiagnosticsVirtualTextWarning guifg=" .. colors.yellow)
 cmd("hi LspDiagnosticsDefaultWarning guifg=" .. colors.yellow)
+
+cmd("hi Error guifg=" .. colors.red)
+cmd("hi ErrorMsg guifg=" .. colors.red)
 
 -- info
 cmd("hi LspDiagnosticsSignInformation guifg=" .. colors.green)

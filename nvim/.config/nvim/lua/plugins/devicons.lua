@@ -1,4 +1,4 @@
-local colors = require("colors.onedark").colors
+local colors = require("colors." .. O.colorscheme).colors
 
 require("nvim-web-devicons").setup {
   override = {

@@ -104,6 +104,7 @@ require("packer").startup {
       requires = {
         {
           "nvim-lua/lsp-status.nvim",
+          module = "lsp-status",
           config = function()
             local status = require "lsp-status"
             status.config {
@@ -123,7 +124,7 @@ require("packer").startup {
           condition = O.plugin.lspsaga.enabled,
           after = "nvim-lspconfig",
         },
-        { "kabouzeid/nvim-lspinstall" },
+        { "kabouzeid/nvim-lspinstall", module = "lspinstall" },
       },
     }
 
