@@ -4,7 +4,7 @@
 -- https://github.com/ChristianChiarulli/LunarVim
 
 O = {
-  colorscheme = "spacegray",
+  colorscheme = "tokyonight",
   leader = " ",
   format_on_save = true,
   more_status = true, -- show more stuff in statusline (buftype, encoding, etc.)

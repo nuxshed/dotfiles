@@ -41,6 +41,9 @@ local function setup_servers()
       require("lsp.lang.json").setup(on_attach)
     else
       local config = make_config()
+      if lang == "html" then
+        config.init_options = O.lang.html.init_options
+      end
       lspconfig[lang].setup(config)
     end
   end
