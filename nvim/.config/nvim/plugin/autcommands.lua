@@ -21,14 +21,14 @@ augroup("ExternalCommands", {
   },
 })
 
--- augroup("kitty", {
---   reset kitty background
---   {
---     events = { "VimLeave" },
---     targets = { "*" },
---     command = "lua require('external').kitty.reset_background()",
---   },
--- })
+augroup("kitty", {
+  -- reset kitty background
+  {
+    events = { "VimLeave" },
+    targets = { "*" },
+    command = "lua require('external').kitty.reset_background()",
+  },
+})
 
 augroup("Utilities", {
   {
