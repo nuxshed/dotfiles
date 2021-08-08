@@ -15,7 +15,7 @@ if O.lang.lua.luadev.enabled then
         settings = {
           Lua = {
             diagnostics = {
-              globals = { "vim" },
+              globals = { "vim", "O" },
             },
             workspace = {
               library = {
