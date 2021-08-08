@@ -1,6 +1,7 @@
 local gl = require "galaxyline"
 local utils = require "utils"
-local condition = require "galaxyline.condition"
+local cond = require "galaxyline.condition"
+local diagnostic = require "galaxyline.provider_diagnostic"
 local gls = gl.section
 gl.short_line_list = { "packer", "NvimTree", "Outline", "LspTrouble" }
 
@@ -35,7 +36,7 @@ local function space(num)
 end
 
 local function checkwidth()
-  return utils.has_width_gt(35) and condition.buffer_not_empty()
+  return utils.has_width_gt(40) and cond.buffer_not_empty()
 end
 
 local function LspStatus()
@@ -45,19 +46,19 @@ local function LspStatus()
   return ""
 end
 
+local LspCheckDiagnostics = function()
+  if
+    #vim.lsp.get_active_clients() > 0
+    and diagnostic.get_diagnostic_error() == nil
+    and diagnostic.get_diagnostic_warn() == nil
+    and diagnostic.get_diagnostic_info() == nil
+  then
+    return " "
+  end
+  return ""
+end
+
 -- LEFT
--- gls.left[1] = {
---   LeftBar = {
---     provider = {
---       space(1),
---       function()
---         vim.api.nvim_command("hi GalaxyLeftBar guibg=" .. mode_color())
---         vim.api.nvim_command("hi GalaxyRightBar guibg=" .. mode_color())
---         vim.api.nvim_command("hi GalaxyViMode guifg=" .. mode_color())
---       end,
---     },
---   },
--- }
 
 gls.left[2] = {
   ViMode = {
@@ -103,7 +104,7 @@ gls.left[3] = {
         return " "
       end,
     },
-    condition = condition.buffer_not_empty,
+    condition = cond.buffer_not_empty,
     highlight = { colors.lightbg, colors.lightbg },
   },
 }
@@ -111,7 +112,7 @@ gls.left[3] = {
 gls.left[4] = {
   FileIcon = {
     provider = "FileIcon",
-    condition = condition.buffer_not_empty,
+    condition = cond.buffer_not_empty,
     highlight = { colors.blue, colors.lightbg },
   },
 }
@@ -119,7 +120,7 @@ gls.left[4] = {
 gls.left[5] = {
   FileName = {
     provider = "FileName",
-    condition = condition.buffer_not_empty,
+    condition = cond.buffer_not_empty,
     highlight = { colors.fg, colors.lightbg },
   },
 }
@@ -131,38 +132,48 @@ gls.left[6] = {
         return " "
       end,
     },
-    condition = condition.buffer_not_empty,
+    condition = cond.buffer_not_empty,
     highlight = { colors.dark_grey, colors.dark_grey },
+  },
+}
+
+gls.left[7] = {
+  LspStatus = {
+    provider = { LspStatus, LspCheckDiagnostics },
+    highlight = { colors.fgfaded, colors.dark_grey },
+  },
+}
+
+gls.left[8] = {
+  DiagnosticWarn = {
+    provider = { "DiagnosticWarn" },
+    icon = "  ",
+    highlight = { colors.orange, colors.dark_grey },
   },
 }
 
 gls.left[9] = {
   DiagnosticError = {
-    provider = "DiagnosticError",
+    provider = { "DiagnosticError" },
     icon = "  ",
     highlight = { colors.red, colors.dark_grey },
   },
 }
 
 gls.left[10] = {
-  DiagnosticWarn = {
-    provider = "DiagnosticWarn",
-    icon = " ",
-    highlight = { colors.yellow, colors.dark_grey },
-  },
-}
-
-gls.left[10] = {
-  LspStatus = {
-    provider = { LspStatus },
-    highlight = { colors.fgfaded, colors.dark_grey },
+  DiagnosticInfo = {
+    provider = { "DiagnosticInfo" },
+    icon = "  ",
+    highlight = { colors.blue, colors.dark_grey },
   },
 }
 
 gls.right[1] = {
   DiffAdd = {
     provider = "DiffAdd",
-    condition = checkwidth,
+    condition = function()
+      return checkwidth and cond.check_git_workspace
+    end,
     icon = "+",
     highlight = { colors.green, colors.dark_grey },
   },
@@ -171,7 +182,9 @@ gls.right[1] = {
 gls.right[2] = {
   DiffModified = {
     provider = "DiffModified",
-    condition = checkwidth,
+    condition = function()
+      return checkwidth and cond.check_git_workspace
+    end,
     icon = "~",
     highlight = { colors.blue, colors.dark_grey },
   },
@@ -180,7 +193,9 @@ gls.right[2] = {
 gls.right[3] = {
   DiffRemove = {
     provider = "DiffRemove",
-    condition = checkwidth,
+    condition = function()
+      return checkwidth and cond.check_git_workspace
+    end,
     icon = "-",
     highlight = { colors.red, colors.dark_grey },
   },
@@ -194,21 +209,41 @@ gls.right[4] = {
         return "  "
       end,
       "GitBranch",
-      space(1),
+      space(2),
     },
-    condition = condition.check_git_workspace,
-    highlight = { colors.orange, colors.dark_grey },
-  },
-}
-
-gls.right[5] = {
-  LineInfo = {
-    provider = { space(2), "LineColumn", "LinePercent" },
-    highlight = { colors.fg, colors.lightbg },
+    condition = cond.check_git_workspace,
+    highlight = { colors.green, colors.dark_grey },
   },
 }
 
 gls.right[6] = {
+  BufType = {
+    provider = { "FileTypeName", space(2) },
+    condition = function()
+      return utils.has_width_gt(50) and O.more_status
+    end,
+    highlight = { colors.fg, colors.dark_grey },
+  },
+}
+
+gls.right[7] = {
+  FileEncoding = {
+    provider = { "FileEncode", space(1) },
+    condition = function()
+      return utils.has_width_gt(50) and O.more_status
+    end,
+    highlight = { colors.fg, colors.dark_grey },
+  },
+}
+
+gls.right[8] = {
+  LineInfo = {
+    provider = { space(2), "LineColumn", "LinePercent" },
+    highlight = { colors.fg, colors.dark_grey },
+  },
+}
+
+gls.right[9] = {
   RightBar = {
     provider = space(1),
     highlight = { colors.bg, colors.bg },

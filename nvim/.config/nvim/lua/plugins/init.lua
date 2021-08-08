@@ -108,11 +108,9 @@ require("packer").startup {
           config = function()
             local status = require "lsp-status"
             status.config {
-              indicator_hint = "",
-              indicator_info = "",
-              indicator_errors = "✗",
-              indicator_warnings = "",
               status_symbol = " [LSP]",
+              select_symbol = true,
+              diagnostics = false,
               current_symbol = true,
             }
             status.register_progress()

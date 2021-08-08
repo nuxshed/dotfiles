@@ -21,6 +21,7 @@ wk.register({
     hp = "preview hunk",
     hb = "blame line",
   },
+  b = "blame line",
 }, {
   prefix = "<leader>",
 })

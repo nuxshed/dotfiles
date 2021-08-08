@@ -7,7 +7,7 @@ O = {
   colorscheme = "spacegray",
   leader = " ",
   format_on_save = true,
-  comment_style = "italic",
+  more_status = true, -- show more stuff in statusline (buftype, encoding, etc.)
   treesitter = {
     ensure_installed = {
       "bash",
@@ -21,6 +21,7 @@ O = {
       "javascript",
       "json",
       "lua",
+      "markdown",
       "python",
       "rust",
       "scss",
