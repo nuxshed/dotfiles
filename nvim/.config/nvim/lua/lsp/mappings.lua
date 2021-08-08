@@ -36,7 +36,7 @@ function M.setup(bufnr)
     d = { "<CMD>LspDef<CR>", "definition" },
     D = { "<CMD>LspTypeDef<CR>", "type definition" },
     i = { "<CMD>LspImplementation<CR>", "implementation" },
-    r = { "<CMD>LspReferences<CR>", "references" },
+    R = { "<CMD>LspReferences<CR>", "references" },
   }, {
     buffer = bufnr,
     prefix = "g",
