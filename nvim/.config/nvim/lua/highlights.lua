@@ -50,7 +50,7 @@ cmd("hi cursorlinenr guifg=" .. colors.fg)
 -- NvimTree
 cmd("hi NvimTreeFolderIcon guifg=" .. colors.blue)
 cmd("hi NvimTreeFolderName guifg=" .. colors.blue)
-cmd("hi NvimTreeIndentMarker guifg=" .. colors.lightbg)
+cmd("hi NvimTreeIndentMarker guifg=" .. colors.grey)
 cmd("hi NvimTreeVertSplit guifg=" .. colors.bg .. " guibg=" .. colors.bg)
 cmd("hi NvimTreeRootFolder guifg=" .. colors.red)
 cmd("hi NvimTreeNormal guibg=" .. colors.bg)

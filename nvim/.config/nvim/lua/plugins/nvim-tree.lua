@@ -1,13 +1,6 @@
 vim.g.nvim_tree_width = 30
 vim.g.nvim_tree_git_hl = 0
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_follow = 1
-
-vim.g.nvim_tree_show_icons = {
-  git = 1,
-  folders = 1,
-  files = 1,
-}
 
 vim.g.nvim_tree_icons = {
   default = "",
@@ -22,8 +15,8 @@ vim.g.nvim_tree_icons = {
     ignored = "x",
   },
   folder = {
-    arrow_open = "",
-    arrow_closed = "",
+    arrow_open = "",
+    arrow_closed = "",
     default = "",
     open = "",
     empty = "",
