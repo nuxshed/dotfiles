@@ -7,6 +7,8 @@ vim.env.PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath "config" .. "/.prettierrc"
 local function get_stylua_config()
   if vim.fn.filereadable(vim.fn.getcwd() .. "/stylua.toml") then
     return vim.fn.getcwd() .. "/stylua.toml"
+  elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.stylua.toml") then
+    return vim.fn.stdpath "config" .. "/.stylua.toml"
   else
     return vim.fn.stdpath "config" .. "/stylua.toml"
   end
