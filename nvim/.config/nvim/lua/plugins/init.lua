@@ -280,7 +280,6 @@ require("packer").startup {
     use {
       "folke/which-key.nvim",
       config = [[require("which-key").setup()]],
-      event = "BufWinEnter",
     }
     use {
       "simrat39/symbols-outline.nvim",
