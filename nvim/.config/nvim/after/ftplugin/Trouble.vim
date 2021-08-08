@@ -1,0 +1,2 @@
+setlocal nowrap
+setlocal colorcolumn=
