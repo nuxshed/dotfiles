@@ -108,7 +108,7 @@ require("packer").startup {
           config = function()
             local status = require "lsp-status"
             status.config {
-              status_symbol = " [LSP]",
+              status_symbol = " [LSP] ",
               select_symbol = true,
               diagnostics = false,
               current_symbol = true,

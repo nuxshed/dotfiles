@@ -58,6 +58,16 @@ local LspCheckDiagnostics = function()
   return ""
 end
 
+local GetGitRoot = function()
+  local git_dir = require("galaxyline.provider_vcs").get_git_dir()
+  if not git_dir then
+    return ""
+  end
+
+  local git_root = git_dir:gsub("/.git/?$", "")
+  return git_root:match "^.+/(.+)$"
+end
+
 -- LEFT
 
 gls.left[2] = {
@@ -126,6 +136,22 @@ gls.left[5] = {
 }
 
 gls.left[6] = {
+  CurrentDir = {
+    provider = function()
+      local dir_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+      if not cond.buffer_not_empty() then
+        return "  in  " .. dir_name .. " "
+      end
+      return " in  " .. dir_name .. " "
+    end,
+    condition = function()
+      return cond.buffer_not_empty and O.statusline.CurrentDir
+    end,
+    highlight = { colors.light_grey, colors.lightbg },
+  },
+}
+
+gls.left[7] = {
   SPACE2 = {
     provider = {
       function()
@@ -137,14 +163,14 @@ gls.left[6] = {
   },
 }
 
-gls.left[7] = {
+gls.left[8] = {
   LspStatus = {
     provider = { LspStatus, LspCheckDiagnostics },
     highlight = { colors.fgfaded, colors.dark_grey },
   },
 }
 
-gls.left[8] = {
+gls.left[9] = {
   DiagnosticWarn = {
     provider = { "DiagnosticWarn" },
     icon = "  ",
@@ -152,7 +178,7 @@ gls.left[8] = {
   },
 }
 
-gls.left[9] = {
+gls.left[10] = {
   DiagnosticError = {
     provider = { "DiagnosticError" },
     icon = "  ",
@@ -160,7 +186,7 @@ gls.left[9] = {
   },
 }
 
-gls.left[10] = {
+gls.left[11] = {
   DiagnosticInfo = {
     provider = { "DiagnosticInfo" },
     icon = "  ",
@@ -202,6 +228,22 @@ gls.right[3] = {
 }
 
 gls.right[4] = {
+  GitRoot = {
+    provider = {
+      space(2),
+      GetGitRoot,
+      function()
+        return " @"
+      end,
+    },
+    condition = function()
+      return cond.check_git_workspace and O.statusline.GitRoot
+    end,
+    highlight = { colors.green, colors.dark_grey },
+  },
+}
+
+gls.right[5] = {
   GitBranch = {
     provider = {
       space(1),
@@ -220,7 +262,9 @@ gls.right[6] = {
   BufType = {
     provider = { "FileTypeName", space(2) },
     condition = function()
-      return utils.has_width_gt(50) and O.more_status
+      return utils.has_width_gt(50)
+        and O.statusline.BufType
+        and cond.buffer_not_empty()
     end,
     highlight = { colors.fg, colors.dark_grey },
   },
@@ -230,7 +274,9 @@ gls.right[7] = {
   FileEncoding = {
     provider = { "FileEncode", space(1) },
     condition = function()
-      return utils.has_width_gt(50) and O.more_status
+      return utils.has_width_gt(50)
+        and O.statusline.Encoding
+        and cond.buffer_not_empty()
     end,
     highlight = { colors.fg, colors.dark_grey },
   },
@@ -240,6 +286,7 @@ gls.right[8] = {
   LineInfo = {
     provider = { space(2), "LineColumn", "LinePercent" },
     highlight = { colors.fg, colors.dark_grey },
+    condition = cond.buffer_not_empty,
   },
 }
 
