@@ -204,7 +204,6 @@ require("packer").startup {
       "lewis6991/gitsigns.nvim",
       wants = "plenary.nvim",
       config = [[require("plugins.gitsigns")]],
-      event = "BufRead",
     }
 
     use {
