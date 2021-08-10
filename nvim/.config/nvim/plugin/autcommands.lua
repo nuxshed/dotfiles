@@ -43,9 +43,9 @@ augroup("Utilities", {
     command = "set bufhidden=delete",
   },
   {
-    events = { "BufWritePre", "FileWritePre" },
-    targets = { "*" },
-    command = "silent! call mkdir(expand('<afile>:p:h'), 'p')",
+    events = { "FileType" },
+    targets = { O.smart_close },
+    command = "nnoremap <buffer><silent> q :close<CR>",
   },
 })
 

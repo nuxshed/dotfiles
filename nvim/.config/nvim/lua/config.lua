@@ -8,6 +8,7 @@ O = {
   leader = " ",
   format_on_save = true,
   more_status = true, -- show more stuff in statusline (buftype, encoding, etc.)
+  smart_close = "help,startuptime,qf,lspinfo", -- windows to close with 'q'
   treesitter = {
     ensure_installed = {
       "bash",
