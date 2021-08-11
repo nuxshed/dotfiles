@@ -7,7 +7,7 @@
 #	- pandoc
 #	- wkhtmltopdf engine
 #	- zathura
-#	- vim
+#	- nvim
 
 if [ -z "$1" ] ; then
 	echo "no file"
@@ -27,7 +27,7 @@ fi
 zathura "${pdf}" &
 zpid=$!
 
-vim -c "autocmd BufWritePost *.md silent! \
+nvim -c "autocmd BufWritePost *.md silent! \
 !pandoc % -o %:r.pdf \
 --pdf-engine=wkhtmltopdf \
 2>/dev/null" "${md}"
