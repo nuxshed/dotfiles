@@ -17,6 +17,8 @@ end
 function M.setup(on_attach)
   nls.setup {
     on_attach = on_attach,
+    debounce = 150,
+    save_after_format = false,
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua.with {
@@ -31,13 +33,6 @@ function M.setup(on_attach)
       nls.builtins.formatting.isort,
       nls.builtins.diagnostics.shellcheck,
       nls.builtins.rustfmt,
-      nls.builtins.diagnostics.selene.with {
-        args = {
-          "--display-style",
-          "json",
-          "-",
-        },
-      },
       nls.builtins.chktex,
       nls.builtins.code_actions.gitsigns,
       nls.builtins.diagnostics.markdownlint,
