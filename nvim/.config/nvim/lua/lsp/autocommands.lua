@@ -6,7 +6,7 @@ local M = {}
 function M.setup(client)
   -- format-on-save
   if O.format_on_save and client.resolved_capabilities.document_formatting then
-    vim.cmd "autocmd BufWritePost * :LspFormat"
+    vim.cmd "autocmd BufWritePre * :LspFormat"
   end
   -- cursor commands
   if client and client.resolved_capabilities.document_highlight then

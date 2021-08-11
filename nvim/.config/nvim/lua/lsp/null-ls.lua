@@ -5,20 +5,12 @@ local M = {}
 vim.env.PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath "config" .. "/.prettierrc"
 
 local function get_stylua_config()
-  if vim.fn.filereadable(vim.fn.getcwd() .. "/stylua.toml") then
+  if vim.fn.filereadable(vim.fn.getcwd() .. "/stylua.toml") == 1 then
     return vim.fn.getcwd() .. "/stylua.toml"
-  elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.stylua.toml") then
+  elseif vim.fn.filereadable(vim.fn.getcwd() .. "/.stylua.toml") == 1 then
     return vim.fn.stdpath "config" .. "/.stylua.toml"
   else
     return vim.fn.stdpath "config" .. "/stylua.toml"
-  end
-end
-
-local function get_selene_config()
-  if vim.fn.filereadable(vim.fn.getcwd() .. "/selene.toml") then
-    return vim.fn.getcwd() .. "/selene.toml"
-  else
-    return vim.fn.stdpath "config" .. "/selene.toml"
   end
 end
 
@@ -43,8 +35,6 @@ function M.setup(on_attach)
         args = {
           "--display-style",
           "json",
-          "--config",
-          get_selene_config(),
           "-",
         },
       },
