@@ -23,8 +23,12 @@ function M.base16()
     "ea6962",
   }
   base16(base16_gruvbox, true)
+  vim.cmd "hi TSKeyword guifg=#ea6962 gui=italic"
+  vim.cmd "hi TSConditional guifg=#ea6962 gui=italic"
   vim.cmd "hi TSTagDelimiter guifg=#a9b665"
   vim.cmd "hi TSKeywordFunction guifg=#89b482"
+  vim.cmd "hi TSFunction guifg=#ddc7a1"
+  vim.cmd "hi TSRepeat guifg=#ea6962 gui=italic"
 end
 
 M.colors = {
@@ -34,7 +38,7 @@ M.colors = {
   linebg = "#282828",
   fgfaded = "#a89984",
   grey = "#928374",
-  light_grey = "#bdae93",
+  light_grey = "#a89984",
   dark_grey = "#212526",
   darker_grey = "#1f2223",
   bright = "#fbf1c7",
@@ -45,6 +49,9 @@ M.colors = {
   magenta = "#d3869b",
   orange = "#e78a4e",
   cyan = "#89b482",
+  ViMode = {
+    Normal = "#89b482",
+  },
 }
 
 M.overrides = function() end

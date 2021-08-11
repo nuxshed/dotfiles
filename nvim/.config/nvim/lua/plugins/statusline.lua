@@ -9,7 +9,7 @@ local colors = require("colors/" .. O.colorscheme).colors
 
 local function mode_color()
   local mode_colors = {
-    [110] = colors.magenta,
+    [110] = colors.ViMode.Normal or colors.magenta,
     [105] = colors.red,
     [99] = colors.yellow,
     [116] = colors.yellow,

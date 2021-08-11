@@ -15,7 +15,7 @@ cmd("hi! StatusLineNC gui=underline guifg=" .. colors.linebg)
 cmd("hi StatusLine guibg=" .. colors.bg .. " guifg=" .. colors.bg)
 
 -- underline all uses of the word under the cursor
-cmd "hi LspReferenceRead gui=underline"
+cmd "hi LspReferenceRead  gui=underline"
 cmd "hi LspReferenceWrite gui=underline"
 
 -- italic comments

@@ -26,7 +26,9 @@ augroup("kitty", {
   {
     events = { "VimLeave" },
     targets = { "*" },
-    command = "lua require('external').kitty.reset_background()",
+    command = function()
+      require("external").kitty.reset_background()
+    end,
   },
 })
 
