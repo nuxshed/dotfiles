@@ -19,16 +19,8 @@
 
 (global-subword-mode 1) ; navigate through Camel Case words
 
-(after! projectile
-  (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git")
-        projectile-ignored-projects '("~/.emacs.d/")
-        projectile-project-search-path '("~/projects"))
-  (defun projectile-ignored-project-function (filepath)
-    "Return t if FILEPATH is within any of `projectile-ignored-projects'"
-    (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
-
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 10)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)
+(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 11)
+      doom-big-font (font-spec :family "Fira Code Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "DejaVuSansMono Nerd Font" :size 12))
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
 
@@ -38,6 +30,15 @@
 (setq doom-theme 'doom-one)
 (custom-set-faces!
   '(font-lock-comment-face :slant italic))
+(setq doom-themes-treemacs-theme "doom-atom")
+
+(after! projectile
+  (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git")
+        projectile-ignored-projects '("~/.emacs.d/")
+        projectile-project-search-path '("~/projects"))
+  (defun projectile-ignored-project-function (filepath)
+    "Return t if FILEPATH is within any of `projectile-ignored-projects'"
+    (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
 
 (after! popup
   (set-popup-rule! "^\\*Flycheck errors\\*$" :side 'bottom :size 0.2 :select t))
@@ -81,7 +82,7 @@
 
 ;;modeline (icons, config, battery)
 (display-time-mode 1)                              ;Enable time in the mode-line
-(display-battery-mode 1)                             ;display the battery
+(display-battery-mode 1)                           ;display the battery
 (setq doom-modeline-major-mode-icon t)             ;Show major mode name
 (setq doom-modeline-enable-word-count t)           ;Show word count
 (setq doom-modeline-modal-icon t)                  ;Show vim mode icon
@@ -101,6 +102,8 @@
   (centaur-tabs-mode -1)
   (setq centaur-tabs-height 30
         centaur-tabs-set-icons t
+        centaur-tabs-modified-marker "o"
+        centaur-tabs-close-button ""
         centaur-tabs-gray-out-icons 'buffer)
   (centaur-tabs-group-by-projectile-project)
 
@@ -191,6 +194,17 @@
 (setq deft-directory "~/notes")
 (setq deft-extensions '("txt" "tex" "org"))
 (setq deft-recursive t)
+
+(defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
+  "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
+(defun init-mixed-pitch-h ()
+  "Hook `mixed-pitch-mode' into each mode in `mixed-pitch-modes'.
+Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
+  (when (memq major-mode mixed-pitch-modes)
+    (mixed-pitch-mode 1))
+  (dolist (hook mixed-pitch-modes)
+    (add-hook (intern (concat (symbol-name hook) "-hook")) #'mixed-pitch-mode)))
+(add-hook 'doom-init-ui-hook #'init-mixed-pitch-h)
 
 (after! web-mode
   (add-hook 'web-mode-hook #'flycheck-mode)

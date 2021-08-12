@@ -20,10 +20,11 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company             ; the ultimate code completion backend
-       ;;helm              ; the *other* search engine for love and life
-       ;;ido               ; the other *other* search engine...
-       ivy                 ; a search engine for love and life
+       (company +childframe) ; the ultimate code completion backend
+       ;;helm                ; the *other* search engine for love and life
+       ;;ido                 ; the other *other* search engine...
+       ;;ivy                 ; a search engine for love and life
+       (vertico +icons)      ; the search engine of the future
 
        :ui
        deft                ; notational velocity for Emacs
@@ -56,7 +57,7 @@
        fold                 ; (nigh) universal code folding
        (format +onsave)     ; automated prettiness
        ;;god                ; run Emacs commands without modifier keys
-       lispy                ; vim for lisp, for people who don't like vim
+       ;;lispy              ; vim for lisp, for people who don't like vim
        multiple-cursors     ; editing in many places at once
        ;;objed              ; text object editing for the innocent
        ;;parinfer           ; turn lisp into python, sort of
@@ -65,10 +66,10 @@
        ;;word-wrap          ; soft wrapping with language-aware indent
 
        :emacs
-       dired             ; making dired pretty [functional]
+       (dired +icons)    ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ibuffer           ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
+       (ibuffer +icons)  ; interactive buffer management
+       (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
@@ -79,7 +80,7 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       (spell +flyspell)   ; tasing you for misspelling mispelling
+       (:if (executable-find "aspell") spell) ; tasing you for misspelling mispelling
        grammar             ; tasing grammar mistake every you make
 
        :tools
@@ -94,7 +95,7 @@
        (lookup +dictionary ; navigate your code and its documentation
                +docsets)
        (lsp +peek)         ; M-x vscode
-       magit               ; a git porcelain for Emacs
+       (magit +forge)      ; a git porcelain for Emacs
        make                ; run make tasks from Emacs
        pass                ; password manager for nerds
        pdf                 ; pdf enhancements
@@ -107,7 +108,7 @@
 
        :os
        (:if IS-MAC macos)  ; improve compatibility with macOS
-       ;;tty               ; improve the terminal Emacs experience
+       tty                 ; what? i use emacs on the terminal sometimes.
 
        :lang
        ;;agda              ; types of types of types of types...
@@ -142,7 +143,7 @@
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
        ;;ledger            ; be audit you can be
-       lua                 ; one-based indices? one-based indices
+       (lua +lsp)          ; one-based indices? one-based indices
        markdown            ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
@@ -153,14 +154,14 @@
         ;;+hugo            ; use Emacs for hugo blogging
         +noter             ; enhanced PDF notetaking
         ;;+jupyter         ; ipython/jupyter support for babel
-        +pandoc            ; export-with-pandoc support
+        ;;+pandoc            ; export-with-pandoc support
         +gnuplot           ; who doesn't like pretty pictures
         ;;+pomodoro        ; be fruitful with the tomato technique
         ;;+present         ; using org-mode for presentations
         +roam2)            ; wander around notes
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       (python +pyright)   ; beautiful is better than ugly
+       (python +lsp +pyright)   ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -180,12 +181,12 @@
        ;;zig               ; C, but simpler
 
        :email
-       (mu4e +gmail)
+       (:if (executable-find "mu") (mu4e +org +gmail))
        ;;notmuch
        ;;(wanderlust +gmail)
 
        :app
-       calendar
+       ;; calendar
        ;;emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize

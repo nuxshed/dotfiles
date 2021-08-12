@@ -37,17 +37,6 @@ I also don't want to compile my org config every time I make a change. Lets fix 
 (global-subword-mode 1) ; navigate through Camel Case words
 #+end_src
 
-** Projects
-#+begin_src  elisp
-(after! projectile
-  (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git")
-        projectile-ignored-projects '("~/.emacs.d/")
-        projectile-project-search-path '("~/projects"))
-  (defun projectile-ignored-project-function (filepath)
-    "Return t if FILEPATH is within any of `projectile-ignored-projects'"
-    (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
-#+end_src
-
 ** Theme
 Doom exposes five (optional) variables for controlling fonts in Doom. Here
 are the three important ones:
@@ -64,8 +53,8 @@ font string. You generally only need these two:
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 #+begin_src elisp
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 10)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)
+(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 11)
+      doom-big-font (font-spec :family "Fira Code Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "DejaVuSansMono Nerd Font" :size 12))
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
 
@@ -75,6 +64,18 @@ font string. You generally only need these two:
 (setq doom-theme 'doom-one)
 (custom-set-faces!
   '(font-lock-comment-face :slant italic))
+(setq doom-themes-treemacs-theme "doom-atom")
+#+end_src
+
+** Projects
+#+begin_src  elisp
+(after! projectile
+  (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git")
+        projectile-ignored-projects '("~/.emacs.d/")
+        projectile-project-search-path '("~/projects"))
+  (defun projectile-ignored-project-function (filepath)
+    "Return t if FILEPATH is within any of `projectile-ignored-projects'"
+    (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
 #+end_src
 
 ** Syntax Checking
@@ -134,7 +135,7 @@ A little bit of padding on the left, and make line spacing comfier
 #+begin_src elisp
 ;;modeline (icons, config, battery)
 (display-time-mode 1)                              ;Enable time in the mode-line
-(display-battery-mode 1)                             ;display the battery
+(display-battery-mode 1)                           ;display the battery
 (setq doom-modeline-major-mode-icon t)             ;Show major mode name
 (setq doom-modeline-enable-word-count t)           ;Show word count
 (setq doom-modeline-modal-icon t)                  ;Show vim mode icon
@@ -160,6 +161,8 @@ The encoding is always UTF-8, so its a bit redundant. Lets take that out
   (centaur-tabs-mode -1)
   (setq centaur-tabs-height 30
         centaur-tabs-set-icons t
+        centaur-tabs-modified-marker "o"
+        centaur-tabs-close-button ""
         centaur-tabs-gray-out-icons 'buffer)
   (centaur-tabs-group-by-projectile-project)
 
@@ -270,6 +273,20 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
 (setq deft-directory "~/notes")
 (setq deft-extensions '("txt" "tex" "org"))
 (setq deft-recursive t)
+#+end_src
+
+** Mixed Pitch Mode
+#+begin_src elisp
+(defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
+  "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
+(defun init-mixed-pitch-h ()
+  "Hook `mixed-pitch-mode' into each mode in `mixed-pitch-modes'.
+Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
+  (when (memq major-mode mixed-pitch-modes)
+    (mixed-pitch-mode 1))
+  (dolist (hook mixed-pitch-modes)
+    (add-hook (intern (concat (symbol-name hook) "-hook")) #'mixed-pitch-mode)))
+(add-hook 'doom-init-ui-hook #'init-mixed-pitch-h)
 #+end_src
 
 ** Web Mode
