@@ -7,18 +7,31 @@ gl.short_line_list = { "packer", "NvimTree", "Outline", "LspTrouble" }
 
 local colors = require("colors/" .. O.colorscheme).colors
 
+local ViModeColors = {}
+
+-- the reason im specifying all of these one-by-one
+-- instead of in a table is so that i can get away with
+-- only declaring the ones i want to change
+ViModeColors.Normal = colors.ViMode.Normal or colors.magenta
+ViModeColors.Insert = colors.ViMode.Insert or colors.red
+ViModeColors.Visual = colors.ViMode.Visual or colors.green
+ViModeColors.Replace = colors.ViMode.Replace or colors.red
+ViModeColors.Select = colors.ViMode.Select or colors.blue
+ViModeColors.Command = colors.ViMode.Command or colors.yellow
+ViModeColors.Terminal = colors.ViMode.Terminal or colors.yellow
+
 local function mode_color()
   local mode_colors = {
-    [110] = colors.ViMode.Normal or colors.magenta,
-    [105] = colors.red,
-    [99] = colors.yellow,
-    [116] = colors.yellow,
-    [118] = colors.green,
-    [22] = colors.green,
-    [86] = colors.green,
-    [82] = colors.red,
-    [115] = colors.blue,
-    [83] = colors.blue,
+    [110] = ViModeColors.Normal,
+    [105] = ViModeColors.Insert,
+    [99] = ViModeColors.Command,
+    [116] = ViModeColors.Terminal,
+    [118] = ViModeColors.Visual,
+    [22] = ViModeColors.Visual,
+    [86] = ViModeColors.Visual,
+    [82] = ViModeColors.Replace,
+    [115] = ViModeColors.Select,
+    [83] = ViModeColors.Select,
   }
 
   local color = mode_colors[vim.fn.mode():byte()]
