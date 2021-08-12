@@ -178,6 +178,23 @@ require("packer").startup {
       event = "BufRead",
     }
 
+    use {
+      "nvim-treesitter/playground",
+      keys = "<leader>E",
+      cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
+      setup = function()
+        require("which-key").register {
+          ["<leader>E"] = {
+            "<CMD>TSHighlightCapturesUnderCursor<CR>",
+            "treesitter: highlight cursor group",
+          },
+        }
+      end,
+      config = function()
+        -- as.nnoremap('<leader>E', '<Cmd>TSHighlightCapturesUnderCursor<CR>')
+      end,
+    }
+
     -- comment
     use {
       "b3nj5m1n/kommentary",
