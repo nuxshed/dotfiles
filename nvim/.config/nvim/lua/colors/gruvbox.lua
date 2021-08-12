@@ -16,19 +16,33 @@ function M.base16()
     "ddc7a1",
     "89b482",
     "d8a657",
-    "89b482",
+    "a9b665",
     "a9b665",
     "a9b665",
     "ea6962",
     "ea6962",
   }
   base16(base16_gruvbox, true)
-  vim.cmd "hi TSKeyword guifg=#ea6962 gui=italic"
-  vim.cmd "hi TSConditional guifg=#ea6962 gui=italic"
-  vim.cmd "hi TSTagDelimiter guifg=#a9b665"
-  vim.cmd "hi TSKeywordFunction guifg=#89b482"
-  vim.cmd "hi TSFunction guifg=#ddc7a1"
-  vim.cmd "hi TSRepeat guifg=#ea6962 gui=italic"
+  local cmd = vim.cmd
+  cmd "hi TSKeyword guifg=#ea6962 gui=italic"
+  cmd "hi TSConditional guifg=#ea6962 gui=italic"
+  cmd "hi TSTagDelimiter guifg=#a9b665"
+  cmd "hi TSKeywordFunction guifg=#89b482"
+  cmd "hi TSFunction guifg=#ddc7a1"
+  cmd "hi TSRepeat guifg=#ea6962 gui=italic"
+  cmd "hi TSOperator guifg=#e78a4e"
+  cmd "hi TSTag guifg=#e78a4e"
+  cmd "hi bashTSVariable guifg=#7daea3"
+  cmd "hi bashTSConstant guifg=#7daea3"
+  cmd "hi bashTSPunctSpecial guifg=#7daea3"
+  cmd "hi javascriptTSBoolean guifg=#d3869b"
+  cmd "hi MatchParen guifg=NONE guibg=#3c3836"
+  cmd "hi TSTagAttribute guifg=#89b482"
+  cmd "hi pythonTSFuncBuiltin guifg=#d8a657"
+  cmd "hi pythonTsNumber guifg=#d3869b"
+  cmd "hi rubyMacro guifg=#ea6962 gui=italic"
+  cmd "hi rubyControl guifg=#ea6962 gui=italic"
+  cmd "hi rubyBlockParameterList guifg=#7daea3"
 end
 
 M.colors = {
@@ -40,7 +54,7 @@ M.colors = {
   grey = "#928374",
   light_grey = "#a89984",
   dark_grey = "#212526",
-  darker_grey = "#1f2223",
+  darker_grey = "#242424",
   bright = "#fbf1c7",
   red = "#ea6962",
   green = "#a9b665",
