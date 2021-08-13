@@ -14,12 +14,12 @@ wk.register({
   g = "lazygit",
   h = {
     name = "+gitsigns",
-    hs = "stage hunk",
-    hu = "undo stage hunk",
-    hr = "reset hunk",
-    hR = "reset buffer",
-    hp = "preview hunk",
-    hb = "blame line",
+    s = "stage hunk",
+    u = "undo stage hunk",
+    r = "reset hunk",
+    R = "reset buffer",
+    p = "preview hunk",
+    b = "blame line",
   },
   b = "blame line",
 }, {
