@@ -180,11 +180,11 @@ require("packer").startup {
 
     use {
       "nvim-treesitter/playground",
-      keys = "<leader>E",
+      keys = "cs",
       cmd = { "TSPlaygroundToggle", "TSHighlightCapturesUnderCursor" },
       setup = function()
         require("which-key").register {
-          ["<leader>E"] = {
+          ["cs"] = {
             "<CMD>TSHighlightCapturesUnderCursor<CR>",
             "treesitter: highlight cursor group",
           },
