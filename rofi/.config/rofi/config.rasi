@@ -16,12 +16,12 @@ configuration {
 }
 
 * {
-        bg:                          #131519;
-        fg:                          #abb2bf;
-        selbg:                       #c678dd;
-        selfg:                       #c678dd;
-        actbg:                       #1b1d23;
-        urgbg:                       #e06c75;
+        bg:                          #1d2021;
+        fg:                          #ddc7a1;
+        selbg:                       #89b482;
+        selfg:                       #89b482;
+        actbg:                       #282828;
+        urgbg:                       #ea6962;
 
         background-color:            @bg;
         text-color:                  @fg;
