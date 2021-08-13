@@ -100,7 +100,6 @@ alias li="exa --icons"
 alias lg="lazygit"
 alias btctl="bluetoothctl"
 alias pb="nc termbin.com 9999"
-alias cat="bat"
 alias grep="grep --color=auto" 
 alias clear='/bin/clear && printf "\033[3J"'
 alias clearscreen="/bin/clear"
