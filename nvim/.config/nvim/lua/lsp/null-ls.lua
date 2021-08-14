@@ -35,7 +35,6 @@ function M.setup(on_attach)
       nls.builtins.rustfmt,
       nls.builtins.chktex,
       nls.builtins.code_actions.gitsigns,
-      nls.builtins.diagnostics.markdownlint,
     },
   }
 end
