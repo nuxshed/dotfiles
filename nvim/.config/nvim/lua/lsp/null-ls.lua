@@ -18,7 +18,7 @@ function M.setup(on_attach)
   nls.setup {
     on_attach = on_attach,
     debounce = 150,
-    save_after_format = false,
+    save_after_format = true,
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua.with {

@@ -43,6 +43,7 @@ local function setup_servers()
       local config = make_config()
       if lang == "html" then
         config.init_options = O.lang.html.init_options
+        config.capabilities.textDocument.formatting = false
       end
       lspconfig[lang].setup(config)
     end
