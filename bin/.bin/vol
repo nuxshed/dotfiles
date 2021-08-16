@@ -1,4 +1,7 @@
 #!/bin/sh
 
 pactl set-sink-volume @DEFAULT_SINK@ "$1" &
-pamixer --get-volume > ~/.cache/vol
+vol=$(pamixer --get-volume)
+
+dunstctl close
+notify-send -h int:value:$vol "Volume" "$vol%"
