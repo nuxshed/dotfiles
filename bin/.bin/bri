@@ -1,0 +1,13 @@
+#!/bin/sh
+
+brightnessctl s $1
+
+
+MAX_BRI=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+CUR_BRI=$(cat /sys/class/backlight/intel_backlight/brightness)
+
+# calculating current percentage
+CUR_PER=$((CUR_BRI * 100 / MAX_BRI))
+
+dunstctl close
+notify-send -h int:value:$CUR_PER "Brightness" "$CUR_PER%"
