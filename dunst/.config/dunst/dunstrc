@@ -42,7 +42,7 @@
     # This option will only work if a compositing window manager is
     # present (e.g. xcompmgr, compiz, etc.).
     transparency = 1.0
-    corner_radius = 6.9
+    corner_radius = 0
 
     progress_bar = true
     progress_bar_height = 10
