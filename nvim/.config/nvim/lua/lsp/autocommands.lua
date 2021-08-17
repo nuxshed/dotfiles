@@ -4,9 +4,9 @@ local augroup = utils.augroup
 local M = {}
 
 function M.setup(client)
-  -- format-on-save
+ -- format-on-save
   if O.format_on_save and client.resolved_capabilities.document_formatting then
-    vim.cmd "autocmd BufWritePre * :LspFormat"
+    vim.cmd "autocmd BufWritePost * :LspFormat"
   end
   -- cursor commands
   if client and client.resolved_capabilities.document_highlight then

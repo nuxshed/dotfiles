@@ -16,7 +16,7 @@ function M.setup(client, bufnr)
   --   enable = true
   -- end
 
-  -- client.resolved_capabilities.document_formatting = enable
+  client.resolved_capabilities.document_formatting = client.name == "null-ls"
 end
 
 return M
