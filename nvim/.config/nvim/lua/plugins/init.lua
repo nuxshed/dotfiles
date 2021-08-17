@@ -140,9 +140,15 @@ require("packer").startup {
     use { "folke/lua-dev.nvim" }
 
     use {
-      "hrsh7th/nvim-compe",
-      config = [[require("plugins.compe")]],
+      "hrsh7th/nvim-cmp",
+      config = [[require("plugins.cmp")]],
       event = "InsertEnter",
+      requires = {
+        { "hrsh7th/cmp-nvim-lsp"     ,event = "InsertEnter" },
+        { "hrsh7th/cmp-path"         ,event = "InsertEnter" },
+        { "hrsh7th/cmp-buffer"       ,event = "InsertEnter" },
+        { "saadparwaiz1/cmp_luasnip" ,event = "InsertEnter" },
+      },
       wants = { "LuaSnip" },
     }
 
@@ -151,7 +157,7 @@ require("packer").startup {
       event = "InsertEnter",
       requires = {
         { "rafamadriz/friendly-snippets", event = "InsertCharPre" },
-        "hrsh7th/nvim-compe",
+        "hrsh7th/nvim-cmp",
       },
       config = function()
         require("luasnip").config.set_config {
@@ -165,7 +171,7 @@ require("packer").startup {
     use {
       "onsails/lspkind-nvim",
       config = [[require("lspkind").init()]],
-      after = "nvim-compe",
+      after = "nvim-cmp",
     }
 
     use { "jose-elias-alvarez/nvim-lsp-ts-utils" }
@@ -284,7 +290,7 @@ require("packer").startup {
     use {
       "windwp/nvim-autopairs",
       config = [[require("nvim-autopairs").setup()]],
-      after = "nvim-compe",
+      after = "nvim-cmp",
     }
     use {
       "karb94/neoscroll.nvim",
