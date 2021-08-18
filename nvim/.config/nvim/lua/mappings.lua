@@ -3,6 +3,13 @@ local map = utils.map
 local wk = require "which-key"
 
 wk.register({
+  t = {
+    name = "+toggle",
+    n = { "<CMD>set nu!<CR>", "number" },
+    r = { "<CMD>set relativenumber!<CR>", "relative number" },
+    i = { "<CMD>IndentBlanklineToggle<CR>", "indentline" },
+    z = { "<CMD>ZenMode<CR>", "zen mode" },
+  },
   p = {
     name = "+packer",
     u = { "<CMD>PackerUpdate<CR>", "Update Plugins" },
