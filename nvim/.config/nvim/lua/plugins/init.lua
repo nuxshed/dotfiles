@@ -306,7 +306,8 @@ require("packer").startup {
       "simrat39/symbols-outline.nvim",
       cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" },
     }
-    -- use({ "sudormrfbin/cheatsheet.nvim" })
+
+    use({ "sudormrfbin/cheatsheet.nvim", cmd = "Cheatsheet", keys = "<leader>?" })
 
     -- markdown
     use {

@@ -19,6 +19,7 @@ wk.register({
     p = {"<CMD>PackerProfile<CR>", "Profile"}
   },
   [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
+  ["?"] = { "<CMD>Cheatsheet<CR>", "cheatsheet"},
   g = "lazygit",
   h = {
     name = "+gitsigns",
