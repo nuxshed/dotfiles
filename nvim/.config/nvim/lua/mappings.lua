@@ -16,6 +16,7 @@ wk.register({
     s = { "<CMD>PackerSync<CR>", "Sync Plugins" },
     i = { "<CMD>PackerInstall<CR>", "Install Plugins" },
     c = { "<CMD>PackerCompile<CR>", "Compile plugins.lua" },
+    p = {"<CMD>PackerProfile<CR>", "Profile"}
   },
   [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
   g = "lazygit",
