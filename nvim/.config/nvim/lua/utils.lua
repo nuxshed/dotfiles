@@ -27,9 +27,6 @@ function M.augroup(name, commands)
   vim.cmd "autocmd!"
   for _, c in ipairs(commands) do
     local command = c.command
-    if type(command) == "function" then
-      command = fmt "lua"
-    end
     vim.cmd(
       fmt(
         "autocmd %s %s %s %s",

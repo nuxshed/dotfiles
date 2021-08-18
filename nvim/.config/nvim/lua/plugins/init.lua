@@ -143,30 +143,28 @@ require("packer").startup {
     use {
       "hrsh7th/nvim-cmp",
       config = [[require("plugins.cmp")]],
-      event = "InsertEnter",
       requires = {
-        { "hrsh7th/cmp-nvim-lsp", event = "InsertEnter" },
-        { "hrsh7th/cmp-path", event = "InsertEnter" },
-        { "hrsh7th/cmp-buffer", event = "InsertEnter" },
-        { "saadparwaiz1/cmp_luasnip", event = "InsertEnter" },
+        {
+          "hrsh7th/cmp-nvim-lsp",
+        },
+        { "hrsh7th/cmp-path" },
+        { "hrsh7th/cmp-buffer" },
+        { "saadparwaiz1/cmp_luasnip" },
+        {
+          "L3MON4D3/LuaSnip",
+          requires = {
+            { "rafamadriz/friendly-snippets", event = "InsertCharPre" },
+            "hrsh7th/nvim-cmp",
+          },
+          config = function()
+            require("luasnip").config.set_config {
+              history = true,
+              updateevents = "TextChanged,TextChangedI",
+            }
+            require("luasnip/loaders/from_vscode").load()
+          end,
+        },
       },
-      wants = { "LuaSnip" },
-    }
-
-    use {
-      "L3MON4D3/LuaSnip",
-      event = "InsertEnter",
-      requires = {
-        { "rafamadriz/friendly-snippets", event = "InsertCharPre" },
-        "hrsh7th/nvim-cmp",
-      },
-      config = function()
-        require("luasnip").config.set_config {
-          history = true,
-          updateevents = "TextChanged,TextChangedI",
-        }
-        require("luasnip/loaders/from_vscode").load()
-      end,
     }
 
     use {
@@ -307,7 +305,7 @@ require("packer").startup {
       cmd = { "SymbolsOutline", "SymbolsOutlineOpen", "SymbolsOutlineClose" },
     }
 
-    use({ "sudormrfbin/cheatsheet.nvim", cmd = "Cheatsheet", keys = "<leader>?" })
+    use { "sudormrfbin/cheatsheet.nvim", cmd = "Cheatsheet", keys = "<leader>?" }
 
     -- markdown
     use {

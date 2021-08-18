@@ -8,7 +8,6 @@ cmd("hi IndentBlanklineContextChar guifg=" .. colors.linebg)
 
 -- misc
 cmd("hi LineNr guifg=" .. colors.grey)
-cmd("hi Comment guifg=" .. colors.fgfaded)
 cmd("hi NvimInternalError guifg=" .. colors.red)
 cmd("hi EndOfBuffer guifg=" .. colors.bg)
 cmd("hi! StatusLineNC gui=underline guifg=" .. colors.linebg)

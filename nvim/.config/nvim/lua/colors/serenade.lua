@@ -44,6 +44,7 @@ M.colors = {
   magenta = "#d39bb6",
   orange = "#e5a46b",
   cyan = "#87c095",
+  ViMode = {},
 }
 
 M.overrides = function() end

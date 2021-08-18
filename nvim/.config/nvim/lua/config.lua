@@ -1,13 +1,9 @@
 -- config file for my neovim configuration
 
--- inspired by LunarVim's configuration
--- https://github.com/ChristianChiarulli/LunarVim
-
 O = {
-  colorscheme = "gruvbox",
+  colorscheme = "spacegray",
   leader = " ",
   format_on_save = true,
-  more_status = false, -- show more stuff in statusline (buftype, encoding, etc.)
   smart_close = "help,startuptime,qf,lspinfo,packer,tsplayground", -- windows to close with 'q'
   statusline = {
     CurrentDir = false,
@@ -28,7 +24,7 @@ O = {
       "javascript",
       "json",
       "lua",
-      "markdown",
+      -- "markdown",
       "python",
       "rust",
       "scss",
