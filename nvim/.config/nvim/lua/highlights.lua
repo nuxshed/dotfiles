@@ -13,9 +13,9 @@ cmd("hi EndOfBuffer guifg=" .. colors.bg)
 cmd("hi! StatusLineNC gui=underline guifg=" .. colors.linebg)
 cmd("hi StatusLine guibg=" .. colors.bg .. " guifg=" .. colors.bg)
 
--- underline all uses of the word under the cursor
-cmd "hi LspReferenceRead  gui=underline"
-cmd "hi LspReferenceWrite gui=underline"
+-- highlight all uses of the word under the cursor
+cmd("hi LspReferenceRead  guibg=" .. colors.dark_grey)
+cmd("hi LspReferenceWrite guibg=" .. colors.dark_grey)
 
 -- italic comments
 cmd "hi Comment gui=italic"
