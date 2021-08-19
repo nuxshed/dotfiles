@@ -5,15 +5,15 @@ resolution=$(xdpyinfo | awk '/dimensions/ {print $2}')
 if [ "$1" ]; then
   filename="$1"
 else
-  filename=~/Videos/Recordings/$(date).mkv
+  filename=~/Videos/Recordings/$(date).mp4
 fi
 ffmpeg \
     -video_size "$resolution"\
     -framerate 35 \
     -f x11grab \
     -i :0.0 \
+    -pix_fmt yuv420p \
     -c:v libx264 \
-    -crf 0 \
     -preset ultrafast \
     -y \
     -v error \
