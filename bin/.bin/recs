@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# record selection
+
+read -r X Y W H << EOF
+$(slop -f '%x %y %w %h')
+EOF
+
+
+width=${#W}
+
+if [ $width -gt 0 ];
+ then
+  ffmpeg \
+    -f x11grab -s "$W"x"$H" \
+    -framerate 60 \
+    -thread_queue_size 512 \
+    -i $DISPLAY.0+$X,$Y \
+   -vcodec libx264 \
+   -qp 18 \
+   -preset ultrafast \
+    -y \
+    -v error \
+    -stats \
+   ~/Videos/Recordings/"$(date)".mp4
+fi
