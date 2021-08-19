@@ -9,6 +9,7 @@ wk.register({
     r = { "<CMD>set relativenumber!<CR>", "relative number" },
     i = { "<CMD>IndentBlanklineToggle<CR>", "indentline" },
     z = { "<CMD>ZenMode<CR>", "zen mode" },
+    c = { "<CMD>ColorizerToggle<CR>", "colorizer"}
   },
   p = {
     name = "+packer",

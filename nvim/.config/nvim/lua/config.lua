@@ -1,11 +1,12 @@
 -- config file for my neovim configuration
 
 O = {
-  colorscheme = "spacegray",
+  colorscheme = "gruvbox",
   leader = " ",
   format_on_save = true,
   smart_close = "help,startuptime,qf,lspinfo,packer,tsplayground", -- windows to close with 'q'
   statusline = {
+    style = "block",
     CurrentDir = false,
     GitRoot = false,
     BufType = true,

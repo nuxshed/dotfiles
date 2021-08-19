@@ -81,6 +81,23 @@ local GetGitRoot = function()
   return git_root:match "^.+/(.+)$"
 end
 
+local seperator = {}
+
+if O.statusline.style == "slant" then
+  seperator.left = " "
+  seperator.right = " "
+elseif O.statusline.style == "arrow" then
+  seperator.left = " "
+  seperator.right = " "
+  -- :bleedingeyes:
+elseif O.statusline.style == "flame" then
+  seperator.left = "  "
+  seperator.right = "     "
+else
+  seperator.left = " "
+  seperator.right = " "
+end
+
 -- LEFT
 
 gls.left[2] = {
@@ -100,6 +117,7 @@ gls.left[2] = {
       }
       vim.api.nvim_command("hi GalaxyViMode guibg=" .. mode_color())
       vim.api.nvim_command("hi GalaxyRightBar guibg=" .. mode_color())
+      vim.api.nvim_command("hi GalaxySEP_LEFT_1 guifg=" .. mode_color())
 
       local alias = aliases[vim.fn.mode():byte()]
       local mode
@@ -115,20 +133,18 @@ gls.left[2] = {
       return "  " .. mode .. " "
     end,
     highlight = { colors.bg, colors.bg, "bold" },
-    seperator = "/",
-    seperator_highlight = { colors.lightbg, colors.lightbg },
   },
 }
 
 gls.left[3] = {
-  SPACE1 = {
+  SEP_LEFT_1 = {
     provider = {
       function()
-        return " "
+        return seperator.left
       end,
     },
     condition = cond.buffer_not_empty,
-    highlight = { colors.lightbg, colors.lightbg },
+    highlight = { "NONE", colors.lightbg },
   },
 }
 
@@ -165,14 +181,14 @@ gls.left[6] = {
 }
 
 gls.left[7] = {
-  SPACE2 = {
+  SEP_LEFT_2 = {
     provider = {
       function()
-        return " "
+        return seperator.left
       end,
     },
     condition = cond.buffer_not_empty,
-    highlight = { colors.dark_grey, colors.dark_grey },
+    highlight = { colors.lightbg, colors.dark_grey },
   },
 }
 
@@ -305,7 +321,7 @@ gls.right[8] = {
 
 gls.right[9] = {
   RightBar = {
-    provider = space(1),
+    provider = { function() end, space(1) },
     highlight = { colors.bg, colors.bg },
   },
 }

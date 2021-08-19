@@ -12,6 +12,7 @@ cmd("hi NvimInternalError guifg=" .. colors.red)
 cmd("hi EndOfBuffer guifg=" .. colors.bg)
 cmd("hi! StatusLineNC gui=underline guifg=" .. colors.linebg)
 cmd("hi StatusLine guibg=" .. colors.bg .. " guifg=" .. colors.bg)
+cmd("hi matchparen guibg=" .. colors.lightbg)
 
 -- highlight all uses of the word under the cursor
 cmd("hi LspReferenceRead  guibg=" .. colors.dark_grey)
