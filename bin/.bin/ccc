@@ -1,17 +1,9 @@
 #!/bin/sh
 
-printf '\n'
-
-trap "printf '[?25h[?7h\n'" EXIT INT
-
-for i in 1 2 3 4 5 6; do
-    printf '[4%sm  [m ' "$i"
-done
-
-printf '\n'
-
-for i in 1 2 3 4 5 6; do
-    printf '[10%sm  [m ' "$i"
-done
-
 printf '\n\n'
+
+for i in 0 1 2 3 4 5 6 7; do
+    printf '\033[10%sm  \033[m ' "$i"
+done
+
+printf '\n\n\n'
