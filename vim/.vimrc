@@ -17,7 +17,7 @@ Plug 'tpope/vim-abolish'
 Plug 'preservim/nerdtree'
 Plug 'sainnhe/gruvbox-material'
 " Plug 'b4skyx/serenade'
-" Plug 'articicestudio/nord.vim'
+" Plug 'arcticicestudio/nord-vim'
 " Plug 'joshdick/onedark.vim'
 " Plug 'morhetz/gruvbox'
 call plug#end()
