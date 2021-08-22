@@ -39,18 +39,18 @@ configuration {
         active-foreground:           @fg;
         selected-active-background:  @actbg;
         active-background:           @bg;
-        font: "FiraCode Nerd Font 11";
+        font: "FiraCode Nerd Font 10";
         separator-style:             "none";
         hide-scrollbar:              "true";
         margin:                      0;
-        padding:                     8;
+        padding:                     5;
 }
 
 window {
 	location:	 center;
 	anchor:		 center;
-	height:		 60%;
-	width:		 45%;
+	height:		 50%;
+	width:		 35%;
 	orientation: horizontal;
 	children:	 [mainbox];
 }
