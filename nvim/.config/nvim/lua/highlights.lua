@@ -45,7 +45,13 @@ cmd("hi packerTimeHigh guifg=" .. colors.red)
 
 -- highlight current line and number
 cmd("hi CursorLine guibg=" .. colors.darker_grey)
-cmd("hi cursorlinenr guifg=" .. colors.fg .. " guibg=" .. colors.darker_grey)
+cmd(
+  "hi cursorlinenr guifg="
+    .. colors.fgfaded
+    .. " guibg="
+    .. colors.darker_grey
+    .. "gui=normal"
+)
 
 -- NvimTree
 cmd("hi NvimTreeFolderIcon guifg=" .. colors.blue)
