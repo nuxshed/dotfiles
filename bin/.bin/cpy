@@ -2,4 +2,10 @@
 
 # cpy [ the output of a command ]
 
-$1 | xclip -selection clipboard
+if [ -n $DISPLAY ]; then
+  $1 | xclip -selection clipboard
+elif [ -n $WAYLAND_DISPLAY ]; then
+  $1 | wl-copy
+else
+  echo "lol"
+fi
