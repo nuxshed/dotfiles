@@ -33,3 +33,10 @@ set tabstop=4
 set shiftwidth=2
 set expandtab
 set laststatus=0
+set mouse=a
+
+" mappings
+nnoremap <silent> <C-Left> :tabprevious<CR>
+nnoremap <silent> <C-Right> :tabNext<CR>
+nnoremap <silent> <C-Up> :set laststatus=2<CR>
+nnoremap <silent> <C-Down> :set laststatus=0<CR>
