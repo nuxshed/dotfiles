@@ -1,5 +1,11 @@
 # these are my dotfiles
 
+<br>
+
+<img src="./rice.png">
+
+<br>
+
 i use [stow](https://www.gnu.org/software/stow/) to manage them
 
 what's included:
