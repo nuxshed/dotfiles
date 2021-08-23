@@ -13,6 +13,7 @@ call plug#begin()
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'sainnhe/gruvbox-material'
+Plug 'tmux-plugins/vim-tmux' 
 call plug#end()
 
 set termguicolors

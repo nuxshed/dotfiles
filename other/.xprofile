@@ -1,5 +1,4 @@
 ~/.fehbg
-xset r rate 200 50 &
 xinput --set-prop 11 305 1 &
 setxkbmap gb &
 xss-lock slock &
