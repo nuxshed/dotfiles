@@ -50,4 +50,4 @@ while ! read -t0.0$((1000/f)) -n1; do
     ((t>r)) && tput reset && tput civis && t=0 || ((t++))
     l=$n
 done
-tput rmcup
+tput reset
