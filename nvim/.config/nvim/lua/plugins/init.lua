@@ -50,14 +50,6 @@ require("packer").startup {
 
     -- Terminal
     use {
-      "norcalli/nvim-terminal.lua",
-      ft = "terminal",
-      config = function()
-        require("terminal").setup()
-      end,
-    }
-
-    use {
       "akinsho/nvim-toggleterm.lua",
       keys = { "<M-`>", "<leader>g" },
       cmd = "ToggleTerm",
@@ -69,12 +61,6 @@ require("packer").startup {
       "kyazdani42/nvim-web-devicons",
       module = "nvim-web-devicons",
       config = [[require("plugins.devicons")]],
-    }
-
-    use {
-      "lukas-reineke/indent-blankline.nvim",
-      setup = [[require("plugins.indentline")]],
-      event = "BufRead",
     }
 
     use {
@@ -350,9 +336,6 @@ require("packer").startup {
       "folke/zen-mode.nvim",
       cmd = "ZenMode",
     }
-    -- use({ "folke/twilight.nvim" })
-    -- use("phaazon/hop.nvim")
-    use { "tweekmonster/startuptime.vim", cmd = "StartupTime" }
 
     -- colors
     use { "siduck76/nvim-base16.lua" }
