@@ -1,6 +1,6 @@
 #!/bin/sh
 
-find . -type d -maxdepth 1 |
+find . -type d |
 while read -r dir
 do (
   cd "$dir" &&
