@@ -22,8 +22,7 @@ my qtile configuration
 
 #### `zsh/`
 
-my zsh configuration, using the starship prompt, and zinit to manage plugins <br />
-<img src="./zsh/preview.png">
+my zsh configuration, using the powerlevel10k prompt, and zinit to manage plugins <br />
 
 #### `bin/`
 
