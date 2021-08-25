@@ -1,17 +1,66 @@
-# ~/.zshrc
+# .zshrc
 
-# profiling
-PROFILE_STARTUP=false
-if [[ "$PROFILE_STARTUP" == true ]]; then
-    zmodload zsh/zprof
-    # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-    PS4=$'%D{%M%S%.} %N:%i> '
-    exec 3>&2 2>$HOME/.zsh_startlog.$$
-    setopt xtrace prompt_subst
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# zsh options
-bindkey -v
+### Added by Zinit's installer
+declare -A ZINIT
+ZINIT[HOME_DIR]=$HOME/.zsh/zinit
+ZINIT[ZCOMPDUMP_PATH]=${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump-$ZSH_VERSION
+
+if [[ ! -f ${ZINIT[HOME_DIR]}/bin/zinit.zsh ]]; then
+    	print -P "%F{blue}▓▒░ %F{yellow}Installing %F{blue}DHARMA%F{yellow} Initiative Plugin Manager (%F{blue}zdharma/zinit%F{yellow})…%f"
+    	mkdir -p "${ZINIT[HOME_DIR]}" && chmod g-rwX "${ZINIT[HOME_DIR]}"
+    	git clone https://github.com/zdharma/zinit "${ZINIT[HOME_DIR]}/bin" && {
+        	print -P "%F{blue}▓▒░ %F{34}Installation successful.%f%b" ||
+        	print -P "%F{red}▓▒░ The clone has failed.%f%b"
+	}
+fi
+
+source "${ZINIT[HOME_DIR]}/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk
+
+## zsh prompt
+zinit lucid light-mode for \
+	romkatv/powerlevel10k
+
+## PLUGINS
+zinit wait lucid light-mode for \
+        atinit"
+  	  	typeset -gA FAST_HIGHLIGHT
+  	  	FAST_HIGHLIGHT[git-cmsg-len]=100
+  	  	ZINIT[COMPINIT_OPTS]=-C
+  	  	zicompinit
+  	  	zicdreplay
+  	" \
+        	zdharma/fast-syntax-highlighting \
+        blockf atpull'zinit creinstall -q .' \
+        atinit"
+        " \
+        atload'
+		eval "$(dircolors)"
+		zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "ma=38;5;7;7;1"
+		zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=36=0=01"
+  	' \
+            zsh-users/zsh-autosuggestions \
+        	zsh-users/zsh-completions \
+        atinit"
+  		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+  		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+  		ZSH_AUTOSUGGEST_COMPLETION_IGNORE='_*|pre(cmd|exec)|sudo pacman -S*|pacman -S*|paru -S*|yay -S*|\)\*'
+  	" \
+        	OMZ::lib/git.zsh \
+        atload"unalias grv" \
+            OMZ::plugins/git/git.plugin.zsh
+
+
+## zsh settings
 
 zstyle :compinstall filename '$HOME/.zshrc'
 
@@ -19,11 +68,13 @@ autoload -Uz compinit promptinit
 compinit -i
 promptinit
 
-# unsetopt case_glob            # Use Case-Insensitve Globbing.
+# setopt case_glob              # Use Case-Insensitve Globbing.
 setopt globdots                 # Glob Dotfiles As Well.
 setopt extendedglob             # Use Extended Globbing.
 setopt auto_cd                  # no need to specify cd
 setopt correct                  # Turn On Corrections
+setopt correct                  # spelling correction
+setopt interactivecomments 	    # Ignore lines prefixed with '#'
 
 # Completion Options.
 setopt complete_in_word         # Complete From Both Ends Of A Word.
@@ -33,7 +84,6 @@ setopt auto_menu                # Show Completion Menu On A Successive Tab Press
 setopt auto_list                # Automatically List Choices On Ambiguous Completion.
 setopt auto_param_slash         # If Completed Parameter Is A Directory, Add A Trailing Slash.
 setopt no_complete_aliases
-
 setopt menu_complete            # Do Not Autoselect The First Completion Entry.
 unsetopt flow_control           # Disable Start/Stop Characters In Shell Editor.
 
@@ -47,97 +97,21 @@ zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-$HOME}/.zcompcache"
+zstyle ':completion::complete:*' cache-path '${ZDOTDIR:-$HOME}/.zcompcache'
 zstyle ':completion:*' list-colors $LS_COLORS
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle ':fzf-tab:*' query-string prefix first
 zstyle ':fzf-tab:*' continuous-trigger '/'
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
+zstyle ':completion:*:*:*:*:processes' command'ps -u $USER -o pid,user,comm,cmd -w -w'
 zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 zstyle ':fzf-tab:*' switch-group ',' '.'
 zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' popup-pad 0 0
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:exa' file-sort modification
-zstyle ':completion:*:exa' sort false
+zstyle ':completion:*:exa' sort false  	
 
-# History
-HISTFILE=~/.zsh_hist
-HISTSIZE=100000
-SAVEHIST=5000
-setopt appendhistory notify
-unsetopt beep nomatch                # beeps are annoying.
-
-setopt bang_hist                # Treat The '!' Character Specially During Expansion.
-setopt inc_append_history       # Write To The History File Immediately, Not When The Shell Exits.
-setopt share_history            # Share History Between All Sessions.
-setopt hist_expire_dups_first   # Expire A Duplicate Event First When Trimming History.
-setopt hist_ignore_dups         # Do Not Record An Event That Was Just Recorded Again.
-setopt hist_ignore_all_dups     # Delete An Old Recorded Event If A New Event Is A Duplicate.
-setopt hist_find_no_dups        # Do Not Display A Previously Found Event.
-setopt hist_ignore_space        # Do Not Record An Event Starting With A Space.
-setopt hist_save_no_dups        # Do Not Write A Duplicate Event To The History File.
-setopt hist_verify              # Do Not Execute Immediately Upon History Expansion.
-setopt extended_history         # Show Timestamp In History.
-
-# fzf
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh``
-
-# aliases
-alias vim="nvim"
-alias vi="/bin/vim"
-alias ls="exa"
-alias la="exa -a"
-alias li="exa --icons"
-alias lg="lazygit"
-alias btctl="bluetoothctl"
-alias pb="nc termbin.com 9999"
-alias grep="grep --color=auto" 
-alias clear='/bin/clear && printf "\033[3J"'
-alias clearscreen="/bin/clear"
-alias brightness="brightnessctl set"
-alias rotatescreen="xrandr --output eDP-1 --rotate"
-alias icat="kitty +kitten icat"
-alias luamake=/home/advait/.local/share/lua-language-server/3rd/luamake/luamake
-
-# kitty completion
-kitty + complete setup zsh | source /dev/stdin
-
-# autojump
-source /etc/profile.d/autojump.zsh
-
-# Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
-
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl \
-    zinit-zsh/z-a-bin-gem-node
-# end of block added by zinit's installer
-
-# These plugins provide many aliases
-zinit wait lucid for \
-        OMZ::lib/git.zsh \
-    atload"unalias grv" \
-        OMZ::plugins/git/git.plugin.zsh
-
-zinit lucid wait'0a' for \
-  as"program" pick"$ZPFX/bin/git-*" src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX" tj/git-extras
-
+# history substring search
 # HISTORY SUBSTRING SEARCHING
 zinit light zsh-users/zsh-history-substring-search
 zinit ice wait'0b' lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
@@ -145,40 +119,47 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
 zle -N history-substring-search-up
 zle -N history-substring-search-down
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
-# Load url-quote-magic & bracketed-paste-magic.
-autoload -U url-quote-magic bracketed-paste-magic
-zle -N self-insert url-quote-magic
+# History file configuration
+HISTFILE="$HOME/.zsh_hist"
+[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
+[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
+setopt extended_history          # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first    # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups          # Don't record an entry that was just recorded again
+setopt hist_find_no_dups         # Do not display a line previously found
+setopt hist_ignore_space         # ignore commands that start with space
+setopt hist_verify               # show command with history expansion to user before running it
+setopt inc_append_history        # add commands to HISTFILE in order of execution
+setopt share_history             # shell share history with other tabs
+
+autoload -U add-zsh-hook
+
+# aliases
+source "$HOME/.zsh/aliases.zsh"
+
+# better url management
+autoload -Uz bracketed-paste-magic url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
+zle -N self-insert url-quote-magic
 
-if [[ "$TERM" != "linux" ]]; then
-  zinit light zsh-users/zsh-autosuggestions
-  zinit light zdharma/fast-syntax-highlighting
+## keybindings
+bindkey -e                                        # emacs keybindings
+bindkey '^[[1;5C' forward-word                    # ctrl + ->
+bindkey '^[[1;5D' backward-word                   # ctrl + <-
+bindkey '^[[5~' beginning-of-buffer-or-history    # page up
+bindkey '^[[6~' end-of-buffer-or-history          # page down
+bindkey '^[[H' beginning-of-line                  # home
+bindkey '^[[F' end-of-line                        # end
 
-  # PROMPT
 
-  # Starship
-  eval "$(starship init zsh)"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] && [[ "$TERM" != "linux" ]] || source ~/.p10k.zsh
 
-  # Spaceship
-  # zinit light spaceship-prompt/spaceship-prompt
-
-  # Pure
-  # zinit ice compile'(pure|async).zsh' pick'async.zsh' src'pure.zsh'
-
-elif [[ "$TERM" == "linux" ]]; then
-  prompt suse
-fi
-
-# end profiling
-if [[ "$PROFILE_STARTUP" == true ]]; then
-    unsetopt xtrace
-    exec 2>&3 3>&-
-    zprof > ~/.zsh_profile$(date +'%s')
-fi
+# eval $(starship init zsh)
