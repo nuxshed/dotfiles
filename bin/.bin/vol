@@ -1,7 +1,12 @@
 #!/bin/sh
 
+# set and get volume
 pactl set-sink-volume @DEFAULT_SINK@ "$1" &
 vol=$(pamixer --get-volume)
 
-dunstctl close
-notify-send -h int:value:$vol "Volume" "$vol%"
+# send notification
+dunstify -a "Volume" \
+  "Volume" \
+  -h int:value:$vol \
+  -r 69 \
+  "$vol%"
