@@ -1,0 +1,36 @@
+# source: https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
+alias g="git"
+alias gss="git status -s"
+alias gst="git status"
+alias gc="git commit"
+alias gd='git diff'
+alias ga='git add'
+alias gaa='git add --all'
+alias gaa='git add .'
+alias gb='git branch'
+alias gbD='git branch -D'
+alias gbl='git blame -b -w'
+alias gbr='git branch --remote'
+alias gc='git commit -v'
+alias gd='git diff'
+alias gf='git fetch'
+alias gfa='git fetch --all --prune'
+alias gfo='git fetch origin'
+alias gm='git merge'
+alias gma='git merge --abort'
+alias gmom='git merge origin/$(git_main_branch)'
+alias gp="git push"
+alias gcl='git clone --recurse-submodules'
+alias gl='git pull'
+alias glum='git pull upstream $(git_main_branch)'
+alias grhh='git reset --hard'
+alias groh='git reset origin/$(git_current_branch) --hard'
+alias grbi='git rebase -i'
+alias grbm='git rebase $(git_main_branch)'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gcm='git checkout $(git_main_branch)'
+alias gcd='git checkout development'
+alias gstp='git stash pop'
+alias gsts='git stash show -p'
+

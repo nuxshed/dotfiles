@@ -48,16 +48,13 @@ zinit wait lucid light-mode for \
 		zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "ma=38;5;7;7;1"
 		zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=36=0=01"
   	' \
-            zsh-users/zsh-autosuggestions \
         	zsh-users/zsh-completions \
         atinit"
   		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
   		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
   		ZSH_AUTOSUGGEST_COMPLETION_IGNORE='_*|pre(cmd|exec)|sudo pacman -S*|pacman -S*|paru -S*|yay -S*|\)\*'
   	" \
-        	OMZ::lib/git.zsh \
-        atload"unalias grv" \
-            OMZ::plugins/git/git.plugin.zsh
+            zsh-users/zsh-autosuggestions \
 
 
 ## zsh settings
@@ -143,6 +140,7 @@ autoload -U add-zsh-hook
 
 # aliases
 source "$HOME/.zsh/aliases.zsh"
+source "$HOME/.zsh/git.zsh"
 
 # better url management
 autoload -Uz bracketed-paste-magic url-quote-magic
