@@ -10,3 +10,5 @@ dunstify -a "Volume" \
   -h int:value:$vol \
   -r 69 \
   "$vol%"
+
+dwmc run_command setstatus 3 "^c#7daea3^ 墳 $vol%"
