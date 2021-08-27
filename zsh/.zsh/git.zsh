@@ -33,4 +33,4 @@ alias gcm='git checkout $(git_main_branch)'
 alias gcd='git checkout development'
 alias gstp='git stash pop'
 alias gsts='git stash show -p'
-
+alias glog='git log --oneline --decorate --graph'
