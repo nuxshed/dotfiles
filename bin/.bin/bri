@@ -16,3 +16,6 @@ dunstify -a "Brightness" \
   -h int:value:$CUR_PER \
   -r 69 \
   "$CUR_PER%"
+
+dwmc run_command setstatus 4 "  ^c#d8a657^  $CUR_PER%"
+
