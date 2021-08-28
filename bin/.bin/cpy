@@ -2,9 +2,9 @@
 
 # cpy [ the output of a command ]
 
-if [ -n $DISPLAY ]; then
+if [ -n "$DISPLAY" ]; then
   $1 | xclip -selection clipboard
-elif [ -n $WAYLAND_DISPLAY ]; then
+elif [ -n "$WAYLAND_DISPLAY" ]; then
   $1 | wl-copy
 else
   echo "lol"
