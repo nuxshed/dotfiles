@@ -7,6 +7,9 @@ if [ "$1" ]; then
 else
   filename=~/Videos/Recordings/$(date).mp4
 fi
+
+dwmc run_command setstatus 7 "^c#ea6962^ 雷 REC  "
+
 ffmpeg \
     -video_size "$resolution"\
     -framerate 35 \
@@ -19,3 +22,5 @@ ffmpeg \
     -v error \
     -stats \
     "$filename"
+
+dwmc run_command setstatus 7 " "
