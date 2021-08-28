@@ -9,6 +9,8 @@ EOF
 
 width=${#W}
 
+dwmc run_command setstatus 7 "^c#ea6962^ 雷 REC  "
+
 if [ $width -gt 0 ];
  then
   ffmpeg \
@@ -24,3 +26,5 @@ if [ $width -gt 0 ];
     -stats \
    ~/Videos/Recordings/"$(date)".mp4
 fi
+
+dwmc run_command setstatus 7 " "
