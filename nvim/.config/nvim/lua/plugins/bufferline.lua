@@ -6,7 +6,6 @@ local fgfaded = colors.fgfaded
 
 require("bufferline").setup {
   options = {
-    mappings = false,
     buffer_close_icon = "",
     modified_icon = "●",
     close_icon = "",
