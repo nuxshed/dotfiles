@@ -3,24 +3,62 @@
 resolution=$(xdpyinfo | awk '/dimensions/ {print $2}')
 
 if [ "$1" ]; then
-  filename="$1"
+	filename="$1"
 else
-  filename=~/Videos/Recordings/$(date).mp4
+	filename=~/Videos/Recordings/$(date).mp4
 fi
 
-dwmc run_command setstatus 7 "^c#ea6962^ 雷 REC  "
+ps -C dwm && dwmc run_command setstatus 7 "^c#ea6962^ 雷 REC  "
 
-ffmpeg \
-    -video_size "$resolution"\
-    -framerate 35 \
-    -f x11grab \
-    -i :0.0 \
-    -pix_fmt yuv420p \
-    -c:v libx264 \
-    -preset ultrafast \
-    -y \
-    -v error \
-    -stats \
-    "$filename"
+recordscreen() {
+	ffmpeg \
+		-video_size "$resolution" \
+		-framerate 35 \
+		-f x11grab \
+		-i :0.0 \
+		-pix_fmt yuv420p \
+		-c:v libx264 \
+		-preset ultrafast \
+		-y \
+		-v error \
+		-stats \
+		"$filename"
+}
 
-dwmc run_command setstatus 7 " "
+recordselection() {
+
+	read -r X Y W H <<EOF
+$(slop -f '%x %y %w %h')
+EOF
+
+	width=${#W}
+
+	if [ $width -gt 0 ]; then
+		ffmpeg \
+			-f x11grab -s "$W"x"$H" \
+			-framerate 60 \
+			-thread_queue_size 512 \
+			-i $DISPLAY.0+$X,$Y \
+			-vcodec libx264 \
+			-qp 18 \
+			-preset ultrafast \
+			-y \
+			-v error \
+			-stats \
+			~/Videos/Recordings/"$(date)".mp4
+	fi
+
+}
+
+case $1 in
+  "-s")
+    recordselection
+    ;;
+  "")
+    recordscreen
+    ;;
+  *)
+    echo "rec [-s|--selection]"
+esac
+
+ps -C dwm && dwmc run_command setstatus 7 " "
