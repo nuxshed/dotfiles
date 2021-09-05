@@ -11,4 +11,4 @@ dunstify -a "Volume" \
   -r 69 \
   "$vol%"
 
-dwmc run_command setstatus 3 "^c#7daea3^ 墳 $vol%"
+ps -C dwm && dwmc run_command setstatus 3 "^c#7daea3^ 墳 $vol%"
