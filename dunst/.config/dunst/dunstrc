@@ -58,10 +58,10 @@
     separator_height = 3
 
     # Padding between text and separator.
-    padding = 8
+    padding = 12
 
     # Horizontal padding.
-    horizontal_padding = 8
+    horizontal_padding = 14
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
@@ -166,7 +166,7 @@
     icon_position = left
 
     # Scale larger icons down to this size, set to 0 to disable
-    max_icon_size = 128
+    max_icon_size = 64
 
     # Paths to default icons.
     icon_path = /usr/share/icons/Papirus-Dark/64x64/status/:/usr/share/icons/Papirus-Dark/symbolic/status
@@ -287,10 +287,10 @@
 #   script appname summary body icon urgency
 # where urgency can be "LOW", "NORMAL" or "CRITICAL".
 #
-# NOTE: if you don't want a notification to be displayed, set the format
-# to "".
-# NOTE: It might be helpful to run dunst -print in a terminal in order
-# to find fitting options for rules.
+# if you don't want a notification to be displayed, set the format to "".
+#
+# It might be helpful to run dunst -print in a terminal in order to find 
+# fitting options for rules.
 
 #[espeak]
 #    summary = "*"
@@ -310,24 +310,4 @@
 #    summary = "foobar"
 #    history_ignore = yes
 
-#[signed_on]
-#    appname = Pidgin
-#    summary = "*signed on*"
-#    urgency = low
-#
-#[signed_off]
-#    appname = Pidgin
-#    summary = *signed off*
-#    urgency = low
-#
-#[says]
-#    appname = Pidgin
-#    summary = *says*
-#    urgency = critical
-#
-#[twitter]
-#    appname = Pidgin
-#    summary = *twitter.com*
-#    urgency = normal
-#
 # vim: ft=cfg
