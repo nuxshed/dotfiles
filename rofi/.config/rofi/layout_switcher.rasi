@@ -1,93 +1,90 @@
-
-configuration {}
+configuration {
+}
 
 * {
-        bg:                          #1d2021;
-        fg:                          #ddc7a1;
-        selbg:                       #89b482;
-        selfg:                       #89b482;
-        actbg:                       #282828;
-        urgbg:                       #ea6962;
+  bg: #1d2021;
+  fg: #ddc7a1;
+  selbg: #89b482;
+  selfg: #89b482;
+  actbg: #282828;
+  urgbg: #ea6962;
 
-        background-color:            @bg;
-        text-color:                  @fg;
-        selected-normal-foreground:  @selfg;
-        normal-foreground:           @fg;
-        selected-normal-background:  @actbg;
-        normal-background:           @bg;
-
-        selected-urgent-foreground:  @bg;
-        urgent-foreground:           @text-color;
-        selected-urgent-background:  @urgbg;
-        urgent-background:           @bg;
-
-        selected-active-foreground:  @selfg;
-        active-foreground:           @fg;
-        selected-active-background:  @actbg;
-        active-background:           @bg;
-        font: "FiraCode Nerd Font 10";
-        separator-style:             "none";
-        hide-scrollbar:              "true";
-        margin:                      0;
-        padding:                     5;
+  background-color: @bg;
+  text-color: @fg;
+  selected-normal-foreground: @selfg;
+  normal-foreground: @fg;
+  selected-normal-background: @actbg;
+  normal-background: @bg;
+  selected-urgent-foreground: @bg;
+  urgent-foreground: @text-color;
+  selected-urgent-background: @urgbg;
+  urgent-background: @bg;
+  selected-active-foreground: @selfg;
+  active-foreground: @fg;
+  selected-active-background: @actbg;
+  active-background: @bg;
+  border-color: @actbg;
+  font: "FiraCode Nerd Font 10";
+  separator-style: "none";
+  hide-scrollbar: "true";
+  margin: 0;
+  padding: 5;
 }
 
 window {
-	location:      center;
-	anchor:        center;
-	height:        21%;
-	width:         50%;
-	orientation:   horizontal;
-	children:      [mainbox];
-        border:        2px;
-        border-color:  @selected-normal-background;
-
+  location: center;
+  anchor: center;
+  height: 21%;
+  width: 50%;
+  orientation: horizontal;
+  children: [mainbox];
+  border: 2px;
 }
 
 listview {
-    columns:     5;
-    lines:       1;
-    spacing:     5px;
-    dynamic:     true;
-    layout:      vertical;
+  columns: 5;
+  lines: 1;
+  spacing: 5px;
+  dynamic: true;
+  layout: vertical;
 }
 
 mainbox {
-    background-color:               @background-color;
-    children:                       [ listview ];
-    spacing:                        10px;
-    margin:                         10px;
+  background-color: @background-color;
+  children: [ listview ];
+  spacing: 10px;
+  margin: 10px;
 }
 
 element {
-    background-color:               @selected-normal-background;
-    text-color:                     @foreground;
-    orientation:                    horizontal;
+  background-color: @selected-normal-background;
+  text-color: @foreground;
+  orientation: horizontal;
 }
 
 element-text {
-    font:                           "Fira Code Nerd Font 20";
-    horizontal-align:               0.0;
-    vertical-align:                 0.5;
-    margin:                         30px 0px 40px 0px;
+  font: "Fira Code Nerd Font 20";
+  horizontal-align: 0;
+  vertical-align: 0.5;
+  margin: 30px 0px 40px 0px;
 }
 
 element alternate.urgent {
-    background-color:               @off;
-    text-color:                     @background;
-    border-radius:                  0px;
+  background-color: @off;
+  text-color: @background;
+  border-radius: 0px;
 }
 
 element normal.active,
 element alternate.active {
-    background-color:               @on;
-    text-color:                     @background;
+  background-color: @on;
+  text-color: @background;
 }
 
 element selected {
-    background-color:               @selected-normal-background;
-    text-color:                     @background;
-    border:                         0px;
-    border-radius:                  0px;
-    border-color:                   @border;
+  background-color: @selected-normal-background;
+  text-color: @background;
+  border: 0px;
+  border-radius: 0px;
+  border-color: @border;
 }

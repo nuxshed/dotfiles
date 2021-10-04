@@ -6,136 +6,139 @@
 /*                        |___/                    */
 
 configuration {
-	display-drun:    "Run";
-	display-window:  "Win";
-        display-file-browser: "Files";
-        icon-theme:      "Papirus-Dark";
-	show-icons:      true;
-	sidebar-mode:    false;
-        modi:            "window,drun,file-browser";
+  display-drun: "Run";
+  display-window: "Win";
+  display-file-browser: "Files";
+  icon-theme: "Papirus-Dark";
+  show-icons: true;
+  sidebar-mode: false;
+  modi: "window,drun,file-browser";
 }
 
 * {
-        bg:                          #1d2021;
-        fg:                          #ddc7a1;
-        selbg:                       #89b482;
-        selfg:                       #89b482;
-        actbg:                       #282828;
-        urgbg:                       #ea6962;
+  bg: #1d2021;
+  fg: #ddc7a1;
+  selbg: #89b482;
+  selfg: #89b482;
+  actbg: #282828;
+  urgbg: #ea6962;
 
-        background-color:            @bg;
-        text-color:                  @fg;
-        selected-normal-foreground:  @selfg;
-        normal-foreground:           @fg;
-        selected-normal-background:  @actbg;
-        normal-background:           @bg;
-
-        selected-urgent-foreground:  @bg;
-        urgent-foreground:           @text-color;
-        selected-urgent-background:  @urgbg;
-        urgent-background:           @bg;
-
-        selected-active-foreground:  @selfg;
-        active-foreground:           @fg;
-        selected-active-background:  @actbg;
-        active-background:           @bg;
-        font: "FiraCode Nerd Font 10";
-        separator-style:             "none";
-        hide-scrollbar:              "true";
-        margin:                      0;
-        padding:                     5;
+  background-color: @bg;
+  text-color: @fg;
+  selected-normal-foreground: @selfg;
+  normal-foreground: @fg;
+  selected-normal-background: @actbg;
+  normal-background: @bg;
+  selected-urgent-foreground: @bg;
+  urgent-foreground: @text-color;
+  selected-urgent-background: @urgbg;
+  urgent-background: @bg;
+  selected-active-foreground: @selfg;
+  active-foreground: @fg;
+  selected-active-background: @actbg;
+  active-background: @bg;
+  border-color: @actbg;
+  font: "FiraCode Nerd Font 10";
+  separator-style: "none";
+  hide-scrollbar: "true";
+  margin: 0;
+  padding: 5;
 }
 
 window {
-	location:	 center;
-	anchor:		 center;
-	height:		 50%;
-	width:		 35%;
-	orientation: horizontal;
-	children:	 [mainbox];
+  location: center;
+  anchor: center;
+  height: 50%;
+  width: 35%;
+  border: 2px;
+  orientation: horizontal;
+  children: [mainbox];
 }
 
 mainbox {
-	spacing:  0.6em;
-	children: [ entry, listview, sidebar ];
+  spacing: 0.6em;
+  children: [ entry, listview, sidebar ];
 }
 
-button { padding: 3px 1px; }
+button {
+  padding: 3px 1px;
+}
 
 button selected {
-	background-color: @selected-normal-background;
-	text-color:       @selected-normal-foreground;
+  background-color: @selected-normal-background;
+  text-color: @selected-normal-foreground;
 }
 
-inputbar 
-{
-	padding: 3px;
-	spacing: 2px;
+inputbar {
+  padding: 3px;
+  spacing: 2px;
 }
 
 listview {
-	spacing: 0.5em;
-	dynamic: false;
-	cycle:   true;
+  spacing: 0.5em;
+  dynamic: true;
+  cycle: true;
 }
 
-element { padding: 1px; }
+element {
+  padding: 1px;
+}
 
-element-icon { 
+element-icon {
   size: 20;
-  vertical-align: 1.0;  
-  horizontal-align: 1.0; 
+  vertical-align: 1;
+  horizontal-align: 1;
 }
 
 entry {
-	expand:         false;
-	text-color:     @normal-foreground;
-	vertical-align: 1;
-	padding:        1px;
+  expand: false;
+  text-color: @normal-foreground;
+  vertical-align: 1;
+  padding: 1px;
 }
 
 element normal.normal {
-	background-color: @normal-background;
-	text-color:       @normal-foreground;
+  background-color: @normal-background;
+  text-color: @normal-foreground;
 }
 
 element normal.urgent {
-	background-color: @urgent-background;
-	text-color:       @urgent-foreground;
+  background-color: @urgent-background;
+  text-color: @urgent-foreground;
 }
 
 element normal.active {
-	background-color: @active-background;
-	text-color:       @active-foreground;
+  background-color: @active-background;
+  text-color: @active-foreground;
 }
 
 element selected.normal {
-	background-color: @selected-normal-background;
-	text-color:       @selected-normal-foreground;
-	font: "FiraCode Nerd Font 10";
+  background-color: @selected-normal-background;
+  text-color: @selected-normal-foreground;
+  font: "FiraCode Nerd Font 10";
 }
 
 element selected.urgent {
-	background-color: @selected-urgent-background;
-	text-color:       @selected-urgent-foreground;
+  background-color: @selected-urgent-background;
+  text-color: @selected-urgent-foreground;
 }
 
 element selected.active {
-	background-color: @selected-active-background;
-	text-color:       @selected-active-foreground;
+  background-color: @selected-active-background;
+  text-color: @selected-active-foreground;
 }
 
 element alternate.normal {
-	background-color: @normal-background;
-	text-color:       @normal-foreground;
+  background-color: @normal-background;
+  text-color: @normal-foreground;
 }
 
 element alternate.urgent {
-	background-color: @urgent-background;
-	text-color:       @urgent-foreground;
+  background-color: @urgent-background;
+  text-color: @urgent-foreground;
 }
 
 element alternate.active {
-	background-color: @active-background;
-	text-color:       @active-foreground;
+  background-color: @active-background;
+  text-color: @active-foreground;
 }
