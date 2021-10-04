@@ -11,7 +11,6 @@ call plug#begin()
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'sainnhe/gruvbox-material'
-Plug 'tmux-plugins/vim-tmux' 
 call plug#end()
 
 set termguicolors
@@ -21,13 +20,9 @@ colorscheme gruvbox-material
 
 set number
 set showtabline=2
-set noruler
 set cursorline
-set hlsearch
-set incsearch
 set ignorecase
 set smartcase
-set tabstop=4
 set shiftwidth=2
 set expandtab
 set laststatus=0
