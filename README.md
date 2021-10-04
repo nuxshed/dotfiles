@@ -1,37 +1,23 @@
 # these are my dotfiles
 
-<br>
-
 <img src="./rice.png">
-
-<br>
 
 i use [stow](https://www.gnu.org/software/stow/) to manage them
 
-what's included:
+## Contents:
 
 #### `nvim/`
 
-my neovim configuration, written mostly in lua
-<img src="./nvim/.config/nvim/preview.png">
-
-#### `qtile/`
-
-my qtile configuration
-<img src="./qtile/.config/qtile/preview.png">
+my neovim configuration, written completely in lua
 
 #### `zsh/`
 
-my zsh configuration, using the powerlevel10k prompt, and zinit to manage plugins <br />
+my zsh configuration, using the powerlevel10k prompt, and zinit to manage plugins
 
 #### `bin/`
 
 my collection of scripts with very short names
 
-#### `other/`
+#### `misc/`
 
-this shouldn't bother you. they exist simply to save me some time when im starting from scratch
-
-<br />
-<br />
-im too lazy to list the rest
+miscellaneous configs that you probably don't care about
