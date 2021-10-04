@@ -1,52 +1,59 @@
-local utils = require "utils"
-local map = utils.map
 local wk = require "which-key"
 
-wk.register({
-  t = {
-    name = "+toggle",
-    n = { "<CMD>set nu!<CR>", "number" },
-    r = { "<CMD>set relativenumber!<CR>", "relative number" },
-    i = { "<CMD>IndentBlanklineToggle<CR>", "indentline" },
-    z = { "<CMD>ZenMode<CR>", "zen mode" },
-    c = { "<CMD>ColorizerToggle<CR>", "colorizer"}
+wk.register {
+  ["<leader>"] = {
+    -- toggle stuff
+    t = {
+      name = "+toggle",
+      n = { "<CMD>set nu!<CR>", "number" },
+      r = { "<CMD>set relativenumber!<CR>", "relative number" },
+      i = { "<CMD>IndentBlanklineToggle<CR>", "indentline" },
+      z = { "<CMD>ZenMode<CR>", "zen mode" },
+      t = { "<CMD>Twilight<CR>", "twilight" },
+      c = { "<CMD>ColorizerToggle<CR>", "colorizer" },
+      f = { require("lsp.utils").toggle_format_on_save, "format on save" },
+    },
+    -- packer
+    p = {
+      name = "+packer",
+      u = { "<CMD>PackerUpdate<CR>", "Update Plugins" },
+      s = { "<CMD>PackerSync<CR>", "Sync Plugins" },
+      i = { "<CMD>PackerInstall<CR>", "Install Plugins" },
+      c = { "<CMD>PackerCompile<CR>", "Compile Config" },
+      p = { "<CMD>PackerProfile<CR>", "Profile" },
+    },
+    [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
+    d = { "<CMD>TroubleToggle<CR>", "trouble" },
+    -- git
+    g = {
+      name = "+git",
+      s = "stage hunk",
+      u = "undo stage hunk",
+      r = "reset hunk",
+      R = "reset buffer",
+      p = "preview hunk",
+      b = "blame line",
+    },
+    u = { "<CMD>UndotreeToggle<CR>", "undotree" },
   },
-  p = {
-    name = "+packer",
-    u = { "<CMD>PackerUpdate<CR>", "Update Plugins" },
-    s = { "<CMD>PackerSync<CR>", "Sync Plugins" },
-    i = { "<CMD>PackerInstall<CR>", "Install Plugins" },
-    c = { "<CMD>PackerCompile<CR>", "Compile plugins.lua" },
-    p = {"<CMD>PackerProfile<CR>", "Profile"}
-  },
-  [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
-  ["?"] = { "<CMD>Cheatsheet<CR>", "cheatsheet"},
-  g = "lazygit",
-  h = {
-    name = "+gitsigns",
-    s = "stage hunk",
-    u = "undo stage hunk",
-    r = "reset hunk",
-    R = "reset buffer",
-    p = "preview hunk",
-    b = "blame line",
-  },
-  b = "blame line",
-}, {
-  prefix = "<leader>",
-})
 
--- clear search highlight on enter
-map("n", "<CR>", [[ <Cmd> nohl<CR>]])
+  -- localleader mappings
+  ["<localleader>"] = {
+    a = "swap: next",
+    A = "swap: prev",
+    t = { "<CMD>ciwtrue<ESC><CR>", "true" },
+  },
 
--- easily switch tabs
-for i = 1, 9 do
-  map(
-    "n",
-    "<A-" .. i .. ">",
-    ':lua require"bufferline".go_to_buffer(' .. i .. ")<CR>"
-  )
-  wk.register {
-    ["<A-" .. i .. ">"] = "switch to buffer " .. i,
-  }
-end
+  -- next
+  ["]"] = {
+    m = { "next function" },
+  },
+
+  -- prev
+  ["["] = {
+    m = { "prev function" },
+  },
+
+  ["<M-left>"] = { "<CMD>bn<CR>", "next buffer" },
+  ["<M-right>"] = { "<CMD>bp<CR>", "prev buffer" },
+}

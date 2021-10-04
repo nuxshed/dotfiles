@@ -1,45 +1,34 @@
-local utils = require "utils"
-
 local M = {}
 
 function M.setup(bufnr)
   local wk = require "which-key"
-  utils.buf_map("n", "K", ":Lspsaga hover_doc<CR>", nil, bufnr)
-  utils.buf_map("n", "[d", ":Lspsaga diagnostic_jump_prev<CR>", nil, bufnr)
-  utils.buf_map("n", "]d", ":Lspsaga diagnostic_jump_next<CR>", nil, bufnr)
 
   wk.register({
-    name = "+code",
-    r = { "<CMD>LspRename<CR>", "rename" },
-    a = { "<CMD>Lspsaga code_action<CR>", "code action" },
-    d = { "<CMD>Lspsaga show_line_diagnostics<CR>", "line diagnostics" },
-    l = {
+    c = {
+      name = "+code",
+      r = { require("lsp.ui").lsp_rename, "rename" },
+      a = { require("plugins.telescope").lsp_code_actions, "code action" },
+    },
+    g = {
+      name = "+goto",
+      d = { vim.lsp.buf.definition, "definition" },
+      D = { vim.lsp.buf.type_definition, "type definition" },
+      i = { vim.lsp.buf.implementation, "implementation" },
+      r = { vim.lsp.buf.references, "references" },
+    },
+    K = { vim.lsp.buf.hover, "lsp: hover" },
+    ["<C-k>"] = { vim.lsp.buf.signature_help, "signature help" },
+    ["<leader>l"] = {
       name = "+lsp",
       i = { "<cmd>LspInfo<cr>", "Lsp Info" },
-      a = { "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "Add Folder" },
-      r = {
-        "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>",
-        "Remove Folder",
-      },
-      l = {
-        "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-        "List Folders",
-      },
+      a = { vim.lsp.buf.add_workspace_folder, "Add Folder" },
+      r = { vim.lsp.buf.remove_workspace_folder, "Remove Folder" },
+      l = { vim.lsp.buf.list_workspace_folders, "List Folders" },
     },
+    ["]d"] = { vim.diagnostic.goto_next, "next diagnostic" },
+    ["[d"] = { vim.diagnostic.goto_prev, "prev diagnostic" },
   }, {
     buffer = bufnr,
-    prefix = "c",
-  })
-
-  wk.register({
-    name = "+goto",
-    d = { "<CMD>LspDef<CR>", "definition" },
-    D = { "<CMD>LspTypeDef<CR>", "type definition" },
-    i = { "<CMD>LspImplementation<CR>", "implementation" },
-    R = { "<CMD>LspReferences<CR>", "references" },
-  }, {
-    buffer = bufnr,
-    prefix = "g",
   })
 end
 

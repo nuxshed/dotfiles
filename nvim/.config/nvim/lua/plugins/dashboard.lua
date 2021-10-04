@@ -1,38 +1,30 @@
-vim.g.dashboard_default_executive = "telescope"
-vim.g.dashboard_enable_session = 0
+local a = require "alpha"
+local d = require "alpha.themes.dashboard"
+local b = d.button
+local s = d.section
 
-vim.g.dashboard_custom_header = {
-  " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
-  " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
-  " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
-  " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
-  " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
-  " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+s.buttons.val = {
+  b("SPC f f", "  Find File"),
+  b("SPC f r", "  Recent Files"),
+  b("SPC f w", "  Find Word"),
+  b("SPC f p", "  Projects"),
+  b("SPC ,", "  Edit Config"),
 }
 
-vim.g.dashboard_custom_section = {
-  a = {
-    description = { "  Find File                 SPC f f" },
-    command = "Telescope find_files",
+s.footer.val = vim.fn.system "fortune -s"
+
+local opts = {
+  layout = {
+    { type = "padding", val = 1 },
+    s.header,
+    { type = "padding", val = 2 },
+    s.buttons,
+    { type = "padding", val = 1 },
+    s.footer,
   },
-  b = {
-    description = { "  Recents                   SPC f o" },
-    command = "Telescope oldfiles",
-  },
-  c = {
-    description = { "  Find Word                 SPC f g" },
-    command = "Telescope live_grep",
-  },
-  d = {
-    description = { "  New File                  SPC f n" },
-    command = "DashboardNewFile",
-  },
-  e = {
-    description = { "  Update Plugins            SPC p u" },
-    command = "PackerUpdate",
+  opts = {
+    margin = 10,
   },
 }
 
-vim.g.dashboard_custom_footer = {
-  "lol",
-}
+a.setup(opts)

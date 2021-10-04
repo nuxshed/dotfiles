@@ -2,39 +2,20 @@
 
 local M = {}
 
-function M.base16()
-  local base16_tokyonight = require("base16").theme_from_array {
-    "1a1b26",
-    "24283b",
-    "0e434c",
-    "565f89",
-    "4e5172",
-    "c0caf5",
-    "dde0ff",
-    "24283b",
-    "c0caf5",
-    "ff9e64",
-    "3d59a1",
-    "9ece6a",
-    "db4b4b",
-    "2ac3de",
-    "9d7cd8",
-    "db4b4b",
-  }
-  local base16 = require "base16"
-  base16(base16_tokyonight, true)
+function M.setup()
+  vim.g.tokyonight_style = "storm"
+  vim.cmd "colorscheme tokyonight"
 end
 
 M.colors = {
   fg = "#c0caf5",
   bg = "#1a1b26",
+  accent = "#7aa2f7",
   lightbg = "#24283b",
-  linebg = "#24283b",
   fgfaded = "#565f89",
   grey = "#4e5172",
   light_grey = "#686c99",
   dark_grey = "#222433",
-  darker_grey = "#1d1e2b",
   bright = "#dde0ff",
   red = "#db4b4b",
   green = "#9ece6a",
@@ -46,6 +27,12 @@ M.colors = {
   ViMode = {},
 }
 
-M.overrides = function() end
+M.overrides = function()
+  vim.cmd [[
+    hi Green guibg=NONE guifg=#9ece6a
+    hi TabLineSel guibg=#24283b guifg=#c0caf5
+    hi TabLineNorm guibg=#1d202F guifg=#565f89
+  ]]
+end
 
 return M

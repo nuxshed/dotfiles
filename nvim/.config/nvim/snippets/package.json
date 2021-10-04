@@ -1,0 +1,31 @@
+{
+  "name": "nvim-snippets",
+  "author": "nuxsh",
+  "engines": {
+    "vscode": "^1.11.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "lua",
+        "path": "./lua.json"
+      },
+      {
+        "language": [
+          "shellscript",
+          "shell",
+          "sh"
+        ],
+        "path": "./shell.json"
+      },
+      {
+        "language": "html",
+        "path": "./html.json"
+      },
+      {
+        "language": "json",
+        "path": "./json.json"
+      }
+    ]
+  }
+}

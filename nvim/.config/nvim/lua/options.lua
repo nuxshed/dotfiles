@@ -1,66 +1,71 @@
-local fn = vim.fn
+local g = vim.g
+local o = vim.opt
 
-vim.opt.showmode = false -- disable mode indicator in cmdline
-vim.g.mapleader = O.leader -- set the leader
-vim.cmd "syntax on" -- enable syntax highlighting
-vim.opt.number = true -- show numbers
-vim.opt.numberwidth = 4 -- width of the number column
-vim.opt.title = true -- enable window title
-vim.opt.titlestring = "nvim" -- set the window title to "nvim"
-vim.g.format_on_save = true -- serves no purpose right now
+o.showmode = false -- disable mode indicator in cmdline
+g.mapleader = O.leader -- set the leader
+g.maplocalleader = O.localleader -- set the localleader
+o.number = true -- show numbers
+o.numberwidth = 4 -- width of the number column
+o.title = true -- enable window title
+o.titlestring = "%f - nvim" -- set the window title to "nvim"
 
 -- timing stuff
-vim.opt.updatetime = 300
-vim.opt.timeout = true
-vim.opt.timeoutlen = 500
-vim.opt.ttimeoutlen = 10
+o.updatetime = 300
+o.timeout = true
+o.timeoutlen = 500
+o.ttimeoutlen = 10
 
 -- Window Splitting and Buffers
-vim.opt.hidden = true
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.eadirection = "hor"
+o.hidden = true
+o.splitbelow = true
+o.splitright = true
+o.eadirection = "hor"
 -- exclude usetab as we do not want to jump to buffers in already open tabs
 -- do not use split or vsplit to ensure we don't open any new windows
-vim.o.switchbuf = "useopen,uselast"
-vim.opt.fillchars = {
-  vert = "│",
+o.switchbuf = "useopen,uselast"
+o.fillchars = {
+  vert = " ",
   fold = " ",
-  eob = " ", -- suppress ~ at EndOfBuffer
-  diff = "░", -- alternatives = ⣿ ─
+  eob = " ",
+  diff = "░",
   msgsep = "‾",
   foldopen = "▾",
-  foldsep = "│",
+  foldsep = "|",
   foldclose = "▸",
 }
 
-vim.opt.emoji = false -- no emoji
-vim.opt.ruler = false -- no ruler
-vim.opt.ignorecase = true -- iGnOre CaSe
-vim.opt.termguicolors = true -- C O L O R S
-vim.opt.cul = true -- cul stands for cursorline
-vim.opt.mouse = "a" -- mouse
-vim.opt.signcolumn = "yes" -- Always show the signcolumn, we don't want it to shift the text each time
-vim.opt.cmdheight = 1 -- height of the cmdline
-vim.opt.clipboard = "unnamedplus" -- sync with system clipboard
-vim.opt.conceallevel = 2 -- Hide * markup for bold and italic
-vim.opt.inccommand = "split" -- preview incremental substitute
-vim.opt.joinspaces = false -- No double spaces with join after a dot
-vim.opt.list = true -- Show some invisible characters (tabs...
-vim.opt.listchars = "tab:| ,nbsp:+,trail:·,extends:→,precedes:←"
-vim.opt.expandtab = true -- use spaces when i press tab
-vim.opt.shiftwidth = 2 -- width of tab
-vim.opt.smartindent = true --sentient indenting
-vim.opt.hidden = true -- Enable modified buffers in background
-vim.opt.pumblend = 10 -- Popup blend
-vim.opt.pumheight = 10 -- Maximum number of entries in a popup
-vim.opt.undofile = true
-vim.opt.undolevels = 10000
-vim.opt.splitbelow = true -- Put new windows below current
-vim.opt.splitright = true -- Put new windows right of current
-vim.opt.wildmode = "longest:full,full" -- Command-line completion mode
-vim.opt.wrap = false -- Disable line wrap
-vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
+o.foldmethod = "manual"
+
+o.emoji = false -- no emoji
+o.ruler = false -- no ruler
+o.ignorecase = true -- iGnOre CaSe
+o.termguicolors = true -- C O L O R S
+o.cul = true -- cul stands for cursorline
+o.mouse = "a" -- mouse
+o.signcolumn = "yes" -- Always show the signcolumn, we don't want it to shift the text each time
+o.cmdheight = 1 -- height of the cmdline
+o.clipboard = "unnamedplus" -- sync with system clipboard
+o.conceallevel = 2 -- Hide * markup for bold and italic
+o.inccommand = "split" -- preview incremental substitute
+o.joinspaces = false -- No double spaces with join after a dot
+o.list = true -- Show some invisible characters (tabs...
+o.listchars = {
+  tab = "| ",
+  trail = "·",
+}
+o.expandtab = true -- use spaces when i press tab
+o.shiftwidth = 2 -- width of tab
+o.smartindent = true --sentient indenting
+o.hidden = true -- Enable modified buffers in background
+o.pumblend = 10 -- Popup blend
+o.pumheight = 10 -- Maximum number of entries in a popup
+o.undofile = true
+o.undolevels = 10000
+o.splitbelow = true -- Put new windows below current
+o.splitright = true -- Put new windows right of current
+o.wildmode = "longest:full,full" -- Command-line completion mode
+o.wrap = false -- Disable line wrap
+o.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 
 -- markdown
 -- Use proper syntax highlighting in code blocks
@@ -77,27 +82,26 @@ local fences = {
   "sh",
   "console=sh",
 }
-vim.g.markdown_fenced_languages = fences
+g.markdown_fenced_languages = fences
 
 -- plasticboy/vim-markdown
-vim.g.vim_markdown_folding_level = 10
-vim.g.vim_markdown_fenced_languages = fences
-vim.g.vim_markdown_folding_style_pythonic = 1
-vim.g.vim_markdown_conceal_code_blocks = 0
-vim.g.vim_markdown_frontmatter = 1
-vim.g.vim_markdown_strikethrough = 1
+g.vim_markdown_folding_level = 10
+g.vim_markdown_fenced_languages = fences
+g.vim_markdown_folding_style_pythonic = 1
+g.vim_markdown_conceal_code_blocks = 0
+g.vim_markdown_frontmatter = 1
+g.vim_markdown_strikethrough = 1
 
-vim.o.grepprg =
-  [[rg --hidden --glob "!.git" --no-heading --smart-case --vimgrep --follow $*]]
-vim.opt.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
+o.grepprg = [[rg --hidden --glob "!.git" --no-heading --smart-case --vimgrep --follow $*]]
+o.grepformat = vim.opt.grepformat ^ { "%f:%l:%c:%m" }
 
-vim.g.loaded_gzip = 1
-vim.g.loaded_tar = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_matchit = 1
--- vim.g.loaded_matchparen = 1
-vim.g.loaded_spec = 1
+-- disable inbuilt vim plugins
+g.loaded_gzip = 1
+g.loaded_tar = 1
+g.loaded_tarPlugin = 1
+g.loaded_zipPlugin = 1
+g.loaded_2html_plugin = 1
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+g.loaded_matchit = 1
+g.loaded_spec = 1
