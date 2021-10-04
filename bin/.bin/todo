@@ -3,35 +3,29 @@
 # a simple todo script
 
 TODOFILE=~/.todo
-CAT=bat
+[ ! -r $TODOFILE ] && touch $TODOFILE
 
-[ "$1" ] ||exit 1
-
-add_todo() {
-  printf '%s\n' "$1" >> $TODOFILE
-}
-
-rm_todo() {
-  sed -i.old -E "/^$1$/d" "$TODOFILE"
-}
-
-clear_todo() {
-  rm $TODOFILE
-}
+[ "$1" ] || exit 1
 
 while [ "$1" ]; do
   case "$1" in 
     a | add | n | new)
-      add_todo "$2"
+      printf '%s\n' "$2" >> $TODOFILE
       exit ;;
     l | ls | list)
-      $CAT $TODOFILE
+      while read -r line; do
+        i=$((i+1))
+        printf "%s. %s\n" "$i" "$line"
+      done < "$TODOFILE"
       exit ;;
     d | done | complete)
-      rm_todo "$2"
+      sed -i.old -E "/^$2$/d" "$TODOFILE"
       exit ;;
     c | clear | clean)
-      clear_todo
+      rm $TODOFILE
+      exit ;;
+    +*|@*)
+      grep "$1" $TODOFILE --color=auto -n -w
       exit ;;
   esac
 done
