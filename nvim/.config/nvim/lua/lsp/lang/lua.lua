@@ -1,65 +1,39 @@
 local M = {}
 
-if O.lang.lua.luadev.enabled then
-  function M.setup(on_attach)
-    local luadev = require("lua-dev").setup {
-      library = {
-        vimruntime = true,
-        types = true,
-        plugins = true,
-        -- plugins = { "nvim-treesitter", "plenary.nvim"},
+M.setup = {
+  cmd = { "lua-language-server" },
+  root_dir = require("lspconfig.util").root_pattern("stylua.toml", "rc.lua", ".git") or vim.loop.cwd,
+  settings = {
+    Lua = {
+      completion = {
+        enable = true,
+        callSnippet = "Replace",
       },
-      lspconfig = {
-        root_dir = vim.loop.cwd,
-        on_attach = on_attach,
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim", "O" },
-            },
-            workspace = {
-              library = {
-                [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-              },
-              maxPreload = 100000,
-              preloadFileSize = 10000,
-            },
-            telemetry = {
-              enable = false,
-            },
-          },
+      runtime = {
+        version = "LuaJIT",
+        path = (function()
+          local runtime_path = vim.split(package.path, ";")
+          table.insert(runtime_path, "lua/?.lua")
+          table.insert(runtime_path, "lua/?/init.lua")
+          return runtime_path
+        end)(),
+      },
+      diagnostics = {
+        enable = true,
+        globals = {
+          "vim",
+          "O",
+          "utils",
         },
       },
-    }
-
-    require("lspconfig").lua.setup(luadev)
-  end
-else
-  function M.setup(on_attach)
-    require("lspconfig")["lua"].setup {
-      root_dir = vim.loop.cwd,
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-              [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-            },
-            maxPreload = 100000,
-            preloadFileSize = 10000,
-          },
-          telemetry = {
-            enable = false,
-          },
-        },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file('', true),
       },
-    }
-  end
-end
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
 
 return M

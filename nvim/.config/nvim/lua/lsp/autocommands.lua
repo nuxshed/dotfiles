@@ -1,29 +1,25 @@
-local utils = require "utils"
 local augroup = utils.augroup
 
 local M = {}
 
 function M.setup(client)
- -- format-on-save
-  if O.format_on_save and client.resolved_capabilities.document_formatting then
-    vim.cmd "autocmd BufWritePost * :LspFormat"
+  -- format-on-save
+  if client and client.resolved_capabilities.document_formatting then
+    augroup("lsp_format", {
+      {
+        events = { "BufWritePre" },
+        targets = { "<buffer>" },
+        command = require("lsp.utils").format_on_save,
+      },
+    })
   end
   -- cursor commands
   if client and client.resolved_capabilities.document_highlight then
-    -- vim.api.nvim_exec(
-    --   [[augroup lsp_document_highlight
-    --       autocmd! * <buffer>
-    --       autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    --       autocmd CursorHoldI <buffer> silent! lua vim.lsp.document_highlight()
-    --       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-    --     augroup END]],
-    --   false
-    -- )
     augroup("lsp_document_highlight", {
       {
         events = { "CursorHold" },
         targets = { "<buffer>" },
-        command = "lua vim.lsp.buf.document_highlight()",
+        command = vim.lsp.buf.document_highlight,
       },
       {
         events = { "CursorHoldI" },
@@ -33,7 +29,7 @@ function M.setup(client)
       {
         events = { "CursorMoved" },
         targets = { "<buffer>" },
-        command = "lua vim.lsp.buf.clear_references()",
+        command = vim.lsp.buf.clear_references,
       },
     })
   end

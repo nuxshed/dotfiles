@@ -1,64 +1,58 @@
 local lspconfig = require "lspconfig"
-local lspinstall = require "lspinstall"
--- local utils = require "utils"
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.documentationFormat = {
+  "markdown",
+}
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = false
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = {
+  valueSet = { 1 },
+}
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    "documentation",
+    "detail",
+    "additionalTextEdits",
+  },
+}
 
 local function on_attach(client, bufnr)
-  require("lsp.commands").setup()
   require("lsp.autocommands").setup(client)
+  require("lsp.commands").setup()
   require("lsp.mappings").setup(bufnr)
-  require("lsp.formatting").setup(client, bufnr)
-  require("lsp.diagnostics").setup()
+  require "lsp.handlers"
   require "lsp.signs"
 end
 
--- config that activates keymaps and enables snippet support
-local function make_config()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.colorProvider = { dynamicRegistration = false }
-  return {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    init_options = {},
-    settings = {},
-  }
-end
+local servers = {
+  sumneko_lua = require("lsp.lang.lua").setup,
+  html = { cmd = { "vscode-html-language-server", "--stdio" } },
+  cssls = { cmd = { "vscode-css-language-server", "--stdio" } },
+  pyright = {},
+  rust_analyzer = {},
+  ["null-ls"] = {
+    init_options = {
+      documentFormatting = true,
+    },
+  },
+}
 
--- Setup LSP Servers
+require("lsp.null-ls").setup()
 
-local function setup_servers()
-  lspinstall.setup()
-  local servers = lspinstall.installed_servers()
-
-  for _, lang in pairs(servers) do
-    if lang == "lua" then
-      require("lsp.lang.lua").setup(on_attach)
-    elseif lang == "rust" then
-      -- require("lsp.lang.rust").setup(on_attach)
-    elseif lang == "typescript" then
-      require("lsp.lang.typescript").setup(on_attach)
-    elseif lang == "json" then
-      require("lsp.lang.json").setup(on_attach)
-    else
-      local config = make_config()
-      if lang == "html" then
-        config.init_options = O.lang.html.init_options
-        config.capabilities.textDocument.formatting = false
-      end
-      lspconfig[lang].setup(config)
-    end
+for name, opts in pairs(servers) do
+  if type(opts) == "function" then
+    opts()
+  else
+    local client = lspconfig[name]
+    client.setup(vim.tbl_extend("force", {
+      flags = { debounce_text_changes = 150 },
+      on_attach = on_attach,
+      capabilities = capabilities,
+    }, opts))
   end
 end
-
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-lspinstall.post_install_hook = function()
-  setup_servers() -- reload installed servers
-  vim.cmd "bufdo e"
-end
-
--- null-ls
-require("lsp.null-ls").setup(on_attach)
-
-return on_attach

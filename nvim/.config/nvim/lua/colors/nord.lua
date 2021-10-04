@@ -2,32 +2,14 @@
 
 local M = {}
 
-function M.base16()
-  local base16 = require "base16"
-  local base16_nord = base16.theme_from_array {
-    "21252d",
-    "333a47",
-    "434c5e",
-    "616e88",
-    "616e88",
-    "d8dee9",
-    "eceff4",
-    "333a47",
-    "d8dee9",
-    "ebcb8b",
-    "8fbcbb",
-    "a3be8c",
-    "ebcb8b",
-    "81a1c1",
-    "667499",
-    "bf616a",
-  }
-  base16(base16_nord, true)
+function M.setup()
+  vim.cmd [[colorscheme nord]]
 end
 
 M.colors = {
   fg = "#d8dee9",
   bg = "#21252d",
+  accent = "#8fbcbb",
   lightbg = "#333a47",
   linebg = "#333a47",
   fgfaded = "#616e88",
@@ -44,10 +26,21 @@ M.colors = {
   orange = "#d08770",
   cyan = "#9fe2f4",
   ViMode = {
-    Normal = "#8fbcbb"
+    Normal = "#8fbcbb",
   },
 }
 
-M.overrides = function() end
+M.overrides = function()
+  vim.cmd [[
+    hi TabLineSel guifg=#abb2bf guibg=#393f4a gui=italic
+    hi TabLineNorm guifg=#abbb2bf guibg=#282c34
+    hi TabLineFill guibg=#282c34
+    hi LspReferenceText guibg=#3a404c gui=NONE
+    hi LspReferenceWrite guibg=#3a404c gui=NONE
+    hi LspReferenceRead guibg=#3a404c gui=NONE
+    hi MatchParen guibg=#3a404c
+    hi IndentBLanklineContextChar guifg=#61afef
+  ]]
+end
 
 return M

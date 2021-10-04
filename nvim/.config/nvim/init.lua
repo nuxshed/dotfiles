@@ -1,11 +1,7 @@
---  _       _ _     _
--- (_)_ __ (_) |_  | |_   _  __ _
--- | | '_ \| | __| | | | | |/ _` |
--- | | | | | | |_ _| | |_| | (_| |
--- |_|_| |_|_|\__(_)_|\__,_|\__,_|
-
 require "config"
+require "utils"
 require "plugins"
-require "options"
 require "mappings"
+require "options"
 require "highlights"
+require "statusline"

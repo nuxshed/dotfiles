@@ -1,16 +1,41 @@
 -- config file for my neovim configuration
+-- meta, aint it?
 
 O = {
   colorscheme = "gruvbox",
   leader = " ",
+  localleader = ",",
+  borders = "single",
   format_on_save = true,
   smart_close = "help,startuptime,qf,lspinfo,packer,tsplayground", -- windows to close with 'q'
-  statusline = {
-    style = "block",
-    CurrentDir = false,
-    GitRoot = false,
-    BufType = true,
-    Encoding = true,
+  icons = {
+    kinds = {
+      Class = "ﴯ ",
+      Color = " ",
+      Constant = "",
+      Constructor = " ",
+      Enum = "練",
+      EnumMember = " ",
+      Event = " ",
+      Field = "識",
+      File = "",
+      Folder = " ",
+      Function = " ",
+      Interface = "ﰮ ",
+      Keyword = " ",
+      Method = " ",
+      Module = " ",
+      Operator = "",
+      Property = " ",
+      Reference = "渚",
+      Snippet = " ",
+      Struct = "פּ ",
+      Text = " ",
+      TypeParameter = " ",
+      Unit = "塞",
+      Value = " ",
+      Variable = "",
+    },
   },
   treesitter = {
     ensure_installed = {
@@ -35,74 +60,14 @@ O = {
       "vue",
       "yaml",
     },
-    highlight = { enabled = true },
-    incremental_selection = { enabled = true },
-  },
-  plugin = {
-    dashboard = { enabled = true },
-    colorizer = { enabled = true },
-    neogit = { enabled = true },
-    octo = { enabled = false },
-    diffview = { enabled = false },
-    lspsaga = { enabled = false },
-    trouble = { enabled = true },
-    codi = { enabled = false },
-  },
-  lang = {
-    angular = {},
-    bash = {},
-    cpp = {},
-    css = {},
-    deno = {},
-    html = {
-      init_options = {
-        configurationSection = { "html", "css", "javascript" },
-        embeddedLanguages = {
-          css = true,
-          javascript = true,
-        },
-      },
-    },
-    json = {},
-    lua = {
-      luadev = {
-        -- don't load luadev unless explicitly asked to
-        enabled = false,
-      },
-    },
-    python = {
-      analysis = {
-        type_checking = "basic",
-        auto_search_paths = true,
-        use_library_code_types = true,
-      },
-    },
-    rust = {
-      rust_tools = {
-        enabled = true,
-      },
-      settings = {
-        ["rust-analyzer"] = {
-          -- rust-analyzer settings here
-        },
-      },
-      -- this depends on lspconfig, which is a plugin
-      -- may cause issues with bootstrapping
-      -- root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json", ".git"),
-    },
-    typescript = {
-      filetypes = { "javascript", "typescript", "typescriptreact" },
-    },
-    vim = {},
-    vue = {},
-    yaml = {},
   },
   terminal = {
     direction = "horizontal",
   },
 }
 
--- source project config
-if vim.fn.filereadable(vim.fn.getcwd() .. "/.nvim-config.lua") == 1 then
-  vim.cmd("source" .. vim.fn.getcwd() .. "/.nvim-config.lua")
+-- {{{ source project config
+if vim.fn.filereadable(vim.fn.getcwd() .. "/.nvimrc.lua") == 1 then
+  vim.cmd("luafile" .. vim.fn.getcwd() .. "/.nvimrc.lua")
 end
+-- }}}

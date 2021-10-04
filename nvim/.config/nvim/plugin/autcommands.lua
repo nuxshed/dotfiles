@@ -1,16 +1,4 @@
-local utils = require "utils"
-local augroup = utils.augroup
-
--- inspired heavily by akinsho's config
-
-vim.api.nvim_exec(
-  [[
-   augroup vimrc -- Ensure all autocommands are cleared
-   autocmd!
-   augroup END
-  ]],
-  ""
-)
+local augroup = require("utils").augroup
 
 augroup("ExternalCommands", {
   {
@@ -21,22 +9,21 @@ augroup("ExternalCommands", {
   },
 })
 
-augroup("kitty", {
-  -- reset kitty background
+augroup("IncSearchHighlight", {
   {
-    events = { "VimLeavePre" },
-    targets = { "*" },
-    command = [[lua require("external").kitty.reset_background()]],
+    -- automatically clear search highlight once leaving the commandline
+    events = { "CmdlineEnter" },
+    targets = { "[/\\?]" },
+    command = ":set hlsearch  | redrawstatus",
+  },
+  {
+    events = { "CmdlineLeave" },
+    targets = { "[/\\?]" },
+    command = ":set nohlsearch | redrawstatus",
   },
 })
 
 augroup("Utilities", {
-  {
-    -- @source: https://vim.fandom.com/wiki/Use_gf_to_open_a_file_via_its_URL
-    events = { "BufReadCmd" },
-    targets = { "file:///*" },
-    command = 'exe "bd!|edit ".substitute(expand("<afile>"),"file:/*","","")',
-  },
   {
     events = { "FileType" },
     targets = { "gitcommit", "gitrebase" },
@@ -49,10 +36,15 @@ augroup("Utilities", {
   },
 })
 
--- augroup("Templates", {
---   {
---     events = { "BufNewFile" },
---     targets = { "*.ext" },
---     command = "0r $HOME/.config/nvim/templates/skeleton.ext",
---   },
--- })
+augroup("ftdetect", {
+  {
+    events = { "BufRead,BufNewFile" },
+    targets = { "*.rasi" },
+    command = "set filetype=rasi",
+  },
+  {
+    events = { "BufRead,BufNewFile" },
+    targets = { "*.log", "*.LOG", "*_log", "*_LOG", "log", "LOG" },
+    command = "set filetype=log",
+  },
+})

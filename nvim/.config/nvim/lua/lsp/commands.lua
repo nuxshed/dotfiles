@@ -1,14 +1,8 @@
-local utils = require "utils"
-
 local M = {}
 
 function M.setup()
-  utils.lua_command("LspDef", "vim.lsp.buf.definition()")
-  utils.lua_command("LspTypeDef", "vim.lsp.buf.type_definition()")
-  utils.lua_command("LspImplementation", "vim.lsp.buf.implementation()")
-  utils.lua_command("LspReferences", "vim.lsp.buf.references()")
-  utils.lua_command("LspRename", "vim.lsp.buf.rename()")
-  utils.lua_command("LspFormat", "vim.lsp.buf.formatting_sync()")
+  utils.command("LspFormat", vim.lsp.buf.formatting_sync)
+  utils.command("ToggleFormatOnSave", require("lsp.utils").toggle_format_on_save)
   utils.command("LspLog", "edit " .. vim.lsp.get_log_path())
 end
 
