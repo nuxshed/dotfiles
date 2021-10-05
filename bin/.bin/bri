@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # set brightness
-brightnessctl s $1
+
+brightnessctl s "$1"
 
 # get brightness
 MAX_BRI=$(cat /sys/class/backlight/intel_backlight/max_brightness)
