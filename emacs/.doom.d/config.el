@@ -19,9 +19,9 @@
 
 (global-subword-mode 1) ; navigate through Camel Case words
 
-(setq doom-font (font-spec :family "Fira Code Nerd Font" :size 11)
-      doom-big-font (font-spec :family "Fira Code Nerd Font" :size 16)
-      doom-variable-pitch-font (font-spec :family "DejaVuSansMono Nerd Font" :size 12))
+(setq doom-font (font-spec :family "Fira Code" :size 11)
+      doom-big-font (font-spec :family "Fira Code" :size 16)
+      doom-variable-pitch-font (font-spec :family "DejaVuSansMono" :size 12))
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
