@@ -24,7 +24,10 @@ while [ "$1" ]; do
     c | clear | clean)
       rm $TODOFILE
       exit ;;
-    +*|@*)
+    e | edit)
+      $EDITOR $TODOFILE
+      exit ;;
+    +* | @*)
       grep "$1" $TODOFILE --color=auto -n -w
       exit ;;
   esac
