@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# cam - see yourself on your screen
+
 sudo chown root:video /dev/video0
 sudo chmod g+rwx /dev/video0
 mpv av://v4l2:/dev/video0
