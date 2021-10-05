@@ -55,7 +55,7 @@ font string. You generally only need these two:
 #+begin_src elisp
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 11)
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 16)
-      doom-variable-pitch-font (font-spec :family "DejaVuSansMono" :size 12))
+      doom-variable-pitch-font (font-spec :family "Montserrat" :size 12))
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and

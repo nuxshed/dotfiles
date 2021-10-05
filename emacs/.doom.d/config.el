@@ -19,9 +19,9 @@
 
 (global-subword-mode 1) ; navigate through Camel Case words
 
-(setq doom-font (font-spec :family "Fira Code" :size 11)
-      doom-big-font (font-spec :family "Fira Code" :size 16)
-      doom-variable-pitch-font (font-spec :family "DejaVuSansMono" :size 12))
+(setq doom-font (font-spec :family "FiraCode Nerd Font" :size 11)
+      doom-big-font (font-spec :family "FiraCode Nerd Font" :size 16)
+      doom-variable-pitch-font (font-spec :family "Montserrat" :size 12))
       doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -50,9 +50,6 @@
   (add-hook 'lsp-after-initialize-hook (lambda()
                                         (flycheck-add-next-checker 'lsp '(warning . javascript-eslint)))))
 
-(setq swiper-use-visual-line nil
-      swiper-use-visual-line-p (lambda (a) nil))
-
 ;; There's a weird bug where fringe-modes < 8 dont show the fringes
 (after! git-gutter
   (fringe-mode 8)
@@ -63,18 +60,12 @@
 (after! ibuffer
   (set-popup-rule! "^\\*Ibuffer\\*$" :side 'bottom :size 0.4 :select t :ignore nil))
 
-(setq +ivy-buffer-preview t)
-(after! ivy-posframe
-  (setf (alist-get t ivy-posframe-display-functions-alist)
-        #'ivy-posframe-display-at-frame-top-center))
 (setq doom-themes-treemacs-theme "doom-colors")
 (after! treemacs
   (setq +treemacs-git-mode 'extended)
   (treemacs-follow-mode t))
 (after! rainbow-mode
   (setq rainbow-html-colors-major-mode-list '(html-mode css-mode php-mode nxml-mode xml-mode typescript-mode javascript-mode)))
-
-(setq all-the-icons-scale-factor 1.0)
 
 (set-frame-parameter nil 'internal-border-width 15)
 (setq-default left-margin-width 2)
@@ -102,8 +93,6 @@
   (centaur-tabs-mode -1)
   (setq centaur-tabs-height 30
         centaur-tabs-set-icons t
-        centaur-tabs-modified-marker "o"
-        centaur-tabs-close-button ""
         centaur-tabs-gray-out-icons 'buffer)
   (centaur-tabs-group-by-projectile-project)
 
