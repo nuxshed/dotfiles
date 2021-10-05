@@ -1,6 +1,6 @@
 #!/bin/sh
 
- # uz - unzip stuff
+# uz - unzip stuff
 
 usage() {
   >&2 printf '%s\n' "Usage: ${0##*/} [-c copy_path] file"
