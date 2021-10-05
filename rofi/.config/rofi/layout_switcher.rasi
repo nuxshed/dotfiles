@@ -1,34 +1,23 @@
-configuration {
-}
+@theme "/dev/null"
+
 
 * {
   bg: #1d2021;
   fg: #ddc7a1;
-  selbg: #89b482;
+  selbg: #282828;
   selfg: #89b482;
-  actbg: #282828;
-  urgbg: #ea6962;
 
   background-color: @bg;
   text-color: @fg;
   selected-normal-foreground: @selfg;
   normal-foreground: @fg;
-  selected-normal-background: @actbg;
+  selected-normal-background: @selbg;
   normal-background: @bg;
-  selected-urgent-foreground: @bg;
-  urgent-foreground: @text-color;
-  selected-urgent-background: @urgbg;
-  urgent-background: @bg;
-  selected-active-foreground: @selfg;
-  active-foreground: @fg;
-  selected-active-background: @actbg;
-  active-background: @bg;
-  border-color: @actbg;
+  border-color: @selbg;
   font: "FiraCode Nerd Font 10";
-  separator-style: "none";
-  hide-scrollbar: "true";
-  margin: 0;
-  padding: 5;
+  margin: 3px;
+  padding: 7px;
+  border: 0px;
 }
 
 window {
@@ -36,55 +25,94 @@ window {
   anchor: center;
   height: 21%;
   width: 50%;
-  orientation: horizontal;
-  children: [mainbox];
   border: 2px;
-}
-
-listview {
-  columns: 5;
-  lines: 1;
-  spacing: 5px;
-  dynamic: true;
-  layout: vertical;
+  orientation: vertical;
+  children: [mainbox];
+  padding: 0px;
 }
 
 mainbox {
-  background-color: @background-color;
-  children: [ listview ];
-  spacing: 10px;
-  margin: 10px;
+  children: [listview];
+  padding: 10px;
+  margin: 0px;
+}
+
+listview {
+  dynamic: true;
+  cycle: true;
+  scrollbar: false;
+  layout: vertical;
+  columns: 5;
+  lines: 1;
 }
 
 element {
-  background-color: @selected-normal-background;
-  text-color: @foreground;
+  padding: 1px;
   orientation: horizontal;
 }
 
 element-text {
+  background-color: inherit;
+  text-color:       inherit;
   font: "Fira Code Nerd Font 20";
-  horizontal-align: 0;
+  horizontal-align: 0.5;
   vertical-align: 0.5;
-  margin: 30px 0px 40px 0px;
+  margin: 10px 0px 10px 0px;
+  padding: 20px 20px 20px 20px;
+}
+
+element-icon {
+    enabled: false;
+}
+
+entry {
+  text-color: @normal-foreground;
+  vertical-align: 1;
+  padding: 1px;
+}
+
+element normal.normal {
+  background-color: @normal-background;
+  text-color: @normal-foreground;
+}
+
+element normal.urgent {
+  background-color: @urgent-background;
+  text-color: @urgent-foreground;
+}
+
+element normal.active {
+  background-color: @active-background;
+  text-color: @active-foreground;
+}
+
+element selected.normal {
+  background-color: @selected-normal-background;
+  text-color: @selected-normal-foreground;
+  font: "FiraCode Nerd Font 10";
+}
+
+element selected.urgent {
+  background-color: @selected-urgent-background;
+  text-color: @selected-urgent-foreground;
+}
+
+element selected.active {
+  background-color: @selected-active-background;
+  text-color: @selected-active-foreground;
+}
+
+element alternate.normal {
+  background-color: @normal-background;
+  text-color: @normal-foreground;
 }
 
 element alternate.urgent {
-  background-color: @off;
-  text-color: @background;
-  border-radius: 0px;
+  background-color: @urgent-background;
+  text-color: @urgent-foreground;
 }
 
-element normal.active,
 element alternate.active {
-  background-color: @on;
-  text-color: @background;
-}
-
-element selected {
-  background-color: @selected-normal-background;
-  text-color: @background;
-  border: 0px;
-  border-radius: 0px;
-  border-color: @border;
+  background-color: @active-background;
+  text-color: @active-foreground;
 }

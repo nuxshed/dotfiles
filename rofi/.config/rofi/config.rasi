@@ -1,83 +1,59 @@
-/*                   __ _                       _  */
-/*   ___ ___  _ __  / _(_) __ _   _ __ __ _ ___(_) */
-/*  / __/ _ \| '_ \| |_| |/ _` | | '__/ _` / __| | */
-/* | (_| (_) | | | |  _| | (_| |_| | | (_| \__ \ | */
-/*  \___\___/|_| |_|_| |_|\__, (_)_|  \__,_|___/_| */
-/*                        |___/                    */
-
 configuration {
-  display-drun: "Run";
-  display-window: "Win";
-  display-file-browser: "Files";
   icon-theme: "Papirus-Dark";
   show-icons: true;
-  sidebar-mode: false;
-  modi: "window,drun,file-browser";
+  modi: "drun";
+}
+
+@theme "/dev/null"
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
 }
 
 * {
   bg: #1d2021;
   fg: #ddc7a1;
-  selbg: #89b482;
+  selbg: #282828;
   selfg: #89b482;
-  actbg: #282828;
-  urgbg: #ea6962;
 
   background-color: @bg;
   text-color: @fg;
   selected-normal-foreground: @selfg;
   normal-foreground: @fg;
-  selected-normal-background: @actbg;
+  selected-normal-background: @selbg;
   normal-background: @bg;
-  selected-urgent-foreground: @bg;
-  urgent-foreground: @text-color;
-  selected-urgent-background: @urgbg;
-  urgent-background: @bg;
-  selected-active-foreground: @selfg;
-  active-foreground: @fg;
-  selected-active-background: @actbg;
-  active-background: @bg;
-  border-color: @actbg;
+  border-color: @selbg;
   font: "FiraCode Nerd Font 10";
-  separator-style: "none";
-  hide-scrollbar: "true";
-  margin: 0;
-  padding: 5;
+  margin: 3px;
+  padding: 7px;
+  border: 0px;
 }
 
 window {
   location: center;
   anchor: center;
-  height: 50%;
+  height: 55%;
   width: 35%;
   border: 2px;
   orientation: horizontal;
   children: [mainbox];
+  padding: 0px;
 }
 
 mainbox {
-  spacing: 0.6em;
-  children: [ entry, listview, sidebar ];
-}
-
-button {
-  padding: 3px 1px;
-}
-
-button selected {
-  background-color: @selected-normal-background;
-  text-color: @selected-normal-foreground;
+  padding: 10px;
+  margin: 0px;
 }
 
 inputbar {
-  padding: 3px;
-  spacing: 2px;
+  children: [entry];
 }
 
 listview {
-  spacing: 0.5em;
   dynamic: true;
   cycle: true;
+  scrollbar: false;
 }
 
 element {
@@ -85,13 +61,12 @@ element {
 }
 
 element-icon {
-  size: 20;
+  size: 22;
   vertical-align: 1;
   horizontal-align: 1;
 }
 
 entry {
-  expand: false;
   text-color: @normal-foreground;
   vertical-align: 1;
   padding: 1px;
