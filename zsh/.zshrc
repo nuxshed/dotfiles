@@ -1,8 +1,6 @@
 # .zshrc
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Enable Powerlevel10k instant prompt.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -13,12 +11,12 @@ ZINIT[HOME_DIR]=$HOME/.zsh/zinit
 ZINIT[ZCOMPDUMP_PATH]=${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump-$ZSH_VERSION
 
 if [[ ! -f ${ZINIT[HOME_DIR]}/bin/zinit.zsh ]]; then
-    	print -P "%F{blue}▓▒░ %F{yellow}Installing %F{blue}DHARMA%F{yellow} Initiative Plugin Manager (%F{blue}zdharma/zinit%F{yellow})…%f"
-    	mkdir -p "${ZINIT[HOME_DIR]}" && chmod g-rwX "${ZINIT[HOME_DIR]}"
-    	git clone https://github.com/zdharma/zinit "${ZINIT[HOME_DIR]}/bin" && {
-        	print -P "%F{blue}▓▒░ %F{34}Installation successful.%f%b" ||
-        	print -P "%F{red}▓▒░ The clone has failed.%f%b"
-	}
+  print -P "%F{blue}▓▒░ %F{yellow}Installing %F{blue}DHARMA%F{yellow} Initiative Plugin Manager (%F{blue}zdharma/zinit%F{yellow})…%f"
+  mkdir -p "${ZINIT[HOME_DIR]}" && chmod g-rwX "${ZINIT[HOME_DIR]}"
+  git clone https://github.com/zdharma/zinit "${ZINIT[HOME_DIR]}/bin" && {
+    print -P "%F{blue}▓▒░ %F{34}Installation successful.%f%b" ||
+    print -P "%F{red}▓▒░ The clone has failed.%f%b"
+  }
 fi
 
 source "${ZINIT[HOME_DIR]}/bin/zinit.zsh"
@@ -32,29 +30,32 @@ zinit lucid light-mode for \
 
 ## PLUGINS
 zinit wait lucid light-mode for \
-        atinit"
-  	  	typeset -gA FAST_HIGHLIGHT
-  	  	FAST_HIGHLIGHT[git-cmsg-len]=100
-  	  	ZINIT[COMPINIT_OPTS]=-C
-  	  	zicompinit
-  	  	zicdreplay
-  	" \
-        	zdharma/fast-syntax-highlighting \
-        blockf atpull'zinit creinstall -q .' \
-        atinit"
-        " \
-        atload'
-		eval "$(dircolors)"
-		zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "ma=38;5;7;7;1"
-		zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=36=0=01"
-  	' \
-        	zsh-users/zsh-completions \
-        atinit"
-  		ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-  		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-  		ZSH_AUTOSUGGEST_COMPLETION_IGNORE='_*|pre(cmd|exec)|sudo pacman -S*|pacman -S*|paru -S*|yay -S*|\)\*'
-  	" \
-            zsh-users/zsh-autosuggestions \
+  atinit"
+    typeset -gA FAST_HIGHLIGHT
+    FAST_HIGHLIGHT[git-cmsg-len]=100
+    ZINIT[COMPINIT_OPTS]=-C
+    zicompinit
+    zicdreplay
+  " \
+    zdharma/fast-syntax-highlighting \
+  blockf atpull'zinit creinstall -q .' \
+  atload'
+    eval "$(dircolors)"
+    zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "ma=38;5;7;7;1"
+    zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=36=0=01"
+  ' \
+    zsh-users/zsh-completions \
+  atinit"
+    ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+    ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+    ZSH_AUTOSUGGEST_COMPLETION_IGNORE='_*|pre(cmd|exec)|sudo pacman -S*|pacman -S*|paru -S*|yay -S*|\)\*'
+  " \
+    zsh-users/zsh-autosuggestions \
+  atload"
+    HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
+    HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
+  " \
+      zsh-users/zsh-history-substring-search \
 
 
 ## zsh settings
@@ -65,13 +66,14 @@ autoload -Uz compinit promptinit
 compinit -i
 promptinit
 
+# zsh options
 # setopt case_glob              # Use Case-Insensitve Globbing.
 setopt globdots                 # Glob Dotfiles As Well.
 setopt extendedglob             # Use Extended Globbing.
 setopt auto_cd                  # no need to specify cd
 setopt correct                  # Turn On Corrections
 setopt correct                  # spelling correction
-setopt interactivecomments 	    # Ignore lines prefixed with '#'
+setopt interactivecomments      # Ignore lines prefixed with '#'
 
 # Completion Options.
 setopt complete_in_word         # Complete From Both Ends Of A Word.
@@ -106,22 +108,8 @@ zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:*' popup-pad 0 0
 zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:exa' file-sort modification
-zstyle ':completion:*:exa' sort false  	
+zstyle ':completion:*:exa' sort false
 
-# history substring search
-# HISTORY SUBSTRING SEARCHING
-zinit light zsh-users/zsh-history-substring-search
-zinit ice wait'0b' lucid atload'bindkey "$terminfo[kcuu1]" history-substring-search-up; bindkey "$terminfo[kcud1]" history-substring-search-down'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
-zle -N history-substring-search-up
-zle -N history-substring-search-down
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-bindkey '^P' history-substring-search-up
-bindkey '^N' history-substring-search-down
 
 # History file configuration
 HISTFILE="$HOME/.zsh_hist"
@@ -143,12 +131,19 @@ source "$HOME/.zsh/aliases.zsh"
 source "$HOME/.zsh/git.zsh"
 
 # better url management
-autoload -Uz bracketed-paste-magic url-quote-magic
-zle -N bracketed-paste bracketed-paste-magic
+autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
+
+# history substring search
+zle -N history-substring-search-up
+zle -N history-substring-search-down
 
 ## keybindings
 bindkey -e                                        # emacs keybindings
+bindkey '^[[A' history-substring-search-up        # up
+bindkey '^[[B' history-substring-search-down      # down
+bindkey '^j' history-substring-search-down        # C-j
+bindkey '^k' history-substring-search-up          # C-k
 bindkey '^[[1;5C' forward-word                    # ctrl + ->
 bindkey '^[[1;5D' backward-word                   # ctrl + <-
 bindkey '^[[5~' beginning-of-buffer-or-history    # page up
@@ -156,8 +151,4 @@ bindkey '^[[6~' end-of-buffer-or-history          # page down
 bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] && [[ "$TERM" != "linux" ]] || source ~/.p10k.zsh
-
-# eval $(starship init zsh)
+[[ "$TERM" != "linux" ]] && source ~/.p10k.zsh
