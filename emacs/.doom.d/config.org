@@ -243,7 +243,7 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
 ** Deft
 #+begin_src elisp
 (setq deft-directory "~/notes")
-(setq deft-extensions '("txt" "tex" "org"))
+(setq deft-extensions '("txt" "tex" "org" "md"))
 (setq deft-recursive t)
 #+end_src
 

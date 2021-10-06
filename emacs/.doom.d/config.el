@@ -177,7 +177,7 @@
     :list_property "::"))
 
 (setq deft-directory "~/notes")
-(setq deft-extensions '("txt" "tex" "org"))
+(setq deft-extensions '("txt" "tex" "org" "md"))
 (setq deft-recursive t)
 
 (defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
