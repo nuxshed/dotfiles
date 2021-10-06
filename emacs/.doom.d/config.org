@@ -1,8 +1,7 @@
 #+TITLE: Doom Emacs Configuration
 #+AUTHOR: nuxsh
 
-* Doom Emacs Config
-** Basic Configuration
+* Basic Configuration
 
 Make this file run (slightly) faster with lexical binding
 #+begin_src elisp
@@ -14,13 +13,13 @@ I also don't want to compile my org config every time I make a change. Lets fix 
 (remove-hook 'org-mode-hook #'+literate-enable-recompile-h)
 #+end_src
 
-*** Identity
+** Identity
 #+begin_src elisp
 (setq user-full-name "nuxsh"
       user-mail-address "nuxshed@gmail.com")
 #+end_src
 
-*** better defaults
+** better defaults
 #+begin_src elisp
 (setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
@@ -37,7 +36,7 @@ I also don't want to compile my org config every time I make a change. Lets fix 
 (global-subword-mode 1) ; navigate through Camel Case words
 #+end_src
 
-** Fonts
+* Fonts
 I like Fira Code for programming, and I prefer a sans-serif font like Montserrat for mixed pitch.
 #+begin_src elisp
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 11)
@@ -46,7 +45,7 @@ I like Fira Code for programming, and I prefer a sans-serif font like Montserrat
       doom-serif-font (font-spec :family "Montserrat" :size 12)
 #+end_src
 
-** Theme
+* Theme
 I just use the default Doom Emacs theme, since I don't really like any of the others that come with it.
 #+begin_src elisp
 (setq doom-theme 'doom-one)
@@ -54,7 +53,7 @@ I just use the default Doom Emacs theme, since I don't really like any of the ot
 (setq doom-themes-treemacs-theme "doom-atom")
 #+end_src
 
-** Projects
+* Projects
 #+begin_src  elisp
 (after! projectile
   (setq projectile-project-root-files-bottom-up '("package.json" ".projectile" ".project" ".git")
@@ -65,7 +64,7 @@ I just use the default Doom Emacs theme, since I don't really like any of the ot
     (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
 #+end_src
 
-** Syntax Checking
+* Syntax Checking
 #+BEGIN_SRC elisp
 (after! popup
   (set-popup-rule! "^\\*Flycheck errors\\*$" :side 'bottom :size 0.2 :select t))
@@ -78,7 +77,7 @@ I just use the default Doom Emacs theme, since I don't really like any of the ot
                                         (flycheck-add-next-checker 'lsp '(warning . javascript-eslint)))))
 #+END_SRC
 
-** UI
+* UI
 #+begin_src elisp
 ;; There's a weird bug where fringe-modes < 8 dont show the fringes
 (after! git-gutter
@@ -105,7 +104,7 @@ A little bit of padding on the left, and make line spacing comfier
 (setq-default right-margin-width 2)
 #+end_src
 
-*** Modeline
+** Modeline
 #+begin_src elisp
 ;;modeline (icons, config, battery)
 (display-time-mode 1)                              ;Enable time in the mode-line
@@ -129,7 +128,7 @@ The encoding is always UTF-8, so its a bit redundant. Lets take that out
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding) ;;remove encoding
 #+end_src
 
-*** Tabs
+** Tabs
 #+begin_src elisp
 (after! centaur-tabs
   (centaur-tabs-mode -1)
@@ -148,7 +147,7 @@ The encoding is always UTF-8, so its a bit redundant. Lets take that out
   (add-hook! 'buffer-list-update-hook '+fl/hide-tabs-in-popup))
 #+end_src
 
-** LSP stuff
+* LSP stuff
 
 The LSP can be bit intrusive (especially with inline suggestions), so lets make it behave a bit more
 #+begin_src elisp
@@ -160,7 +159,7 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
         lsp-enable-symbol-highlighting nil))
 #+end_src
 
-*** LSP in org-mode!
+** LSP in org-mode!
 #+begin_src elisp
 (cl-defmacro lsp-org-babel-enable (lang)
   "Support LANG in org source code block."
@@ -192,7 +191,7 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
   (eval `(lsp-org-babel-enable ,lang)))
 #+end_src
 
-** Docs
+* Docs
 #+begin_src elisp
 (set-docsets! 'python-mode "Python 3")
 (set-docsets! 'lua-mode "Lua")
@@ -200,7 +199,7 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
 (setq +lookup-open-url-fn #'+lookup-xwidget-webkit-open-url-fn)
 #+end_src
 
-** Org Mode
+* Org Mode
 #+begin_src elisp
 (setq org-directory "~/org/"
       org-ellipsis "  "
@@ -223,7 +222,7 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
 (advice-add 'org-gcal-fetch :after 'org-save-all-org-buffers)
 #+end_src
 
-*** Prettier Checkboxes
+** Prettier Checkboxes
 #+begin_src elisp
 (after! org
   (setq org-tags-column -80)
@@ -240,14 +239,14 @@ The LSP can be bit intrusive (especially with inline suggestions), so lets make 
     :list_property "::"))
 #+end_src
 
-** Deft
+* Deft
 #+begin_src elisp
 (setq deft-directory "~/notes")
 (setq deft-extensions '("txt" "tex" "org" "md"))
 (setq deft-recursive t)
 #+end_src
 
-** Mixed Pitch Mode
+* Mixed Pitch Mode
 #+begin_src elisp
 (defvar mixed-pitch-modes '(org-mode LaTeX-mode markdown-mode gfm-mode Info-mode)
   "Modes that `mixed-pitch-mode' should be enabled in, but only after UI initialisation.")
@@ -261,7 +260,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
 (add-hook 'doom-init-ui-hook #'init-mixed-pitch-h)
 #+end_src
 
-** Web Mode
+* Web Mode
 #+begin_src elisp
 (after! web-mode
   (add-hook 'web-mode-hook #'flycheck-mode)
@@ -272,7 +271,7 @@ Also immediately enables `mixed-pitch-modes' if currently in one of the modes."
         web-mode-auto-close-style 2))
 #+end_src
 
-** Mail
+* Mail
 
 ft. mbsync and mu4e
 #+begin_src elisp
