@@ -22,14 +22,10 @@
 (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 11)
       doom-big-font (font-spec :family "FiraCode Nerd Font" :size 16)
       doom-variable-pitch-font (font-spec :family "Montserrat" :size 12))
-      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light)
+      doom-serif-font (font-spec :family "Montserrat" :size 12)
 
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one)
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic))
+(setq doom-one-padded-modeline t)
 (setq doom-themes-treemacs-theme "doom-atom")
 
 (after! projectile
