@@ -1,0 +1,9 @@
+[submodule "awesome/.config/awesome/modules/rubato"]
+	path = awesome/.config/awesome/modules/rubato
+	url = https://github.com/andOrlando/rubato
+[submodule "awesome/.config/awesome/modules/bling"]
+	path = awesome/.config/awesome/modules/bling
+	url = https://github.com/blingcorp/bling
+[submodule "awesome/.config/awesome/modules/layout-machi"]
+	path = awesome/.config/awesome/modules/layout-machi
+	url = https://github.com/xinhaoyuan/layout-machi
