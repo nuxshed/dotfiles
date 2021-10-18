@@ -17,7 +17,7 @@ awful.mouse.append_global_mousebindings {
 -- General Utilities
 awful.keyboard.append_global_keybindings {
   awful.key({}, "Print", function()
-    -- bling.module.tabbed.pick()
+    awful.spawn "scr screen"
   end),
   awful.key({ "Shift" }, "Print", function()
     awful.spawn "scr selection"
