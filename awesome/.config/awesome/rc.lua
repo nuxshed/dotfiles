@@ -14,7 +14,7 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 
 -- truly beautiful
-beautiful.init "/home/advait/.config/awesome/themes/forest/theme.lua"
+beautiful.init(require("gears").filesystem.get_configuration_dir() .. "themes/forest/theme.lua")
 
 -- *gulp*
 require("modules.bling").module.window_swallowing.start()
