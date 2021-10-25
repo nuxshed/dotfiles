@@ -1,4 +1,0 @@
-~/.fehbg
-xinput --set-prop 11 305 1 &
-setxkbmap gb &
-xss-lock slock &

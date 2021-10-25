@@ -1,0 +1,39 @@
+#!/bin/sh
+
+while [ "$1" ]; do
+  case $1 in
+    help)
+      echo "todo: write a help message"
+      exit ;;
+    check)
+      nix flake check "$HOME/dotfiles"
+      exit ;;
+    gc)
+      nix-collect-garbage
+      exit ;;
+    home)
+      nix build "$HOME/dotfiles#homemanagerConfigurations.ocean.activationPackage" && ./result/activate
+      exit ;;
+    rebuild)
+      sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
+      exit ;;
+    repl)
+      [ ! -r /tmp/dotfiles-repl.nix ] && echo "builtins.getFlake (toString $HOME/dotfiles)" > /tmp/dotfiles-repl
+      nix repl '<nixpkgs>' /tmp/dotfiles-repl
+      exit ;;
+    update)
+      if [ "$2" ]; then
+      nix flake lock --update-input "$2" "$HOME/dotfiles"
+    else
+      nix flake update "$HOME/dotfiles"
+      fi
+      exit ;;
+    upgrade)
+      nix flake update "$HOME/dotfiles"
+      sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
+      exit ;;
+    *)
+      printf "\033[0;31merr: invalid command\n"
+      exit ;;
+  esac
+done

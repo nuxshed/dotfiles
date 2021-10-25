@@ -1,9 +1,0 @@
-# .config/starship.toml // config file for the starship prompt
-
-add_newline = false
-
-[character]
-# success_symbol = "[❯](bold purple)"
-# error_symbol = "[❯](bold red)"
-success_symbol = "[>](bold purple)"
-error_symbol = "[>](bold red)"
