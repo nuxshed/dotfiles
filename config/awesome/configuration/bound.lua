@@ -1,7 +1,6 @@
 local awful = require "awful"
 local menubar = require "menubar"
 local bling = require "modules.bling"
-local machi = require "modules.layout-machi"
 
 -- Mouse bindings
 awful.mouse.append_global_mousebindings {
@@ -77,7 +76,7 @@ awful.keyboard.append_global_keybindings {
     group = "launcher",
   }),
   awful.key({ modkey }, "r", function()
-    awful.spawn("rofi -show drun")
+    awful.spawn "rofi -show drun"
   end, {
     description = "run prompt",
     group = "launcher",
@@ -141,22 +140,6 @@ awful.keyboard.append_global_keybindings {
   end, {
     description = "restore minimized",
     group = "client",
-  }),
-}
-
--- Layout Machi
-awful.keyboard.append_global_keybindings {
-  awful.key({ modkey }, ".", function()
-    machi.default_editor.start_interactive()
-  end, {
-    description = "edit the current layout if it is a machi layout",
-    group = "layout",
-  }),
-  awful.key({ modkey }, "/", function()
-    machi.switcher.start(client.focus)
-  end, {
-    description = "switch between windows for a machi layout",
-    group = "layout",
   }),
 }
 
