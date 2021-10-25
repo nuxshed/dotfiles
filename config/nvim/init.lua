@@ -1,7 +1,6 @@
 require "config"
 require "utils"
 require "plugins"
-require "mappings"
 require "options"
 require "highlights"
 require "statusline"
