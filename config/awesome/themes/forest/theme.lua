@@ -18,6 +18,7 @@ theme.none = "#00000000"
 
 theme.bg_normal = "#1d2021"
 theme.bg_focus = "#282828"
+theme.bg_dark = "#161819"
 theme.bg_urgent = "#1d2021"
 theme.bg_minimize = "#1d2021"
 theme.bg_systray = theme.bg_normal
@@ -76,7 +77,7 @@ theme.layout_tile = gcolor.recolor_image(themes_path .. "default/layouts/tile.pn
 theme.layout_spiral = gcolor.recolor_image(themes_path .. "default/layouts/spiral.png", theme.fg_normal)
 
 theme.task_preview_widget_border_radius = 5
-theme.task_preview_widget_bg = "#1d2021"
+theme.task_preview_widget_bg = theme.bg_dark
 theme.task_preview_widget_border_color = theme.fg_normal
 theme.task_preview_widget_border_width = 0
 theme.task_preview_widget_margin = 10
@@ -87,7 +88,7 @@ theme.tag_preview_client_opacity = 0.5
 theme.tag_preview_client_bg = theme.bg_focus
 theme.tag_preview_client_border_color = theme.border_color_normal
 theme.tag_preview_client_border_width = 3
-theme.tag_preview_widget_bg = theme.bg_normal
+theme.tag_preview_widget_bg = theme.bg_dark
 theme.tag_preview_widget_border_color = theme.border_color_normal
 theme.tag_preview_widget_border_width = 0
 theme.tag_preview_widget_margin = 10
@@ -112,7 +113,7 @@ theme.tabbar_color_close = "#f9929b"
 theme.tabbar_color_min = "#fbdf90"
 theme.tabbar_color_float = "#ccaced"
 
-theme.window_switcher_widget_bg = theme.bg_focus
+theme.window_switcher_widget_bg = theme.bg_dark
 theme.window_switcher_widget_border_width = 0
 theme.window_switcher_widget_border_radius = 5
 theme.window_switcher_clients_spacing = 20
