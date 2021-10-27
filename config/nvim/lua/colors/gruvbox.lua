@@ -46,6 +46,8 @@ function M.overrides()
     hi TSKeywordFunction gui=italic guifg=#ea6962
     hi TSConditional gui=italic guifg=#ea6962
     hi TSRepeat gui=italic guifg=#ea6962
+    hi TelescopeTitle guifg=#928374
+    hi TelescopeBorder guifg=#303030
   ]]
 end
 return M
