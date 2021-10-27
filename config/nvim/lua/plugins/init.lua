@@ -64,6 +64,7 @@ require("packer").startup {
       config = function()
         require("indent_blankline").setup {
           char = "|",
+          context_char = "|",
           show_foldtext = false,
           show_first_indent_level = true,
           filetype_exclude = {
