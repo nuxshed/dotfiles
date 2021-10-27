@@ -1,2 +1,3 @@
-config/zsh/.zsh/zinit
 result
+config/zsh/.zsh/zinit
+packer_compiled.*
