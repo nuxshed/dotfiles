@@ -1,3 +1,3 @@
-# these are my dotfiles
+these are my dotfiles
 
 <img src="./rice.png">
