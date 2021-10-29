@@ -152,3 +152,4 @@ bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
 [[ "$TERM" != "linux" ]] && source ~/.p10k.zsh
+eval "$(zoxide init zsh)"
