@@ -49,6 +49,7 @@ cmp.setup {
         buffer = "[Buf]",
         spell = "[Spl]",
         path = "[Path]",
+        cmdline = "[Cmd]",
       })[entry.source.name]
       return vim_item
     end,
@@ -64,9 +65,21 @@ cmp.setup {
     { name = "buffer" },
   },
 }
-
-require("nvim-autopairs.completion.cmp").setup {
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` after select function or method item
-  auto_select = true, -- automatically select the first item
+local search_sources = {
+  sources = cmp.config.sources({
+    { name = "nvim_lsp_document_symbol" },
+  }, {
+    { name = "buffer" },
+  }),
 }
+-- Use buffer source for `/`.
+cmp.setup.cmdline("/", search_sources)
+cmp.setup.cmdline("?", search_sources)
+-- Use cmdline & path source for ':'.
+cmp.setup.cmdline(":", {
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline", keyword_length = 4 },
+  }),
+})
