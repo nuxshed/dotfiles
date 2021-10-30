@@ -5,7 +5,7 @@ local bling = require "modules.bling"
 -- Mouse bindings
 awful.mouse.append_global_mousebindings {
   awful.button({}, 3, function()
-    mymainmenu:toggle()
+    Menu.main:toggle()
   end),
   -- awful.button({}, 4, awful.tag.viewprev),
   -- awful.button({}, 5, awful.tag.viewnext),

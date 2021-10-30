@@ -1,8 +1,9 @@
 local awful = require "awful"
 local hotkeys_popup = require "awful.hotkeys_popup"
-local beautiful = require "beautiful"
 
-myawesomemenu = {
+_G.Menu = {}
+
+Menu.awesome = {
   {
     "hotkeys",
     function()
@@ -19,13 +20,11 @@ myawesomemenu = {
   },
 }
 
-mymainmenu = awful.menu {
+Menu.main = awful.menu {
   items = {
-    { "awesome", myawesomemenu },
+    { "awesome", Menu.awesome },
     { "terminal", terminal },
     { "browser", "brave" },
     { "emacs", "emacs" },
   },
 }
-
-mylauncher = awful.widget.launcher { image = beautiful.awesome_icon, menu = mymainmenu }
