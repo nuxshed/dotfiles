@@ -24,6 +24,11 @@ M.setup = {
           "vim",
           "O",
           "utils",
+
+          -- awesomewm stuff
+          "awesome",
+          "client",
+          "screen",
         },
       },
       telemetry = {
