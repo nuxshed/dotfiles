@@ -72,9 +72,9 @@ cmp.setup {
 }
 local search_sources = {
   sources = cmp.config.sources({
-    { name = "nvim_lsp_document_symbol" },
+    { name = "nvim_lsp_document_symbol", keyword_length = 4 },
   }, {
-    { name = "buffer" },
+    { name = "buffer", keyword_length = 4 },
   }),
 }
 -- Use buffer source for `/`.
