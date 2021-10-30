@@ -22,10 +22,11 @@ vim.g.nvim_tree_root_folder_modifier = ":t"
 vim.g.nvim_tree_git_hl = 1
 
 require("nvim-tree").setup {
-  lsp_diagnostics = true, -- show lsp diagnostics in the signcolumn
+  diagnostics = { enable = true }, -- show lsp diagnostics in the signcolumn
   view = {
     width = 35,
     side = "left",
+    hide_root_folder = true,
   },
   hijack_cursor = true,
 }
