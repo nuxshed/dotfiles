@@ -54,9 +54,18 @@ local vcs = function()
     return ""
   end
   local added = git_info.added and ("%#GitSignsAdd#+" .. git_info.added .. " ") or ""
-  local modified = git_info.changed and ("%#GitSignsChange#~" .. git_info.changed .. " ") or ""
+  local changed = git_info.changed and ("%#GitSignsChange#~" .. git_info.changed .. " ") or ""
   local removed = git_info.removed and ("%#GitSignsDelete#-" .. git_info.removed .. " ") or ""
-  return " " .. added .. modified .. removed .. " " .. "%#GitSignsAdd# " .. git_info.head .. " %#Normal#"
+  if git_info.added == 0 then
+    added = ""
+  end
+  if git_info.changed == 0 then
+    changed = ""
+  end
+  if git_info.removed == 0 then
+    removed = ""
+  end
+  return " " .. added .. changed .. removed .. " " .. "%#GitSignsAdd# " .. git_info.head .. " %#Normal#"
 end
 
 local function filepath()
