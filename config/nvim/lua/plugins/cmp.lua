@@ -26,6 +26,8 @@ cmp.setup {
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif vim.api.nvim_get_mode().mode == "c" then
+        fallback()
       else
         fallback()
       end
@@ -35,6 +37,8 @@ cmp.setup {
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
         luasnip.jump(-1)
+      elseif vim.api.nvim_get_mode().mode == "c" then
+        fallback()
       else
         fallback()
       end
@@ -58,11 +62,12 @@ cmp.setup {
     border = O.borders,
   },
   sources = {
-
+    { name = "nvim_lua" },
+    { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "path" },
-    { name = "spell" },
-    { name = "buffer" },
+    { name = "spell", keyword_length = 4 },
+    { name = "buffer", keyword_length = 4 },
   },
 }
 local search_sources = {
@@ -77,9 +82,7 @@ cmp.setup.cmdline("/", search_sources)
 cmp.setup.cmdline("?", search_sources)
 -- Use cmdline & path source for ':'.
 cmp.setup.cmdline(":", {
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    { name = "cmdline", keyword_length = 4 },
-  }),
+  sources = {
+    { name = "cmdline", keyword_length = 3 },
+  },
 })
