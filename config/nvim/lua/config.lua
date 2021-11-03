@@ -2,11 +2,12 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "gruvbox",
+  colorscheme = "whiteout",
   leader = " ",
   localleader = ",",
   borders = "single",
   format_on_save = true,
+  icon_colors = false,
   smart_close = "help,startuptime,qf,lspinfo,packer,tsplayground", -- windows to close with 'q'
   icons = {
     kinds = {

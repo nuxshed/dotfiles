@@ -1,7 +1,7 @@
 require("buftabline").setup {
   tab_format = " #{i} #{b}#{f} ",
   buffer_id_index = false,
-  icon_colors = true,
+  icon_colors = O.icon_colors,
   start_hidden = false,
   auto_hide = false,
   disable_commands = false,

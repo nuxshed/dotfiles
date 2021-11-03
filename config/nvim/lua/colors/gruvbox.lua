@@ -2,6 +2,7 @@ local M = {}
 local cmd = vim.cmd
 
 function M.setup()
+  vim.g.background = "dark"
   vim.g.gruvbox_material_background = "hard"
   vim.g.gruvbox_material_sign_column_background = "none"
   vim.g.gruvbox_material_menu_selection_background = "aqua"
