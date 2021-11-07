@@ -1,5 +1,5 @@
-# alias vim="nvim"
-# alias vi="/bin/vim"
+alias vim="nvim"
+alias vi="/bin/vim"
 alias ls="exa"
 alias la="exa -a"
 alias li="exa --icons"
