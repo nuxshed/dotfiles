@@ -13,7 +13,7 @@ ZINIT[ZCOMPDUMP_PATH]=${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump-$ZSH_VERSION
 if [[ ! -f ${ZINIT[HOME_DIR]}/bin/zinit.zsh ]]; then
   print -P "%F{blue}▓▒░ %F{yellow}Installing %F{blue}DHARMA%F{yellow} Initiative Plugin Manager (%F{blue}zdharma/zinit%F{yellow})…%f"
   mkdir -p "${ZINIT[HOME_DIR]}" && chmod g-rwX "${ZINIT[HOME_DIR]}"
-  git clone https://github.com/zdharma/zinit "${ZINIT[HOME_DIR]}/bin" && {
+  git clone https://github.com/zdharma-continuum/zinit "${ZINIT[HOME_DIR]}/bin" && {
     print -P "%F{blue}▓▒░ %F{34}Installation successful.%f%b" ||
     print -P "%F{red}▓▒░ The clone has failed.%f%b"
   }
@@ -37,7 +37,7 @@ zinit wait lucid light-mode for \
     zicompinit
     zicdreplay
   " \
-    zdharma/fast-syntax-highlighting \
+    zdharma-continuum/fast-syntax-highlighting \
   blockf atpull'zinit creinstall -q .' \
   atload'
     eval "$(dircolors)"
