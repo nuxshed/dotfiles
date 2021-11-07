@@ -9,7 +9,10 @@
     fd
     feh
     ffmpeg
+    fortune
     fzf
+    gnumake
+    lazygit
     maim
     ncdu
     nnn
