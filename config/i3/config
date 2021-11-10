@@ -16,7 +16,6 @@ exec --no-startup-id xss-lock -- slock
 
 # decorations
 title_align center
-for_window [class=".*"] title_format "<b>%title</b>"
 
 default_border pixel 0
 
