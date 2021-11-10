@@ -60,9 +60,9 @@ bindsym Ctrl+$mod+Up exec --no-startup-id xrandr --output eDP-1 --rotate normal
 bindsym Print exec --no-startup-id scr screen
 bindsym Ctrl+Print exec --no-startup-id scr window
 bindsym Shift+Print exec --no-startup-id scr selection
-bindsym $mod+Print exec --no-startup-id scr screentoclipboard
-bindsym $mod+Ctrl+Print exec --no-startup-id scr windowtoclipboard
-bindsym $mod+Shift+Print exec --no-startup-id scr selectiontoclipboard
+bindsym $mod+Print exec --no-startup-id scr screentoclip
+bindsym $mod+Ctrl+Print exec --no-startup-id scr windowtoclip
+bindsym $mod+Shift+Print exec --no-startup-id scr selectiontoclip
 
 # change focus
 # bindsym $mod+j focus left
