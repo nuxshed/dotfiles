@@ -37,7 +37,7 @@ bindsym $mod+Shift+Return exec kitty
 bindsym $mod+Shift+c kill
 
 # rofi
-bindcode $mod+40 exec "rofi -modi drun,run -show drun"
+bindsym $mod+p exec --no-startup-id rofi -show drun
 
 # Use pactl to adjust volume in PulseAudio.
 bindsym XF86AudioRaiseVolume exec --no-startup-id setvol +5%
