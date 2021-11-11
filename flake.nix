@@ -41,6 +41,7 @@
               ./modules/applications/kitty.nix
               ./modules/desktop/windowManagers/awesome.nix
               ./modules/desktop/windowManagers/i3.nix
+              ./modules/desktop
               ./modules/desktop/picom.nix
             ];
           };

@@ -1,0 +1,48 @@
+# Background 1
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #f7f7f7 100
+background_color_hover = #f7f7f7 100
+background_color_pressed = #f7f7f7 100
+
+# Panel
+panel_items = TEC
+panel_size = 100% 30
+panel_padding = 2 2
+panel_background_id = 1
+panel_position = top
+panel_monitor = all
+panel_window_name = tint2
+
+# Taskbar
+taskbar_name = 1
+taskbar_mode = single_desktop
+taskbar_hide_inactive_tasks = 1
+taskbar_name_padding = 18
+taskbar_name_font_color = #4c4c4c 100
+taskbar_name_active_font_color = #4c4c4c 100
+taskbar_name_font = JetBrainsMono Nerd Font 8
+taskbar_padding = 0 0 0
+
+# Task
+task_centered = 1
+task_text = 1
+task_padding = 0 0
+task_font_color = #4c4c4c 100
+task_font = JetBrainsMono Nerd Font 8
+
+# Battery
+execp = new
+execp_command = status bat
+execp_interval = 30
+execp_font = JetBrainsMono Nerd Font 8
+execp_font_color = #4c4c4c 100
+execp_tooltip = 
+
+# Clock
+time1_format =  %H:%M
+time1_font = JetBrainsMono Nerd Font 8
+clock_font_color = #4c4c4c 100
+clock_padding = 25 0
+clock_background_id = 3

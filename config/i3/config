@@ -185,8 +185,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# bar
+exec --no-startup-id tint2
+
 # picom
-exec_always --no-startup-id picom
+exec --no-startup-id picom
 
 # set wallpaper (ft. feh)
-exec_always --no-startup-id ~/.fehbg
+exec --no-startup-id ~/.fehbg
