@@ -5,15 +5,8 @@
 # ARGS: vol/volume. bat/battery, music/playerctl, wifi/net/internet, ram/mem, cpu
 
 status_volume() {
-  # this thing here gets the volume from ~/.cache/vol
-  # which is created when the set-vol script is run.
-  # this approach is better (and faster) than running pamixer/amixer every few seconds
-  # if you don't want to use the set-vol script, uncomment the if-else block below
-  # if [ -r ~/.cache/vol ]; then
-    vol=$(cat ~/.cache/vol)
-  # else
-  #     vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
-  echo "墳" "$vol%"
+  vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
+  echo "墳$vol%"
 }
 
 status_battery() {
