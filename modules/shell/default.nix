@@ -16,6 +16,7 @@
     maim
     ncdu
     nnn
+    pamixer
     playerctl
     ranger
     ripgrep
