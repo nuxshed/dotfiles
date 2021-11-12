@@ -28,7 +28,6 @@ require("packer").startup {
     -- Colorschemes --------------------------------------------
     use "sainnhe/gruvbox-material"
     use "folke/tokyonight.nvim"
-    use "navarasu/onedark.nvim"
     use "shaunsingh/nord.nvim"
     use "b4skyx/serenade"
     use "RRethy/nvim-base16" -- for base16 colorschemes

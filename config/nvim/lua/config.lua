@@ -2,7 +2,7 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "whiteout",
+  colorscheme = "onedark",
   leader = " ",
   localleader = ",",
   borders = "single",
