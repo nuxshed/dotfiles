@@ -34,7 +34,7 @@
               ./modules/shell/git.nix
               ./modules/shell/zsh.nix
               ./modules/editors/neovim.nix
-              # ./modules/editors/emacs.nix
+              ./modules/editors/emacs.nix
               ./modules/dev/node.nix
               ./modules/dev/rust.nix
               ./modules/applications
