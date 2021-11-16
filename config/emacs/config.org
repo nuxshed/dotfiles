@@ -1,0 +1,323 @@
+#+TITLE: Emacs Configuration
+#+PROPERTY: header-args:elisp :tangle ./init.el :mkdirp yes
+
+#+begin_src elisp
+  ;; init.el -*- lexical-binding: t; -*-
+#+end_src
+
+* Basic stuff
+
+*** Identity
+#+begin_src elisp
+  (setq user-full-name "nuxsh"
+        user-mail-address "nuxshed@gmail.com")
+#+end_src
+
+  change the defaults because some of them suck
+#+begin_src elisp
+  (setq-default require-final-newline t
+                vc-follow-symlinks)
+
+  (setq undo-limit 80000000            ; moar undo
+      auto-save-default t            ; who knows what could happen?
+      truncate-string-ellipsis "…")   ; prettier ellipsis
+
+  ;; scrolling related settings
+  (setq scroll-margin 1
+        scroll-step 1
+        scroll-conservatively 10000
+        smooth-scroll-margin 1)
+
+  (defalias 'yes-or-no-p 'y-or-n-p) ;; y/n is shorter than yes/no
+#+end_src
+
+UI debloating
+#+begin_src elisp
+  (setq inhibit-startup-echo-area-message t
+        inhibit-startup-message t)
+  (tool-bar-mode -1)          ; Disable the toolbar
+  (tooltip-mode -1)           ; Disable tooltips
+  (set-fringe-mode 10)        ; Give some breathing room
+  (menu-bar-mode -1)          ; Disable the menu bar
+  (scroll-bar-mode -1)        ; Disable the scrollbar
+#+end_src
+
+set custom file and load it
+#+begin_src elisp
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load custom-file)
+#+end_src
+
+some useful minor modes
+#+begin_src elisp
+  (global-display-line-numbers-mode) ;; line numbers
+  (global-subword-mode) ;; iterate through camelCase
+  (electric-pair-mode) ;; autopairs
+  (recentf-mode) ;; recent files
+#+end_src
+
+configure indentation
+#+begin_src elisp
+  (setq-default indent-tabs-mode nil
+      tab-width 2)
+  (setq indent-line-function 'insert-tab)
+#+end_src
+
+* Packages
+
+setting up use-package
+#+begin_src elisp
+  ;; init package sources
+  (require 'package)
+  (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                           ("melpa" . "http://melpa.org/packages/")))
+  (package-initialize)
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  ;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+     (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src
+
+** Consult
+#+begin_src elisp
+  (use-package consult)
+#+end_src
+
+** Vertico
+#+begin_src elisp
+  (use-package vertico
+    :init
+    (vertico-mode)
+    (setq vertico-cycle t))
+#+end_src
+
+orderless adds fuzzy finding
+#+begin_src elisp
+  (use-package orderless
+    :init
+    (setq completion-styles '(orderless)
+          completion-category-defaults nil
+          completion-category-overrides '((file (styles partial-completion)))))
+#+end_src
+
+marginalia adds descriptions and stuff to your minibuffer
+#+begin_src elisp
+  (use-package marginalia
+    :init (marginalia-mode))
+#+end_src
+
+** Company-mode
+#+begin_src elisp
+  (use-package company
+    :bind (:map company-active-map
+          ("<tab>" . company-select-next)))
+
+  (use-package company-statistics
+    :hook (company-mode . company-statistics-mode))
+
+  (use-package company-quickhelp
+    :hook (company-mode . company-quickhelp-mode))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode)
+    :config
+    (setq company-box-scrollbar nil))
+
+  (add-hook 'after-init-hook 'global-company-mode)
+#+end_src
+
+** Vterm
+eshell is nice but I prefer vterm
+#+begin_src elisp
+  (use-package vterm
+    :ensure t)
+#+end_src
+
+** Evil
+yay, evil!
+#+begin_src elisp
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+*** set up leader key
+#+begin_src elisp
+  (use-package evil-leader
+    :config
+    (global-evil-leader-mode)
+    (setq evil-leader/leader "<SPC>")
+    (evil-leader/set-key
+      ;; Files
+      "fr" 'consult-recent-file
+      "fb" 'consult-bookmark
+      "ff" 'find-file
+      "fp" 'projectile-switch-project
+      ;; Bufffers
+      "bv" 'split-window-right
+      "bh" 'split-window-below
+      "bd" 'kill-current-buffer
+      "bb" 'consult-buffer
+      "bx" 'switch-to-scratch
+      "bi" 'ibuffer
+      "bs" 'switch-to-buffer
+      ;; Help
+      "hh" 'help
+      "hk" 'describe-key
+      "hv" 'describe-variable
+      "hf" 'describe-function
+      "hs" 'describe-symbol
+      "hm" 'describe-mode))
+#+end_src
+
+** Which-key
+#+begin_src elisp
+  (use-package which-key
+    :config (which-key-mode)
+    (which-key-setup-side-window-bottom)
+    (setq which-key-idle-delay 0.1))
+#+end_src
+
+** Languages
+some major modes to improve language support
+#+begin_src elisp
+  (use-package nix-mode)
+  (use-package lua-mode)
+  (use-package markdown-mode)
+#+end_src
+
+** Flycheck
+#+begin_src elisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode)
+    :config
+    (setq flycheck-emacs-lisp-load-path 'inherit)
+    (setq flycheck-idle-change-delay 1.0)
+          (setq-local flycheck-emacs-lisp-initialize-packages t)
+          (setq-local flycheck-emacs-lisp-package-user-dir package-user-dir)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+#+end_src
+
+** Projectile
+#+begin_src elisp
+  (use-package projectile
+    :config (projectile-mode 1))
+#+end_src
+
+** Magit
+#+begin_src elisp
+  (use-package magit)
+#+end_src
+
+* UI
+** Theme
+#+begin_src elisp
+  (use-package doom-themes
+    :config
+    (load-theme 'doom-tomorrow-day t))
+#+end_src
+
+** Modeline
+#+begin_src elisp
+  (use-package doom-modeline
+    :ensure t
+    :init (doom-modeline-mode 1)
+    :config
+    (setq doom-modeline-height 15))
+#+end_src
+
+* Org-mode
+#+begin_src elisp
+  (use-package org-contrib)
+  (use-package org-bullets
+    :after org
+    :hook
+    (org-mode . (lambda () (org-bullets-mode 1))))
+#+end_src
+
+make org-mode prettier
+#+begin_src elisp
+  (defun org/prettify-set ()
+    (interactive)
+    (setq prettify-symbols-alist
+        '(("#+begin_src" . "")
+          ("#+BEGIN_SRC" . "")
+          ("#+end_src" . "")
+          ("#+END_SRC" . "")
+          ("#+begin_example" . "")
+          ("#+BEGIN_EXAMPLE" . "")
+          ("#+end_example" . "")
+          ("#+END_EXAMPLE" . "")
+          ("#+results:" . "")
+          ("#+RESULTS:" . "")
+          ("#+begin_quote" . "❝")
+          ("#+BEGIN_QUOTE" . "❝")
+          ("#+end_quote" . "❞")
+          ("#+END_QUOTE" . "❞")
+          ("[ ]" . "☐")
+          ("[-]" . "◯")
+          ("[X]" . "☑"))))
+  (add-hook 'org-mode-hook 'org/prettify-set)
+
+  (defun prog/prettify-set ()
+    (interactive)
+    (setq prettify-symbols-alist
+        '(("lambda" . "λ")
+          ("->" . "→")
+          ("<-" . "←")
+          ("<=" . "≤")
+          (">=" . "≥")
+          ("!=" . "≠")
+          ("~=" . "≃")
+          ("=~" . "≃"))))
+  (add-hook 'prog-mode-hook 'prog/prettify-set)
+
+  (global-prettify-symbols-mode)
+#+end_src
+
+set up org-babel for elisp
+#+begin_src elisp
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)))
+#+end_src
+
+* Literate config
+#+begin_src elisp
+  (defun org-babel-tangle-config ()
+    (when (string-equal (buffer-file-name)
+                        (expand-file-name "~/dotfiles/config/emacs/config.org"))
+      (let ((org-confirm-babel-evaluate nil))
+        (org-babel-tangle))))
+
+  ;; tangle on save
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
+#+end_src
+
+
+
+the end
+#+begin_src elisp
+  ;; init.el ends here
+#+end_src
