@@ -162,11 +162,10 @@
   :config
   (load-theme 'doom-tomorrow-day t))
 
-(use-package doom-modeline
+(use-package mood-line
   :ensure t
-  :init (doom-modeline-mode 1)
   :config
-  (setq doom-modeline-height 15))
+  (mood-line-mode))
 
 (use-package org-contrib)
 (use-package org-bullets

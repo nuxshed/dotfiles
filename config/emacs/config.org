@@ -240,11 +240,10 @@ some major modes to improve language support
 
 ** Modeline
 #+begin_src elisp
-  (use-package doom-modeline
+  (use-package mood-line
     :ensure t
-    :init (doom-modeline-mode 1)
     :config
-    (setq doom-modeline-height 15))
+    (mood-line-mode))
 #+end_src
 
 * Org-mode
