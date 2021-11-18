@@ -17,6 +17,7 @@
     ncdu
     nnn
     pamixer
+    pass
     playerctl
     ranger
     ripgrep
