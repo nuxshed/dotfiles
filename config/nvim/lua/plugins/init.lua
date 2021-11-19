@@ -108,10 +108,6 @@ require("packer").startup {
       config = [[require"plugins.telescope"]],
       requires = {
         { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-        {
-          "nvim-telescope/telescope-frecency.nvim",
-          requires = "tami5/sqlite.lua",
-        },
       },
     }
 
