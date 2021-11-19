@@ -53,8 +53,8 @@ telescope.setup {
 }
 
 l "fzf"
--- l "frecency"
 l "projects"
+l "file_browser"
 
 local function grep()
   require("telescope.builtin").live_grep {
@@ -86,7 +86,7 @@ end
 
 local function browse_files()
   vim.cmd [[ set laststatus=0 ]]
-  b.file_browser {
+  x.file_browser.file_browser {
     previewer = false,
     sorting_strategy = "ascending",
     preview_title = "",

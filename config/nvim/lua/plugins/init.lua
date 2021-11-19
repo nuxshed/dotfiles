@@ -108,6 +108,7 @@ require("packer").startup {
       config = [[require"plugins.telescope"]],
       requires = {
         { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+        { "nvim-telescope/telescope-file-browser.nvim" },
       },
     }
 
