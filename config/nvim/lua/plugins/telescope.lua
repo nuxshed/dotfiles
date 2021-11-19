@@ -55,9 +55,10 @@ telescope.setup {
 l "fzf"
 l "projects"
 l "file_browser"
+l "live_grep_raw"
 
 local function grep()
-  require("telescope.builtin").live_grep {
+  x.live_grep_raw.live_grep_raw {
     path_display = { "shorten" },
     only_sort_text = true,
     use_regex = true,
