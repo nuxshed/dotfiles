@@ -21,6 +21,8 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
   },
 }
 
+require("lsp.emmet")
+
 local function on_attach(client, bufnr)
   require("lsp.autocommands").setup(client)
   require("lsp.commands").setup()
@@ -35,6 +37,7 @@ local servers = {
   cssls = { cmd = { "vscode-css-language-server", "--stdio" } },
   pyright = {},
   rust_analyzer = {},
+  ls_emmet = {};
   ["null-ls"] = {
     init_options = {
       documentFormatting = true,
