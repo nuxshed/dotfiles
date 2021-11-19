@@ -6,6 +6,7 @@ export MANPAGER="less -R --use-color -Dd+r -Du+b -DS+ky -DP+kg -DE+kR"
 export VISUAL=/bin/vim
 export DOTFILES=$HOME/dotfiles
 export PROJECTS_DIR=$HOME/projects
+export NPM_PREFIX_DIR=$HOME/.node_modules
 
 typeset -U PATH path
 
