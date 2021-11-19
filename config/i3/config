@@ -33,6 +33,10 @@ client.urgent            $bg_focus    $bg_focus    $fg_focus    $bg_focus    $bg
 # start a terminal
 bindsym $mod+Shift+Return exec kitty
 
+# keybinding for apps that i use often
+bindsym $mod+Shift+b exec brave
+bindsym $mod+Shift+e exec emacs
+
 # kill focused window
 bindsym $mod+Shift+c kill
 
