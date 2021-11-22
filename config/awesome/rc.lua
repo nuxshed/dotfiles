@@ -22,5 +22,8 @@ require("modules.bling").module.window_swallowing.start()
 -- config stuff
 require "configuration"
 
+-- signals
+require "squeals"
+
 -- user interfaces
 require "ui"

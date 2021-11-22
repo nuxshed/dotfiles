@@ -12,7 +12,8 @@ local gcolor = require("gears").color
 
 local theme = {}
 
-theme.font = "JetBrainsMono Nerd Font 8"
+theme.font_name = "JetBrainsMono Nerd Font"
+theme.font = theme.font_name .. " 8"
 
 theme.none = "#00000000"
 
@@ -27,6 +28,7 @@ theme.fg_normal = "#d4be98"
 theme.fg_focus = "#d4be98"
 theme.fg_urgent = "#d4be98"
 theme.fg_minimize = "#d4be98"
+theme.fg_dark = "#928374"
 
 theme.fg_bat = "#a9b665"
 theme.fg_time = "#e78a4e"
@@ -56,6 +58,14 @@ theme.taglist_fg_empty = "#928374"
 local taglist_square_size = dpi(0)
 theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size, theme.bg_focus)
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
+
+-- control center
+theme.control_center_button_bg = "#89b482"
+theme.control_center_button_bg_off = "#3f3f3f"
+theme.control_center_mem_used = "#ea6962"
+theme.control_center_cpu_active = "#d8a657"
+theme.control_center_vol_slider_active = "#a9b665"
+theme.control_center_bri_slider_active = "#d3869b"
 
 -- Variables set for theming notifications:
 -- notification_font

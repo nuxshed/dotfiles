@@ -51,7 +51,7 @@ awful.keyboard.append_global_keybindings {
 -- General Awesome keys
 awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "w", function()
-    mymainmenu:show()
+    Menu.main:show()
   end, {
     description = "show main menu",
     group = "awesome",
@@ -87,6 +87,9 @@ awful.keyboard.append_global_keybindings {
     description = "show the menubar",
     group = "launcher",
   }),
+  awful.key({ modkey }, "a", function()
+    require "ui.control_center"()
+  end),
 }
 
 -- Tags related keybindings
