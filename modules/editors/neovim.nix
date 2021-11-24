@@ -2,7 +2,6 @@
 {
   home.packages = with pkgs; [
     neovim-nightly
-    sumneko-lua-language-server
     stylua
     shellcheck
     black
