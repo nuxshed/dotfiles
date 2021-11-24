@@ -46,10 +46,17 @@
     shell = pkgs.zsh;
   };
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableGlobalCompInit = false;
+  };
+
   environment.systemPackages = with pkgs; [
     coreutils
     gcc
     gnupg
+    nix-zsh-completions
     papirus-icon-theme
     pinentry
     python

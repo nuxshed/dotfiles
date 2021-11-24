@@ -151,5 +151,5 @@ bindkey '^[[6~' end-of-buffer-or-history          # page down
 bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
-[[ "$TERM" != "linux" ]] && source ~/.p10k.zsh
+source ~/.p10k.zsh
 eval "$(zoxide init zsh)"
