@@ -1,27 +1,27 @@
 #!/bin/sh
 
 printscreen() {
-  maim "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor "/home/$USER/Pictures/Screenshots/$(date).png"
 }
 
 printwindow() {
-  maim --window "$(xdotool getactivewindow)" "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor --window "$(xdotool getactivewindow)" "/home/$USER/Pictures/Screenshots/$(date).png"
 }
 
 printselection() {
-  maim --select "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor --select "/home/$USER/Pictures/Screenshots/$(date).png"
 }
 
 printscreentoclipboard() {
-  maim | xclip -selection clipboard -t image/png
+  maim --hidecursor | xclip -selection clipboard -t image/png
 }
 
 printwindowtoclipboard() {
-  maim --window "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png
+  maim --hidecursor --window "$(xdotool getactivewindow)" | xclip -selection clipboard -t image/png
 }
 
 printselectiontoclipboard() {
-  maim --select | xclip -selection clipboard -t image/png
+  maim --hidecursor --select | xclip -selection clipboard -t image/png
 }
 
 while [ "$1" ]; do
