@@ -14,7 +14,7 @@ return function(s)
       awful.placement.bottom_left(c, {
         margins = {
           bottom = 50,
-          left = 30,
+          left = 20,
         },
       })
     end,
