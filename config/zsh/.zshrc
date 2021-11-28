@@ -74,6 +74,8 @@ setopt auto_cd                  # no need to specify cd
 setopt correct                  # Turn On Corrections
 setopt correct                  # spelling correction
 setopt interactivecomments      # Ignore lines prefixed with '#'
+unsetopt beep                   # Hush.
+setopt rc_quotes                # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'
 
 # Completion Options.
 setopt complete_in_word         # Complete From Both Ends Of A Word.
