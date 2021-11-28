@@ -140,10 +140,10 @@ zle -N history-substring-search-down
 
 ## keybindings
 bindkey -e                                        # emacs keybindings
-bindkey '^[[A' history-substring-search-up        # up
-bindkey '^[[B' history-substring-search-down      # down
-bindkey '^j' history-substring-search-down        # C-j
-bindkey '^k' history-substring-search-up          # C-k
+bindkey '\e[A' history-substring-search-up        # up
+bindkey '\eOA' history-substring-search-up        # up
+bindkey '\e[B' history-substring-search-down      # down
+bindkey '\eOB' history-substring-search-down      # down
 bindkey '^[[1;5C' forward-word                    # ctrl + ->
 bindkey '^[[1;5D' backward-word                   # ctrl + <-
 bindkey '^[[5~' beginning-of-buffer-or-history    # page up
