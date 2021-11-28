@@ -7,7 +7,7 @@ local control_center = awful.popup {
   widget = {
     {
       {
-        font = beautiful.font_name .. " 70",
+        font = beautiful.font_name .. " 50",
         format = "%H:%M",
         align = "center",
         widget = wibox.widget.textclock,
@@ -47,7 +47,7 @@ local control_center = awful.popup {
           {
             {
               { widget = require "ui.widget.cpu_circle" },
-              margins = 25,
+              margins = 20,
               widget = wibox.container.margin,
             },
             widget = wibox.container.background,
@@ -55,11 +55,12 @@ local control_center = awful.popup {
             shape = function(cr, width, height)
               gears.shape.rounded_rect(cr, width, height, 9)
             end,
+            forced_height = 150,
           },
           {
             {
               { widget = require "ui.widget.ram_circle" },
-              margins = 25,
+              margins = 20,
               widget = wibox.container.margin,
             },
             widget = wibox.container.background,
@@ -67,12 +68,12 @@ local control_center = awful.popup {
             shape = function(cr, width, height)
               gears.shape.rounded_rect(cr, width, height, 9)
             end,
+            forced_height = 150,
           },
           layout = wibox.layout.flex.horizontal,
           spacing = 20,
         },
         layout = wibox.layout.fixed.vertical,
-        forced_height = 300,
         spacing = 20,
       },
       {
@@ -83,10 +84,9 @@ local control_center = awful.popup {
             { widget = require "ui.control_center.controls.dnd" },
             { widget = require "ui.control_center.controls.night_light" },
             layout = wibox.layout.flex.horizontal,
-            spacing = 25,
+            spacing = 15,
           },
           widget = wibox.container.margin,
-          forced_height = 90,
           top = 20,
           bottom = 20,
           left = 35,
@@ -94,6 +94,7 @@ local control_center = awful.popup {
         },
         widget = wibox.container.background,
         bg = beautiful.bg_normal,
+        forced_height = 100,
         shape = function(cr, width, height)
           gears.shape.rounded_rect(cr, width, height, 9)
         end,
@@ -102,7 +103,7 @@ local control_center = awful.popup {
       spacing = 20,
     },
     widget = wibox.container.margin,
-    forced_width = 410,
+    forced_width = 375,
     margins = 25,
   },
   placement = function(c)
