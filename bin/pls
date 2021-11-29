@@ -1,9 +1,21 @@
 #!/bin/sh
 
+# pls
+# inspired by hlissner's hey
+
 while [ "$1" ]; do
   case $1 in
     help)
-      echo "todo: write a help message"
+      printf "\033[0;32musage: \033[0;0mpls \033[38;5;8m[command]\n\n"
+      printf "\033[0;32mavailable commands:\033[0;0m\n"
+      printf "    check                 \033[38;5;8mrun 'nix flake check' on your dotfiles\n\033[0;0m"
+      printf "    gc                    \033[38;5;8mcollect garbage\n\033[0;0m"
+      printf "    home                  \033[38;5;8mrebuild home-manager config\n\033[0;0m"
+      printf "    rebuild               \033[38;5;8mrebuild system config\n\033[0;0m"
+      printf "    repl                  \033[38;5;8mopen a nix-repl with nixpkgs and dotfiles\n\033[0;0m"
+      printf "    update \033[38;5;8m[input]        update specific input or all\n\033[0;0m"
+      printf "    upgrade               \033[38;5;8mupdate all inputs and rebuild\n\033[0;0m"
+      printf "    help                  \033[38;5;8mprint this help message\n"
       exit ;;
     check)
       nix flake check "$HOME/dotfiles"
@@ -23,9 +35,9 @@ while [ "$1" ]; do
       exit ;;
     update)
       if [ "$2" ]; then
-      nix flake lock --update-input "$2" "$HOME/dotfiles"
-    else
-      nix flake update "$HOME/dotfiles"
+        nix flake lock --update-input "$2" "$HOME/dotfiles"
+      else
+        nix flake update "$HOME/dotfiles"
       fi
       exit ;;
     upgrade)
