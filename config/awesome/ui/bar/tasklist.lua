@@ -4,11 +4,7 @@ return function(s)
   local gears = require "gears"
   local wibox = require "wibox"
   bling.widget.task_preview.enable {
-    x = 20, -- The x-coord of the popup
-    y = 20, -- The y-coord of the popup
-    height = 200, -- The height of the popup
-    width = 200, -- The width of the popup
-    placement_fn = function(c) -- Place the widget using awful.placement (this overrides x & y)
+    placement_fn = function(c)
       awful.placement.bottom(c, {
         margins = {
           bottom = 50,
