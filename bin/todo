@@ -19,7 +19,7 @@ while [ "$1" ]; do
       done < "$TODOFILE"
       exit ;;
     d | done | complete)
-      sed -i.old -E "/^$2$/d" "$TODOFILE"
+      sed -i "$2 d" "$TODOFILE"
       exit ;;
     c | clear | clean)
       rm $TODOFILE
