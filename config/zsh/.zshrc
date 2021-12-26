@@ -1,10 +1,5 @@
 # .zshrc
 
-# Enable Powerlevel10k instant prompt.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 ### Added by Zinit's installer
 declare -A ZINIT
 ZINIT[HOME_DIR]=$HOME/.zsh/zinit
@@ -23,10 +18,6 @@ source "${ZINIT[HOME_DIR]}/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk
-
-## zsh prompt
-zinit lucid light-mode for \
-	romkatv/powerlevel10k
 
 ## PLUGINS
 zinit wait lucid light-mode for \
@@ -153,5 +144,8 @@ bindkey '^[[6~' end-of-buffer-or-history          # page down
 bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
-source ~/.p10k.zsh
+# prompt
+PROMPT='%F{blue}%~%f %F{green}>%f '
+
+
 eval "$(zoxide init zsh)"
