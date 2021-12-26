@@ -277,12 +277,9 @@ require("packer").startup {
 
     -- comments are nice
     use {
-      "b3nj5m1n/kommentary",
-      keys = { "gc", "gcc" },
+      "numToStr/Comment.nvim",
       config = function()
-        require("kommentary.config").configure_language("lua", {
-          prefer_single_line_comments = true,
-        })
+        require("Comment").setup()
       end,
     }
 
