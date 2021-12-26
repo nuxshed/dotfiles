@@ -5,7 +5,7 @@
     userName = "nuxsh";
     userEmail = "nuxshed@gmail.com";
     signing = {
-      key = "40C354590537FB6D";
+      key = "1590AC256028E2D5";
       signByDefault = true;
     };
     ignores = [
