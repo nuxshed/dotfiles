@@ -4,7 +4,7 @@ M.setup = function()
   local null_ls = require "null-ls"
   local b = null_ls.builtins
 
-  null_ls.config {
+  null_ls.setup {
     debounce = 150,
     sources = {
       b.formatting.black,

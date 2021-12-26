@@ -100,13 +100,13 @@ local function lsp()
   local count = {}
   local levels = {
     errors = "Error",
-    warnings = "Warning",
-    info = "Information",
+    warnings = "Warn",
+    info = "Info",
     hints = "Hint",
   }
 
   for k, level in pairs(levels) do
-    count[k] = vim.lsp.diagnostic.get_count(0, level)
+    count[k] = vim.tbl_count(vim.diagnostic.get(0, {severity = level}))
   end
 
   local errors = ""
