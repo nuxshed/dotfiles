@@ -11,6 +11,7 @@
     ffmpeg
     fortune
     fzf
+    github-cli
     gnumake
     lazygit
     maim
@@ -26,6 +27,7 @@
     tree
     unzip
     wget
+    xclip
     zoxide
   ];
 
