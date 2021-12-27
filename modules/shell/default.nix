@@ -16,15 +16,11 @@
     lazygit
     maim
     ncdu
-    nnn
     pamixer
     pass
-    playerctl
     ranger
     ripgrep
-    tealdeer
     tmux
-    tree
     unzip
     wget
     xclip
