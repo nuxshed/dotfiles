@@ -34,6 +34,7 @@
                 ./modules/shell
                 ./modules/editors/neovim.nix
                 ./modules/editors/emacs.nix
+                ./modules/editors/vim.nix
                 ./modules/dev/lua.nix
                 ./modules/dev/node.nix
                 ./modules/dev/rust.nix
