@@ -10,6 +10,8 @@ cmd("hi StatusLineCmdLineAccent guifg=" .. c.bg .. " guibg=" .. c.yellow)
 cmd("hi StatuslineTerminalAccent guifg=" .. c.bg .. " guibg=" .. c.yellow)
 cmd "hi StatusLineNC guibg=NONE"
 
+cmd("hi CursorLineNr guibg=" .. c.lightbg)
+
 cmd "hi link NvimTreeLspDiagnosticsWarning LspDiagnosticsSignWarning"
 cmd "hi link NvimTreeLspDiagnosticsError LspDiagnosticsSignError"
 cmd "hi link NvimTreeLspDiagnosticsInformation LspDiagnosticsSignInformation"
