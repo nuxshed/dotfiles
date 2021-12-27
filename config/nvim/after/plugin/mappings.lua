@@ -54,6 +54,6 @@ wk.register {
     m = { "prev function" },
   },
 
-  ["<M-left>"] = { "<CMD>bn<CR>", "next buffer" },
-  ["<M-right>"] = { "<CMD>bp<CR>", "prev buffer" },
+  ["<M-right>"] = { "<CMD>bn<CR>", "next buffer" },
+  ["<M-left>"] = { "<CMD>bp<CR>", "prev buffer" },
 }
