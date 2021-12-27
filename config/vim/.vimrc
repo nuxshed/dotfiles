@@ -1,5 +1,4 @@
 " my .vimrc
-" i use vim instead of nvim sometimes
 
 " bootstrap vim-plug
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -21,8 +20,6 @@ colorscheme gruvbox-material
 set number
 set showtabline=2
 set cursorline
-set ignorecase
-set smartcase
 set shiftwidth=2
 set expandtab
 set laststatus=0
@@ -32,7 +29,3 @@ set mouse=a
 nnoremap <silent> <C-n> :tabnew<CR>
 nnoremap <silent> <C-Left> :tabprevious<CR>
 nnoremap <silent> <C-Right> :tabnext<CR>
-nnoremap <silent> <Tab> :tabnext<CR>
-nnoremap <silent> <S-Tab> :tabprevious<CR>
-nnoremap <silent> <C-Up> :set laststatus=2<CR>
-nnoremap <silent> <C-Down> :set laststatus=0<CR>
