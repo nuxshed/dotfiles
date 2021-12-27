@@ -145,7 +145,7 @@ bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
 # prompt
-PROMPT='%F{blue}%~%f %F{green}>%f '
-
+PROMPT='%F{blue}%~%f'$'\n''%F{green}>%f '  
+precmd() { print "" }
 
 eval "$(zoxide init zsh)"
