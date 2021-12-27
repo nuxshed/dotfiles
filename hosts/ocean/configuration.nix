@@ -2,7 +2,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
       # Other Modules
@@ -77,7 +78,7 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-   };
+  };
 
   system.stateVersion = "21.11";
 }
