@@ -1,5 +1,8 @@
 { config, pkgs, libs, ... }:
 {
+  imports = [
+    ./picom.nix
+  ];
   home.packages = with pkgs; [
     tint2
   ];

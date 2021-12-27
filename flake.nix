@@ -31,19 +31,15 @@
             nixpkgs.overlays = overlays;
             imports = [
               ./modules/shell
-              ./modules/shell/git.nix
-              ./modules/shell/zsh.nix
               ./modules/editors/neovim.nix
               ./modules/editors/emacs.nix
               ./modules/dev/lua.nix
               ./modules/dev/node.nix
               ./modules/dev/rust.nix
               ./modules/programs
-              ./modules/programs/kitty.nix
+              ./modules/desktop
               ./modules/desktop/windowManagers/awesome.nix
               ./modules/desktop/windowManagers/i3.nix
-              ./modules/desktop
-              ./modules/desktop/picom.nix
             ];
           };
         system = "x86_64-linux";
