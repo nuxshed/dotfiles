@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# clone a repo
-# i know, im lazy
-
-# fuck gitlab
-git clone https://github.com/"$1".git
