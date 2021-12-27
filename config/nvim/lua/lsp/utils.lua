@@ -6,7 +6,7 @@ end
 
 function M.format_on_save()
   if O.format_on_save then
-    vim.lsp.buf.formatting()
+    vim.lsp.buf.formatting_sync()
   end
 end
 
