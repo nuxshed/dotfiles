@@ -35,6 +35,7 @@ local servers = {
   sumneko_lua = require("lsp.lang.lua").setup,
   html = { cmd = { "vscode-html-language-server", "--stdio" } },
   cssls = { cmd = { "vscode-css-language-server", "--stdio" } },
+  rnix = {},
   pyright = {},
   rust_analyzer = {},
   ls_emmet = {},

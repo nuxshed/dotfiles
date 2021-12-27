@@ -36,6 +36,7 @@
               ./modules/dev/lua.nix
               ./modules/dev/node.nix
               ./modules/dev/rust.nix
+              ./modules/dev/nix.nix
               ./modules/programs
               ./modules/desktop
               ./modules/desktop/windowManagers/awesome.nix
