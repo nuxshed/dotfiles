@@ -38,8 +38,8 @@
               ./modules/dev/lua.nix
               ./modules/dev/node.nix
               ./modules/dev/rust.nix
-              ./modules/applications
-              ./modules/applications/kitty.nix
+              ./modules/programs
+              ./modules/programs/kitty.nix
               ./modules/desktop/windowManagers/awesome.nix
               ./modules/desktop/windowManagers/i3.nix
               ./modules/desktop
