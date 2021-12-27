@@ -10,8 +10,8 @@ status_volume() {
 }
 
 status_battery() {
-  CHARGE=$(cat /sys/class/power_supply/BAT0/capacity)
-  STATUS=$(cat /sys/class/power_supply/BAT0/status)
+  CHARGE=$(cat /sys/class/power_supply/BAT1/capacity)
+  STATUS=$(cat /sys/class/power_supply/BAT1/status)
 
   ramp0=; ramp1=; ramp2=; ramp3=; ramp4=; ramp5=
   ramp6=; ramp7=; ramp8=; ramp9=; rampc=
