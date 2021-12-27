@@ -21,8 +21,8 @@
     hostName = "ocean";
     networkmanager.enable = true;
     useDHCP = false;
-    interfaces.enp2s0.useDHCP = true;
-    interfaces.wlp3s0.useDHCP = true;
+    interfaces.enp0s31f6.useDHCP = true;
+    interfaces.wlp4s0.useDHCP = true;
   };
 
   services.avahi = {
