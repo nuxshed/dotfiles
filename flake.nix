@@ -40,6 +40,7 @@
                 ./modules/dev/rust.nix
                 ./modules/dev/nix.nix
                 ./modules/programs
+                ./modules/programs/graphics.nix
                 ./modules/desktop
                 ./modules/desktop/windowManagers/awesome.nix
                 ./modules/desktop/windowManagers/i3.nix
