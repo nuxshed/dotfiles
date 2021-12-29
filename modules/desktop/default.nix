@@ -2,6 +2,7 @@
 {
   imports = [
     ./picom.nix
+    ./gtk.nix
   ];
   home.packages = with pkgs; [
     tint2
