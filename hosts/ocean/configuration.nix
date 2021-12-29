@@ -8,6 +8,7 @@
 
       # Other Modules
       ../../modules/system/env.nix
+      ../../modules/system/fonts.nix
       ../../modules/system/sound.nix
       ../../modules/system/xorg.nix
     ];
@@ -64,12 +65,6 @@
     usbutils
     vim
     zsh
-  ];
-
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    dejavu_fonts
-    (nerdfonts.override { fonts = [ "Agave" "FiraCode" "JetBrainsMono" ]; })
   ];
 
   nix = {
