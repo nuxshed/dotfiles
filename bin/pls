@@ -15,6 +15,7 @@ while [ "$1" ]; do
       printf "    repl                  \033[38;5;8mopen a nix-repl with nixpkgs and dotfiles\n\033[0;0m"
       printf "    update \033[38;5;8m[input]        update specific input or all\n\033[0;0m"
       printf "    upgrade               \033[38;5;8mupdate all inputs and rebuild\n\033[0;0m"
+      printf "    optimise              \033[38;5;8moptimise the nix store\n\033[0;0m"
       printf "    help                  \033[38;5;8mprint this help message\n"
       exit ;;
     check)
@@ -43,6 +44,9 @@ while [ "$1" ]; do
     upgrade)
       nix flake update "$HOME/dotfiles"
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
+      exit ;;
+    optimise)
+      nix-store --optimise
       exit ;;
     *)
       printf "\033[0;31merr: invalid command\n"
