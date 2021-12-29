@@ -20,6 +20,7 @@ wk.register {
       s = { "<CMD>PackerSync<CR>", "Sync Plugins" },
       i = { "<CMD>PackerInstall<CR>", "Install Plugins" },
       c = { "<CMD>PackerCompile<CR>", "Compile Config" },
+      C = { "<CMD>PackerClean<CR>", "Clean Plugins" },
       p = { "<CMD>PackerProfile<CR>", "Profile" },
     },
     [","] = { "<CMD>edit ~/.config/nvim/lua/config.lua<CR>", "edit config" },
@@ -35,13 +36,13 @@ wk.register {
       b = "blame line",
     },
     u = { "<CMD>UndotreeToggle<CR>", "undotree" },
+    F = { vim.lsp.buf.formatting_sync, "format" },
   },
 
   -- localleader mappings
   ["<localleader>"] = {
     a = "swap: next",
     A = "swap: prev",
-    t = { "<CMD>ciwtrue<ESC><CR>", "true" },
   },
 
   -- next

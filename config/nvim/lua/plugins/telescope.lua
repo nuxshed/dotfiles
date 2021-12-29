@@ -171,9 +171,9 @@ wk.register {
       },
     },
   },
-  ["<C-f>"] = { ivy, "find files" },
-  ["<C-b>"] = { browse_files, "browse files" },
-  ["<C-s>"] = { buffers, "switch buffer" },
+  ["<M-f>"] = { ivy, "find files" },
+  ["<M-b>"] = { browse_files, "browse files" },
+  ["<M-s>"] = { buffers, "switch buffer" },
 }
 
 return { lsp_code_actions = lsp_code_actions }
