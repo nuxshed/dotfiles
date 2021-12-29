@@ -23,7 +23,7 @@
     pamixer
     pass
     ranger
-    ripgrep
+    (ripgrep.override { withPCRE2 = true; })
     tmux
     unzip
     wget
