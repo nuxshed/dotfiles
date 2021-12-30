@@ -60,10 +60,7 @@
     coreutils
     gcc
     gnupg
-    nix-zsh-completions
-    papirus-icon-theme
     pinentry
-    python
     usbutils
     vim
     zsh
