@@ -46,13 +46,9 @@ zinit wait lucid light-mode for \
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='underline'
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=''
   " \
-      zsh-users/zsh-history-substring-search \
-
-
-## zsh settings
+    zsh-users/zsh-history-substring-search \
 
 zstyle :compinstall filename '$HOME/.zshrc'
-
 autoload -Uz compinit promptinit
 compinit -i
 promptinit
@@ -62,7 +58,6 @@ promptinit
 setopt globdots                 # Glob Dotfiles As Well.
 setopt extendedglob             # Use Extended Globbing.
 setopt auto_cd                  # no need to specify cd
-setopt correct                  # Turn On Corrections
 setopt correct                  # spelling correction
 setopt interactivecomments      # Ignore lines prefixed with '#'
 unsetopt beep                   # Hush.
@@ -75,9 +70,7 @@ setopt path_dirs                # Perform Path Search Even On Command Names With
 setopt auto_menu                # Show Completion Menu On A Successive Tab Press.
 setopt auto_list                # Automatically List Choices On Ambiguous Completion.
 setopt auto_param_slash         # If Completed Parameter Is A Directory, Add A Trailing Slash.
-setopt no_complete_aliases
 setopt menu_complete            # Do Not Autoselect The First Completion Entry.
-unsetopt flow_control           # Disable Start/Stop Characters In Shell Editor.
 
 # zstyle
 zstyle ':completion:*:matches' group 'yes'
@@ -91,31 +84,19 @@ zstyle ':completion:*' verbose yes
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path '${ZDOTDIR:-$HOME}/.zcompcache'
 zstyle ':completion:*' list-colors $LS_COLORS
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-zstyle ':fzf-tab:*' query-string prefix first
-zstyle ':fzf-tab:*' continuous-trigger '/'
 zstyle ':completion:*:*:*:*:processes' command'ps -u $USER -o pid,user,comm,cmd -w -w'
-zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-pad 0 0
-zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:exa' file-sort modification
 zstyle ':completion:*:exa' sort false
 
 
 # History file configuration
 HISTFILE="$HOME/.zsh_hist"
-[ "$HISTSIZE" -lt 50000 ] && HISTSIZE=50000
-[ "$SAVEHIST" -lt 10000 ] && SAVEHIST=10000
 setopt extended_history          # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first    # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups          # Don't record an entry that was just recorded again
 setopt hist_find_no_dups         # Do not display a line previously found
 setopt hist_ignore_space         # ignore commands that start with space
-setopt hist_verify               # show command with history expansion to user before running it
 setopt inc_append_history        # add commands to HISTFILE in order of execution
-setopt share_history             # shell share history with other tabs
 
 autoload -U add-zsh-hook
 
