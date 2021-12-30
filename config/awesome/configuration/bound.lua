@@ -1,13 +1,10 @@
 local awful = require "awful"
-local bling = require "modules.bling"
 
 -- Mouse bindings
 awful.mouse.append_global_mousebindings {
   awful.button({}, 3, function()
     Menu.main:toggle()
   end),
-  -- awful.button({}, 4, awful.tag.viewprev),
-  -- awful.button({}, 5, awful.tag.viewnext),
 }
 
 -- Key bindings
@@ -31,19 +28,6 @@ awful.keyboard.append_global_keybindings {
   end),
   awful.key({ modkey, "Control" }, "Print", function()
     awful.spawn "scr windowtoclip"
-  end),
-}
-
--- tab
-awful.keyboard.append_global_keybindings {
-  awful.key({ modkey }, "a", function()
-    bling.module.tabbed.pick()
-  end),
-  awful.key({ modkey }, "s", function()
-    bling.module.tabbed.iter()
-  end),
-  awful.key({ modkey }, "d", function()
-    bling.module.tabbed.pop()
   end),
 }
 
@@ -102,28 +86,6 @@ awful.keyboard.append_global_keybindings {
     end
   end, {
     description = "go back",
-    group = "client",
-  }),
-  awful.key({ modkey, "Control" }, "j", function()
-    awful.screen.focus_relative(1)
-  end, {
-    description = "focus the next screen",
-    group = "screen",
-  }),
-  awful.key({ modkey, "Control" }, "k", function()
-    awful.screen.focus_relative(-1)
-  end, {
-    description = "focus the previous screen",
-    group = "screen",
-  }),
-  awful.key({ modkey, "Control" }, "n", function()
-    local c = awful.client.restore()
-    -- Focus restored client
-    if c then
-      c:activate { raise = true, context = "key.unminimize" }
-    end
-  end, {
-    description = "restore minimized",
     group = "client",
   }),
 }
@@ -342,12 +304,6 @@ client.connect_signal("request::default_keybindings", function()
       c:raise()
     end, {
       description = "(un)maximize horizontally",
-      group = "client",
-    }),
-    awful.key({ "Mod1" }, "Tab", function()
-      awesome.emit_signal "bling::window_switcher::turn_on"
-    end, {
-      description = "Window Switcher",
       group = "client",
     }),
   }
