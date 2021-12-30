@@ -12,5 +12,16 @@
       "*.o"
       ".DS_Store"
     ];
+    extraConfig = {
+      url = {
+        "git://github.com/" = {
+          insteadOf = "github:";
+        };
+        "git@github.com:" = {
+          insteadOf = "gh:";
+          pushInsteadOf = [ "github:" "git://github.com/" ];
+        };
+      };
+    };
   };
 }
