@@ -39,6 +39,7 @@
                 ./modules/dev/node.nix
                 ./modules/dev/rust.nix
                 ./modules/dev/nix.nix
+                ./modules/dev/python.nix
                 ./modules/programs
                 ./modules/programs/graphics.nix
                 ./modules/desktop
