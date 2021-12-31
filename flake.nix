@@ -45,6 +45,7 @@
                 ./modules/desktop
                 ./modules/desktop/windowManagers/awesome.nix
                 ./modules/desktop/windowManagers/i3.nix
+                ./modules/desktop/windowManagers/sway.nix
               ];
             };
           system = "x86_64-linux";
