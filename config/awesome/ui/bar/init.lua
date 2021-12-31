@@ -81,6 +81,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
       )
     end,
     shape = gears.shape.rect,
+    screen = s,
     widget = {
       {
         {

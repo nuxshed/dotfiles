@@ -13,7 +13,7 @@ return function(s)
     end,
   }
   return awful.widget.tasklist {
-    screen = screen[1],
+    screen = s,
     filter = awful.widget.tasklist.filter.currenttags,
     buttons = {
       awful.button({}, 1, function(c)
