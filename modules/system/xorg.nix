@@ -2,7 +2,14 @@
 {
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
+    # displayManager.lightdm = {
+    #   enable = true;
+    #   greeters.gtk.enable = true;
+    # };
+    displayManager.gdm = {
+      enable = true;
+      wayland = true;
+    };
     libinput.enable = true;
     layout = "gb";
     windowManager = {
@@ -18,5 +25,9 @@
         enable = true;
       };
     };
+  };
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
   };
 }
