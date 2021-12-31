@@ -32,9 +32,9 @@ M.colors = {
 
 M.overrides = function()
   vim.cmd [[
-    hi TabLineSel guifg=#abb2bf guibg=#393f4a gui=italic
-    hi TabLineNorm guifg=#abbb2bf guibg=#282c34
-    hi TabLineFill guibg=#282c34
+    hi TabLineSel guifg=#d8dee9 guibg=#393f4a gui=italic
+    hi TabLineNorm guifg=#616e88 guibg=#2e3440
+    hi TabLineFill guibg=#2e3440
     hi LspReferenceText guibg=#3a404c gui=NONE
     hi LspReferenceWrite guibg=#3a404c gui=NONE
     hi LspReferenceRead guibg=#3a404c gui=NONE

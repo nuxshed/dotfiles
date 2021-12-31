@@ -190,7 +190,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # bar
-exec --no-startup-id tint2
+exec --no-startup-id tint2 -c ~/.config/tint2/nord
 
 # picom
 exec --no-startup-id picom
