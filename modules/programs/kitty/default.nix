@@ -1,16 +1,16 @@
 { config, pkgs, libs, ... }:
 {
-  imports = [ ./colors/gruvbox.nix ];
+  imports = [ ./colors/zenbones.nix ];
 
   programs.kitty = {
     enable = true;
     font = {
-      name = "JetBrainsMono Nerd Font 8";
-      size = 8;
+      name = "JetBrainsMono Nerd Font";
+      size = 9;
     };
     settings = {
       cursor_shape = "underline";
-      window_padding_width = 10;
+      window_padding_width = 15;
       scrollback_lines = 5000;
       tab_bar_style = "fade";
       tab_fade = 1;

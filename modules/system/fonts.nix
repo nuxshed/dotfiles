@@ -2,7 +2,7 @@
 {
   fonts.fonts = with pkgs; [
     cantarell-fonts
-    (nerdfonts.override { fonts = [ "CascadiaCode" "FiraCode" "IBMPlexMono" "Iosevka" "JetBrainsMono" ]; })
+    (nerdfonts.override { fonts = [ "CascadiaCode" "FiraCode" "Gohu" "IBMPlexMono" "Iosevka" "JetBrainsMono" ]; })
     noto-fonts-emoji-blob-bin
   ];
 

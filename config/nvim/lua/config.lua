@@ -2,7 +2,7 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "gruvbox",
+  colorscheme = "zenbones",
   leader = " ",
   localleader = ",",
   borders = "single",
