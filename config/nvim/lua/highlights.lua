@@ -8,6 +8,7 @@ cmd("hi StatusLineVisualAccent guifg=" .. c.bg .. " guibg=" .. c.green)
 cmd("hi StatusLineReplaceAccent guifg=" .. c.bg .. " guibg=" .. c.red)
 cmd("hi StatusLineCmdLineAccent guifg=" .. c.bg .. " guibg=" .. c.yellow)
 cmd("hi StatuslineTerminalAccent guifg=" .. c.bg .. " guibg=" .. c.yellow)
+cmd("hi StatusLineExtra guifg=" .. c.fgfaded)
 cmd "hi StatusLineNC guibg=NONE"
 
 cmd("hi CursorLineNr guibg=" .. c.lightbg)

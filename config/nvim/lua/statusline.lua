@@ -48,26 +48,6 @@ local function update_mode_colors()
   return mode_color
 end
 
-local vcs = function()
-  local git_info = vim.b.gitsigns_status_dict
-  if not git_info or git_info.head == "" then
-    return ""
-  end
-  local added = git_info.added and ("%#GitSignsAdd#+" .. git_info.added .. " ") or ""
-  local changed = git_info.changed and ("%#GitSignsChange#~" .. git_info.changed .. " ") or ""
-  local removed = git_info.removed and ("%#GitSignsDelete#-" .. git_info.removed .. " ") or ""
-  if git_info.added == 0 then
-    added = ""
-  end
-  if git_info.changed == 0 then
-    changed = ""
-  end
-  if git_info.removed == 0 then
-    removed = ""
-  end
-  return " " .. added .. changed .. removed .. " " .. "%#GitSignsAdd# " .. git_info.head .. " %#Normal#"
-end
-
 local function filepath()
   local fpath = fn.fnamemodify(fn.expand "%", ":~:.:h")
   if fpath == "" or fpath == "." then
@@ -106,7 +86,7 @@ local function lsp()
   }
 
   for k, level in pairs(levels) do
-    count[k] = vim.tbl_count(vim.diagnostic.get(0, {severity = level}))
+    count[k] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
   end
 
   local errors = ""
@@ -138,17 +118,13 @@ Statusline.active = function()
     update_mode_colors(),
     mode(),
     "%#Normal# ",
-    "%#StatusLine#",
     filepath(),
     filename(),
     "%#Normal#",
     lsp(),
-    "%=",
+    "%=%#StatusLineExtra#",
     filetype(),
-    vcs(),
     lineinfo(),
-    update_mode_colors(),
-    " ",
   }
 end
 
