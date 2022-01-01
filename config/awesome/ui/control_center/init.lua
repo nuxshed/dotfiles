@@ -94,7 +94,7 @@ local control_center = awful.popup {
         },
         widget = wibox.container.background,
         bg = beautiful.bg_normal,
-        forced_height = 90,
+        forced_height = 100,
         shape = function(cr, width, height)
           gears.shape.rounded_rect(cr, width, height, 9)
         end,
