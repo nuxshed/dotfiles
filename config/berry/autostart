@@ -1,0 +1,17 @@
+#!/bin/sh
+
+berryc border_width       0
+berryc inner_border_width 0
+berryc title_height       35
+berryc edge_gap           20 20 20 20
+
+berryc inner_focus_color   c9c1bd
+berryc inner_unfocus_color e5dcdc
+berryc text_focus_color    2c363c
+berryc text_unfocus_color  948985
+
+berryc draw_text "false"
+berryc smart_place "true"
+berryc edge_lock   "true"
+
+sxhkd -c "$HOME/.config/berry/sxhkdrc" &

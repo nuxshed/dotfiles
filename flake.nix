@@ -44,6 +44,7 @@
                 ./modules/programs/graphics.nix
                 ./modules/desktop
                 ./modules/desktop/windowManagers/awesome.nix
+                ./modules/desktop/windowManagers/berry.nix
                 ./modules/desktop/windowManagers/i3.nix
                 ./modules/desktop/windowManagers/sway.nix
               ];
