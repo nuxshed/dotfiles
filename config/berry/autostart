@@ -6,7 +6,7 @@ berryc title_height       35
 berryc edge_gap           30 30 30 30
 
 berryc inner_focus_color   c9c1bd
-berryc inner_unfocus_color e5dcdc
+berryc inner_unfocus_color 2c363c
 
 berryc draw_text "false"
 berryc smart_place "true"
