@@ -21,9 +21,8 @@
         enable = true;
         package = pkgs.i3-gaps;
       };
-      berry = {
-        enable = true;
-      };
+      berry.enable = true;
+      herbstluftwm.enable = true;
     };
   };
   programs.sway = {
