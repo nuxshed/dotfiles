@@ -128,8 +128,8 @@ hc set frame_border_normal_color '#282828'
 hc set frame_bg_normal_color '#1d2021'
 hc set frame_bg_active_color '#282828'
 
-hc set window_border_active_color '#948985'
-hc set window_border_normal_color '#c9c1bd'
+hc set window_border_active_color '#282828'
+hc set window_border_normal_color '#1d2021'
 
 hc set frame_border_width 0
 hc set always_show_frame on
@@ -150,3 +150,5 @@ hc set focus_follows_mouse 1
 hc attr theme.padding_top 35
 
 "${cmds[@]}" &
+
+pgrep tint2 || tint2 -c ~/.config/tint2/gruvbox &
