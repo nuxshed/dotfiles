@@ -1,2 +1,10 @@
 #!/bin/sh
 pactl set-sink-volume @DEFAULT_SINK@ "$1" &
+
+vol=$(pamixer --get-volume)
+
+dunstify -a "Volume" \
+  "Volume" \
+  -h int:value:$vol \
+  -r 69 \
+  "$vol%"
