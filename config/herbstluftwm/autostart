@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+
+# my herbstluftwm config
+
+IFS=$'\n'
+cmds=(herbstclient chain )
+hc() {
+	cmds+=(:-: "$@" )
+}
+
+hc keyunbind --al
+
+mod=Mod4
+
+# keybindings
+
+hc chain
+hc keybind $mod-Shift-q quit
+hc keybind $mod-Shift-r reload
+
+hc keybind $mod-c close_and_remove
+hc keybind $mod-Shift-c close
+
+hc keybind $mod-Return spawn kitty
+hc keybind $mod-r spawn rofi -show drun
+
+hc set focus_crosses_monitor_boundaries 1
+hc set swap_monitors_to_get_tag 0
+
+hc keybind $mod-h           focus left
+hc keybind $mod-j           focus down
+hc keybind $mod-k           focus up
+hc keybind $mod-l           focus right
+
+hc keybind $mod-Tab         cycle_all +1
+hc keybind $mod-Shift-Tab   cycle_all -1
+
+hc keybind $mod-Shift-Left  shift_edge left
+hc keybind $mod-Shift-Down  shift_edge down
+hc keybind $mod-Shift-Up    shift_edge up
+hc keybind $mod-Shift-Right shift_edge right
+hc keybind $mod-Shift-h     shift left
+hc keybind $mod-Shift-j     shift down
+hc keybind $mod-Shift-k     shift up
+hc keybind $mod-Shift-l     shift right
+
+hc keybind $mod-u split auto
+hc keybind $mod-s chain , split bottom 0.5 , focus down
+hc keybind $mod-v chain , split right  0.5 , focus right
+hc keybind $mod-Control-j chain , split bottom 0.5 , focus down
+hc keybind $mod-Control-k chain , split top    0.5 , focus up
+hc keybind $mod-Control-h chain , split left   0.5 , focus left
+hc keybind $mod-Control-l chain , split right  0.5 , focus right
+
+resizestep=0.02
+hc keybind $mod-Control-h       resize left +$resizestep
+hc keybind $mod-Control-j       resize down +$resizestep
+hc keybind $mod-Control-k       resize up +$resizestep
+hc keybind $mod-Control-l       resize right +$resizestep
+hc keybind $mod-Control-Left    resize left +$resizestep
+hc keybind $mod-Control-Down    resize down +$resizestep
+hc keybind $mod-Control-Up      resize up +$resizestep
+hc keybind $mod-Control-Right   resize right +$resizestep
+
+hc mouseunbind --all
+hc mousebind $mod-Button1 move
+hc mousebind $mod-Button2 zoom
+hc mousebind $mod-Button3 resize
+
+tag_names=( {1..9} )
+tag_keys=( {1..9} )
+
+hc rename default "${tag_names[0]}" || true
+
+for i in "${!tag_names[@]}" ; do
+    hc add "${tag_names[$i]}"
+    key="${tag_keys[$i]}"
+    if [ -n "$key" ] ; then
+        hc keybind "$mod-$key" use_index "$i"
+        hc keybind "$mod-Shift-$key" move_index "$i"
+		hc keybind "$mod-Control-$key" chain , move_index "$i" , use_index "$i"
+		hc keybind "$mod-Mod1-$key" chain \
+			, sprintf FOCNAME "%s" tags.focus.name chain \
+				: set_attr tags.focus.name temp \
+				: sprintf UNFNAME "%s" tags.${i}.name chain \
+					+ set_attr tags.$i.name FOCNAME \
+					+ set_attr tags.by-name.temp.name UNFNAME \
+			, sprintf FOCTAG "%s" tags.focus.index \
+				set_attr tags.$i.index FOCTAG \
+			, set_attr tags.focus.index $i \
+			, use_index $i \
+			, emit_hook UPDATE_PANEL
+    fi
+done
+
+hc keybind $mod-space attr clients.focus.floating toggle
+hc keybind $mod-Shift-space floating toggle
+hc keybind $mod-Shift-f   fullscreen toggle
+
+hc keybind $mod-space   cycle_layout 1
+hc keybind $mod-f       cycle_layout 1 max vertical
+
+hc keybind $mod-o       pseudotile toggle
+
+hc keybind $mod-period use_index +1 --skip-visible
+hc keybind $mod-comma  use_index -1 --skip-visible
+hc keybind $mod-a use_previous
+
+hc keybind XF86AudioLowerVolume spawn vol -5%
+hc keybind XF86AudioRaiseVolume spawn vol +5%
+hc keybind XF86MonBrightnessDown spawn bri 5%-
+hc keybind XF86MonBrightnessUp spawn bri +5%
+
+# rules
+
+hc unrule -F
+
+hc rule focus=on
+hc rule floatplacement=center
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+
+# options
+
+hc set frame_border_active_color '#89b482'
+hc set frame_border_normal_color '#282828'
+hc set frame_bg_normal_color '#1d2021'
+hc set frame_bg_active_color '#282828'
+
+hc set window_border_active_color '#948985'
+hc set window_border_normal_color '#c9c1bd'
+
+hc set frame_border_width 0
+hc set always_show_frame on
+hc set frame_bg_transparent on
+hc set frame_transparent_width 0
+hc set frame_gap 20
+hc set frame_padding -12
+hc set smart_frame_surroundings 0
+
+hc set window_gap 20
+hc set window_border_width 0
+hc set smart_window_surroundings 0
+hc set mouse_recenter_gap 0
+hc set raise_on_focus 0
+hc set update_dragged_clients 1
+hc set focus_follows_mouse 1
+
+hc attr theme.padding_top 35
+
+"${cmds[@]}" &
