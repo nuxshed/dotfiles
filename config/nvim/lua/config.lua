@@ -2,12 +2,12 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "zenbones",
+  colorscheme = "tokyobones",
   leader = " ",
   localleader = ",",
   borders = "single",
   format_on_save = true,
-  icon_colors = false,
+  icon_colors = true,
   smart_close = "help,startuptime,qf,lspinfo,packer,tsplayground", -- windows to close with 'q'
   icons = {
     kinds = {

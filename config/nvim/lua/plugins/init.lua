@@ -31,6 +31,7 @@ require("packer").startup {
     use "shaunsingh/nord.nvim"
     use "b4skyx/serenade"
     use "mcchrish/zenbones.nvim"
+    use "rktjmp/lush.nvim"
     use "RRethy/nvim-base16" -- for base16 colorschemes
 
     -- UI ------------------------------------------------------

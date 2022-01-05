@@ -1,6 +1,6 @@
 { config, pkgs, libs, ... }:
 {
-  imports = [ ./colors/zenbones.nix ];
+  imports = [ ./colors/tokyobones.nix ];
 
   programs.kitty = {
     enable = true;
