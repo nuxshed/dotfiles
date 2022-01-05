@@ -5,10 +5,11 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, neovim-nightly, nixpkgs-f2k }:
+  outputs = inputs @ { self, nixpkgs, home-manager, neovim-nightly, emacs-overlay, nixpkgs-f2k }:
     let
       system = "x86_64-linux";
 
@@ -20,6 +21,7 @@
       overlays = [
         nixpkgs-f2k.overlay
         neovim-nightly.overlay
+        emacs-overlay.overlay
       ];
     in
     {
