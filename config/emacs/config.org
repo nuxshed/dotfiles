@@ -235,7 +235,7 @@ some major modes to improve language support
 #+begin_src elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-tomorrow-day t))
+    (load-theme 'doom-tomorrow-night t))
 #+end_src
 
 ** Modeline

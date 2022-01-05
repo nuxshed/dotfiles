@@ -160,7 +160,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-tomorrow-day t))
+  (load-theme 'doom-tomorrow-night t))
 
 (use-package mood-line
   :ensure t
