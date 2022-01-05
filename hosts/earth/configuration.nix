@@ -20,7 +20,7 @@
   time.timeZone = "Asia/Kolkata";
 
   networking = {
-    hostName = "ocean";
+    hostName = "earth";
     networkmanager.enable = true;
     useDHCP = false;
     interfaces.enp0s31f6.useDHCP = true;

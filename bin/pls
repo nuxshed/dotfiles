@@ -25,7 +25,7 @@ while [ "$1" ]; do
       nix-collect-garbage
       exit ;;
     home)
-      nix build "$HOME/dotfiles#homemanagerConfigurations.ocean.activationPackage" && ./result/activate
+      nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
       exit ;;
     rebuild)
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"

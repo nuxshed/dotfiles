@@ -26,7 +26,7 @@
     in
     {
       homemanagerConfigurations = {
-        ocean = home-manager.lib.homeManagerConfiguration {
+        earth = home-manager.lib.homeManagerConfiguration {
           configuration = { pkgs, config, ... }:
             {
               home.stateVersion = "21.11";
@@ -59,13 +59,13 @@
         };
       };
       nixosConfigurations = {
-        ocean = nixpkgs.lib.nixosSystem {
+        earth = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             {
               nixpkgs.overlays = overlays;
             }
-            ./hosts/ocean/configuration.nix
+            ./hosts/earth/configuration.nix
           ];
         };
       };
