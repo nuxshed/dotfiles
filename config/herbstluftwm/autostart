@@ -112,6 +112,13 @@ hc keybind XF86AudioRaiseVolume spawn vol +5%
 hc keybind XF86MonBrightnessDown spawn bri 5%-
 hc keybind XF86MonBrightnessUp spawn bri +5%
 
+hc keybind Print spawn scr screen
+hc keybind Control+Print spawn scr window
+hc keybind Shift+Print spawn scr selection
+hc keybind $mod+Print spawn scr screentoclip
+hc keybind $mod+Control+Print spawn scr windowtoclip
+hc keybind $mod+Shift+Print spawn scr selectiontoclip
+
 # rules
 
 hc unrule -F
