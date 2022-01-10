@@ -337,6 +337,12 @@ require("packer").startup {
       "norcalli/nvim-colorizer.lua",
       cmd = { "ColorizerToggle" },
       keys = { "<leader>tc" },
+      config = function()
+        require("colorizer").setup({ "*" }, {
+          names = false,
+          mode = "background",
+        })
+      end,
     }
   end,
 
