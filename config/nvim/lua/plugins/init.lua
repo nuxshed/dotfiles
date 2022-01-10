@@ -305,9 +305,12 @@ require("packer").startup {
       cmd = { "ZenMode" },
       config = function()
         require("zen-mode").setup {
-          twilight = { enabled = false },
-          gitsigns = { enabled = true },
-          kitty = { enabled = true },
+          window = { backdrop = 1, width = 80 },
+          plugins = {
+            twilight = { enabled = false },
+            gitsigns = { enabled = true },
+            kitty = { enabled = false, increment = "+1" },
+          },
         }
       end,
     }
@@ -359,6 +362,9 @@ require("packer").startup {
         }
       end,
     }
+
+    -- lua scratchpad
+    use { "rafcamlet/nvim-luapad", cmd = "Luapad" }
   end,
 
   -- packer config
