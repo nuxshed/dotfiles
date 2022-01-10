@@ -1,6 +1,6 @@
 { config, pkgs, libs, ... }:
 {
-  imports = [ ./colors/tokyobones.nix ];
+  imports = [ ./colors/gruvbox.nix ];
 
   programs.kitty = {
     enable = true;

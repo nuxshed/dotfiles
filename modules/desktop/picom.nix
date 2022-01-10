@@ -11,6 +11,8 @@
       shadow-opacity = 0.25
       shadow-offset-x = -40
       shadow-offset-y = -40
+
+      corner-radius = 8
     '';
     shadowExclude = [
       "name = 'Notification'"
