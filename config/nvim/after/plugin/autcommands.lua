@@ -35,21 +35,3 @@ augroup("Utilities", {
     command = "nnoremap <buffer><silent> q :close<CR>",
   },
 })
-
-augroup("ftdetect", {
-  {
-    events = { "BufRead,BufNewFile" },
-    targets = { "*.rasi" },
-    command = "set filetype=rasi",
-  },
-  {
-    events = { "BufRead,BufNewFile" },
-    targets = { "*.log", "*.LOG", "*_log", "*_LOG", "log", "LOG" },
-    command = "set filetype=log",
-  },
-  {
-    events = { "BufRead,BufNewFile" },
-    targets = { "*.lock" },
-    command = "set filetype=json",
-  },
-})
