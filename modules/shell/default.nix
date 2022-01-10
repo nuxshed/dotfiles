@@ -1,6 +1,7 @@
 { config, pkgs, libs, ... }:
 {
   imports = [
+    ./dircolors.nix
     ./git.nix
     ./zsh.nix
   ];
