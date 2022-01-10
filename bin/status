@@ -2,7 +2,7 @@
 
 # a single script to display any status i want
 
-# ARGS: vol/volume. bat/battery, music/playerctl, wifi/net/internet, ram/mem, cpu
+# ARGS: vol/volume. bat/battery, music/playerctl
 
 status_volume() {
   vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
@@ -39,7 +39,6 @@ status_battery() {
       icon=$ramp8
     elif [ "$CHARGE" -lt 100 ]; then
       icon=$ramp9
-      icon=$ramp9
     fi
   elif [ "$STATUS" = "Full" ]; then
     icon=$ramp9
@@ -64,48 +63,19 @@ status_playerctl() {
   fi
 }
 
-status_network() {
-  ~/.config/polybar/scripts/networkmanager.sh
-}
-
-status_weather() {
-  ~/.config/polybar/scripts/weather.sh
-}
-
-status_updates() {
-  if ! updates=$(checkupdates 2> /dev/null | wc -l ); then
-    updates=0
-  fi
-
-  if [ "$updates" -gt 0 ]; then
-    echo " $updates updates available"
-  else
-    echo " "
-  fi
-}
-
 while [ "$1" ]; do
   case "$1" in
-    vol | volume)
+    vol)
       status_volume
       exit ;;
-    bat | battery)
+    bat)
       status_battery
       exit ;;
-    temp | temperature)
+    temp)
       status_temperature
       exit ;;
-    music | playerctl)
+    music)
       status_playerctl
       exit ;;
-    network)
-      status_network
-      exit ;;
-    weather)
-      status_weather
-      exit;;
-    updates)
-      status_updates
-      exit;;
   esac
 done
