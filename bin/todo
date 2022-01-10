@@ -3,6 +3,9 @@
 # a simple todo script
 
 TODOFILE=~/.todo
+
+[ "$1" = "loc" ] && TODOFILE=.todo && shift
+
 [ ! -r $TODOFILE ] && touch $TODOFILE
 
 [ "$1" ] || exit 1
