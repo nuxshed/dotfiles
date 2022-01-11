@@ -23,6 +23,7 @@
     ncdu
     pamixer
     pass
+    playerctl
     ranger
     (ripgrep.override { withPCRE2 = true; })
     tmux
@@ -31,6 +32,8 @@
     xclip
     zoxide
   ];
+
+  services.playerctld.enable = true;
 
   # not big enough for their own modules
   home.file.".bin".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/bin";
