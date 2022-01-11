@@ -13,6 +13,11 @@
       shadow-offset-y = -40
 
       corner-radius = 8
+      rounded-corners-exclude = [
+        "window_type = 'dock'",
+        "window_type = 'desktop'",
+        "class_g = 'awesome'"
+      ];
     '';
     shadowExclude = [
       "name = 'Notification'"
