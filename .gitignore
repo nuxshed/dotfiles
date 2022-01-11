@@ -1,3 +1,4 @@
 result
 config/zsh/.zsh/zinit
 packer_compiled.*
+secrets.lua
