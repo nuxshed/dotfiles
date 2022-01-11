@@ -30,8 +30,12 @@ M.colors = {
 M.overrides = function()
   vim.cmd [[
     hi Green guibg=NONE guifg=#9ece6a
-    hi TabLineSel guibg=#24283b guifg=#c0caf5
-    hi TabLineNorm guibg=#1d202F guifg=#565f89
+    hi TabLineSel guibg=#292e42 guifg=#c0caf5
+    hi TabLineNorm guibg=NONE guifg=#565f89
+    hi TabLineFill guibg=NONE
+    hi TelescopeBorder guifg=#292e42
+    hi TelescopeTitle guifg=#565f89
+    hi TelescopeSelection guibg=#292e42 guifg=#7aa2f7
   ]]
 end
 
