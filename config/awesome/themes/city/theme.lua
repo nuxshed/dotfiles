@@ -6,7 +6,7 @@ local theme_assets = require "beautiful.theme_assets"
 local xresources = require "beautiful.xresources"
 local rnotification = require "ruled.notification"
 local dpi = xresources.apply_dpi
-local theme_path = require("gears").filesystem.get_configuration_dir() .. "themes/forest/"
+local theme_path = require("gears").filesystem.get_configuration_dir() .. "themes/city/"
 local themes_path = require("gears").filesystem.get_themes_dir()
 local gcolor = require("gears").color
 
@@ -18,29 +18,29 @@ theme.font = theme.font_name .. " 8"
 theme.none = "#00000000"
 
 theme.bar_type = "attached"
-theme.titlebar = "forest"
+theme.titlebar = "city"
 
-theme.bg_normal = "#1d2021"
-theme.bg_focus = "#282828"
-theme.bg_dark = "#161819"
-theme.bg_urgent = "#1d2021"
-theme.bg_minimize = "#1d2021"
+theme.bg_normal = "#24283b"
+theme.bg_focus = "#292e42"
+theme.bg_dark = "#1d202f"
+theme.bg_urgent = "#24283b"
+theme.bg_minimize = "#24283b"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#d4be98"
-theme.fg_focus = "#d4be98"
-theme.fg_urgent = "#d4be98"
-theme.fg_minimize = "#d4be98"
-theme.fg_dark = "#928374"
+theme.fg_normal = "#c0caf5"
+theme.fg_focus = "#c0caf5"
+theme.fg_urgent = "#c0caf5"
+theme.fg_minimize = "#c0caf5"
+theme.fg_dark = "#565f89"
 
-theme.fg_bat = "#a9b665"
-theme.fg_time = "#e78a4e"
+theme.fg_bat = "#9ece6a"
+theme.fg_time = "#e0af68"
 
 theme.useless_gap = dpi(10)
 theme.border_width = dpi(0)
-theme.border_color_normal = "#282828"
-theme.border_color_active = "#89b482"
-theme.border_color_marked = "#c678dd"
+theme.border_color_normal = "#292e42"
+theme.border_color_active = "#7aa2f7"
+theme.border_color_marked = "#9d7cd8"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -50,12 +50,15 @@ theme.border_color_marked = "#c678dd"
 -- titlebar_[bg|fg]_[normal|focus]
 -- tooltip_[font|opacity|fg_color|bg_color|border_width|border_color]
 -- mouse_finder_[color|timeout|animate_timeout|radius|factor]
--- prompt_[fg|bg|fg_cursor|bg_cursor|font]
+-- prompt_[fg|bg|fg_cursor|bg_cursor|font,]
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 -- Example:
-theme.taglist_bg_focus = "#89b482"
-theme.taglist_fg_focus = "#1d2021"
-theme.taglist_fg_empty = "#928374"
+
+theme.titlebar_bg_focus = theme.bg_normal
+
+theme.taglist_bg_focus = "#7aa2f7"
+theme.taglist_fg_focus = "#24283b"
+theme.taglist_fg_empty = "#565f89"
 
 -- Generate taglist squares:
 local taglist_square_size = dpi(0)
@@ -63,12 +66,12 @@ theme.taglist_squares_sel = theme_assets.taglist_squares_sel(taglist_square_size
 theme.taglist_squares_unsel = theme_assets.taglist_squares_unsel(taglist_square_size, theme.fg_normal)
 
 -- control center
-theme.control_center_button_bg = "#89b482"
-theme.control_center_button_bg_off = "#3f3f3f"
-theme.control_center_mem_used = "#ea6962"
-theme.control_center_cpu_active = "#d8a657"
-theme.control_center_vol_slider_active = "#a9b665"
-theme.control_center_bri_slider_active = "#d3869b"
+theme.control_center_button_bg = "#7aa2f7"
+theme.control_center_button_bg_off = "#565f89"
+theme.control_center_mem_used = "#db4b4b"
+theme.control_center_cpu_active = "#ff9e64"
+theme.control_center_vol_slider_active = "#9ece6a"
+theme.control_center_bri_slider_active = "#9d7cd8"
 
 -- sidebar
 theme.sidebar_music_progress_fg = "#7aa2f7"
@@ -87,6 +90,7 @@ theme.menu_width = dpi(150)
 
 theme.notification_icon = theme_path .. "notification.svg"
 theme.titlebar_close_button_normal = theme_path .. "close_normal.svg"
+theme.titlebar_minimize_button_normal = theme_path .. "minimize_normal.svg"
 theme.not_playing = theme_path .. "not_playing.svg"
 theme.wallpaper = theme_path .. "background.png"
 
@@ -143,7 +147,7 @@ theme.window_switcher_thumbnail_margins = 10
 theme.window_switcher_name_margins = 10
 theme.window_switcher_name_forced_width = 200
 theme.window_switcher_name_normal_color = theme.fg_normal
-theme.window_switcher_name_focus_color = "#89b482"
+theme.window_switcher_name_focus_color = "#7aa2f7"
 theme.window_switcher_icon_width = 40
 
 -- Set different colors for urgent notifications.

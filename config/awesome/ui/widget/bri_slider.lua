@@ -30,7 +30,7 @@ local bri_slider = wibox.widget {
 }
 
 slider:connect_signal("property::value", function(_, value)
-  awful.spawn.with_shell("bri " .. value .. "%")
+  awful.spawn.with_shell("brightnessctl s " .. value .. "%")
 end)
 
 return bri_slider

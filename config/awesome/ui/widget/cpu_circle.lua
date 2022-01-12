@@ -12,14 +12,14 @@ local cpu_circle = wibox.widget {
       halign = "center",
     },
     widget = wibox.container.margin,
-    margins = 40,
+    margins = 37.5,
   },
   value = 0.5,
   max_value = 1,
   min_value = 0,
   color = beautiful.control_center_cpu_active,
   border_color = beautiful.bg_focus,
-  border_width = 7,
+  border_width = 9,
   widget = wibox.container.radialprogressbar,
 }
 

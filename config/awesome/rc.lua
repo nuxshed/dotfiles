@@ -14,16 +14,23 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 
 -- truly beautiful
-beautiful.init(require("gears").filesystem.get_configuration_dir() .. "themes/forest/theme.lua")
+beautiful.init(require("gears").filesystem.get_configuration_dir() .. "themes/city/theme.lua")
 
 -- *gulp*
 require("modules.bling").module.window_swallowing.start()
 
+-- secrets
+require "secrets"
+
 -- config stuff
 require "configuration"
 
+-- user interfaces
+require("ui.bar." .. beautiful.bar_type)
+require("ui.titlebar." .. beautiful.titlebar)
+require "ui.menu"
+require "ui.notifs"
+require "ui.sidebar"
+
 -- signals
 require "squeals"
-
--- user interfaces
-require "ui"

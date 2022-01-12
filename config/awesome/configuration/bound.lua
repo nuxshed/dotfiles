@@ -1,4 +1,5 @@
 local awful = require "awful"
+local machi = require "modules.layout-machi"
 
 -- Mouse bindings
 awful.mouse.append_global_mousebindings {
@@ -11,6 +12,7 @@ awful.mouse.append_global_mousebindings {
 
 -- General Utilities
 awful.keyboard.append_global_keybindings {
+  -- Screenshot
   awful.key({}, "Print", function()
     awful.spawn "scr screen"
   end),
@@ -28,6 +30,14 @@ awful.keyboard.append_global_keybindings {
   end),
   awful.key({ modkey, "Control" }, "Print", function()
     awful.spawn "scr windowtoclip"
+  end),
+
+  -- XF86 keys
+  awful.key({}, "XF86AudioLowerVolume", function()
+    awful.spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  end),
+  awful.key({}, "XF86AudioRaiseVolume", function()
+    awful.spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"
   end),
 }
 
@@ -54,7 +64,7 @@ awful.keyboard.append_global_keybindings {
     group = "launcher",
   }),
   awful.key({ modkey }, "a", function()
-    require "ui.control_center"()
+    require "ui.sidebar"()
   end),
 }
 
@@ -115,42 +125,6 @@ awful.keyboard.append_global_keybindings {
     awful.tag.incmwfact(-0.05)
   end, {
     description = "decrease master width factor",
-    group = "layout",
-  }),
-  awful.key({ modkey, "Shift" }, "h", function()
-    awful.tag.incnmaster(1, nil, true)
-  end, {
-    description = "increase the number of master clients",
-    group = "layout",
-  }),
-  awful.key({ modkey, "Shift" }, "l", function()
-    awful.tag.incnmaster(-1, nil, true)
-  end, {
-    description = "decrease the number of master clients",
-    group = "layout",
-  }),
-  awful.key({ modkey, "Control" }, "h", function()
-    awful.tag.incncol(1, nil, true)
-  end, {
-    description = "increase the number of columns",
-    group = "layout",
-  }),
-  awful.key({ modkey, "Control" }, "l", function()
-    awful.tag.incncol(-1, nil, true)
-  end, {
-    description = "decrease the number of columns",
-    group = "layout",
-  }),
-  awful.key({ modkey }, "space", function()
-    awful.layout.inc(1)
-  end, {
-    description = "select next",
-    group = "layout",
-  }),
-  awful.key({ modkey, "Shift" }, "space", function()
-    awful.layout.inc(-1)
-  end, {
-    description = "select previous",
     group = "layout",
   }),
 }
@@ -254,7 +228,7 @@ client.connect_signal("request::default_keybindings", function()
       group = "client",
     }),
     awful.key(
-      { modkey, "Control" },
+      { modkey, "Shift" },
       "space",
       awful.client.floating.toggle,
       { description = "toggle floating", group = "client" }
@@ -263,12 +237,6 @@ client.connect_signal("request::default_keybindings", function()
       c:swap(awful.client.getmaster())
     end, {
       description = "move to master",
-      group = "client",
-    }),
-    awful.key({ modkey }, "o", function(c)
-      c:move_to_screen()
-    end, {
-      description = "move to screen",
       group = "client",
     }),
     awful.key({ modkey }, "t", function(c)
@@ -292,19 +260,21 @@ client.connect_signal("request::default_keybindings", function()
       description = "(un)maximize",
       group = "client",
     }),
-    awful.key({ modkey, "Control" }, "m", function(c)
-      c.maximized_vertical = not c.maximized_vertical
-      c:raise()
-    end, {
-      description = "(un)maximize vertically",
-      group = "client",
-    }),
-    awful.key({ modkey, "Shift" }, "m", function(c)
-      c.maximized_horizontal = not c.maximized_horizontal
-      c:raise()
-    end, {
-      description = "(un)maximize horizontally",
-      group = "client",
-    }),
   }
 end)
+
+-- Layout Machi
+awful.keyboard.append_global_keybindings {
+  awful.key({ modkey }, ".", function()
+    machi.default_editor.start_interactive()
+  end, {
+    description = "edit the current layout if it is a machi layout",
+    group = "layout",
+  }),
+  awful.key({ modkey }, "/", function()
+    machi.switcher.start(client.focus)
+  end, {
+    description = "switch between windows for a machi layout",
+    group = "layout",
+  }),
+}

@@ -8,7 +8,7 @@
     shadow = true;
     extraOptions = ''
       shadow-radius = 40
-      shadow-opacity = 0.25
+      shadow-opacity = 0.5
       shadow-offset-x = -40
       shadow-offset-y = -40
 

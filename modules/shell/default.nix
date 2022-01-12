@@ -33,8 +33,6 @@
     zoxide
   ];
 
-  services.playerctld.enable = true;
-
   # not big enough for their own modules
   home.file.".bin".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/bin";
   home.file.".tmux.conf".source =

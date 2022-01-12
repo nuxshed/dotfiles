@@ -18,28 +18,23 @@ client.connect_signal("request::titlebars", function(c)
   awful.titlebar(c, {
     size = 37.5,
   }):setup {
-    nil,
     {
       {
-        {
-          widget = awful.titlebar.widget.titlewidget(c),
-        },
-        widget = wibox.container.place,
+        awful.titlebar.widget.closebutton(c),
+        layout = wibox.layout.fixed.horizontal,
+      },
+      widget = wibox.container.margin,
+      margins = 14,
+    },
+    {
+      {
         align = "center",
+        widget = awful.titlebar.widget.titlewidget(c),
       },
       buttons = buttons,
       layout = wibox.layout.flex.horizontal,
     },
-    {
-      {
-        awful.titlebar.widget.minimizebutton(c),
-        awful.titlebar.widget.closebutton(c),
-        layout = wibox.layout.fixed.horizontal,
-        spacing = 7.5,
-      },
-      widget = wibox.container.margin,
-      margins = 12,
-    },
+    nil,
     layout = wibox.layout.align.horizontal,
   }
 end)
