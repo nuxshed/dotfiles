@@ -1,6 +1,6 @@
 { config, pkgs, libs, ... }:
 {
-  home.packages = [ pkgs.lounge-gtk-theme pkgs.paper-icon-theme ];
+  home.packages = [ pkgs.lounge-gtk-theme pkgs.papirus-icon-theme ];
   gtk = {
     enable = true;
     font = {
@@ -8,6 +8,6 @@
       size = 10;
     };
     theme.name = "Lounge-night-compact";
-    iconTheme.name = "Paper";
+    iconTheme.name = "Papirus";
   };
 }
