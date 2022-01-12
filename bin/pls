@@ -23,6 +23,7 @@ while [ "$1" ]; do
       exit ;;
     gc)
       nix-collect-garbage
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished garbage collection"
       exit ;;
     home)
       nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
@@ -40,14 +41,17 @@ while [ "$1" ]; do
       else
         nix flake update "$HOME/dotfiles"
       fi
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished update"
       exit ;;
     upgrade)
       nix flake update "$HOME/dotfiles"
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
       nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished upgrade"
       exit ;;
     optimise)
       nix-store --optimise
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished optimising nix store"
       exit ;;
     *)
       printf "\033[0;31merr: invalid command\n"
