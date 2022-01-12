@@ -150,6 +150,8 @@ theme.window_switcher_name_normal_color = theme.fg_normal
 theme.window_switcher_name_focus_color = "#7aa2f7"
 theme.window_switcher_icon_width = 40
 
+theme.notification_spacing = 10
+
 -- Set different colors for urgent notifications.
 rnotification.connect_signal("request::rules", function()
   rnotification.append_rule {

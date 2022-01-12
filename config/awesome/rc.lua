@@ -31,6 +31,7 @@ require("ui.titlebar." .. beautiful.titlebar)
 require "ui.menu"
 require "ui.notifs"
 require "ui.sidebar"
+require "ui.action_center"
 
 -- signals
 require "squeals"

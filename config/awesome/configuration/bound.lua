@@ -66,6 +66,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "a", function()
     require "ui.sidebar"()
   end),
+  awful.key({ modkey }, "s", function()
+    require "ui.action_center"()
+  end),
 }
 
 -- Tags related keybindings
