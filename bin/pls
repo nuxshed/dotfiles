@@ -44,6 +44,7 @@ while [ "$1" ]; do
     upgrade)
       nix flake update "$HOME/dotfiles"
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
+      nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
       exit ;;
     optimise)
       nix-store --optimise
