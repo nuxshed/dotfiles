@@ -7,7 +7,7 @@ local slider = wibox.widget {
   bar_shape = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 2.5)
   end,
-  bar_height = 10,
+  bar_height = 15,
   bar_color = beautiful.bg_focus,
   bar_active_color = beautiful.control_center_bri_slider_active,
   handle_width = 0,
