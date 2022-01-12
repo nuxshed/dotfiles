@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="50"
+   height="50"
+   viewBox="0 0 13.229166 13.229167"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="not_playing.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="50px"
+     inkscape:zoom="8.1245792"
+     inkscape:cx="41.04828"
+     inkscape:cy="23.385827"
+     inkscape:window-width="1326"
+     inkscape:window-height="688"
+     inkscape:window-x="20"
+     inkscape:window-y="60"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="-3.6771736"
+       y="12.873684"
+       width="127.02851"
+       height="103.10997"
+       id="rect4877" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#1d202f;fill-opacity:1;stroke:#565f89;stroke-width:0"
+       id="rect846"
+       width="13.229167"
+       height="13.229166"
+       x="8.2560865e-09"
+       y="8.2560865e-09" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text4875"
+       style="fill:black;fill-opacity:1;line-height:1.25;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;white-space:pre;shape-inside:url(#rect4877)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:11.7072px;line-height:1.25;font-family:sans-serif;fill:#24283b;fill-opacity:1;stroke:none;stroke-width:0.292681"
+       x="1.5875002"
+       y="10.9357"
+       id="text9603"><tspan
+         sodipodi:role="line"
+         id="tspan9601"
+         style="fill:#24283b;fill-opacity:1;stroke-width:0.292681"
+         x="1.5875002"
+         y="10.9357">ﱘ</tspan><tspan
+         sodipodi:role="line"
+         style="fill:#24283b;fill-opacity:1;stroke-width:0.292681"
+         x="1.5875002"
+         y="25.569702"
+         id="tspan11339" /></text>
+  </g>
+</svg>
