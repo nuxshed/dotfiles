@@ -33,6 +33,22 @@
         "type": "github"
       }
     },
+    "bling": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642386400,
+        "narHash": "sha256-JcmSTYewAgrgHWDQyu5Kytj3i/xjKVCPbKnAz22+s48=",
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "rev": "9b88048ce9e768455a0ecb771cbcee6bb06f6c97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BlingCorp",
+        "repo": "bling",
+        "type": "github"
+      }
+    },
     "cachix": {
       "locked": {
         "lastModified": 1640169700,
@@ -350,6 +366,22 @@
         "owner": "snakedye",
         "repo": "kile",
         "type": "gitlab"
+      }
+    },
+    "layout-machi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1641764319,
+        "narHash": "sha256-FEQQUJcjCuH+FSl2F2sh9xAsDR1o1p+OAjMfkeLh7p0=",
+        "owner": "xinhaoyuan",
+        "repo": "layout-machi",
+        "rev": "e413822ae1364e9ff182aeec1d149b0ecef22e8c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "xinhaoyuan",
+        "repo": "layout-machi",
+        "type": "github"
       }
     },
     "naersk": {
@@ -756,8 +788,10 @@
     },
     "root": {
       "inputs": {
+        "bling": "bling",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",
+        "layout-machi": "layout-machi",
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-f2k": "nixpkgs-f2k"

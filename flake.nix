@@ -7,15 +7,25 @@
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+
+    # awesomewm modules
+    bling = { url = "github:BlingCorp/bling"; flake = false; };
+    layout-machi = { url = "github:xinhaoyuan/layout-machi"; flake = false; };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, neovim-nightly, emacs-overlay, nixpkgs-f2k }:
+  outputs = { self, nixpkgs, home-manager, neovim-nightly, emacs-overlay, nixpkgs-f2k, ... }@inputs:
     let
       system = "x86_64-linux";
 
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; }; # Forgive me Mr. Stallman
+      };
+
+      extraSpecialArgs = {
+        inherit inputs self;
+        bling = inputs.bling;
+        layout-machi = inputs.layout-machi;
       };
 
       overlays = [
@@ -27,6 +37,7 @@
     {
       homemanagerConfigurations = {
         earth = home-manager.lib.homeManagerConfiguration {
+          inherit extraSpecialArgs;
           configuration = { pkgs, config, ... }:
             {
               home.stateVersion = "21.11";
