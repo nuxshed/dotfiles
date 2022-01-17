@@ -139,57 +139,6 @@ eshell is nice but I prefer vterm
     :ensure t)
 #+end_src
 
-** Evil
-yay, evil!
-#+begin_src elisp
-  (use-package evil
-    :init
-    (setq evil-want-integration t)
-    (setq evil-want-keybinding nil)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-jump nil)
-    :config
-    (evil-mode 1)
-    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-    (evil-set-initial-state 'messages-buffer-mode 'normal)
-    (evil-set-initial-state 'dashboard-mode 'normal))
-
-  (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
-#+end_src
-
-*** set up leader key
-#+begin_src elisp
-  (use-package evil-leader
-    :config
-    (global-evil-leader-mode)
-    (setq evil-leader/leader "<SPC>")
-    (evil-leader/set-key
-      ;; Files
-      "fr" 'consult-recent-file
-      "fb" 'consult-bookmark
-      "ff" 'find-file
-      "fp" 'projectile-switch-project
-      ;; Bufffers
-      "bv" 'split-window-right
-      "bh" 'split-window-below
-      "bd" 'kill-current-buffer
-      "bb" 'consult-buffer
-      "bx" 'switch-to-scratch
-      "bi" 'ibuffer
-      "bs" 'switch-to-buffer
-      ;; Help
-      "hh" 'help
-      "hk" 'describe-key
-      "hv" 'describe-variable
-      "hf" 'describe-function
-      "hs" 'describe-symbol
-      "hm" 'describe-mode))
-#+end_src
-
 ** Which-key
 #+begin_src elisp
   (use-package which-key
@@ -231,11 +180,17 @@ some major modes to improve language support
 #+end_src
 
 * UI
+
+** Basic Tweaks
+#+begin_src elisp
+  (set-window-margins (selected-window) 10 10)
+#+end_src
+
 ** Theme
 #+begin_src elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-tomorrow-night t))
+    (load-theme 'doom-nord t))
 #+end_src
 
 ** Modeline

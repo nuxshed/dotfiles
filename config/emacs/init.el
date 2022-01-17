@@ -90,50 +90,6 @@
 (use-package vterm
   :ensure t)
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
-
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-
-(use-package evil-leader
-  :config
-  (global-evil-leader-mode)
-  (setq evil-leader/leader "<SPC>")
-  (evil-leader/set-key
-    ;; Files
-    "fr" 'consult-recent-file
-    "fb" 'consult-bookmark
-    "ff" 'find-file
-    "fp" 'projectile-switch-project
-    ;; Bufffers
-    "bv" 'split-window-right
-    "bh" 'split-window-below
-    "bd" 'kill-current-buffer
-    "bb" 'consult-buffer
-    "bx" 'switch-to-scratch
-    "bi" 'ibuffer
-    "bs" 'switch-to-buffer
-    ;; Help
-    "hh" 'help
-    "hk" 'describe-key
-    "hv" 'describe-variable
-    "hf" 'describe-function
-    "hs" 'describe-symbol
-    "hm" 'describe-mode))
-
 (use-package which-key
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
@@ -158,9 +114,11 @@
 
 (use-package magit)
 
+(set-window-margins (selected-window) 10 10)
+
 (use-package doom-themes
   :config
-  (load-theme 'doom-tomorrow-night t))
+  (load-theme 'doom-nord t))
 
 (use-package mood-line
   :ensure t
