@@ -26,6 +26,7 @@
     playerctl
     ranger
     (ripgrep.override { withPCRE2 = true; })
+    slop
     tmux
     unzip
     wget
