@@ -1,6 +1,6 @@
 { config, pkgs, libs, ... }:
 {
-  imports = [ ./colors/tokyonight.nix ];
+  imports = [ ./colors/nord.nix ];
 
   programs.kitty = {
     enable = true;
@@ -10,7 +10,7 @@
     };
     settings = {
       cursor_shape = "underline";
-      window_padding_width = 15;
+      window_padding_width = "0 20 10 20";
       scrollback_lines = 5000;
       tab_bar_style = "fade";
       tab_fade = 1;
