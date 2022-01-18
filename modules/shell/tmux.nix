@@ -1,9 +1,10 @@
+''
 # unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 
 # Kitty
-set -g default-terminal "${TERM}"
+set -g default-terminal "xterm-kitty"
 set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'  # undercurl support
 set -as terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'  # underscore colours - needs tmux-3.0
 
@@ -41,14 +42,14 @@ set-option -g status-left-length 100
 set-option -g status-left "#[fg=black,bg=cyan] #S #[fg=default,bg=default]         "
 
 # Window status
-set-option -g window-status-format "#[fg=white,bg=#3c3836] #I #[fg=white,bg=#282828] #W "
-set-option -g window-status-current-format "#[fg=black,bg=red] #I #[fg=white,bg=#282828] #W "
+set-option -g window-status-format "#[fg=white,bg=#3c3836] #I #[fg=white,bg=#brightblack] #W "
+set-option -g window-status-current-format "#[fg=black,bg=red] #I #[fg=white,bg=#brightblack] #W "
 set-option -g window-status-separator "  "
 set-option -g status-justify centre
 
 # Right side of status bar
 set-option -g status-right-length 100
-set-option -g status-right "#[bg=black] #(status music) #[bg=default]  #[bg=#282828] #(status bat) #[bg=default] #[bg=#282828] %a, %d %b #[bg=default] #[bg=#282828] %R "
+set-option -g status-right "#[bg=black] #(status music) #[bg=default]  #[bg=#brightblack] #(status bat) #[bg=default] #[bg=#brightblack] %a, %d %b #[bg=default] #[bg=#brightblack] %R "
 
 # Pane border
 set-option -g pane-border-style bg=default
@@ -70,3 +71,5 @@ set-option -g message-style fg=green
 
 run '~/.tmux/plugins/tpm/tpm'
 # DONT WRITE ANYTHING AFTER THIS LINE
+# vim: ft=tmux
+''
