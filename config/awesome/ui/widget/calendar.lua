@@ -2,6 +2,7 @@ local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
+local helpers = require "helpers"
 
 local styles = {}
 
@@ -19,9 +20,7 @@ styles.focus = {
     return "<b>" .. t .. "</b>"
   end,
   padding = 5,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 5)
-  end,
+  shape = helpers.rrect(5),
 }
 
 styles.header = {
@@ -70,9 +69,7 @@ local calendar = awful.popup {
   },
   bg = beautiful.bg_dark,
   visible = false,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 10)
-  end,
+  shape = helpers.rrect(10),
   placement = function(c)
     (awful.placement.top_right)(c, { margins = { top = 50, right = 10 } })
   end,

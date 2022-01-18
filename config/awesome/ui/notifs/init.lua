@@ -1,6 +1,7 @@
 local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
+local helpers = require "helpers"
 local naughty = require "naughty"
 local wibox = require "wibox"
 
@@ -50,9 +51,7 @@ naughty.connect_signal("request::display", function(n)
     bg = beautiful.bg_normal,
     forced_height = 25,
     forced_width = 20,
-    shape = function(cr, width, height)
-      gears.shape.rounded_rect(cr, width, height, 9)
-    end,
+    shape = helpers.rrect(9),
     widget = wibox.container.background,
   }
 

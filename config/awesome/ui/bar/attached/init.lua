@@ -2,13 +2,12 @@ local awful = require "awful"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
 local gears = require "gears"
+local helpers = require "helpers"
 
 local battery = wibox.widget {
   bg = beautiful.bg_normal,
   fg = beautiful.fg_bat,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   widget = wibox.container.background,
   {
     {
@@ -25,9 +24,7 @@ local battery = wibox.widget {
 local time = wibox.widget {
   bg = beautiful.bg_normal,
   fg = beautiful.fg_time,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   widget = wibox.container.background,
   buttons = {
     awful.button({}, 1, function()
@@ -42,9 +39,7 @@ local time = wibox.widget {
 local layoutbox = wibox.widget {
   bg = beautiful.bg_normal,
   fg = beautiful.fg_time,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   widget = wibox.container.background,
   buttons = {
     awful.button({}, 1, function()

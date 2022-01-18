@@ -1,7 +1,7 @@
 local gears = require "gears"
-local awful = require "awful"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
+local helpers = require "helpers"
 
 local art = wibox.widget {
   image = beautiful.not_playing,
@@ -9,9 +9,7 @@ local art = wibox.widget {
   forced_height = 90,
   widget = wibox.widget.imagebox,
   halign = "center",
-  clip_shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 5)
-  end,
+  clip_shape = helpers.rrect(9),
 }
 
 local title_widget = wibox.widget {
@@ -35,25 +33,6 @@ playerctl:connect_signal("metadata", function(_, title, artist, art_path, album,
   -- Set player name, title and artist widgets
   title_widget:set_markup_silently(title)
   artist_widget:set_markup_silently(artist)
-end)
-
-local slider = wibox.widget {
-  forced_height = 4,
-  bar_shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 5)
-  end,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 5)
-  end,
-  background_color = beautiful.fg_dark,
-  color = beautiful.sidebar_music_progress_fg,
-  value = 69,
-  max_value = 100,
-  widget = wibox.widget.progressbar,
-}
-
-playerctl:connect_signal("position", function(pos, length, _)
-  slider.value = (pos / length) * 100
 end)
 
 local music = wibox.widget {

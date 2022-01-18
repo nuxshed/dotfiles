@@ -1,7 +1,21 @@
 local awful = require "awful"
+local beautiful = require "beautiful"
 local gears = require "gears"
+local wibox = require "wibox"
 
 local helpers = {}
+
+helpers.rrect = function(radius)
+  return function(cr, width, height)
+    gears.shape.rounded_rect(cr, width, height, radius)
+  end
+end
+
+helpers.squircle = function(rate, delta)
+  return function(cr, width, height)
+    gears.shape.squircle(cr, width, height, rate, delta)
+  end
+end
 
 -- Useful for periodically checking the output of a command that
 -- requires internet access.

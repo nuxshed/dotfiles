@@ -1,8 +1,7 @@
+local helpers = require "helpers"
 return function(s)
   local awful = require "awful"
-  local beautiful = require "beautiful"
   local bling = require "modules.bling"
-  local gears = require "gears"
   local wibox = require "wibox"
   bling.widget.task_preview.enable {
     placement_fn = function(c)
@@ -14,11 +13,6 @@ return function(s)
     end,
   }
 
-  client.connect_signal("request::manage", function(c)
-    if c.class == "kitty" then
-      c.class = "lol"
-    end
-  end)
   return awful.widget.tasklist {
     screen = s,
     filter = awful.widget.tasklist.filter.currenttags,
@@ -37,9 +31,7 @@ return function(s)
       end),
     },
     style = {
-      shape = function(cr, width, height)
-        gears.shape.squircle(cr, width, height, 1.3, 0)
-      end,
+      shape = helpers.squircle(1.3, 0),
     },
     layout = {
       spacing = 5,

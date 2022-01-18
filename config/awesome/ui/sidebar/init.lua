@@ -1,6 +1,7 @@
 local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
+local helpers = require "helpers"
 local wibox = require "wibox"
 
 local time = wibox.widget {
@@ -31,9 +32,7 @@ local date = wibox.widget {
   },
   widget = wibox.widget.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 85,
 }
 
@@ -45,9 +44,7 @@ local mem = wibox.widget {
   },
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 150,
 }
 
@@ -59,9 +56,7 @@ local cpu = wibox.widget {
   },
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 150,
 }
 
@@ -71,9 +66,7 @@ local music = wibox.widget {
   },
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 195,
 }
 
@@ -87,9 +80,7 @@ local weather = wibox.widget {
   },
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 120,
 }
 
@@ -97,9 +88,7 @@ local weather = wibox.widget {
 --   widget = wibox.container.background,
 --   bg = beautiful.bg_normal,
 --   forced_height = 170,
---   shape = function(cr, width, height)
---     gears.shape.rounded_rect(cr, width, height, 9)
---   end,
+--   shape = helpers.rrect(9)
 --   {
 --     widget = wibox.container.margin,
 --     margins = 20,
@@ -112,9 +101,7 @@ local weather = wibox.widget {
 local pfp = wibox.widget {
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 9)
-  end,
+  shape = helpers.rrect(9),
   forced_height = 160,
   {
     widget = wibox.container.margin,
@@ -174,9 +161,7 @@ local sidebar = awful.popup {
   ontop = true,
   visible = false,
   bg = beautiful.bg_dark,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 10)
-  end,
+  shape = helpers.rrect(9),
 }
 
 local function toggle()
