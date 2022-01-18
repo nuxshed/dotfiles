@@ -17,6 +17,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # use latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   time.timeZone = "Asia/Kolkata";
 
   networking = {
