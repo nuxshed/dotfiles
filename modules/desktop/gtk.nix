@@ -8,6 +8,6 @@
       size = 10;
     };
     theme.name = "Lounge-night-compact";
-    iconTheme.name = "Papirus";
+    iconTheme.name = "Papirus-Dark";
   };
 }
