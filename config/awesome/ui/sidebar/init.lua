@@ -111,7 +111,7 @@ local pfp = wibox.widget {
       spacing = 10,
       {
         widget = wibox.widget.imagebox,
-        image = "/home/advait/Downloads/pfp.png",
+        image = gears.filesystem.get_configuration_dir() .. "/pfp.png",
         clip_shape = gears.shape.circle,
         forced_height = 90,
         halign = "center",
