@@ -4,7 +4,7 @@ local gears = require "gears"
 local wibox = require "wibox"
 
 local time = wibox.widget {
-  font = beautiful.font_name .. " Bold 60",
+  font = "Iosevka Nerd Font Mono Bold 80",
   format = "%H:%M",
   align = "center",
   widget = wibox.widget.textclock,
@@ -27,14 +27,14 @@ local date = wibox.widget {
       spacing = 5,
     },
     widget = wibox.container.margin,
-    margins = 15,
+    margins = 20,
   },
   widget = wibox.widget.background,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 9)
   end,
-  forced_height = 75,
+  forced_height = 85,
 }
 
 local mem = wibox.widget {
@@ -67,14 +67,14 @@ local cpu = wibox.widget {
 
 local music = wibox.widget {
   {
-    widget = require "ui.widget.music",
+    widget = require "ui.sidebar.music",
   },
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
   shape = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 9)
   end,
-  forced_height = 175,
+  forced_height = 195,
 }
 
 local weather = wibox.widget {
@@ -83,7 +83,6 @@ local weather = wibox.widget {
       widget = require "ui.widget.weather",
     },
     widget = wibox.container.margin,
-    left = 25,
     margins = 20,
   },
   widget = wibox.container.background,
@@ -91,21 +90,51 @@ local weather = wibox.widget {
   shape = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 9)
   end,
-  forced_height = 80,
+  forced_height = 120,
 }
 
-local notifs = wibox.widget {
+-- local notifs = wibox.widget {
+--   widget = wibox.container.background,
+--   bg = beautiful.bg_normal,
+--   forced_height = 170,
+--   shape = function(cr, width, height)
+--     gears.shape.rounded_rect(cr, width, height, 9)
+--   end,
+--   {
+--     widget = wibox.container.margin,
+--     margins = 20,
+--     {
+--       widget = require "ui.sidebar.notifs",
+--     },
+--   },
+-- }
+
+local pfp = wibox.widget {
   widget = wibox.container.background,
   bg = beautiful.bg_normal,
-  forced_height = 170,
   shape = function(cr, width, height)
     gears.shape.rounded_rect(cr, width, height, 9)
   end,
+  forced_height = 160,
   {
     widget = wibox.container.margin,
     margins = 20,
     {
-      widget = require "ui.sidebar.notifs",
+      layout = wibox.layout.fixed.vertical,
+      spacing = 10,
+      {
+        widget = wibox.widget.imagebox,
+        image = "/home/advait/Downloads/pfp.png",
+        clip_shape = gears.shape.circle,
+        forced_height = 90,
+        halign = "center",
+      },
+      {
+        widget = wibox.widget.textbox,
+        font = beautiful.font_name .. " Bold 12",
+        markup = "@nuxsh",
+        align = "center",
+      },
     },
   },
 }
@@ -116,31 +145,31 @@ local sidebar = awful.popup {
       time,
       {
         {
-          mem,
-          music,
-          widget = wibox.layout.fixed.vertical,
-          spacing = 20,
-        },
-        {
-          date,
+          pfp,
           cpu,
           weather,
           widget = wibox.layout.fixed.vertical,
-          spacing = 20,
+          spacing = 25,
+        },
+        {
+          date,
+          mem,
+          music,
+          widget = wibox.layout.fixed.vertical,
+          spacing = 25,
         },
         layout = wibox.layout.flex.horizontal,
-        spacing = 20,
+        spacing = 25,
       },
-      notifs,
       layout = wibox.layout.fixed.vertical,
-      spacing = 20,
+      spacing = 25,
     },
     widget = wibox.container.margin,
     forced_width = 375,
     margins = 25,
   },
   placement = function(c)
-    awful.placement.left(c, { margins = { top = 50, left = 10 } })
+    awful.placement.top_left(c, { margins = { top = 60, left = 15 } })
   end,
   ontop = true,
   visible = false,

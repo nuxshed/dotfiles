@@ -35,7 +35,7 @@ client.connect_signal("request::titlebars", function(c)
         awful.titlebar.widget.minimizebutton(c),
         awful.titlebar.widget.closebutton(c),
         layout = wibox.layout.fixed.horizontal,
-        spacing = 7.5,
+        spacing = 5,
       },
       widget = wibox.container.margin,
       margins = 12,
@@ -44,14 +44,14 @@ client.connect_signal("request::titlebars", function(c)
   }
 end)
 
--- imagine using titlebars for tiled windows
-screen.connect_signal("arrange", function(s)
-  local layout = s.selected_tag.layout.name
-  for _, c in pairs(s.clients) do
-    if layout == "floating" or c.floating then
-      awful.titlebar.show(c)
-    else
-      awful.titlebar.hide(c)
-    end
-  end
-end)
+-- imagine (not) using titlebars for tiled windows
+-- screen.connect_signal("arrange", function(s)
+--   local layout = s.selected_tag.layout.name
+--   for _, c in pairs(s.clients) do
+--     if layout == "floating" or c.floating then
+--       awful.titlebar.show(c)
+--     else
+--       awful.titlebar.hide(c)
+--     end
+--   end
+-- end)

@@ -218,14 +218,14 @@ local notif_center = awful.popup {
   widget = {
     widget = wibox.container.margin,
     margins = 30,
-    forced_height = 360,
+    forced_height = 330,
     forced_width = 355,
     {
       widget = notifs,
     },
   },
   placement = function(c)
-    awful.placement.top_right(c, { margins = { top = 55, right = 10 } })
+    awful.placement.top_right(c, { margins = { top = 60, right = 15 } })
   end,
   ontop = true,
   visible = false,
@@ -259,6 +259,7 @@ local actions = awful.popup {
           gears.shape.rounded_rect(cr, width, height, 9)
         end,
         forced_height = 110,
+        forced_width = 235,
       },
       {
         {
@@ -288,10 +289,10 @@ local actions = awful.popup {
     },
     widget = wibox.container.margin,
     margins = 20,
-    forced_width = 355,
+    forced_width = 350,
   },
   placement = function(c)
-    awful.placement.bottom_right(c, { margins = 10 })
+    awful.placement.bottom_right(c, { margins = 15 })
   end,
   ontop = true,
   visible = false,

@@ -68,7 +68,9 @@ theme.control_center_button_bg_off = "#3f3f3f"
 theme.control_center_mem_used = "#ea6962"
 theme.control_center_cpu_active = "#d8a657"
 theme.control_center_vol_slider_active = "#a9b665"
+theme.control_center_vol_slider_handle = "#a9b665"
 theme.control_center_bri_slider_active = "#d3869b"
+theme.control_center_bri_slider_handle = "#d3869b"
 
 -- sidebar
 theme.sidebar_music_progress_fg = "#7aa2f7"

@@ -22,19 +22,28 @@ local stdout_script = [[
     if [ ! -z "$weather" ]; then
         weather_temp=$(echo "$weather" | jq ".main.temp" | cut -d "." -f 1)
         weather_description=$(echo "$weather" | jq -r ".weather[].description" | head -1)
-        echo "$weather_description"@@"$weather_temp"
+        weather_feels_like=$(echo $weather | jq ".main.feels_like" | cut -d "." -f 1)
+        echo "$weather_feels_like" "$weather_description"@@"$weather_temp"
     else
         echo "..."
     fi
   ']]
 
 helpers.remote_watch(stdout_script, update_interval, temp_file, function(stdout)
-  stdout = string.gsub(stdout, "^%s*(.-)%s*$", "%1")
+  local feels_like = string.sub(stdout, 1, 2)
+  local weather_details = string.sub(stdout, 4)
+  weather_details = string.gsub(weather_details, "^%s*(.-)%s*$", "%1")
   -- Replace "-0" with "0" degrees
-  stdout = string.gsub(stdout, "%-0", "0")
+  weather_details = string.gsub(weather_details, "%-0", "0")
   -- Capitalize first letter of the description
-  stdout = stdout:sub(1, 1):upper() .. stdout:sub(2)
-  local description = stdout:match "(.*)@@"
-  local temperature = stdout:match "@@(.*)"
-  awesome.emit_signal("squeal::weather", tonumber(temperature), description)
+  weather_details = weather_details:sub(1, 1):upper() .. weather_details:sub(2)
+  local description = weather_details:match "(.*)@@"
+  local temperature = weather_details:match "@@(.*)"
+  if feels_like == "..." then
+    -- Remove temp_file to force an update the next time
+    awful.spawn.with_shell("rm " .. temp_file)
+    awesome.emit_signal("squeal::weather", 999, "Weather unavailable", "")
+  else
+    awesome.emit_signal("squeal::weather", tonumber(temperature), description, feels_like)
+  end
 end)

@@ -1,13 +1,6 @@
 local awful = require "awful"
 local machi = require "modules.layout-machi"
 
--- Mouse bindings
-awful.mouse.append_global_mousebindings {
-  awful.button({}, 3, function()
-    Menu.main:toggle()
-  end),
-}
-
 -- Key bindings
 
 -- General Utilities
@@ -39,16 +32,16 @@ awful.keyboard.append_global_keybindings {
   awful.key({}, "XF86AudioRaiseVolume", function()
     awful.spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"
   end),
+  awful.key({}, "XF86MonBrightnessUp", function()
+    awful.spawn "brightnessctl s +5%"
+  end),
+  awful.key({}, "XF86MonBrightnessDown", function()
+    awful.spawn "brightnessctl s 5%-"
+  end),
 }
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings {
-  awful.key({ modkey }, "w", function()
-    Menu.main:show()
-  end, {
-    description = "show main menu",
-    group = "awesome",
-  }),
   awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
   awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
   awful.key({ modkey }, "Return", function()
