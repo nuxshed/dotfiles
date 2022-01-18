@@ -56,6 +56,12 @@ awful.keyboard.append_global_keybindings {
     description = "run prompt",
     group = "launcher",
   }),
+  awful.key({ modkey }, "b", function()
+    awful.spawn "brave"
+  end),
+  awful.key({ modkey }, "e", function()
+    awful.spawn "emacs"
+  end),
   awful.key({ modkey }, "a", function()
     require "ui.sidebar"()
   end),
