@@ -22,6 +22,7 @@
     shadowExclude = [
       "name = 'Notification'"
       "class_g = 'Conky'"
+      "class_g = 'Rofi'"
       "class_g ?= 'Notify-osd'"
       "class_g = 'Cairo-clock'"
       "class_g = 'awesome'"
