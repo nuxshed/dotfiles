@@ -19,6 +19,7 @@
     github-cli
     gnumake
     lazygit
+    lm_sensors
     maim
     ncdu
     pamixer
