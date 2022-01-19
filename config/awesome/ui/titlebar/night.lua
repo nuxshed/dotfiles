@@ -18,7 +18,10 @@ client.connect_signal("request::titlebars", function(c)
   awful.titlebar(c, {
     size = 37.5,
   }):setup {
-    nil,
+    {
+      forced_width = 50,
+      layout = wibox.layout.fixed.vertical,
+    },
     {
       {
         {
