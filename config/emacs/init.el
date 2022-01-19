@@ -126,6 +126,23 @@
 
 (use-package magit)
 
+(with-eval-after-load 'dired
+  (setq dired-dwim-target t
+    dired-listing-switches "-Alh"
+    dired-use-ls-dired t
+    dired-omit-files "\\`[.]?#\\|\\`[.][.]?\\|\\`[.].*\\'"
+    dired-always-read-filesystem t
+    dired-create-destination-dirs 'ask
+    dired-hide-details-hide-symlink-targets nil
+    dired-isearch-filenames 'dwim)
+  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file ".."))))
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(add-hook 'dired-mode-hook 'dired-omit-mode)
+
+(use-package all-the-icons-dired)
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(setq all-the-icons-dired-monochrome 'nil)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (with-eval-after-load 'ibuffer
   (setq ibuffer-expert t
