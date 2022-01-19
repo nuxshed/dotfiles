@@ -17,10 +17,10 @@ awful.layout.layouts = {
   l.floating,
   l.tile,
   l.spiral,
+  l.tile.bottom,
   bling.layout.mstab,
   bling.layout.centered,
   bling.layout.equalarea,
   bling.layout.deck,
-  bling.layout.horizontal,
   machi.default_layout,
 }

@@ -97,6 +97,7 @@ theme.wallpaper = theme_path .. "background.png"
 theme.layout_floating = gcolor.recolor_image(themes_path .. "default/layouts/floatingw.png", theme.fg_normal)
 theme.layout_tile = gcolor.recolor_image(themes_path .. "default/layouts/tile.png", theme.fg_normal)
 theme.layout_spiral = gcolor.recolor_image(themes_path .. "default/layouts/spiral.png", theme.fg_normal)
+theme.layout_tilebottom = gcolor.recolor_image(themes_path .. "default/layouts/tilebottom.png", theme.fg_normal)
 
 theme.task_preview_widget_border_radius = 5
 theme.task_preview_widget_bg = theme.bg_dark
