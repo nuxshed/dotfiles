@@ -66,6 +66,36 @@
 :config
 (evil-collection-init))
 
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  (evil-leader/set-key
+    ;; General
+    ".f" 'consult-isearch
+    ".q" 'delete-frame
+    ".e" 'eval-region
+    ".s" 'straight-use-package
+    ;; Files
+    "fr" 'consult-recent-file
+    "fb" 'consult-bookmark
+    "ff" 'find-file
+    "fd" 'dired
+    ;; Bufffers
+    "bv" 'split-window-right
+    "bh" 'split-window-below
+    "bd" 'kill-current-buffer
+    "bb" 'consult-buffer
+    "bx" 'switch-to-scratch
+    "bi" 'ibuffer
+    ;; Help
+    "hh" 'help
+    "hk" 'describe-key
+    "hv" 'describe-variable
+    "hf" 'describe-function
+    "hs" 'describe-symbol
+    "hm" 'describe-mode))
+
 (use-package consult)
 
 (use-package vertico
