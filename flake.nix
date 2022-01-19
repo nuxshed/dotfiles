@@ -55,6 +55,7 @@
                 ./modules/dev/python.nix
                 ./modules/programs
                 ./modules/programs/graphics.nix
+                ./modules/programs/mail.nix
                 ./modules/desktop
                 ./modules/desktop/windowManagers/awesome.nix
                 ./modules/desktop/windowManagers/berry.nix
