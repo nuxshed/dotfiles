@@ -7,8 +7,8 @@
               vc-follow-symlinks)
 
 (setq undo-limit 80000000            ; moar undo
-    auto-save-default t            ; who knows what could happen?
-    truncate-string-ellipsis "…")   ; prettier ellipsis
+    auto-save-default t              ; who knows what could happen?
+    truncate-string-ellipsis "…")    ; prettier ellipsis
 
 ;; scrolling related settings
 (setq scroll-margin 1
@@ -125,6 +125,96 @@
   :config (projectile-mode 1))
 
 (use-package magit)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(with-eval-after-load 'ibuffer
+  (setq ibuffer-expert t
+    ibuffer-show-empty-filter-groups nil)
+  (defun my/human-readable-file-sizes-to-bytes (string)
+    "Convert a human-readable file size into bytes."
+    (interactive)
+    (cond
+      ((string-suffix-p "G" string t)
+        (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
+      ((string-suffix-p "M" string t)
+        (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
+      ((string-suffix-p "K" string t)
+        (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
+      (t
+        (string-to-number (substring string 0 (- (length string) 1))))))
+
+  (defun my/bytes-to-human-readable-file-sizes (bytes)
+    "Convert number of bytes to human-readable file size."
+    (interactive)
+    (cond
+      ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
+      ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
+      ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
+      ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
+      ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
+      (t (format "%10d" bytes))))
+
+  ;; Use human readable Size column instead of original one
+  (define-ibuffer-column size-h
+    (:name "Size"
+      :inline t
+      :summarizer
+      (lambda (column-strings)
+        (let ((total 0))
+          (dolist (string column-strings)
+            (setq total
+              (+ (float (my/human-readable-file-sizes-to-bytes string))
+                total)))
+          (my/bytes-to-human-readable-file-sizes total)))
+      )
+    (my/bytes-to-human-readable-file-sizes (buffer-size)))
+
+(setq ibuffer-formats
+  '((mark modified read-only locked " "
+      (name 20 20 :left :elide)
+      " "
+      (size-h 11 -1 :right)
+      " "
+      (mode 16 16 :left :elide))
+     (mark " "
+       (name 16 -1)
+       " " filename))))
+
+(setq ibuffer-saved-filter-groups
+  '(("main"
+      ("modified" (and
+                    (modified . t)
+                    (visiting-file . t)))
+      ("term" (or
+                (mode . vterm-mode)
+                (mode . eshell-mode)
+                (mode . term-mode)
+                (mode . shell-mode)))
+      ("config" (filename . "/dotfiles/"))
+      ("code" (filename . "/projects/"))
+      ("org" (mode . org-mode))
+      ("docs" (or
+                (mode . pdf-view-mode)
+                (mode . doc-view-mode)))
+      ("img" (mode . image-mode))
+      ("dired" (mode . dired-mode))
+      ("help" (or (name . "\*Help\*")
+                (name . "\*Apropos\*")
+                (name . "\*info\*")
+                (mode . help-mode)))
+      ("internal" (name . "^\*.*$"))
+      ("other" (name . "^.*$"))
+      )))
+(add-hook 'ibuffer-mode-hook
+  (lambda ()
+    (ibuffer-auto-mode 1)
+    (ibuffer-switch-to-saved-filter-groups "main")))
+
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :init (all-the-icons-ibuffer-mode 1))
+
+(use-package all-the-icons)
 
 (set-window-margins (selected-window) 10 10)
 
