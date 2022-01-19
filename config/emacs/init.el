@@ -66,6 +66,12 @@
 :config
 (evil-collection-init))
 
+(setq evil-cross-lines t
+    evil-move-beyond-eol t
+    evil-symbol-word-search t
+    evil-want-Y-yank-to-eol t
+    evil-cross-lines t)
+
 (use-package evil-leader
   :config
   (global-evil-leader-mode)
