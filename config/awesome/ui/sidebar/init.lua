@@ -43,6 +43,11 @@ local mem = wibox.widget {
     widget = wibox.container.margin,
   },
   widget = wibox.container.background,
+  buttons = {
+    awful.button({}, 1, function()
+      awful.spawn "kitty -e btm"
+    end),
+  },
   bg = beautiful.bg_normal,
   shape = helpers.rrect(9),
   forced_height = 150,
@@ -55,10 +60,18 @@ local cpu = wibox.widget {
     widget = wibox.container.margin,
   },
   widget = wibox.container.background,
+  buttons = {
+    awful.button({}, 1, function()
+      awful.spawn "kitty -e btm"
+    end),
+  },
   bg = beautiful.bg_normal,
   shape = helpers.rrect(9),
   forced_height = 150,
 }
+
+helpers.add_hover_cursor(mem, "hand1")
+helpers.add_hover_cursor(cpu, "hand1")
 
 local music = wibox.widget {
   {
