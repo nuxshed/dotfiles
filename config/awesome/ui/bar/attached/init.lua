@@ -36,6 +36,8 @@ local time = wibox.widget {
   },
 }
 
+helpers.add_hover_cursor(time, "hand1")
+
 local layoutbox = wibox.widget {
   bg = beautiful.bg_normal,
   fg = beautiful.fg_time,
@@ -61,6 +63,8 @@ local layoutbox = wibox.widget {
     },
   },
 }
+
+helpers.add_hover_cursor(layoutbox, "hand1")
 
 screen.connect_signal("request::desktop_decoration", function(s)
   local l = awful.layout.suit

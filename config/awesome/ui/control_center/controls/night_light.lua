@@ -2,6 +2,7 @@ local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
 local wibox = require "wibox"
+local helpers = require "helpers"
 
 local night_light = wibox.widget {
   {
@@ -22,6 +23,8 @@ local night_light = wibox.widget {
     gears.shape.squircle(cr, width, height, 2, 0)
   end,
 }
+
+helpers.add_hover_cursor(night_light, "hand1")
 
 local on = beautiful.control_center_button_bg
 local off = beautiful.control_center_button_bg_off

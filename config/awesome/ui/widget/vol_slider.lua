@@ -2,6 +2,7 @@ local awful = require "awful"
 local gears = require "gears"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
+local helpers = require "helpers"
 
 local slider = wibox.widget {
   bar_shape = require("helpers").rrect(9),
@@ -14,6 +15,8 @@ local slider = wibox.widget {
   value = 75,
   widget = wibox.widget.slider,
 }
+
+helpers.add_hover_cursor(slider, "hand1")
 
 local vol_slider = wibox.widget {
   {
