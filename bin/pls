@@ -27,9 +27,11 @@ while [ "$1" ]; do
       exit ;;
     home)
       nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "home-manager config rebuilt "
       exit ;;
     rebuild)
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "nixos config rebuilt "
       exit ;;
     repl)
       [ ! -r /tmp/dotfiles-repl.nix ] && echo "builtins.getFlake (toString $HOME/dotfiles)" > /tmp/dotfiles-repl
