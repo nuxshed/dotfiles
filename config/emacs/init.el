@@ -137,6 +137,10 @@
   :config
   (mood-line-mode))
 
+(use-package good-scroll
+  :config
+  (good-scroll-mode 1))
+
 (use-package org-contrib)
 (use-package org-bullets
   :after org

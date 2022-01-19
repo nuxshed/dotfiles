@@ -216,6 +216,13 @@ some major modes to improve language support
     (mood-line-mode))
 #+end_src
 
+** Smooth scrolling
+#+begin_src elisp
+  (use-package good-scroll
+    :config
+    (good-scroll-mode 1))
+#+end_src
+
 * Org-mode
 #+begin_src elisp
   (use-package org-contrib)
