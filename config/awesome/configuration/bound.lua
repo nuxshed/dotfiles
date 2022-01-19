@@ -68,6 +68,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "s", function()
     require "ui.action_center"()
   end),
+  awful.key({ modkey }, "w", function()
+    require "ui.theme_switcher"()
+  end),
 }
 
 -- Tags related keybindings

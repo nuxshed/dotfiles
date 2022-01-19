@@ -14,7 +14,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
 end)
 
 -- truly beautiful
-beautiful.init(require("gears").filesystem.get_configuration_dir() .. "themes/arctic/theme.lua")
+_G.theme = "arctic"
+
+beautiful.init(require("gears").filesystem.get_configuration_dir() .. "themes/" .. theme .. "/theme.lua")
 
 -- *gulp*
 require("modules.bling").module.window_swallowing.start()
@@ -31,6 +33,7 @@ require("ui.titlebar." .. beautiful.titlebar)
 require "ui.notifs"
 require "ui.sidebar"
 require "ui.action_center"
+require "ui.theme_switcher"
 
 -- signals
 require "squeals"
