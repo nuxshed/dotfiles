@@ -50,7 +50,7 @@ awful.keyboard.append_global_keybindings {
     description = "open a terminal",
     group = "launcher",
   }),
-  awful.key({ modkey }, "r", function()
+  awful.key({ modkey }, "space", function()
     awful.spawn "rofi -show drun"
   end, {
     description = "run prompt",
