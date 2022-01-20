@@ -136,8 +136,8 @@ hc set frame_border_normal_color '#282828'
 hc set frame_bg_normal_color '#1d2021'
 hc set frame_bg_active_color '#282828'
 
-hc set window_border_active_color '#a3a4af'
-hc set window_border_normal_color '#d6d7dc'
+hc set window_border_active_color '#d1ccca'
+hc set window_border_normal_color '#e9e4e2'
 
 hc set frame_border_width 0
 hc set always_show_frame on
@@ -159,4 +159,4 @@ hc attr theme.padding_top 35
 
 "${cmds[@]}" &
 
-pgrep tint2 || tint2 -c ~/.config/tint2/tokyobones &
+pgrep tint2 || tint2 -c ~/.config/tint2/cafe &
