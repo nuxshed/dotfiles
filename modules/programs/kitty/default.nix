@@ -1,6 +1,6 @@
 { config, pkgs, libs, ... }:
 {
-  imports = [ ./colors/nord.nix ];
+  imports = [ ./colors/zenbones.nix ];
 
   programs.kitty = {
     enable = true;
@@ -10,7 +10,7 @@
     };
     settings = {
       cursor_shape = "underline";
-      window_padding_width = "5 30 20 30";
+      window_padding_width = "20 30 20 30";
       scrollback_lines = 5000;
       tab_bar_style = "fade";
       tab_fade = 1;
