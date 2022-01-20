@@ -12,7 +12,7 @@
       shadow-offset-x = -40
       shadow-offset-y = -40
 
-      corner-radius = 8
+      corner-radius = 0
       rounded-corners-exclude = [
         "window_type = 'dock'",
         "window_type = 'desktop'",
