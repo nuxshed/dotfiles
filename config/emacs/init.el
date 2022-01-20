@@ -1,5 +1,7 @@
 ;; init.el -*- lexical-binding: t; -*-
 
+(add-to-list 'load-path (expand-file-name "./lisp" user-emacs-directory))
+
 (setq user-full-name "nuxsh"
       user-mail-address "nuxshed@gmail.com")
 
@@ -30,15 +32,11 @@
       initial-major-mode 'fundamental-mode
       file-name-handler-alist nil)
 
-(add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq gc-cons-threshold 16777216 ; 16mb
-          gc-cons-percentage 0.1)))
-
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 (global-display-line-numbers-mode) ;; line numbers
+(global-hl-line-mode) ;; highlight current line
 (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
 
@@ -62,6 +60,10 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
+
+(use-package gcmh
+  :init
+  (gcmh-mode 1))
 
 (use-package evil
   :defer t
@@ -97,6 +99,10 @@
     "fb" 'consult-bookmark
     "ff" 'find-file
     "fd" 'dired
+    ;; Open
+    "oa" 'org-agenda
+    "om" 'mu4e
+    "og" 'magit
     ;; Notes
     "no" 'deft
     "nf" 'deft-find-file
@@ -154,10 +160,13 @@
   :ensure t)
 
 (use-package which-key
-  :defer t
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
+
+(use-package mixed-pitch
+  :hook
+  (text-mode . mixed-pitch-mode))
 
 (use-package nix-mode)
 (use-package lua-mode)
@@ -165,7 +174,6 @@
 
 (use-package flycheck
   :ensure t
-  :defer t
   :init (global-flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)
@@ -289,16 +297,23 @@
   :ensure t
   :init (all-the-icons-ibuffer-mode 1))
 
+(set-face-attribute 'default nil :font "Cascadia Code 10")
+(set-face-attribute 'fixed-pitch nil :font "Cascadia Code 10")
+(set-face-attribute 'variable-pitch nil :font "IBM Plex Sans 10")
+
 (use-package all-the-icons)
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-nord t))
+  (load-theme 'doom-cafe t))
 
 (use-package mood-line
   :ensure t
   :config
   (mood-line-mode))
+
+(require 'splash)
+(splash-screen)
 
 (use-package good-scroll
   :config

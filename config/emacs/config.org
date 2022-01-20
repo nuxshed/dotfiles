@@ -3,11 +3,12 @@
 
 #+begin_src elisp
   ;; init.el -*- lexical-binding: t; -*-
-#+end_src
 
+  (add-to-list 'load-path (expand-file-name "./lisp" user-emacs-directory))
+#+end_src
 * Basic stuff
 
-*** Identity
+** Identity
 #+begin_src elisp
   (setq user-full-name "nuxsh"
         user-mail-address "nuxshed@gmail.com")
@@ -47,11 +48,6 @@ optimizations
   (setq frame-inhibit-implied-resize t
         initial-major-mode 'fundamental-mode
         file-name-handler-alist nil)
-
-  (add-hook 'emacs-startup-hook
-    (lambda ()
-      (setq gc-cons-threshold 16777216 ; 16mb
-            gc-cons-percentage 0.1)))
 #+end_src
 
   Set custom file and load it
@@ -63,6 +59,7 @@ optimizations
 Some useful minor modes
 #+begin_src elisp
   (global-display-line-numbers-mode) ;; line numbers
+  (global-hl-line-mode) ;; highlight current line
   (electric-pair-mode) ;; autopairs
   (recentf-mode) ;; recent files
 #+end_src
@@ -73,6 +70,7 @@ Configure indentation
       tab-width 2)
   (setq indent-line-function 'insert-tab)
 #+end_src
+
 
 * Packages
 
@@ -96,6 +94,12 @@ Setting up use-package
   (setq use-package-always-ensure t)
 #+end_src
 
+** gchs
+#+begin_src elisp
+  (use-package gcmh
+    :init
+    (gcmh-mode 1))
+#+end_src
 ** Evil
 #+begin_src elisp
   (use-package evil
@@ -135,6 +139,10 @@ Setting up use-package
       "fb" 'consult-bookmark
       "ff" 'find-file
       "fd" 'dired
+      ;; Open
+      "oa" 'org-agenda
+      "om" 'mu4e
+      "og" 'magit
       ;; Notes
       "no" 'deft
       "nf" 'deft-find-file
@@ -214,10 +222,16 @@ eshell is nice but I prefer vterm
 ** Which-key
 #+begin_src elisp
   (use-package which-key
-    :defer t
     :config (which-key-mode)
     (which-key-setup-side-window-bottom)
     (setq which-key-idle-delay 0.1))
+#+end_src
+
+** Mixed Pitch
+#+begin_src elisp
+  (use-package mixed-pitch
+    :hook
+    (text-mode . mixed-pitch-mode))
 #+end_src
 
 ** Languages
@@ -232,7 +246,6 @@ Some major modes to improve language support
 #+begin_src elisp
   (use-package flycheck
     :ensure t
-    :defer t
     :init (global-flycheck-mode)
     :config
     (setq flycheck-emacs-lisp-load-path 'inherit)
@@ -383,6 +396,13 @@ Add icons to ibuffer
 
 * UI
 
+** Font
+#+begin_src elisp
+  (set-face-attribute 'default nil :font "Cascadia Code 10")
+  (set-face-attribute 'fixed-pitch nil :font "Cascadia Code 10")
+  (set-face-attribute 'variable-pitch nil :font "IBM Plex Sans 10")
+#+end_src
+
 ** Icons
 #+begin_src elisp
   (use-package all-the-icons)
@@ -392,7 +412,7 @@ Add icons to ibuffer
 #+begin_src elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-nord t))
+    (load-theme 'doom-cafe t))
 #+end_src
 
 ** Modeline
@@ -403,6 +423,11 @@ Add icons to ibuffer
     (mood-line-mode))
 #+end_src
 
+** Splash
+#+begin_src elisp
+  (require 'splash)
+  (splash-screen)
+#+end_src
 
 ** Smooth scrolling
 #+begin_src elisp
