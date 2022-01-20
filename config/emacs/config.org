@@ -437,7 +437,14 @@ Add icons to ibuffer
     :hook
     (org-mode . (lambda () (org-bullets-mode 1))))
 
-  (setq org-src-window-setup 'split-window-below)
+  (setq org-src-window-setup 'split-window-below
+        org-agenda-window-setup 'split-window-below)
+
+  (setq org-agenda-files '("~/org/agenda.org"))
+
+  (add-hook 'org-agenda-mode-hook
+            (lambda ()
+              (local-set-key (kbd "q") 'org-agenda-exit)))
 #+end_src
 
 ** Deft
@@ -515,8 +522,6 @@ Set up org-babel for elisp
   ;; tangle on save
   (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 #+end_src
-
-
 
 the end
 #+begin_src elisp

@@ -322,7 +322,14 @@
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))
 
-(setq org-src-window-setup 'split-window-below)
+(setq org-src-window-setup 'split-window-below
+      org-agenda-window-setup 'split-window-below)
+
+(setq org-agenda-files '("~/org/agenda.org"))
+
+(add-hook 'org-agenda-mode-hook
+          (lambda ()
+            (local-set-key (kbd "q") 'org-agenda-exit)))
 
 (use-package deft
   :config
