@@ -122,6 +122,10 @@ Setting up use-package
       "fb" 'consult-bookmark
       "ff" 'find-file
       "fd" 'dired
+      ;; Notes
+      "no" 'deft
+      "nf" 'deft-find-file
+      "nn" 'deft-new-file-named
       ;; Bufffers
       "bv" 'split-window-right
       "bh" 'split-window-below
@@ -432,46 +436,65 @@ Add icons to ibuffer
     :after org
     :hook
     (org-mode . (lambda () (org-bullets-mode 1))))
+
+  (setq org-src-window-setup 'split-window-below)
+#+end_src
+
+** Deft
+Deft is nice for note-taking
+#+begin_src elisp
+  (use-package deft
+    :config
+    (setq deft-directory "~/notes"
+          deft-default-extension "org"
+          deft-extensions '("txt" "md" "org")
+          deft-use-filter-string-for-filename t))
+
+  (add-hook 'deft-mode-hook
+            (lambda ()
+              (define-key evil-normal-state-local-map (kbd "n") 'deft-new-file-named)
+              (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
+              (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 #+end_src
 
 Make org-mode prettier
 #+begin_src elisp
-  (defun org/prettify-set ()
-    (interactive)
-    (setq prettify-symbols-alist
-          '(("#+begin_src" . "")
-            ("#+BEGIN_SRC" . "")
-            ("#+end_src" . "")
-            ("#+END_SRC" . "")
-            ("#+begin_example" . "")
-            ("#+BEGIN_EXAMPLE" . "")
-            ("#+end_example" . "")
-            ("#+END_EXAMPLE" . "")
-            ("#+results:" . "")
-            ("#+RESULTS:" . "")
-            ("#+begin_quote" . "❝")
-            ("#+BEGIN_QUOTE" . "❝")
-            ("#+end_quote" . "❞")
-            ("#+END_QUOTE" . "❞")
-            ("[ ]" . "☐")
-            ("[-]" . "◯")
-            ("[X]" . "☑"))))
-  (add-hook 'org-mode-hook 'org/prettify-set)
+    (defun org/prettify-set ()
+      (interactive)
+      (setq prettify-symbols-alist
+            '(("#+begin_src" . "")
+              ("#+BEGIN_SRC" . "")
+              ("#+end_src" . "")
+              ("#+END_SRC" . "")
+              ("#+begin_example" . "")
+              ("#+BEGIN_EXAMPLE" . "")
+              ("#+end_example" . "")
+              ("#+END_EXAMPLE" . "")
+              ("#+results:" . "")
+              ("#+RESULTS:" . "")
+              ("#+begin_quote" . "❝")
+              ("#+BEGIN_QUOTE" . "❝")
+              ("#+end_quote" . "❞")
+              ("#+END_QUOTE" . "❞")
+              ("[ ]" . "☐")
+              ("[-]" . "◯")
+              ("[X]" . "☑"))))
+    (add-hook 'org-mode-hook 'org/prettify-set)
 
-  (defun prog/prettify-set ()
-    (interactive)
-    (setq prettify-symbols-alist
-          '(("lambda" . "λ")
-            ("->" . "→")
-            ("<-" . "←")
-            ("<=" . "≤")
-            (">=" . "≥")
-            ("!=" . "≠")
-            ("~=" . "≃")
-            ("=~" . "≃"))))
-  (add-hook 'prog-mode-hook 'prog/prettify-set)
+    (defun prog/prettify-set ()
+      (interactive)
+      (setq prettify-symbols-alist
+            '(("lambda" . "λ")
+              ("->" . "→")
+              ("<-" . "←")
+              ("<=" . "≤")
+              (">=" . "≥")
+              ("!=" . "≠")
+              ("~=" . "≃")
+              ("=~" . "≃"))))
+    (add-hook 'prog-mode-hook 'prog/prettify-set)
 
-  (global-prettify-symbols-mode)
+    (global-prettify-symbols-mode)
 #+end_src
 
 Set up org-babel for elisp

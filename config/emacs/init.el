@@ -87,6 +87,10 @@
     "fb" 'consult-bookmark
     "ff" 'find-file
     "fd" 'dired
+    ;; Notes
+    "no" 'deft
+    "nf" 'deft-find-file
+    "nn" 'deft-new-file-named
     ;; Bufffers
     "bv" 'split-window-right
     "bh" 'split-window-below
@@ -317,6 +321,21 @@
   :after org
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))
+
+(setq org-src-window-setup 'split-window-below)
+
+(use-package deft
+  :config
+  (setq deft-directory "~/notes"
+        deft-default-extension "org"
+        deft-extensions '("txt" "md" "org")
+        deft-use-filter-string-for-filename t))
+
+(add-hook 'deft-mode-hook
+          (lambda ()
+            (define-key evil-normal-state-local-map (kbd "n") 'deft-new-file-named)
+            (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
+            (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 
 (defun org/prettify-set ()
   (interactive)
