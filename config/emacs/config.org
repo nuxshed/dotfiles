@@ -42,7 +42,19 @@ UI debloating
   (scroll-bar-mode -1)  ; Disable the scrollbar
 #+end_src
 
-Set custom file and load it
+optimizations
+#+begin_src elisp
+  (setq frame-inhibit-implied-resize t
+        initial-major-mode 'fundamental-mode
+        file-name-handler-alist nil)
+
+  (add-hook 'emacs-startup-hook
+    (lambda ()
+      (setq gc-cons-threshold 16777216 ; 16mb
+            gc-cons-percentage 0.1)))
+#+end_src
+
+  Set custom file and load it
 #+begin_src elisp
   (setq custom-file "~/.emacs.d/custom.el")
   (load custom-file)
@@ -51,7 +63,6 @@ Set custom file and load it
 Some useful minor modes
 #+begin_src elisp
   (global-display-line-numbers-mode) ;; line numbers
-  (global-subword-mode) ;; iterate through camelCase
   (electric-pair-mode) ;; autopairs
   (recentf-mode) ;; recent files
 #+end_src
@@ -72,6 +83,7 @@ Setting up use-package
   (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                            ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                            ("melpa" . "http://melpa.org/packages/")))
+  (customize-set-variable 'package-enable-at-startup nil)
   (package-initialize)
   (unless package-archive-contents
     (package-refresh-contents))
@@ -87,6 +99,7 @@ Setting up use-package
 ** Evil
 #+begin_src elisp
   (use-package evil
+    :defer t
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
@@ -194,12 +207,14 @@ Marginalia adds descriptions and stuff to your minibuffer
 eshell is nice but I prefer vterm
 #+begin_src elisp
   (use-package vterm
+    :defer t
     :ensure t)
 #+end_src
 
 ** Which-key
 #+begin_src elisp
   (use-package which-key
+    :defer t
     :config (which-key-mode)
     (which-key-setup-side-window-bottom)
     (setq which-key-idle-delay 0.1))
@@ -217,6 +232,7 @@ Some major modes to improve language support
 #+begin_src elisp
   (use-package flycheck
     :ensure t
+    :defer t
     :init (global-flycheck-mode)
     :config
     (setq flycheck-emacs-lisp-load-path 'inherit)
@@ -229,18 +245,14 @@ Some major modes to improve language support
 ** Projectile
 #+begin_src elisp
   (use-package projectile
+    :defer t
     :config (projectile-mode 1))
 #+end_src
 
 ** Magit
 #+begin_src elisp
-  (use-package magit)
-#+end_src
-
-** Formatter
-#+begin_src elisp
-(use-package format-all
-  :init (format-all-mode))
+  (use-package magit
+    :defer t)
 #+end_src
 
 * Builtins
@@ -373,11 +385,6 @@ Add icons to ibuffer
   (use-package all-the-icons)
 #+end_src
 
-** Basic Tweaks
-#+begin_src elisp
-  (set-window-margins (selected-window) 10 10)
-#+end_src
-
 ** Theme
 #+begin_src elisp
   (use-package doom-themes
@@ -482,10 +489,7 @@ Make org-mode prettier
               ("#+begin_quote" . "❝")
               ("#+BEGIN_QUOTE" . "❝")
               ("#+end_quote" . "❞")
-              ("#+END_QUOTE" . "❞")
-              ("[ ]" . "☐")
-              ("[-]" . "◯")
-              ("[X]" . "☑"))))
+              ("#+END_QUOTE" . "❞"))))
     (add-hook 'org-mode-hook 'org/prettify-set)
 
     (defun prog/prettify-set ()

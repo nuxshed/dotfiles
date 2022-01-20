@@ -26,11 +26,19 @@
 (menu-bar-mode -1)    ; Disable the menu bar
 (scroll-bar-mode -1)  ; Disable the scrollbar
 
+(setq frame-inhibit-implied-resize t
+      initial-major-mode 'fundamental-mode
+      file-name-handler-alist nil)
+
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (setq gc-cons-threshold 16777216 ; 16mb
+          gc-cons-percentage 0.1)))
+
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
 (global-display-line-numbers-mode) ;; line numbers
-(global-subword-mode) ;; iterate through camelCase
 (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
 
@@ -43,6 +51,7 @@
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("melpa" . "http://melpa.org/packages/")))
+(customize-set-variable 'package-enable-at-startup nil)
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -55,6 +64,7 @@
 (setq use-package-always-ensure t)
 
 (use-package evil
+  :defer t
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
@@ -140,9 +150,11 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (use-package vterm
+  :defer t
   :ensure t)
 
 (use-package which-key
+  :defer t
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
@@ -153,6 +165,7 @@
 
 (use-package flycheck
   :ensure t
+  :defer t
   :init (global-flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit)
@@ -162,12 +175,11 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package projectile
+  :defer t
   :config (projectile-mode 1))
 
-(use-package magit)
-
-(use-package format-all
-  :init (format-all-mode))
+(use-package magit
+  :defer t)
 
 (with-eval-after-load 'dired
   (setq dired-dwim-target t
@@ -276,8 +288,6 @@
 
 (use-package all-the-icons)
 
-(set-window-margins (selected-window) 10 10)
-
 (use-package doom-themes
   :config
   (load-theme 'doom-nord t))
@@ -360,10 +370,7 @@
           ("#+begin_quote" . "❝")
           ("#+BEGIN_QUOTE" . "❝")
           ("#+end_quote" . "❞")
-          ("#+END_QUOTE" . "❞")
-          ("[ ]" . "☐")
-          ("[-]" . "◯")
-          ("[X]" . "☑"))))
+          ("#+END_QUOTE" . "❞"))))
 (add-hook 'org-mode-hook 'org/prettify-set)
 
 (defun prog/prettify-set ()
