@@ -1,5 +1,9 @@
 #+TITLE: Emacs Configuration
 #+PROPERTY: header-args:elisp :tangle ./init.el :mkdirp yes
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../css/org.css" />
+#+HTML_LINK_UP: index.html
+#+HTML_LINK_HOME: ../index.html
+#+EXPORT_FILE_NAME: emacs-config
 
 #+begin_src elisp
   ;; init.el -*- lexical-binding: t; -*-
@@ -480,6 +484,7 @@ Add icons to ibuffer
   (add-hook 'org-agenda-mode-hook
             (lambda ()
               (local-set-key (kbd "q") 'org-agenda-exit)))
+  (use-package htmlize)
 #+end_src
 
 ** Deft
@@ -497,6 +502,27 @@ Deft is nice for note-taking
               (define-key evil-normal-state-local-map (kbd "n") 'deft-new-file-named)
               (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
               (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
+#+end_src
+
+** Publishing
+#+begin_src elisp
+  (setq org-publish-project-alist
+        '(
+          ("blog"
+           :base-directory "~/projects/site/org"
+           :base-extension "org" "png" "jpg" "css"
+           :publishing-directory "~/projects/site/blog/"
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :auto-preamble t)
+          ("emacs-config"
+           :base-directory "~/dotfiles/config/emacs/"
+           :base-extension "org" "css" "png"
+           :publishing-directory "~/projects/site/blog/"
+           :recursive nil
+           :publishing-function org-html-publish-to-html
+           :auto-preamble t)))
+  (setq org-html-postamble nil)
 #+end_src
 
 Make org-mode prettier

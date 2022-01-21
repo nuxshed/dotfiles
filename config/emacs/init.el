@@ -358,6 +358,7 @@
 (add-hook 'org-agenda-mode-hook
           (lambda ()
             (local-set-key (kbd "q") 'org-agenda-exit)))
+(use-package htmlize)
 
 (use-package deft
   :config
@@ -371,6 +372,24 @@
             (define-key evil-normal-state-local-map (kbd "n") 'deft-new-file-named)
             (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
             (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
+
+(setq org-publish-project-alist
+      '(
+        ("blog"
+         :base-directory "~/projects/site/org"
+         :base-extension "org" "png" "jpg" "css"
+         :publishing-directory "~/projects/site/blog/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :auto-preamble t)
+        ("emacs-config"
+         :base-directory "~/dotfiles/config/emacs/"
+         :base-extension "org" "css" "png"
+         :publishing-directory "~/projects/site/blog/"
+         :recursive nil
+         :publishing-function org-html-publish-to-html
+         :auto-preamble t)))
+(setq org-html-postamble nil)
 
 (defun org/prettify-set ()
   (interactive)
