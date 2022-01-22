@@ -105,4 +105,3 @@ g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 g.loaded_matchit = 1
 g.loaded_spec = 1
-vim.g.did_load_filetypes = 1

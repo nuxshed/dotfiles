@@ -7,9 +7,6 @@ M.setup = function()
   null_ls.setup {
     debounce = 150,
     sources = {
-      b.formatting.black,
-      b.formatting.isort,
-      b.formatting.prettierd,
       b.diagnostics.shellcheck,
       b.formatting.stylua,
     },

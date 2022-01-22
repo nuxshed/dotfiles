@@ -348,20 +348,20 @@ require("packer").startup {
       end,
     }
 
-    -- filetype
-    use {
-      "nathom/filetype.nvim",
-      config = function()
-        require("filetype").setup {
-          overrides = {
-            extensions = {
-              lock = "json",
-              rasi = "css",
-            },
-          },
-        }
-      end,
-    }
+    -- -- filetype
+    -- use {
+    --   "nathom/filetype.nvim",
+    --   config = function()
+    --     require("filetype").setup {
+    --       overrides = {
+    --         extensions = {
+    --           lock = "json",
+    --           rasi = "css",
+    --         },
+    --       },
+    --     }
+    --   end,
+    -- }
 
     -- lua scratchpad
     use { "rafcamlet/nvim-luapad", cmd = "Luapad" }
