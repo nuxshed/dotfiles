@@ -19,13 +19,6 @@ determine the exact padding."
   :group 'doom-cafe-theme
   :type '(choice integer boolean))
 
-(eval-and-compile
-  (defcustom doom-cafe-region-highlight t
-    "Determines the selection highlight style. Can be 'frost, 'snowstorm or t
-(default)."
-    :group 'doom-cafe-theme
-    :type 'symbol))
-
 ;;
 (def-doom-theme doom-cafe
   "A dark theme inspired by cafe."
@@ -90,9 +83,7 @@ determine the exact padding."
     (when doom-cafe-padded-modeline
       (if (integerp doom-cafe-padded-modeline) doom-cafe-padded-modeline 4)))
 
-   (region-fg
-    (when (memq doom-cafe-region-highlight '(frost snowstorm))
-      base0))
+   (region-fg base0)
 
    (modeline-fg     nil)
    (modeline-bg     base3)
@@ -124,6 +115,13 @@ determine the exact padding."
    (mood-line-unimportant :foreground base8)
    (mood-line-status-info :inherit 'bold :foreground green)
    (mood-line-major-mode :foreground yellow)
+
+   ;; Basic syntax
+   (font-lock-keyword-face :inherit 'italic :foreground red)
+   (all-the-icons-ibuffer-mode-face :inherit 'italic)
+
+   ;; all-the-icons
+   (all-the-icons-dblue :foreground blue)
 
    ;;;; css-mode <built-in> / scss-mode
    (css-proprietary-property :foreground orange)
