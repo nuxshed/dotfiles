@@ -37,6 +37,7 @@
 
 (global-display-line-numbers-mode) ;; line numbers
 (global-hl-line-mode) ;; highlight current line
+(global-visual-line-mode) ;; wrap lines
 (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
 
@@ -166,7 +167,10 @@
 
 (use-package mixed-pitch
   :hook
-  (text-mode . mixed-pitch-mode))
+  (text-mode . mixed-pitch-mode)
+  :config
+  (setq mixed-pitch-variable-pitch-cursor "block"
+        mixed-pitch-set-height t))
 
 (use-package nix-mode)
 (use-package lua-mode)
@@ -176,11 +180,11 @@
   :ensure t
   :init (global-flycheck-mode)
   :config
-  (setq flycheck-emacs-lisp-load-path 'inherit)
+  (setq flycheck-elisp-load-path 'inherit)
   (setq flycheck-idle-change-delay 1.0)
-  (setq-local flycheck-emacs-lisp-initialize-packages t)
-  (setq-local flycheck-emacs-lisp-package-user-dir package-user-dir)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  (setq-local flycheck-elisp-initialize-packages t)
+  (setq-local flycheck-elisp-package-user-dir package-user-dir)
+  (setq-default flycheck-disabled-checkers '(elisp-checkdoc)))
 
 (use-package projectile
   :defer t
@@ -359,6 +363,7 @@
           (lambda ()
             (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
+(add-hook 'org-mode-hook #'toggle-word-wrap)
 
 (use-package deft
   :config
@@ -373,23 +378,43 @@
             (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
             (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 
+(defun sitemap-format-entry (entry style project)
+  (format "
+      [[file:%s][%s]]
+      #+begin_article-info
+      #+begin_date
+      Last Modified %s
+      #+end_date
+      #+end_article-info"
+      entry
+              (org-publish-find-title entry project)
+      (format-time-string "%Y-%m-%d" (org-publish-find-date entry project))
+      (org-publish-find-property entry :keywords project 'html)
+      (org-publish-find-property entry :description project 'html)))
 (setq org-publish-project-alist
       '(
         ("blog"
-         :base-directory "~/projects/site/org"
-         :base-extension "org" "png" "jpg" "css"
+         :base-directory "~/projects/site/org/"
+         :base-extension "org"
          :publishing-directory "~/projects/site/blog/"
          :recursive t
          :publishing-function org-html-publish-to-html
-         :auto-preamble t)
+         :html-preamble "<div class=\"links\"><a href=../index.html>Home</a><a href=\"\" class=\"active\">Blog</a><a href=../about.html>About</a></div>"
+         :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
+         :auto-sitemap t
+         :sitemap-filename "index.org"
+         :sitemap-title "Recent"
+         :sitemap-format-entry sitemap-format-entry
+         :sitemap-sort-files anti-chronologically)
         ("emacs-config"
          :base-directory "~/dotfiles/config/emacs/"
-         :base-extension "org" "css" "png"
+         :base-extension "org"
          :publishing-directory "~/projects/site/blog/"
          :recursive nil
-         :publishing-function org-html-publish-to-html
-         :auto-preamble t)))
+         :publishing-function org-html-publish-to-html)))
+
 (setq org-html-postamble nil)
+(setq org-export-preserve-breaks t)
 
 (defun org/prettify-set ()
   (interactive)
@@ -427,7 +452,7 @@
 
 (org-babel-do-load-languages
   'org-babel-load-languages
-  '((emacs-lisp . t)))
+  '((elisp . t)))
 
 (defun org-babel-tangle-config ()
   (when (string-equal (buffer-file-name)
