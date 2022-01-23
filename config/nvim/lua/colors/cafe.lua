@@ -16,16 +16,16 @@ function M.setup()
     base0A = "#A8334C",
     base0B = "#597a37",
     base0C = "#685c56",
-    base0D = "#944927",
+    base0D = "#a8623e",
     base0E = "#A8334C",
     base0F = "#4f5e68",
   }
 end
 
 M.colors = {
-  fg = "#26363C",
+  fg = "#685c56",
   bg = "#F0EDEC",
-  accent = "#26363c",
+  accent = "#685c56",
   lightbg = "#e9e4e2",
   fgfaded = "#948985",
   grey = "#948985",
@@ -51,7 +51,12 @@ function M.overrides()
     hi TabLineFill guibg=#F0EDEC gui=none
     hi TelescopeBorder guifg=#e9e4e2
     hi TelescopeTitle guifg=#948985
+    hi TSPunctBracket guifg=#685c56
+    hi TSConstructor guifg=#685c56
     hi MatchParen guibg=#e5d9d7
+    hi TSKeyword gui=italic
+    hi TSConditional gui=italic
+    hi TSString gui=italic
   ]]
 end
 return M
