@@ -132,9 +132,7 @@
 
 (use-package orderless
   :init
-  (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+  (setq completion-styles '(orderless)))
 
 (use-package marginalia
   :init (marginalia-mode))
@@ -192,6 +190,8 @@
 
 (use-package magit
   :defer t)
+
+(use-package rainbow-mode)
 
 (with-eval-after-load 'dired
   (setq dired-dwim-target t
@@ -276,11 +276,11 @@
                   (mode . shell-mode)))
          ("planning" (or
                       (name . "^\\*Calendar\\*$")
-                      (name . "^diary$")
+                      (name . "^agenda")
                       (mode . org-agenda-mode)))
          ("img" (mode . image-mode))
          ("config" (filename . "/dotfiles/"))
-         ("site" (filename . "/projects/site/"))
+         ("blog" (filename . "/projects/site/"))
          ("code" (filename . "/projects/"))
          ("notes" ( filename . "/notes/"))
          ("org" (mode . org-mode))
@@ -311,10 +311,28 @@
   :config
   (load-theme 'doom-cafe t))
 
-(use-package mood-line
-  :ensure t
-  :config
-  (mood-line-mode))
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
+
+(defun mode-line-render (left right)
+  "Return a string of `window-width' length.
+   Containing LEFT, and RIGHT aligned respectively."
+  (let ((available-width
+          (- (window-width)
+            (+ (length (format-mode-line left))
+               (length (format-mode-line right))))))
+    (append left
+            (list (format (format "%%%ds" available-width) ""))
+      right)))
+
+(setq-default mode-line-format
+  '((:eval (mode-line-render
+             '("  %b"
+               (:eval (if (and buffer-file-name (buffer-modified-p))
+                          (propertize "*" 'face `(:inherit face-faded))))
+               (:eval (if (buffer-narrowed-p)
+                         (propertize "-" 'face `(:inherit face-faded)))))
+             '("%p %l:%c "
+                (:eval (propertize " %m " 'face 'font-lock-string-face)))))))
 
 (require 'splash)
 (splash-screen)
@@ -354,9 +372,7 @@
   :hook
   (org-mode . (lambda () (org-bullets-mode 1))))
 
-(setq org-src-window-setup 'split-window-below
-      org-agenda-window-setup 'split-window-below)
-
+(setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
 (setq org-agenda-files '("~/org/agenda.org"))
 
 (add-hook 'org-agenda-mode-hook

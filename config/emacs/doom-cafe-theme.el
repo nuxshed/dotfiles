@@ -86,7 +86,7 @@ determine the exact padding."
    (region-fg base0)
 
    (modeline-fg     nil)
-   (modeline-bg     base3)
+   (modeline-bg     bg)
    (modeline-fg-alt base6)
    (modeline-bg-l   base1)
    (modeline-bg-inactive   base2)
@@ -103,22 +103,23 @@ determine the exact padding."
     :inherit 'italic)
    (hl-line :background bg-alt)
    (mode-line
-    :background modeline-bg :foreground modeline-fg
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg)))
+    :background bg :foreground modeline-fg :overline "#a59995"
+    :box `(:line-width 5 :color ,modeline-bg)
+    :inherit 'fixed-pitch)
    (mode-line-inactive
-    :background modeline-bg-inactive :foreground modeline-fg-alt
-    :box (if -modeline-pad `(:line-width ,-modeline-pad :color ,modeline-bg-inactive)))
+    :background modeline-bg-inactive :foreground "#a59995"
+    :overline "#dbd6d4"
+    :box `(:line-width 5 :color ,modeline-bg))
    ((region &override) :foreground region-fg)
 
-   ;; mood-line
-   (mood-line-modified :foreground base8)
-   (mood-line-unimportant :foreground base8)
-   (mood-line-status-info :inherit 'bold :foreground green)
-   (mood-line-major-mode :foreground yellow)
-
-   ;; Basic syntax
-   (font-lock-keyword-face :inherit 'italic :foreground red)
+   ;; ibuffer
    (all-the-icons-ibuffer-mode-face :inherit 'italic)
+
+   ;; org-mode headings
+   (org-level-1 :height 150)
+   (org-level-2 :height 130)
+   (org-level-3 :height 120)
+   (org-level-4 :height 100)
 
    ;; all-the-icons
    (all-the-icons-dblue :foreground blue)
