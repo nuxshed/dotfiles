@@ -176,13 +176,15 @@
 
 (use-package flycheck
   :ensure t
-  :init (global-flycheck-mode)
+  :defer t
   :config
   (setq flycheck-elisp-load-path 'inherit)
   (setq flycheck-idle-change-delay 1.0)
   (setq-local flycheck-elisp-initialize-packages t)
   (setq-local flycheck-elisp-package-user-dir package-user-dir)
   (setq-default flycheck-disabled-checkers '(elisp-checkdoc)))
+
+  (add-hook 'prog-mode-hook 'global-flycheck-mode)
 
 (use-package projectile
   :defer t
@@ -208,7 +210,7 @@
 
 (use-package all-the-icons-dired)
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-(setq all-the-icons-dired-monochrome 'nil)
+(setq all-the-icons-dired-monochrome 't)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (with-eval-after-load 'ibuffer
@@ -301,8 +303,8 @@
   :ensure t
   :init (all-the-icons-ibuffer-mode 1))
 
-(set-face-attribute 'default nil :font "Cascadia Code 10")
-(set-face-attribute 'fixed-pitch nil :font "Cascadia Code 10")
+(set-face-attribute 'default nil :font "Cartograph CF 10")
+(set-face-attribute 'fixed-pitch nil :font "Cartograph CF 10")
 (set-face-attribute 'variable-pitch nil :font "IBM Plex Sans 10")
 
 (use-package all-the-icons)
@@ -326,7 +328,7 @@
 
 (setq-default mode-line-format
   '((:eval (mode-line-render
-             '("  %b"
+             '((:eval (propertize " %b" 'face `(:slant italic)))
                (:eval (if (and buffer-file-name (buffer-modified-p))
                           (propertize "*" 'face `(:inherit face-faded))))
                (:eval (if (buffer-narrowed-p)
@@ -395,17 +397,28 @@
             (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
             (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 
+(defun org-publish-get-date-from-property (file project)
+  "Get date keyword from FILE in PROJECT and parse it to internal format."
+     (let ((date (org-publish-find-property file :date project)))
+       (cond ((let ((ts (and (consp date) (assq 'timestamp date))))
+          (and ts
+         (let ((value (org-element-interpret-data ts)))
+           (and (org-string-nw-p value)
+          (org-time-string-to-time value))))))
+       (t (error "No timestamp in file \"%s\"" file)))))
+
 (defun sitemap-format-entry (entry style project)
   (format "
               [[file:%s][%s]]
               #+begin_article-info
               #+begin_date
-              Last Modified %s
+              Published %s
               #+end_date
               #+end_article-info"
           entry
           (org-publish-find-title entry project)
-          (format-time-string "%Y-%m-%d" (org-publish-find-date entry project))
+          (format-time-string "%b %d, %Y"
+                                (org-publish-get-date-from-property entry project))
           (org-publish-find-property entry :keywords project 'html)
           (org-publish-find-property entry :description project 'html)))
 
@@ -419,6 +432,7 @@
          :publishing-function org-html-publish-to-html
          :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
          :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
+         :html-head-include-scripts nil
          :auto-sitemap t
          :sitemap-filename "index.org"
          :sitemap-title "Recent"
@@ -437,10 +451,10 @@
 (defun org/prettify-set ()
   (interactive)
   (setq prettify-symbols-alist
-        '(("#+begin_src" . "")
-          ("#+BEGIN_SRC" . "")
-          ("#+end_src" . "")
-          ("#+END_SRC" . "")
+        '(("#+begin_src" . ">")
+          ("#+BEGIN_SRC" . ">")
+          ("#+end_src" . "<")
+          ("#+END_SRC" . "<")
           ("#+begin_example" . "")
           ("#+BEGIN_EXAMPLE" . "")
           ("#+end_example" . "")
@@ -467,18 +481,5 @@
 (add-hook 'prog-mode-hook 'prog/prettify-set)
 
 (global-prettify-symbols-mode)
-
-(org-babel-do-load-languages
-  'org-babel-load-languages
-  '((elisp . t)))
-
-(defun org-babel-tangle-config ()
-  (when (string-equal (buffer-file-name)
-                      (expand-file-name "~/dotfiles/config/emacs/config.org"))
-    (let ((org-confirm-babel-evaluate nil))
-      (org-babel-tangle))))
-
-;; tangle on save
-(add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'org-babel-tangle-config)))
 
 ;; init.el ends here

@@ -1,5 +1,3 @@
-
-  
 ;;; splash.el --- An alternative splash screen -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020 Nicolas .P Rougier
@@ -27,32 +25,31 @@
 ;;
 ;;  An alternative splash screen:
 ;;
-;;  +–—————————––––––––––––––––––––––––––––————————————————————+
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                       www.gnu.org                        |
-;;  |                  GNU Emacs version XX.Y                  |
-;;  |                   a free/libre editor                    |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |                                                          |
-;;  |        GNU Emacs comes with ABSOLUTELY NO WARRANTY       |
-;;  |     Copyright (C) 2020 Free Software Foundation, Inc.    |
-;;  |                                                          |
-;;  +––––––––––––––––––––––––––––––––––––––————————————————————+
+;;  +–—————————––––––––––––––––––––––––––––————————————————————-------------------+
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                     lol                                     |
+;;  |                           GNU Emacs version 28.0                            |
+;;  |             Emacs started in 0.584s with 20 garbage collections             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  |                                                                             |
+;;  +––––––––––––––––––––––––––––––––––––––————————————————————-------------------+
 ;;
 ;; Features:
 ;;
 ;;  - No logo, no moddeline, no scrollbars
 ;;  - "q" or <esc> kills the splash screen
 ;;  - Any other key open the about-emacs buffer
-;;  - With emacs-mac (Mituharu), splash screen is faded out after 3 seconds
 ;;
 ;; Note: The screen is not shown if there are opened file buffers. For
 ;;       example, if you start emacs with a filename on the command
@@ -60,7 +57,7 @@
 ;;
 ;; Usage:
 ;; 
-;;  (require 'splash-screen)
+;;  (require 'splash)
 ;;
 ;;; Code:
 (require 'cl-lib)
@@ -153,7 +150,7 @@
         (kill-buffer "*splash*")))
 
 (defun init-time ()
-(propertize (format-message "Emacs started in %.3f seconds with %d garbage collections"
+(propertize (format-message "Emacs started in %.3fs with %d garbage collections"
               (float-time (time-subtract after-init-time before-init-time))
               gcs-done) 'face 'face-faded))
 

@@ -21,7 +21,7 @@ determine the exact padding."
 
 ;;
 (def-doom-theme doom-cafe
-  "A dark theme inspired by cafe."
+  "I made this theme."
 
   ;; name        default   256       16
   ((bg         '("#F0EDEC" "#F0EDEC" "white"        ))
@@ -95,9 +95,9 @@ determine the exact padding."
 
   ;;;; Base theme face overrides
   ((fringe :foreground teal)
-   ((line-number &override) :foreground (doom-lighten 'base5 0.2))
-   ((line-number-current-line &override) :foreground base7)
-   ((tab-line &override) :background modeline-bg :foreground blue)
+   ((line-number &override) :foreground base6)
+   ((line-number-current-line &override) :foreground fg)
+   ((tab-line &override) :background modeline-bg :foreground fg-alt)
    ((tab-line-tab-inactive &override) :foreground dark-blue)
    ((font-lock-comment-face &override)
     :inherit 'italic)
@@ -112,13 +112,26 @@ determine the exact padding."
     :box `(:line-width 5 :color ,modeline-bg))
    ((region &override) :foreground region-fg)
 
+   ;; syntax
+   (font-lock-keyword-face :inherit 'italic :foreground red)
+   (font-lock-string-face :inherit 'italic :foreground green)
+
    ;; ibuffer
    (all-the-icons-ibuffer-mode-face :inherit 'italic)
+
+   ;;;; org <built-in>
+   (org-hide :foreground hidden)
+   (org-block :background "#ede8e6")
 
    ;; org-mode headings
    (org-level-1 :height 120)
    (org-level-2 :height 120)
    (org-level-3 :height 120)
+   (org-level-4 :height 110)
+   (org-level-5 :height 110)
+   (org-level-6 :foreground fg)
+   (org-level-7 :foreground fg)
+   (org-level-8 :foreground fg)
 
    ;; all-the-icons
    (all-the-icons-dblue :foreground blue)
@@ -127,10 +140,10 @@ determine the exact padding."
    (css-proprietary-property :foreground orange)
    (css-property             :foreground green)
    (css-selector             :foreground blue)
-   ;;;; highlight-symbol
-   (highlight-symbol-face :background (doom-lighten base4 0.1) :distant-foreground fg-alt)
+
    ;;;; highlight-thing
    (highlight-thing :background (doom-lighten base4 0.1) :distant-foreground fg-alt)
+
    ;;;; ivy
    ((ivy-current-match &override) :foreground region-fg :weight 'semi-bold)
    ;;;; markdown-mode
@@ -138,14 +151,8 @@ determine the exact padding."
    (markdown-header-face :inherit 'bold :foreground red)
    ((markdown-code-face &override) :background (doom-lighten base3 0.05))
    ;;;; mic-paren
-   ((paren-face-match &override) :foreground bg :background teal :weight 'ultra-bold)
-   ((paren-face-mismatch &override) :foreground base7 :background red :weight 'ultra-bold)
-   ;;;; org <built-in>
-   (org-hide :foreground hidden)
-   (org-block :background "#ede8e6")
-   ;;;; vimish-fold
-   ((vimish-fold-overlay &override) :inherit 'font-lock-comment-face :background base3 :weight 'light)
-   ((vimish-fold-fringe &override)  :foreground teal))
+   ((paren-face-match &override) :foreground blue :background bg-alt :weight 'ultra-bold)
+   ((paren-face-mismatch &override) :foreground red :background bg :weight 'ultra-bold))
 
   ;;;; Base theme variable overrides-
   ())
