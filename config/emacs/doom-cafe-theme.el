@@ -116,10 +116,9 @@ determine the exact padding."
    (all-the-icons-ibuffer-mode-face :inherit 'italic)
 
    ;; org-mode headings
-   (org-level-1 :height 150)
-   (org-level-2 :height 130)
+   (org-level-1 :height 120)
+   (org-level-2 :height 120)
    (org-level-3 :height 120)
-   (org-level-4 :height 100)
 
    ;; all-the-icons
    (all-the-icons-dblue :foreground blue)

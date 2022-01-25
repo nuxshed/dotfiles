@@ -332,7 +332,7 @@
                (:eval (if (buffer-narrowed-p)
                          (propertize "-" 'face `(:inherit face-faded)))))
              '("%p %l:%c "
-                (:eval (propertize " %m " 'face 'font-lock-string-face)))))))
+               (:eval (propertize " %m " 'face 'font-lock-string-face)))))))
 
 (require 'splash)
 (splash-screen)
@@ -380,6 +380,7 @@
             (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
 (add-hook 'org-mode-hook #'toggle-word-wrap)
+(setq org-src-window-setup 'current-window)
 
 (use-package deft
   :config
@@ -396,17 +397,18 @@
 
 (defun sitemap-format-entry (entry style project)
   (format "
-      [[file:%s][%s]]
-      #+begin_article-info
-      #+begin_date
-      Last Modified %s
-      #+end_date
-      #+end_article-info"
-      entry
-              (org-publish-find-title entry project)
-      (format-time-string "%Y-%m-%d" (org-publish-find-date entry project))
-      (org-publish-find-property entry :keywords project 'html)
-      (org-publish-find-property entry :description project 'html)))
+              [[file:%s][%s]]
+              #+begin_article-info
+              #+begin_date
+              Last Modified %s
+              #+end_date
+              #+end_article-info"
+          entry
+          (org-publish-find-title entry project)
+          (format-time-string "%Y-%m-%d" (org-publish-find-date entry project))
+          (org-publish-find-property entry :keywords project 'html)
+          (org-publish-find-property entry :description project 'html)))
+
 (setq org-publish-project-alist
       '(
         ("blog"
@@ -415,7 +417,7 @@
          :publishing-directory "~/projects/site/blog/"
          :recursive t
          :publishing-function org-html-publish-to-html
-         :html-preamble "<div class=\"links\"><a href=../index.html>Home</a><a href=\"\" class=\"active\">Blog</a><a href=../about.html>About</a></div>"
+         :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
          :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
          :auto-sitemap t
          :sitemap-filename "index.org"
