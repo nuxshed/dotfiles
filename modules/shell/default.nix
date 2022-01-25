@@ -18,6 +18,7 @@
     fzf
     github-cli
     gnumake
+    hsetroot
     lazygit
     lm_sensors
     maim
