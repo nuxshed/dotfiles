@@ -1,7 +1,7 @@
 { config, pkgs, libs, ... }:
 {
   home.packages = with pkgs; [
-    ((emacsPackagesNgGen emacsUnstable).emacsWithPackages (epkgs: [
+    ((emacsPackagesNgGen emacsGit).emacsWithPackages (epkgs: [
       epkgs.vterm
     ]))
   ];
