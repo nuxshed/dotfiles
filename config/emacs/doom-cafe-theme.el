@@ -1,24 +1,21 @@
-;;; doom-cafe-theme.el --- inspired by cafe -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; doom-cafe-theme.el --- A nice light theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;
 ;; Author: nuxsh
 ;; Created: January 2022
 ;; Version: 0.1
 ;; Keywords: custom themes, faces
 ;; Package-Requires: ((emacs "25.1") (cl-lib "0.5") (doom-themes "2.2.1"))
-
+;;; Commentary:
+;;
+;; theme.
+;;
+;;; Code:
 (require 'doom-themes)
 
-;;
 (defgroup doom-cafe-theme nil
   "Options for the `doom-cafe' theme."
   :group 'doom-themes)
 
-(defcustom doom-cafe-padded-modeline doom-themes-padded-modeline
-  "If non-nil, adds a 4px padding to the mode-line.  Can be an integer to determine the exact padding."
-  :group 'doom-cafe-theme
-  :type '(choice integer boolean))
-
-;;
 (def-doom-theme doom-cafe
   "I made this theme."
 
@@ -78,9 +75,6 @@
 
    ;; custom categories
    (hidden     `(,(car bg) "black" "black"))
-   (-modeline-pad
-    (when doom-cafe-padded-modeline
-      (if (integerp doom-cafe-padded-modeline) doom-cafe-padded-modeline 4)))
 
    (region-fg base0)
 
@@ -125,11 +119,11 @@
    (org-link :foreground blue :underline t)
 
    ;; org-mode headings
-   (org-level-1 :height 120 :inherit 'bold)
-   (org-level-2 :height 120 :inherit 'bold)
-   (org-level-3 :height 120 :inherit 'bold)
-   (org-level-4 :height 110 :inherit 'bold)
-   (org-level-5 :height 110 :inherit 'bold)
+   (org-level-1 :height 120 :weight 'bold :inherit 'variable-pitch)
+   (org-level-2 :height 120 :weight 'bold :inherit 'variable-pitch)
+   (org-level-3 :height 120 :weight 'bold :inherit 'variable-pitch)
+   (org-level-4 :height 110 :weight 'bold :inherit 'variable-pitch)
+   (org-level-5 :height 110 :weight 'bold :inherit 'variable-pitch)
    (org-level-6 :inherit 'bold)
    (org-level-7 :inherit 'bold)
    (org-level-8 :inherit 'bold)

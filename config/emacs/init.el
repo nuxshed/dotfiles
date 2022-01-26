@@ -18,7 +18,6 @@
       inhibit-startup-message t)
 (tool-bar-mode -1)     ; Disable the toolbar
 (tooltip-mode -1)      ; Disable tooltips
-(fringe-mode '(0 . 0)) ; no fringe
 (menu-bar-mode -1)     ; Disable the menu bar
 (scroll-bar-mode -1)   ; Disable the scrollbar
 
@@ -149,13 +148,6 @@
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
-
-(use-package mixed-pitch
-  :hook
-  (text-mode . mixed-pitch-mode)
-  :config
-  (setq mixed-pitch-variable-pitch-cursor "underline"
-        mixed-pitch-set-height t))
 
 (use-package nix-mode)
 (use-package lua-mode)
@@ -301,9 +293,17 @@
                '(width      . 81)
                '(vertical-scroll-bars . nil)
                '(internal-border-width . 24)
-               '(left-fringe    . 1)
-               '(right-fringe   . 1)
                '(tool-bar-lines . 0))))
+
+(fringe-mode '(0 . 0))
+(defface fallback '((t :family "Cartograph CF"
+		       :inherit 'face-faded)) "Fallback")
+(set-display-table-slot standard-display-table 'truncation
+			(make-glyph-code ?… 'fallback))
+(set-display-table-slot standard-display-table 'wrap
+			(make-glyph-code ?↩ 'fallback))
+(set-display-table-slot standard-display-table 'selective-display
+			(string-to-vector " …"))
 
 (defun mode-line-render (left right)
   "Return a string of `window-width' length.
@@ -372,7 +372,6 @@
             (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
 (add-hook 'org-mode-hook (lambda ()
-                           (variable-pitch-mode t)
                            (toggle-word-wrap)
                            (flyspell-mode t)
                            (electric-indent-local-mode -1)))
@@ -404,33 +403,33 @@
 (defun org/prettify-set ()
   (interactive)
   (setq prettify-symbols-alist
-        '(("#+begin_src" . ">")
-          ("#+BEGIN_SRC" . ">")
-          ("#+end_src" . "<")
-          ("#+END_SRC" . "<")
-          ("#+begin_example" . "")
-          ("#+BEGIN_EXAMPLE" . "")
-          ("#+end_example" . "")
-          ("#+END_EXAMPLE" . "")
-          ("#+results:" . "")
-          ("#+RESULTS:" . "")
-          ("#+begin_quote" . "❝")
-          ("#+BEGIN_QUOTE" . "❝")
-          ("#+end_quote" . "❞")
-          ("#+END_QUOTE" . "❞"))))
+	'(("#+begin_src" . ">")
+	  ("#+BEGIN_SRC" . ">")
+	  ("#+end_src" . "<")
+	  ("#+END_SRC" . "<")
+	  ("#+begin_example" . "")
+	  ("#+BEGIN_EXAMPLE" . "")
+	  ("#+end_example" . "")
+	  ("#+END_EXAMPLE" . "")
+	  ("#+results:" . "")
+	  ("#+RESULTS:" . "")
+	  ("#+begin_quote" . "❝")
+	  ("#+BEGIN_QUOTE" . "❝")
+	  ("#+end_quote" . "❞")
+	  ("#+END_QUOTE" . "❞"))))
 (add-hook 'org-mode-hook 'org/prettify-set)
 
 (defun prog/prettify-set ()
   (interactive)
   (setq prettify-symbols-alist
-        '(("lambda" . "λ")
-          ("->" . "→")
-          ("<-" . "←")
-          ("<=" . "≤")
-          (">=" . "≥")
-          ("!=" . "≠")
-          ("~=" . "≃")
-          ("=~" . "≃"))))
+	'(("lambda" . "λ")
+	  ("->" . "→")
+	  ("<-" . "←")
+	  ("<=" . "≤")
+	  (">=" . "≥")
+	  ("!=" . "≠")
+	  ("~=" . "≃")
+	  ("=~" . "≃"))))
 (add-hook 'prog-mode-hook 'prog/prettify-set)
 
 (global-prettify-symbols-mode)

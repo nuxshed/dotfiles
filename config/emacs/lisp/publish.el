@@ -13,17 +13,15 @@
 (defun sitemap-format-entry (entry style project)
   (format "
               [[file:%s][%s]]
-              ,#+begin_article-info
-              ,#+begin_date
+              #+begin_article-info
+              #+begin_date
               Published %s
-              ,#+end_date
-              ,#+end_article-info"
+              #+end_date
+              #+end_article-info"
           entry
           (org-publish-find-title entry project)
           (format-time-string "%b %d, %Y"
-                                (org-publish-get-date-from-property entry project))
-          (org-publish-find-property entry :keywords project 'html)
-          (org-publish-find-property entry :description project 'html)))
+                                (org-publish-get-date-from-property entry project))))
 
 (setq org-publish-project-alist
       '(
@@ -35,6 +33,9 @@
          :publishing-function org-html-publish-to-html
          :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
          :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
+	 :html-doctype "html5"
+	 :html-link-home "../index.html"
+	 :html-link-up "index.html"
          :html-head-include-scripts nil
          :auto-sitemap t
          :sitemap-filename "index.org"
