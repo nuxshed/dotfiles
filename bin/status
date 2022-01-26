@@ -6,7 +6,7 @@
 
 status_volume() {
   vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
-  echo "墳$vol%"
+  echo "墳 $vol%"
 }
 
 status_battery() {
