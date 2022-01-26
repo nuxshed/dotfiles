@@ -28,24 +28,18 @@ Change the defaults because some of them suck
         auto-save-default t            ; who knows what could happen?
         truncate-string-ellipsis "…")  ; prettier ellipsis
 
-  ;; scrolling related settings
-  (setq scroll-margin 1
-        scroll-step 1
-        scroll-conservatively 10000
-        smooth-scroll-margin 1)
-
-  (defalias 'yes-or-no-p 'y-or-n-p) ;; y/n is shorter than yes/no
+  (setq use-short-answers t)
 #+end_src
 
 UI debloating
 #+begin_src elisp
   (setq inhibit-startup-echo-area-message t
         inhibit-startup-message t)
-  (tool-bar-mode -1)    ; Disable the toolbar
-  (tooltip-mode -1)     ; Disable tooltips
-  (set-fringe-mode 10)  ; Give some breathing room
-  (menu-bar-mode -1)    ; Disable the menu bar
-  (scroll-bar-mode -1)  ; Disable the scrollbar
+  (tool-bar-mode -1)     ; Disable the toolbar
+  (tooltip-mode -1)      ; Disable tooltips
+  (fringe-mode '(0 . 0)) ; no fringe
+  (menu-bar-mode -1)     ; Disable the menu bar
+  (scroll-bar-mode -1)   ; Disable the scrollbar
 #+end_src
 
 optimizations
@@ -63,20 +57,9 @@ optimizations
 
 Some useful minor modes
 #+begin_src elisp
-  (global-display-line-numbers-mode) ;; line numbers
-  (global-hl-line-mode) ;; highlight current line
-  (global-visual-line-mode) ;; wrap lines
   (electric-pair-mode) ;; autopairs
   (recentf-mode) ;; recent files
 #+end_src
-
-Configure indentation
-#+begin_src elisp
-  (setq-default indent-tabs-mode nil
-      tab-width 2)
-  (setq indent-line-function 'insert-tab)
-#+end_src
-
 
 * Packages
 
@@ -97,7 +80,8 @@ Setting up use-package
     (package-install 'use-package))
 
   (require 'use-package)
-  (setq use-package-always-ensure t)
+  (setq use-package-always-ensure t
+        package-quickstart t)
 #+end_src
 
 ** gchs
@@ -110,7 +94,6 @@ Setting up use-package
 ** Evil
 #+begin_src elisp
   (use-package evil
-    :defer t
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
@@ -165,7 +148,8 @@ Setting up use-package
       "hh" 'help
       "hk" 'describe-key
       "hv" 'describe-variable
-      "hf" 'describe-function
+      "hF" 'describe-function
+      "hf" 'describe-face
       "hs" 'describe-symbol
       "hm" 'describe-mode))
 #+end_src
@@ -217,11 +201,9 @@ Marginalia adds descriptions and stuff to your minibuffer
 #+end_src
 
 ** Vterm
-eshell is nice but I prefer vterm
 #+begin_src elisp
   (use-package vterm
-    :defer t
-    :ensure t)
+    :commands (vterm vterm-other-window))
 #+end_src
 
 ** Which-key
@@ -238,7 +220,7 @@ eshell is nice but I prefer vterm
     :hook
     (text-mode . mixed-pitch-mode)
     :config
-    (setq mixed-pitch-variable-pitch-cursor "block"
+    (setq mixed-pitch-variable-pitch-cursor "underline"
           mixed-pitch-set-height t))
 #+end_src
 
@@ -254,7 +236,6 @@ Some major modes to improve language support
 #+begin_src elisp
   (use-package flycheck
     :ensure t
-    :defer t
     :config
     (setq flycheck-elisp-load-path 'inherit)
     (setq flycheck-idle-change-delay 1.0)
@@ -262,26 +243,14 @@ Some major modes to improve language support
     (setq-local flycheck-elisp-package-user-dir package-user-dir)
     (setq-default flycheck-disabled-checkers '(elisp-checkdoc)))
 
-    (add-hook 'prog-mode-hook 'global-flycheck-mode)
-#+end_src
-
-** Projectile
-#+begin_src elisp
-  (use-package projectile
-    :defer t
-    :config (projectile-mode 1))
-#+end_src
-
-** Magit
-#+begin_src elisp
-  (use-package magit
-    :defer t)
+    (add-hook 'prog-mode-hook 'flycheck-mode)
 #+end_src
 
 ** Rainbow-mode
 Visualize color values.
 #+begin_src elisp
-  (use-package rainbow-mode)
+  (use-package rainbow-mode
+    :defer t)
 #+end_src
 
 * Builtins
@@ -416,7 +385,7 @@ Add icons to ibuffer
 #+begin_src elisp
   (set-face-attribute 'default nil :font "Cartograph CF 10")
   (set-face-attribute 'fixed-pitch nil :font "Cartograph CF 10")
-  (set-face-attribute 'variable-pitch nil :font "IBM Plex Sans 10")
+  (set-face-attribute 'variable-pitch nil :font "Commissioner 10")
 #+end_src
 
 ** Icons
@@ -431,10 +400,23 @@ Add icons to ibuffer
     (load-theme 'doom-cafe t))
 #+end_src
 
+** Layout
+#+begin_src elisp
+  (setq default-frame-alist
+        (append (list
+               '(min-height . 1)
+                 '(height     . 45)
+               '(min-width  . 1)
+                 '(width      . 81)
+                 '(vertical-scroll-bars . nil)
+                 '(internal-border-width . 24)
+                 '(left-fringe    . 1)
+                 '(right-fringe   . 1)
+                 '(tool-bar-lines . 0))))
+#+end_src
+
 ** Modeline
 #+begin_src elisp
-  (add-to-list 'default-frame-alist '(internal-border-width . 24))
-
   (defun mode-line-render (left right)
     "Return a string of `window-width' length.
      Containing LEFT, and RIGHT aligned respectively."
@@ -455,6 +437,7 @@ Add icons to ibuffer
                            (propertize "-" 'face `(:inherit face-faded)))))
                '("%p %l:%c "
                  (:eval (propertize " %m " 'face 'font-lock-string-face)))))))
+
 #+end_src
 
 ** Splash
@@ -513,9 +496,20 @@ Add icons to ibuffer
             (lambda ()
               (local-set-key (kbd "q") 'org-agenda-exit)))
   (use-package htmlize)
-  (add-hook 'org-mode-hook #'toggle-word-wrap)
+  (add-hook 'org-mode-hook (lambda ()
+                             (variable-pitch-mode t)
+                             (toggle-word-wrap)
+                             (flyspell-mode t)
+                             (electric-indent-local-mode -1)))
   (setq org-src-window-setup 'current-window)
 
+    (defun org-toggle-emphasis ()
+      "Toggle hiding/showing of org emphasize markers."
+      (interactive)
+      (if org-hide-emphasis-markers
+        (set-variable 'org-hide-emphasis-markers nil)
+        (set-variable 'org-hide-emphasis-markers t)))
+    (define-key org-mode-map (kbd "C-c e") 'org-toggle-emphasis)
 #+end_src
 
 ** Deft
@@ -537,60 +531,11 @@ Deft is nice for note-taking
 #+end_src
 
 ** Publishing
-
 #+begin_src elisp
-  (defun org-publish-get-date-from-property (file project)
-    "Get date keyword from FILE in PROJECT and parse it to internal format."
-       (let ((date (org-publish-find-property file :date project)))
-         (cond ((let ((ts (and (consp date) (assq 'timestamp date))))
-            (and ts
-           (let ((value (org-element-interpret-data ts)))
-             (and (org-string-nw-p value)
-            (org-time-string-to-time value))))))
-         (t (error "No timestamp in file \"%s\"" file)))))
-
-  (defun sitemap-format-entry (entry style project)
-    (format "
-                [[file:%s][%s]]
-                ,#+begin_article-info
-                ,#+begin_date
-                Published %s
-                ,#+end_date
-                ,#+end_article-info"
-            entry
-            (org-publish-find-title entry project)
-            (format-time-string "%b %d, %Y"
-                                  (org-publish-get-date-from-property entry project))
-            (org-publish-find-property entry :keywords project 'html)
-            (org-publish-find-property entry :description project 'html)))
-
-  (setq org-publish-project-alist
-        '(
-          ("blog"
-           :base-directory "~/projects/site/org/"
-           :base-extension "org"
-           :publishing-directory "~/projects/site/blog/"
-           :recursive t
-           :publishing-function org-html-publish-to-html
-           :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
-           :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
-           :html-head-include-scripts nil
-           :auto-sitemap t
-           :sitemap-filename "index.org"
-           :sitemap-title "Recent"
-           :sitemap-format-entry sitemap-format-entry
-           :sitemap-sort-files anti-chronologically)
-          ("emacs-config"
-           :base-directory "~/dotfiles/config/emacs/"
-           :base-extension "org"
-           :publishing-directory "~/projects/site/blog/"
-           :recursive nil
-           :publishing-function org-html-publish-to-html)))
-
-  (setq org-html-postamble nil)
-  (setq org-export-preserve-breaks t)
+  (require 'publish)
 #+end_src
 
+** Prettify symbols
 Make org-mode prettier
 
 #+begin_src elisp

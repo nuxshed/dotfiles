@@ -14,8 +14,7 @@
   :group 'doom-themes)
 
 (defcustom doom-cafe-padded-modeline doom-themes-padded-modeline
-  "If non-nil, adds a 4px padding to the mode-line. Can be an integer to
-determine the exact padding."
+  "If non-nil, adds a 4px padding to the mode-line.  Can be an integer to determine the exact padding."
   :group 'doom-cafe-theme
   :type '(choice integer boolean))
 
@@ -111,6 +110,7 @@ determine the exact padding."
     :overline "#dbd6d4"
     :box `(:line-width 5 :color ,modeline-bg))
    ((region &override) :foreground region-fg)
+   (link :foreground fg :underline t)
 
    ;; syntax
    (font-lock-keyword-face :inherit 'italic :foreground red)
@@ -122,16 +122,17 @@ determine the exact padding."
    ;;;; org <built-in>
    (org-hide :foreground hidden)
    (org-block :background "#ede8e6")
+   (org-link :foreground blue :underline t)
 
    ;; org-mode headings
-   (org-level-1 :height 120)
-   (org-level-2 :height 120)
-   (org-level-3 :height 120)
-   (org-level-4 :height 110)
-   (org-level-5 :height 110)
-   (org-level-6 :foreground fg)
-   (org-level-7 :foreground fg)
-   (org-level-8 :foreground fg)
+   (org-level-1 :height 120 :inherit 'bold)
+   (org-level-2 :height 120 :inherit 'bold)
+   (org-level-3 :height 120 :inherit 'bold)
+   (org-level-4 :height 110 :inherit 'bold)
+   (org-level-5 :height 110 :inherit 'bold)
+   (org-level-6 :inherit 'bold)
+   (org-level-7 :inherit 'bold)
+   (org-level-8 :inherit 'bold)
 
    ;; all-the-icons
    (all-the-icons-dblue :foreground blue)

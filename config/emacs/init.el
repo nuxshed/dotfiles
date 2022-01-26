@@ -12,21 +12,15 @@
       auto-save-default t            ; who knows what could happen?
       truncate-string-ellipsis "…")  ; prettier ellipsis
 
-;; scrolling related settings
-(setq scroll-margin 1
-      scroll-step 1
-      scroll-conservatively 10000
-      smooth-scroll-margin 1)
-
-(defalias 'yes-or-no-p 'y-or-n-p) ;; y/n is shorter than yes/no
+(setq use-short-answers t)
 
 (setq inhibit-startup-echo-area-message t
       inhibit-startup-message t)
-(tool-bar-mode -1)    ; Disable the toolbar
-(tooltip-mode -1)     ; Disable tooltips
-(set-fringe-mode 10)  ; Give some breathing room
-(menu-bar-mode -1)    ; Disable the menu bar
-(scroll-bar-mode -1)  ; Disable the scrollbar
+(tool-bar-mode -1)     ; Disable the toolbar
+(tooltip-mode -1)      ; Disable tooltips
+(fringe-mode '(0 . 0)) ; no fringe
+(menu-bar-mode -1)     ; Disable the menu bar
+(scroll-bar-mode -1)   ; Disable the scrollbar
 
 (setq frame-inhibit-implied-resize t
       initial-major-mode 'fundamental-mode
@@ -35,15 +29,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(global-display-line-numbers-mode) ;; line numbers
-(global-hl-line-mode) ;; highlight current line
-(global-visual-line-mode) ;; wrap lines
 (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
-
-(setq-default indent-tabs-mode nil
-    tab-width 2)
-(setq indent-line-function 'insert-tab)
 
 ;; init package sources
 (require 'package)
@@ -60,14 +47,14 @@
   (package-install 'use-package))
 
 (require 'use-package)
-(setq use-package-always-ensure t)
+(setq use-package-always-ensure t
+      package-quickstart t)
 
 (use-package gcmh
   :init
   (gcmh-mode 1))
 
 (use-package evil
-  :defer t
   :init
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)
@@ -119,7 +106,8 @@
     "hh" 'help
     "hk" 'describe-key
     "hv" 'describe-variable
-    "hf" 'describe-function
+    "hF" 'describe-function
+    "hf" 'describe-face
     "hs" 'describe-symbol
     "hm" 'describe-mode))
 
@@ -155,8 +143,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 (use-package vterm
-  :defer t
-  :ensure t)
+  :commands (vterm vterm-other-window))
 
 (use-package which-key
   :config (which-key-mode)
@@ -167,7 +154,7 @@
   :hook
   (text-mode . mixed-pitch-mode)
   :config
-  (setq mixed-pitch-variable-pitch-cursor "block"
+  (setq mixed-pitch-variable-pitch-cursor "underline"
         mixed-pitch-set-height t))
 
 (use-package nix-mode)
@@ -176,7 +163,6 @@
 
 (use-package flycheck
   :ensure t
-  :defer t
   :config
   (setq flycheck-elisp-load-path 'inherit)
   (setq flycheck-idle-change-delay 1.0)
@@ -184,16 +170,10 @@
   (setq-local flycheck-elisp-package-user-dir package-user-dir)
   (setq-default flycheck-disabled-checkers '(elisp-checkdoc)))
 
-  (add-hook 'prog-mode-hook 'global-flycheck-mode)
+  (add-hook 'prog-mode-hook 'flycheck-mode)
 
-(use-package projectile
-  :defer t
-  :config (projectile-mode 1))
-
-(use-package magit
+(use-package rainbow-mode
   :defer t)
-
-(use-package rainbow-mode)
 
 (with-eval-after-load 'dired
   (setq dired-dwim-target t
@@ -305,7 +285,7 @@
 
 (set-face-attribute 'default nil :font "Cartograph CF 10")
 (set-face-attribute 'fixed-pitch nil :font "Cartograph CF 10")
-(set-face-attribute 'variable-pitch nil :font "IBM Plex Sans 10")
+(set-face-attribute 'variable-pitch nil :font "Commissioner 10")
 
 (use-package all-the-icons)
 
@@ -313,7 +293,17 @@
   :config
   (load-theme 'doom-cafe t))
 
-(add-to-list 'default-frame-alist '(internal-border-width . 24))
+(setq default-frame-alist
+      (append (list
+             '(min-height . 1)
+               '(height     . 45)
+             '(min-width  . 1)
+               '(width      . 81)
+               '(vertical-scroll-bars . nil)
+               '(internal-border-width . 24)
+               '(left-fringe    . 1)
+               '(right-fringe   . 1)
+               '(tool-bar-lines . 0))))
 
 (defun mode-line-render (left right)
   "Return a string of `window-width' length.
@@ -381,8 +371,20 @@
           (lambda ()
             (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
-(add-hook 'org-mode-hook #'toggle-word-wrap)
+(add-hook 'org-mode-hook (lambda ()
+                           (variable-pitch-mode t)
+                           (toggle-word-wrap)
+                           (flyspell-mode t)
+                           (electric-indent-local-mode -1)))
 (setq org-src-window-setup 'current-window)
+
+  (defun org-toggle-emphasis ()
+    "Toggle hiding/showing of org emphasize markers."
+    (interactive)
+    (if org-hide-emphasis-markers
+      (set-variable 'org-hide-emphasis-markers nil)
+      (set-variable 'org-hide-emphasis-markers t)))
+  (define-key org-mode-map (kbd "C-c e") 'org-toggle-emphasis)
 
 (use-package deft
   :config
@@ -397,56 +399,7 @@
             (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
             (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 
-(defun org-publish-get-date-from-property (file project)
-  "Get date keyword from FILE in PROJECT and parse it to internal format."
-     (let ((date (org-publish-find-property file :date project)))
-       (cond ((let ((ts (and (consp date) (assq 'timestamp date))))
-          (and ts
-         (let ((value (org-element-interpret-data ts)))
-           (and (org-string-nw-p value)
-          (org-time-string-to-time value))))))
-       (t (error "No timestamp in file \"%s\"" file)))))
-
-(defun sitemap-format-entry (entry style project)
-  (format "
-              [[file:%s][%s]]
-              #+begin_article-info
-              #+begin_date
-              Published %s
-              #+end_date
-              #+end_article-info"
-          entry
-          (org-publish-find-title entry project)
-          (format-time-string "%b %d, %Y"
-                                (org-publish-get-date-from-property entry project))
-          (org-publish-find-property entry :keywords project 'html)
-          (org-publish-find-property entry :description project 'html)))
-
-(setq org-publish-project-alist
-      '(
-        ("blog"
-         :base-directory "~/projects/site/org/"
-         :base-extension "org"
-         :publishing-directory "~/projects/site/blog/"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
-         :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
-         :html-head-include-scripts nil
-         :auto-sitemap t
-         :sitemap-filename "index.org"
-         :sitemap-title "Recent"
-         :sitemap-format-entry sitemap-format-entry
-         :sitemap-sort-files anti-chronologically)
-        ("emacs-config"
-         :base-directory "~/dotfiles/config/emacs/"
-         :base-extension "org"
-         :publishing-directory "~/projects/site/blog/"
-         :recursive nil
-         :publishing-function org-html-publish-to-html)))
-
-(setq org-html-postamble nil)
-(setq org-export-preserve-breaks t)
+(require 'publish)
 
 (defun org/prettify-set ()
   (interactive)
