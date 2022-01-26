@@ -1,0 +1,54 @@
+# Background 1
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #f0edec 100
+background_color_hover = #f0edec 100
+background_color_pressed = #f0edec 100
+
+# Background 2
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #e9e4e2 100
+background_color_hover = #e9e4e2 100
+background_color_pressed = #e9e4e2 100
+
+# Background 3
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #685c56 100
+background_color_hover = #685c56 100
+background_color_pressed = #685c56 100
+
+# Panel
+panel_items = EEC
+panel_size = 205 30
+panel_margin = 15 15
+panel_padding = 20 10 20
+panel_background_id = 1
+panel_position = top right horizontal
+panel_window_name = tint2
+mouse_effects = 1
+
+# Battery
+execp = new
+execp_command = status bat
+execp_interval = 30
+execp_font = JetBrainsMono Nerd Font 8
+execp_font_color = #2c363c 100
+execp_padding = 5 0
+
+# Volume
+execp = new
+execp_command = status vol
+execp_interval = 30
+execp_font = JetBrainsMono Nerd Font 8
+execp_font_color = #2c363c 100
+execp_padding = 5 0
+
+# Clock
+time1_format =  %H:%M
+time1_font = JetBrainsMono Nerd Font 8
+clock_font_color = #2c363c 100

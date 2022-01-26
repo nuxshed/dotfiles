@@ -159,4 +159,9 @@ hc attr theme.padding_top 35
 
 "${cmds[@]}" &
 
-pgrep tint2 || tint2 -c ~/.config/tint2/cafe &
+bars() {
+  tint2 -c ~/.config/tint2/cafe/tint1 &
+  tint2 -c ~/.config/tint2/cafe/tint2 &
+}
+
+pgrep tint2 || bars
