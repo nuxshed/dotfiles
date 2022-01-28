@@ -12,10 +12,10 @@ element-text, element-icon {
 }
 
 * {
-  bg: #2e3440;
-  fg: #d8dee9;
-  selbg: #373e4c;
-  selfg: #81a1c1;
+  bg: #f0edec;
+  fg: #2c363c;
+  selbg: #e9e4e2;
+  selfg: #2c363c;
 
   background-color: @bg;
   text-color: @fg;
