@@ -86,7 +86,7 @@
    (modeline-bg-inactive-l `(,(doom-darken (car bg) 0.025) ,@(cdr base2))))
 
 
-  ;;;; Base theme face overrides
+  ;; Base theme face overrides
   ((fringe :foreground teal)
    ((line-number &override) :foreground base6)
    ((line-number-current-line &override) :foreground fg)
@@ -131,21 +131,21 @@
    ;; all-the-icons
    (all-the-icons-dblue :foreground blue)
 
-   ;;;; css-mode <built-in> / scss-mode
+   ;; css-mode <built-in> / scss-mode
    (css-proprietary-property :foreground orange)
    (css-property             :foreground green)
    (css-selector             :foreground blue)
 
-   ;;;; highlight-thing
-   (highlight-thing :background (doom-lighten base4 0.1) :distant-foreground fg-alt)
 
-   ;;;; ivy
-   ((ivy-current-match &override) :foreground region-fg :weight 'semi-bold)
-   ;;;; markdown-mode
+   ;; ace-window
+   (aw-leading-char-face :foreground red)
+
+   ;; markdown-mode
    (markdown-markup-face :foreground base5)
    (markdown-header-face :inherit 'bold :foreground red)
    ((markdown-code-face &override) :background (doom-lighten base3 0.05))
-   ;;;; mic-paren
+
+   ;; mic-paren
    ((paren-face-match &override) :foreground blue :background bg-alt :weight 'ultra-bold)
    ((paren-face-mismatch &override) :foreground red :background bg :weight 'ultra-bold))
 

@@ -28,15 +28,14 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(electric-pair-mode) ;; autopairs
+;; (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
 
 ;; init package sources
 (require 'package)
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("melpa" . "http://melpa.org/packages/")))
-(customize-set-variable 'package-enable-at-startup nil)
+			 ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+			 ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -72,7 +71,7 @@
       evil-cross-lines t)
 
 (use-package evil-leader
-  :config
+  :init
   (global-evil-leader-mode)
   (evil-leader/set-leader "<SPC>")
   (evil-leader/set-key
@@ -80,27 +79,31 @@
     ".f" 'consult-isearch
     ".q" 'delete-frame
     ".e" 'eval-region
-    ".s" 'straight-use-package
     ;; Files
     "fr" 'consult-recent-file
     "fb" 'consult-bookmark
     "ff" 'find-file
     "fd" 'dired
-    ;; Open
+    ;; Org
     "oa" 'org-agenda
+    "fh" 'consult-org-heading
+    ;; Open
     "om" 'mu4e
-    "og" 'magit
+    "os" 'eshell
     ;; Notes
     "no" 'deft
     "nf" 'deft-find-file
     "nn" 'deft-new-file-named
     ;; Bufffers
-    "bv" 'split-window-right
-    "bh" 'split-window-below
     "bd" 'kill-current-buffer
     "bb" 'consult-buffer
     "bx" 'switch-to-scratch
     "bi" 'ibuffer
+    ;; Windows
+    "wv" 'split-window-right
+    "wh" 'split-window-below
+    "wt" 'window-split-toggle
+    "ws" 'ace-window
     ;; Help
     "hh" 'help
     "hk" 'describe-key
@@ -149,9 +152,17 @@
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
 
+(use-package yasnippet
+  :hook (org-mode . yas-global-mode))
+
+(use-package clojure-mode)
 (use-package nix-mode)
 (use-package lua-mode)
-(use-package markdown-mode)
+
+(use-package parinfer-rust-mode
+  :hook ((emacs-lisp-mode clojure-mode) . parinfer-rust-mode))
+
+(use-package cider :defer t)
 
 (use-package flycheck
   :ensure t
@@ -184,49 +195,6 @@
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (setq all-the-icons-dired-monochrome 't)
 
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(with-eval-after-load 'ibuffer
-  (setq ibuffer-expert t
-        ibuffer-show-empty-filter-groups nil)
-  (defun my/human-readable-file-sizes-to-bytes (string)
-    "Convert a human-readable file size into bytes."
-    (interactive)
-    (cond
-     ((string-suffix-p "G" string t)
-      (* 1000000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "M" string t)
-      (* 1000000 (string-to-number (substring string 0 (- (length string) 1)))))
-     ((string-suffix-p "K" string t)
-      (* 1000 (string-to-number (substring string 0 (- (length string) 1)))))
-     (t
-      (string-to-number (substring string 0 (- (length string) 1))))))
-
-  (defun my/bytes-to-human-readable-file-sizes (bytes)
-    "Convert number of bytes to human-readable file size."
-    (interactive)
-    (cond
-     ((> bytes 1000000000) (format "%10.1fG" (/ bytes 1000000000.0)))
-     ((> bytes 100000000) (format "%10.0fM" (/ bytes 1000000.0)))
-     ((> bytes 1000000) (format "%10.1fM" (/ bytes 1000000.0)))
-     ((> bytes 100000) (format "%10.0fk" (/ bytes 1000.0)))
-     ((> bytes 1000) (format "%10.1fk" (/ bytes 1000.0)))
-     (t (format "%10d" bytes))))
-
-  ;; Use human readable Size column instead of original one
-  (define-ibuffer-column size-h
-    (:name "Size"
-           :inline t
-           :summarizer
-           (lambda (column-strings)
-             (let ((total 0))
-               (dolist (string column-strings)
-                 (setq total
-                       (+ (float (my/human-readable-file-sizes-to-bytes string))
-                          total)))
-               (my/bytes-to-human-readable-file-sizes total)))
-           )
-    (my/bytes-to-human-readable-file-sizes (buffer-size)))
-
 (setq ibuffer-formats
       '((mark modified read-only locked " "
               (name 20 20 :left :elide)
@@ -236,40 +204,42 @@
               (mode 16 16 :left :elide))
         (mark " "
               (name 16 -1)
-              " " filename))))
+              " " filename)))
 
+(setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-saved-filter-groups
       '(("main"
-         ("modified" (and
-                      (modified . t)
-                      (visiting-file . t)))
-         ("term" (or
-                  (mode . vterm-mode)
-                  (mode . eshell-mode)
-                  (mode . term-mode)
-                  (mode . shell-mode)))
-         ("planning" (or
-                      (name . "^\\*Calendar\\*$")
-                      (name . "^agenda")
-                      (mode . org-agenda-mode)))
-         ("img" (mode . image-mode))
-         ("config" (filename . "/dotfiles/"))
-         ("blog" (filename . "/projects/site/"))
-         ("code" (filename . "/projects/"))
-         ("notes" ( filename . "/notes/"))
-         ("org" (mode . org-mode))
-         ("dired" (mode . dired-mode))
-         ("help" (or (name . "\*Help\*")
-                     (name . "\*Apropos\*")
-                     (name . "\*info\*")
-                     (mode . help-mode)))
-         ("internal" (name . "^\*.*$"))
-         ("other" (name . "^.*$"))
-         )))
+	 ("modified" (and
+		      (modified . t)
+		      (visiting-file . t)))
+	 ("term" (or
+		  (mode . vterm-mode)
+		  (mode . eshell-mode)
+		  (mode . term-mode)
+		  (mode . shell-mode)))
+	 ("planning" (or
+		      (name . "^\\*Calendar\\*$")
+		      (name . "^agenda")
+		      (mode . org-agenda-mode)))
+	 ("img" (mode . image-mode))
+	 ("config" (filename . "/dotfiles/"))
+	 ("blog" (filename . "/projects/site/"))
+	 ("code" (filename . "/projects/"))
+	 ("notes" ( filename . "/notes/"))
+	 ("org" (mode . org-mode))
+	 ("dired" (mode . dired-mode))
+	 ("help" (or (name . "\*Help\*")
+		     (name . "\*Apropos\*")
+		     (name . "\*info\*")
+		     (mode . help-mode)))
+	 ("internal" (name . "^\*.*$"))
+	 ("other" (name . "^.*$"))
+	 )))
+
 (add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-auto-mode 1)
-            (ibuffer-switch-to-saved-filter-groups "main")))
+	  (lambda ()
+	    (ibuffer-auto-mode 1)
+	    (ibuffer-switch-to-saved-filter-groups "main")))
 
 (use-package all-the-icons-ibuffer
   :ensure t
@@ -285,25 +255,16 @@
   :config
   (load-theme 'doom-cafe t))
 
+(fringe-mode 24)
 (setq default-frame-alist
       (append (list
-             '(min-height . 1)
-               '(height     . 45)
-             '(min-width  . 1)
-               '(width      . 81)
-               '(vertical-scroll-bars . nil)
-               '(internal-border-width . 24)
-               '(tool-bar-lines . 0))))
-
-(fringe-mode '(0 . 0))
-(defface fallback '((t :family "Cartograph CF"
-		       :inherit 'face-faded)) "Fallback")
-(set-display-table-slot standard-display-table 'truncation
-			(make-glyph-code ?… 'fallback))
-(set-display-table-slot standard-display-table 'wrap
-			(make-glyph-code ?↩ 'fallback))
-(set-display-table-slot standard-display-table 'selective-display
-			(string-to-vector " …"))
+	     '(min-height . 1)
+	       '(height     . 45)
+	     '(min-width  . 1)
+	       '(width      . 81)
+	       '(vertical-scroll-bars . nil)
+	       '(internal-border-width . 24)
+	       '(tool-bar-lines . 0))))
 
 (defun mode-line-render (left right)
   "Return a string of `window-width' length.
@@ -324,7 +285,7 @@
                (:eval (if (buffer-narrowed-p)
                          (propertize "-" 'face `(:inherit face-faded)))))
              '("%p %l:%c "
-               (:eval (propertize " %m " 'face 'font-lock-string-face)))))))
+               (:eval (propertize " %m" 'face 'font-lock-string-face)))))))
 
 (require 'splash)
 (splash-screen)
@@ -332,6 +293,58 @@
 (use-package good-scroll
   :config
   (good-scroll-mode 1))
+
+(setq display-buffer-alist
+      '(
+	("*Help*"
+	 (display-buffer-in-side-window)
+	 (window-width 0.25)
+	 (side . right)
+	 (slot . 0))
+	("\\*e?shell.*"
+	 (display-buffer-in-side-window)
+	 (window-height . 0.35)
+	 (side . bottom)
+	 (slot . -1))))
+
+(defun window-split-toggle ()
+  "Toggle between horizontal and vertical split."
+  (interactive)
+  (if (> (length (window-list)) 2)
+      (error "wont work lol")
+    (let ((func (if (window-full-height-p)
+		    #'split-window-vertically
+		  #'split-window-horizontally)))
+      (delete-other-windows)
+      (funcall func)
+      (save-selected-window
+	(other-window 1)
+	(switch-to-buffer (other-buffer))))))
+
+;; got this off of some random gist from 2012
+(defun toggle-split-view ()
+  "Toggle between split window and single window."
+  (interactive)
+  (if (not (window-minibuffer-p (selected-window)))
+      (progn
+	(if (< 1 (count-windows))
+	    (progn
+	      (window-configuration-to-register ?u)
+	      (delete-other-windows))
+	  (jump-to-register ?u))))
+  (my-iswitchb-close))
+
+(define-key global-map (kbd "C-`") 'toggle-split-view)
+
+;; iswitchb hasn't been included in emacs 24.4, so i have no idea what this does
+(defun my-iswitchb-close()
+ "Open iswitchb or, if in minibuffer go to next match."
+ (interactive)
+ (if (window-minibuffer-p (selected-window))
+    (keyboard-escape-quit)))
+
+(use-package ace-window
+  :defer t)
 
 (require 'mu4e)
 
@@ -368,13 +381,13 @@
 (setq org-agenda-files '("~/org/agenda.org"))
 
 (add-hook 'org-agenda-mode-hook
-          (lambda ()
-            (local-set-key (kbd "q") 'org-agenda-exit)))
+	  (lambda ()
+	    (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
 (add-hook 'org-mode-hook (lambda ()
-                           (toggle-word-wrap)
-                           (flyspell-mode t)
-                           (electric-indent-local-mode -1)))
+                           (toggle-truncate-lines)
+			   (flyspell-mode t)
+			   (electric-indent-local-mode -1)))
 (setq org-src-window-setup 'current-window)
 
   (defun org-toggle-emphasis ()
