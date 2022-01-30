@@ -362,9 +362,6 @@ require("packer").startup {
     --     }
     --   end,
     -- }
-
-    -- lua scratchpad
-    use { "rafcamlet/nvim-luapad", cmd = "Luapad" }
   end,
 
   -- packer config
