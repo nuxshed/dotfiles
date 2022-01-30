@@ -28,8 +28,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-;; (electric-pair-mode) ;; autopairs
 (recentf-mode) ;; recent files
+(electric-pair-mode) ;; autopairs
 
 ;; init package sources
 (require 'package)
@@ -120,9 +120,9 @@
   (vertico-mode)
   (setq vertico-cycle t))
 
-(use-package orderless
+(use-package hotfuzz
   :init
-  (setq completion-styles '(orderless)))
+  (setq completion-styles '(hotfuzz)))
 
 (use-package marginalia
   :init (marginalia-mode))
@@ -159,8 +159,8 @@
 (use-package nix-mode)
 (use-package lua-mode)
 
-(use-package parinfer-rust-mode
-  :hook ((emacs-lisp-mode clojure-mode) . parinfer-rust-mode))
+(use-package lispy
+  :hook ((emacs-lisp-mode clojure-mode) . lispy-mode))
 
 (use-package cider :defer t)
 
@@ -224,7 +224,8 @@
 	 ("img" (mode . image-mode))
 	 ("config" (filename . "/dotfiles/"))
 	 ("blog" (filename . "/projects/site/"))
-	 ("code" (filename . "/projects/"))
+	 ("code" (or (filename . "/projects/")
+		     (filename . "/code/")))
 	 ("notes" ( filename . "/notes/"))
 	 ("org" (mode . org-mode))
 	 ("dired" (mode . dired-mode))
@@ -233,8 +234,7 @@
 		     (name . "\*info\*")
 		     (mode . help-mode)))
 	 ("internal" (name . "^\*.*$"))
-	 ("other" (name . "^.*$"))
-	 )))
+	 ("other" (name . "^.*$")))))
 
 (add-hook 'ibuffer-mode-hook
 	  (lambda ()
@@ -255,37 +255,29 @@
   :config
   (load-theme 'doom-cafe t))
 
-(fringe-mode 24)
-(setq default-frame-alist
-      (append (list
-	     '(min-height . 1)
-	       '(height     . 45)
-	     '(min-width  . 1)
-	       '(width      . 81)
-	       '(vertical-scroll-bars . nil)
-	       '(internal-border-width . 24)
-	       '(tool-bar-lines . 0))))
+(fringe-mode 10)
+(add-to-list 'default-frame-alist '(internal-border-width . 24))
 
 (defun mode-line-render (left right)
   "Return a string of `window-width' length.
-   Containing LEFT, and RIGHT aligned respectively."
+Containing LEFT, and RIGHT aligned respectively."
   (let ((available-width
-          (- (window-width)
-            (+ (length (format-mode-line left))
-               (length (format-mode-line right))))))
+	  (- (window-width)
+	    (+ (length (format-mode-line left))
+	      (length (format-mode-line right))))))
     (append left
-            (list (format (format "%%%ds" available-width) ""))
+      (list (format (format "%%%ds" available-width) ""))
       right)))
 
 (setq-default mode-line-format
   '((:eval (mode-line-render
-             '((:eval (propertize " %b" 'face `(:slant italic)))
-               (:eval (if (and buffer-file-name (buffer-modified-p))
-                          (propertize "*" 'face `(:inherit face-faded))))
-               (:eval (if (buffer-narrowed-p)
-                         (propertize "-" 'face `(:inherit face-faded)))))
-             '("%p %l:%c "
-               (:eval (propertize " %m" 'face 'font-lock-string-face)))))))
+	     '((:eval (propertize " %b" 'face `(:slant italic)))
+	       (:eval (if (and buffer-file-name (buffer-modified-p))
+			  (propertize "*" 'face `(:inherit face-faded))))
+	       (:eval (if (buffer-narrowed-p)
+			 (propertize "-" 'face `(:inherit face-faded)))))
+	     '("%p %l:%c "
+	       (:eval (propertize " %m" 'face 'font-lock-string-face)))))))
 
 (require 'splash)
 (splash-screen)
@@ -375,7 +367,7 @@
 (use-package org-bullets
   :after org
   :hook
-  (org-mode . (lambda () (org-bullets-mode 1))))
+  (org-mode . org-bullets-mode))
 
 (setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
 (setq org-agenda-files '("~/org/agenda.org"))

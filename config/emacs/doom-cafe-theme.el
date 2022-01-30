@@ -20,34 +20,34 @@
   "I made this theme."
 
   ;; name        default   256       16
-  ((bg         '("#F0EDEC" "#F0EDEC" "white"        ))
-   (fg         '("#685c56" "#685c56" "black"        ))
+  ((bg         '("#F0EDEC" "#F0EDEC" "white"))
+   (fg         '("#685c56" "#685c56" "black"))
 
-   (bg-alt     '("#e9e4e2" "#e9e4e2" "white"        ))
-   (fg-alt     '("#948985" "#948985" "brightwhite"  ))
+   (bg-alt     '("#e9e4e2" "#e9e4e2" "white"))
+   (fg-alt     '("#948985" "#948985" "brightwhite"))
 
-   (base0      '("#ffffff" "#ffffff" "white"        ))
-   (base1      '("#f9f6f4" "#f9f6f4" "brightblack"  ))
-   (base2      '("#f0edec" "#f0edec" "brightblack"  ))
-   (base3      '("#e5dad9" "#e5dad9" "brightblack"  ))
-   (base4      '("#ddd3d2" "#ddd3d2" "brightblack"  ))
-   (base5      '("#d2c6c5" "#d2c6c5" "brightblack"  ))
-   (base6      '("#bcafa9" "#bcafa9" "brightblack"  ))
-   (base7      '("#a59995" "#a59995" "brightblack"  ))
-   (base8      '("#948985" "#948985" "black"        ))
+   (base0      '("#ffffff" "#ffffff" "white"))
+   (base1      '("#f9f6f4" "#f9f6f4" "brightblack"))
+   (base2      '("#f0edec" "#f0edec" "brightblack"))
+   (base3      '("#e5dad9" "#e5dad9" "brightblack"))
+   (base4      '("#ddd3d2" "#ddd3d2" "brightblack"))
+   (base5      '("#d2c6c5" "#d2c6c5" "brightblack"))
+   (base6      '("#bcafa9" "#bcafa9" "brightblack"))
+   (base7      '("#a59995" "#a59995" "brightblack"))
+   (base8      '("#948985" "#948985" "black"))
 
    (grey       base4)
-   (red        '("#a8334c" "#a8334c" "red"          ))
-   (orange     '("#944927" "#944927" "brightred"    ))
-   (green      '("#597a37" "#597a37" "green"        ))
-   (teal       '("#35a69c" "#35a69c" "brightgreen"  ))
-   (yellow     '("#a8623e" "#a8623e" "yellow"       ))
-   (blue       '("#286486" "#286486" "brightblue"   ))
-   (dark-blue  '("#cbd9e3" "#cbd9e3" "blue"         ))
-   (magenta    '("#88507D" "#88507D" "magenta"      ))
+   (red        '("#a8334c" "#a8334c" "red"))
+   (orange     '("#944927" "#944927" "brightred"))
+   (green      '("#597a37" "#597a37" "green"))
+   (teal       '("#35a69c" "#35a69c" "brightgreen"))
+   (yellow     '("#a8623e" "#a8623e" "yellow"))
+   (blue       '("#286486" "#286486" "brightblue"))
+   (dark-blue  '("#cbd9e3" "#cbd9e3" "blue"))
+   (magenta    '("#88507D" "#88507D" "magenta"))
    (violet     '("#8850b4" "#8850b4" "brightmagenta"))
-   (cyan       '("#3B8992" "#3B8992" "brightcyan"   ))
-   (dark-cyan  '("#2a646b" "#2a646b" "cyan"         ))
+   (cyan       '("#3B8992" "#3B8992" "brightcyan"))
+   (dark-cyan  '("#2a646b" "#2a646b" "cyan"))
 
    ;; face categories -- required for all themes
    (highlight      blue)
@@ -97,7 +97,6 @@
    (hl-line :background bg-alt)
    (mode-line
     :background bg :foreground modeline-fg :overline "#a59995"
-    :box `(:line-width 5 :color ,modeline-bg)
     :inherit 'fixed-pitch)
    (mode-line-inactive
     :background modeline-bg-inactive :foreground "#a59995"
@@ -112,6 +111,9 @@
 
    ;; ibuffer
    (all-the-icons-ibuffer-mode-face :inherit 'italic)
+
+   ;; completion
+   (completions-common-part :inherit 'bold :foreground blue)
 
    ;;;; org <built-in>
    (org-hide :foreground hidden)

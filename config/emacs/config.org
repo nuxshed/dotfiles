@@ -56,8 +56,8 @@ optimizations
 
 Some useful minor modes
 #+begin_src elisp
-  ;; (electric-pair-mode) ;; autopairs
   (recentf-mode) ;; recent files
+  (electric-pair-mode) ;; autopairs
 #+end_src
 
 * Packages
@@ -169,11 +169,11 @@ Setting up use-package
     (setq vertico-cycle t))
 #+end_src
 
-Orderless adds fuzzy finding
+Hotfuzz adds fuzzy finding
 #+begin_src elisp
-  (use-package orderless
+  (use-package hotfuzz
     :init
-    (setq completion-styles '(orderless)))
+    (setq completion-styles '(hotfuzz)))
 #+end_src
 
 Marginalia adds descriptions and stuff to your minibuffer
@@ -230,11 +230,10 @@ Some major modes to improve language support
   (use-package lua-mode)
 #+end_src
 
-*** Parinfer
-Writing lisp has never felt this good.
+*** Lispy
 #+begin_src elisp
-  (use-package parinfer-rust-mode
-    :hook ((emacs-lisp-mode clojure-mode) . parinfer-rust-mode))
+  (use-package lispy
+    :hook ((emacs-lisp-mode clojure-mode) . lispy-mode))
 #+end_src
 
 *** Cider
@@ -321,7 +320,8 @@ Set filter groups
 	   ("img" (mode . image-mode))
 	   ("config" (filename . "/dotfiles/"))
 	   ("blog" (filename . "/projects/site/"))
-	   ("code" (filename . "/projects/"))
+	   ("code" (or (filename . "/projects/")
+		       (filename . "/code/")))
 	   ("notes" ( filename . "/notes/"))
 	   ("org" (mode . org-mode))
 	   ("dired" (mode . dired-mode))
@@ -330,8 +330,7 @@ Set filter groups
 		       (name . "\*info\*")
 		       (mode . help-mode)))
 	   ("internal" (name . "^\*.*$"))
-	   ("other" (name . "^.*$"))
-	   )))
+	   ("other" (name . "^.*$")))))
 
   (add-hook 'ibuffer-mode-hook
 	    (lambda ()
@@ -369,40 +368,32 @@ Add icons to ibuffer
 
 ** Layout
 #+begin_src elisp
-  (fringe-mode 24)
-  (setq default-frame-alist
-	(append (list
-	       '(min-height . 1)
-		 '(height     . 45)
-	       '(min-width  . 1)
-		 '(width      . 81)
-		 '(vertical-scroll-bars . nil)
-		 '(internal-border-width . 24)
-		 '(tool-bar-lines . 0))))
+  (fringe-mode 10)
+  (add-to-list 'default-frame-alist '(internal-border-width . 24))
 #+end_src
 
 ** Modeline
 #+begin_src elisp
   (defun mode-line-render (left right)
     "Return a string of `window-width' length.
-     Containing LEFT, and RIGHT aligned respectively."
+  Containing LEFT, and RIGHT aligned respectively."
     (let ((available-width
-            (- (window-width)
-              (+ (length (format-mode-line left))
-                 (length (format-mode-line right))))))
+	    (- (window-width)
+	      (+ (length (format-mode-line left))
+		(length (format-mode-line right))))))
       (append left
-              (list (format (format "%%%ds" available-width) ""))
-        right)))
+	(list (format (format "%%%ds" available-width) ""))
+	right)))
 
   (setq-default mode-line-format
     '((:eval (mode-line-render
-               '((:eval (propertize " %b" 'face `(:slant italic)))
-                 (:eval (if (and buffer-file-name (buffer-modified-p))
-                            (propertize "*" 'face `(:inherit face-faded))))
-                 (:eval (if (buffer-narrowed-p)
-                           (propertize "-" 'face `(:inherit face-faded)))))
-               '("%p %l:%c "
-                 (:eval (propertize " %m" 'face 'font-lock-string-face)))))))
+	       '((:eval (propertize " %b" 'face `(:slant italic)))
+		 (:eval (if (and buffer-file-name (buffer-modified-p))
+			    (propertize "*" 'face `(:inherit face-faded))))
+		 (:eval (if (buffer-narrowed-p)
+			   (propertize "-" 'face `(:inherit face-faded)))))
+	       '("%p %l:%c "
+		 (:eval (propertize " %m" 'face 'font-lock-string-face)))))))
 
 #+end_src
 
@@ -519,7 +510,7 @@ Quite useful plugin for switching between buffers
   (use-package org-bullets
     :after org
     :hook
-    (org-mode . (lambda () (org-bullets-mode 1))))
+    (org-mode . org-bullets-mode))
 
   (setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
   (setq org-agenda-files '("~/org/agenda.org"))
