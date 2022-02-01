@@ -3,7 +3,7 @@
   services.picom = {
     enable = true;
     package = pkgs.picom-git;
-    fade = true;
+    # fade = true;
     # inactiveDim = "0.05";
     shadow = true;
     extraOptions = ''
