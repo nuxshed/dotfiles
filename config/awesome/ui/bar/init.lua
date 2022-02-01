@@ -1,7 +1,6 @@
 local awful = require "awful"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
-local gears = require "gears"
 local helpers = require "helpers"
 
 local battery = wibox.widget {
@@ -26,17 +25,10 @@ local time = wibox.widget {
   fg = beautiful.fg_time,
   shape = helpers.rrect(9),
   widget = wibox.container.background,
-  buttons = {
-    awful.button({}, 1, function()
-      require "ui.widget.calendar"()
-    end),
-  },
   {
     widget = wibox.widget.textclock,
   },
 }
-
-helpers.add_hover_cursor(time, "hand1")
 
 local layoutbox = wibox.widget {
   bg = beautiful.bg_normal,
@@ -71,10 +63,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
   awful.tag(
     { "1", "2", "3", "4", "5", "6", "7", "8", "9" },
     s,
-    { l.attached, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile }
+    { l.tile, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile, l.tile }
   )
+
   awful.popup({
-    bg = beautiful.bg_dark,
     placement = function(c)
       (awful.placement.top + awful.placement.maximize_horizontally)(c)
     end,
@@ -83,18 +75,19 @@ screen.connect_signal("request::desktop_decoration", function(s)
       {
         {
           {
-            widget = require "ui.bar.attached.taglist"(s),
+            widget = require "ui.bar.taglist"(s),
           },
           widget = wibox.container.margin,
           margins = 5,
         },
-        {
-          widget = wibox.container.place,
-          halign = "center",
-          {
-            widget = require "ui.bar.attached.tasklist"(s),
-          },
-        },
+        -- {
+        --   widget = wibox.container.place,
+        --   halign = "center",
+        --   {
+        --     widget = require "ui.bar.tasklist"(s),
+        --   },
+        -- },
+        nil,
         {
           { widget = battery },
           { widget = time },

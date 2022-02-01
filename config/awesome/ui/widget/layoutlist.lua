@@ -1,6 +1,5 @@
 local awful = require "awful"
 local beautiful = require "beautiful"
-local gears = require "gears"
 local wibox = require "wibox"
 
 local layoutlist = awful.popup {
@@ -27,7 +26,6 @@ local layoutlist = awful.popup {
         id = "background_role",
         forced_width = 35,
         forced_height = 35,
-        shape = gears.shape.rounded_rect,
         widget = wibox.container.background,
       },
     },
@@ -36,9 +34,8 @@ local layoutlist = awful.popup {
   },
   bg = beautiful.bg_dark,
   visible = false,
-  shape = function(cr, width, height)
-    gears.shape.rounded_rect(cr, width, height, 10)
-  end,
+  border_width = 2,
+  border_color = beautiful.bg_focus,
   placement = function(c)
     (awful.placement.top_right)(c, { margins = { top = 50, right = 10 } })
   end,
