@@ -10,21 +10,22 @@ theme.font = "Cartograph CF Regular 8"
 
 theme.bg_normal = "#f0edec"
 theme.bg_focus = "#d6d2d1"
+theme.bg_subtle = "#eae7e5"
 theme.bg_urgent = "#f0edec"
 theme.bg_minimize = "#f0edec"
 theme.bg_dark = "#f0edec"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#2c363c"
-theme.fg_focus = "#2c363c"
-theme.fg_urgent = "#2c363c"
+theme.fg_normal = "#685c56"
+theme.fg_focus = "#685c56"
+theme.fg_urgent = "#685c56"
 theme.fg_minimize = "#948985"
 
 theme.useless_gap = dpi(20)
 theme.border_width = dpi(0)
-theme.border_color_normal = "#2c363c"
-theme.border_color_active = "#2c363c"
-theme.border_color_marked = "#2c363c"
+theme.border_color_normal = "#685c56"
+theme.border_color_active = "#685c56"
+theme.border_color_marked = "#685c56"
 
 -- There are other variable sets
 -- overriding the default one when

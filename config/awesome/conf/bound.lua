@@ -18,6 +18,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "x", function()
     F.prompt.open()
   end, { description = "lua execute prompt", group = "awesome" }),
+  awful.key({ modkey }, "q", function()
+    F.exit.toggle()
+  end, { description = "exit popup", group = "awesome" }),
 
   -- Frequently Used
   awful.key({ modkey }, "b", function()
