@@ -22,6 +22,27 @@
         config = { allowUnfree = true; }; # Forgive me Mr. Stallman
       };
 
+      lib = nixpkgs.lib.extend
+        (final: prev:
+          let
+            inherit (lib) mkOption types;
+          in
+          {
+
+            mkOpt = type: default:
+              mkOption { inherit type default; };
+
+            mkOpt' = type: default: description:
+              mkOption { inherit type default description; };
+
+            mkBoolOpt = default: mkOption {
+              inherit default;
+              type = types.bool;
+              example = true;
+            };
+          });
+
+
       extraSpecialArgs = {
         inherit inputs self;
         bling = inputs.bling;
@@ -43,27 +64,7 @@
               home.stateVersion = "21.11";
               programs.home-manager.enable = true;
               nixpkgs.overlays = overlays;
-              imports = [
-                ./modules/shell
-                ./modules/editors/neovim.nix
-                ./modules/editors/emacs.nix
-                ./modules/editors/vim.nix
-                ./modules/dev/clojure.nix
-                ./modules/dev/lua.nix
-                ./modules/dev/node.nix
-                ./modules/dev/rust.nix
-                ./modules/dev/nix.nix
-                ./modules/dev/python.nix
-                ./modules/programs
-                ./modules/programs/graphics.nix
-                ./modules/programs/mail.nix
-                ./modules/desktop
-                ./modules/desktop/windowManagers/awesome.nix
-                ./modules/desktop/windowManagers/berry.nix
-                ./modules/desktop/windowManagers/herbstluftwm.nix
-                ./modules/desktop/windowManagers/i3.nix
-                ./modules/desktop/windowManagers/sway.nix
-              ];
+              imports = [ ./hosts/earth/user.nix ];
             };
           system = "x86_64-linux";
           homeDirectory = "/home/advait";

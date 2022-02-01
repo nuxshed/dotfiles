@@ -1,9 +1,19 @@
-{ config, pkgs, libs, ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
+let cfg = config.modules.dev.python;
+in
 {
-  home.packages = with pkgs; [
-    python39
-    python39Packages.pip
-    poetry
-    nodePackages.pyright
-  ];
+  options.modules.dev.python = {
+    enable = mkEnableOption "python";
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      python39
+      python39Packages.pip
+      poetry
+      nodePackages.pyright
+    ];
+  };
 }

@@ -1,6 +1,16 @@
-{ config, pkgs, libs, ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
+let cfg = config.modules.dev.nix;
+in
 {
-  home.packages = with pkgs; [
-    rnix-lsp
-  ];
+  options.modules.dev.nix = {
+    enable = mkEnableOption "nix";
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      rnix-lsp
+    ];
+  };
 }

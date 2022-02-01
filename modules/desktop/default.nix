@@ -1,4 +1,4 @@
-{ config, pkgs, libs, ... }:
+{ config, pkgs, lib, ... }:
 {
   imports = [
     ./dunst.nix

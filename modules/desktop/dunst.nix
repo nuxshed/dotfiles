@@ -1,52 +1,62 @@
-{ config, pkgs, libs, ... }:
+{ config, pkgs, lib, ... }:
+
+with lib;
+let cfg = config.modules.desktop.dunst;
+in
 {
-  services.dunst = {
-    enable = true;
-    settings = {
-      global = {
-        padding = 12;
-        horizontal_padding = 14;
+  options.modules.desktop.dunst = {
+    enable = mkEnableOption "dunst";
+  };
 
-        markup = "full";
-        geometry = "0x5-7+30";
-        word_wrap = "yes";
-        show_indicators = false;
-        format = "<b>%s</b>\n%b";
-        font = "JetBrainsMono Nerd Font 9";
+  config = mkIf cfg.enable {
+    services.dunst = {
+      enable = true;
+      settings = {
+        global = {
+          padding = 12;
+          horizontal_padding = 14;
 
-        icon_position = "left";
-        max_icon_size = 80;
+          markup = "full";
+          geometry = "0x5-7+30";
+          word_wrap = "yes";
+          show_indicators = false;
+          format = "<b>%s</b>\n%b";
+          font = "Cartograph CF 9";
 
-        frame_width = "0";
-        frame_color = "#2c363c";
+          icon_position = "left";
+          max_icon_size = 80;
 
-        progress_bar = true;
-        progress_bar_height = 10;
+          frame_width = "0";
+          frame_color = "#2c363c";
 
-        separator_height = 3;
-        separator_color = "frame";
-      };
+          progress_bar = true;
+          progress_bar_height = 10;
 
-      urgency_low = {
-        background = "#f0edec";
-        foreground = "#2c363c";
-        highlight = "#2c363c";
-        timeout = 10;
-      };
+          separator_height = 3;
+          separator_color = "frame";
+        };
 
-      urgency_normal = {
-        background = "#f0edec";
-        foreground = "#2c363c";
-        highlight = "#2c363c";
-        timeout = 10;
-      };
+        urgency_low = {
+          background = "#f0edec";
+          foreground = "#2c363c";
+          highlight = "#2c363c";
+          timeout = 10;
+        };
 
-      urgency_critical = {
-        background = "#f0edec";
-        foreground = "#2c363c";
-        highlight = "#2c363c";
-        frame_color = "#A8334C";
-        timeout = 0;
+        urgency_normal = {
+          background = "#f0edec";
+          foreground = "#2c363c";
+          highlight = "#2c363c";
+          timeout = 10;
+        };
+
+        urgency_critical = {
+          background = "#f0edec";
+          foreground = "#2c363c";
+          highlight = "#2c363c";
+          frame_color = "#A8334C";
+          timeout = 0;
+        };
       };
     };
   };
