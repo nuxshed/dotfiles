@@ -7,10 +7,11 @@ local themes_path = gfs.get_themes_dir()
 local theme = {}
 
 theme.font = "Cartograph CF Regular 8"
+theme.font_name = "Cartograph CF Regular "
 
 theme.bg_normal = "#f0edec"
 theme.bg_focus = "#d6d2d1"
-theme.bg_subtle = "#eae7e5"
+theme.bg_subtle = "#e9e4e2"
 theme.bg_urgent = "#f0edec"
 theme.bg_minimize = "#f0edec"
 theme.bg_dark = "#f0edec"

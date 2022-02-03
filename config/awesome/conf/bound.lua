@@ -9,18 +9,24 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "Return", function()
     awful.spawn(C.terminal)
   end, { description = "open a terminal", group = "launcher" }),
-  awful.key({ modkey }, "r", function()
+  awful.key({ modkey }, "space", function()
     awful.spawn "rofi -show drun"
   end, { description = "run prompt", group = "launcher" }),
   awful.key({ modkey }, "w", function()
     awful.spawn "rofi -show window"
   end, { description = "show windows", group = "launcher" }),
   awful.key({ modkey }, "x", function()
-    F.prompt.open()
+    F.exec.open()
   end, { description = "lua execute prompt", group = "awesome" }),
+  awful.key({ modkey }, "r", function()
+    F.run.open()
+  end, { description = "run command prompt", group = "awesome" }),
   awful.key({ modkey }, "q", function()
     F.exit.toggle()
   end, { description = "exit popup", group = "awesome" }),
+  awful.key({ modkey, "Shift" }, "s", function()
+    F.scr.toggle()
+  end, { description = "screenshot popup", group = "awesome" }),
 
   -- Frequently Used
   awful.key({ modkey }, "b", function()
