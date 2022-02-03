@@ -115,7 +115,7 @@ function M.make_switch(opts)
 end
 
 function M.make_prompt_widget(prompt, opts)
-  local opts = opts or {}
+  opts = opts or {}
   return awful.popup {
     widget = {
       widget = wibox.container.margin,

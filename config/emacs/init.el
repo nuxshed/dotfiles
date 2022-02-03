@@ -249,11 +249,11 @@
 (set-face-attribute 'fixed-pitch nil :font "Cartograph CF 10")
 (set-face-attribute 'variable-pitch nil :font "Commissioner 10")
 
-(use-package all-the-icons)
+(use-package all-the-icons :defer t)
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-cafe t))
+  (load-theme 'doom-kurai t))
 
 (fringe-mode 10)
 (add-to-list 'default-frame-alist '(internal-border-width . 24))
@@ -372,23 +372,20 @@ Containing LEFT, and RIGHT aligned respectively."
 (setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
 (setq org-agenda-files '("~/org/agenda.org"))
 
+(setq org-hide-leading-stars t
+      org-hide-emphasis-markers t
+      org-hide-macro-markers t
+      org-link-descriptive t)
+
 (add-hook 'org-agenda-mode-hook
 	  (lambda ()
 	    (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
 (add-hook 'org-mode-hook (lambda ()
-                           (toggle-truncate-lines)
+			   (toggle-truncate-lines)
 			   (flyspell-mode t)
 			   (electric-indent-local-mode -1)))
 (setq org-src-window-setup 'current-window)
-
-  (defun org-toggle-emphasis ()
-    "Toggle hiding/showing of org emphasize markers."
-    (interactive)
-    (if org-hide-emphasis-markers
-      (set-variable 'org-hide-emphasis-markers nil)
-      (set-variable 'org-hide-emphasis-markers t)))
-  (define-key org-mode-map (kbd "C-c e") 'org-toggle-emphasis)
 
 (use-package deft
   :config

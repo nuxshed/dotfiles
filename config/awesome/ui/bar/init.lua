@@ -5,7 +5,7 @@ local helpers = require "helpers"
 
 local battery = wibox.widget {
   bg = beautiful.bg_normal,
-  fg = beautiful.fg_bat,
+  fg = beautiful.bar_battery_fg or beautiful.bar_status_fg,
   shape = helpers.rrect(9),
   widget = wibox.container.background,
   {
@@ -22,7 +22,7 @@ local battery = wibox.widget {
 
 local time = wibox.widget {
   bg = beautiful.bg_normal,
-  fg = beautiful.fg_time,
+  fg = beautiful.bar_time_fg or beautiful.bar_status_fg,
   shape = helpers.rrect(9),
   widget = wibox.container.background,
   {

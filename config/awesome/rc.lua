@@ -9,13 +9,12 @@ naughty.connect_signal("request::display_error", function(message, startup)
   }
 end)
 
-require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/cafe/theme.lua")
+require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/kurai/theme.lua")
 
 F = {}
 
 require "conf"
 
-require "ui.titlebar"
 require "ui.bar"
 require "ui.exec"
 require "ui.run"

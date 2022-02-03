@@ -356,14 +356,14 @@ Add icons to ibuffer
 
 ** Icons
 #+begin_src elisp
-  (use-package all-the-icons)
+  (use-package all-the-icons :defer t)
 #+end_src
 
 ** Theme
 #+begin_src elisp
   (use-package doom-themes
     :config
-    (load-theme 'doom-cafe t))
+    (load-theme 'doom-kurai t))
 #+end_src
 
 ** Layout
@@ -514,24 +514,21 @@ Quite useful plugin for switching between buffers
 
   (setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
   (setq org-agenda-files '("~/org/agenda.org"))
+  
+  (setq org-hide-leading-stars t
+	org-hide-emphasis-markers t
+	org-hide-macro-markers t
+	org-link-descriptive t)
 
   (add-hook 'org-agenda-mode-hook
 	    (lambda ()
 	      (local-set-key (kbd "q") 'org-agenda-exit)))
   (use-package htmlize)
   (add-hook 'org-mode-hook (lambda ()
-                             (toggle-truncate-lines)
+			     (toggle-truncate-lines)
 			     (flyspell-mode t)
 			     (electric-indent-local-mode -1)))
   (setq org-src-window-setup 'current-window)
-
-    (defun org-toggle-emphasis ()
-      "Toggle hiding/showing of org emphasize markers."
-      (interactive)
-      (if org-hide-emphasis-markers
-	(set-variable 'org-hide-emphasis-markers nil)
-	(set-variable 'org-hide-emphasis-markers t)))
-    (define-key org-mode-map (kbd "C-c e") 'org-toggle-emphasis)
 #+end_src
 
 ** Deft
