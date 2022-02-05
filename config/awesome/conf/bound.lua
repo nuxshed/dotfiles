@@ -35,6 +35,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "e", function()
     awful.spawn "emacs"
   end),
+  awful.key({ modkey }, "z", function()
+    awful.spawn "zathura"
+  end),
 }
 
 -- Utility
