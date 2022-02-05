@@ -9,24 +9,24 @@ local theme = {}
 theme.font = "Cartograph CF Regular 8"
 theme.font_name = "Cartograph CF Regular "
 
-theme.bg_normal = "#2a2320"
-theme.bg_focus = "#3d332d"
-theme.bg_subtle = "#302824"
-theme.bg_urgent = "#2a2320"
-theme.bg_minimize = "#2a2320"
-theme.bg_dark = "#2a2320"
+theme.bg_normal = "#191513"
+theme.bg_focus = "#302824"
+theme.bg_subtle = "#211b19"
+theme.bg_urgent = "#191513"
+theme.bg_minimize = "#191513"
+theme.bg_dark = "#191513"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#b4a99b"
-theme.fg_focus = "#b4a99b"
-theme.fg_urgent = "#b4a99b"
+theme.fg_normal = "#998f83"
+theme.fg_focus = "#998f83"
+theme.fg_urgent = "#998f83"
 theme.fg_minimize = "#6b655c"
 
 theme.useless_gap = dpi(20)
 theme.border_width = dpi(2)
-theme.border_color_normal = "#2a2320"
-theme.border_color_active = "#3d332d"
-theme.border_color_marked = "#b4a99b"
+theme.border_color_normal = "#191513"
+theme.border_color_active = "#302824"
+theme.border_color_marked = "#998f83"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -54,7 +54,7 @@ theme.menu_submenu_icon = themes_path .. "default/submenu.png"
 theme.menu_height = dpi(15)
 theme.menu_width = dpi(100)
 
-theme.bar_status_fg = "#8e867a"
+theme.bar_status_fg = "#726b62"
 
 -- You can add as many variables as
 -- you wish and access them by using
@@ -84,7 +84,7 @@ theme.tag_preview_client_opacity = 0.5
 theme.tag_preview_client_bg = "#332b26"
 theme.tag_preview_client_border_color = "#332b26"
 theme.tag_preview_client_border_width = 3
-theme.tag_preview_widget_bg = "#2a2320"
+theme.tag_preview_widget_bg = "#191513"
 theme.tag_preview_widget_border_color = theme.bg_focus
 theme.tag_preview_widget_border_width = 2
 theme.tag_preview_widget_margin = 10

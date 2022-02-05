@@ -12,8 +12,6 @@
     ../../modules/dev/nix.nix
     ../../modules/dev/python.nix
     ../../modules/programs
-    ../../modules/programs/graphics.nix
-    ../../modules/programs/mail.nix
     ../../modules/desktop
     ../../modules/desktop/windowManagers/awesome.nix
     ../../modules/desktop/windowManagers/berry.nix
@@ -52,6 +50,7 @@
       bottom.enable = true;
       irssi.enable = false;
       kitty.enable = true;
+      zathura.enable = true;
       graphics = {
         aseprite.enable = false;
         gimp.enable = true;

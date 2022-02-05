@@ -125,7 +125,7 @@ function M.make_prompt_widget(prompt, opts)
     ontop = true,
     placement = opts.placement or awful.placement.centered,
     visible = false,
-    border_color = opts.border_color or beautiful.bg_focus,
+    border_color = opts.border_color or beautiful.border_color_active,
     border_width = opts.border_width or 2,
     bg = opts.bg or beautiful.bg_normal,
     forced_width = opts.forced_width or 500,

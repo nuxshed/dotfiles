@@ -1,4 +1,4 @@
-;;; doom-kurai-theme.el --- A nice light theme -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; doom-cafe-theme.el --- A nice light theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;;
 ;; Author: nuxsh
 ;; Created: January 2022
@@ -12,50 +12,50 @@
 ;;; Code:
 (require 'doom-themes)
 
-(defgroup doom-kurai-theme nil
-  "Options for the `doom-kurai' theme."
+(defgroup doom-cafe-theme nil
+  "Options for the `doom-cafe' theme."
   :group 'doom-themes)
 
-(def-doom-theme doom-kurai
+(def-doom-theme doom-cafe
   "I made this theme."
 
   ;; name        default   256       16
-  ((bg         '("#191513" "#191513" "white"))
-   (fg         '("#898176" "#898176" "black"))
+  ((bg         '("#F0EDEC" "#F0EDEC" "white"))
+   (fg         '("#685c56" "#685c56" "black"))
 
-   (bg-alt     '("#211b19" "#211b19" "white"))
-   (fg-alt     '("#6b655c" "#6b655c" "brightwhite"))
+   (bg-alt     '("#e9e4e2" "#e9e4e2" "white"))
+   (fg-alt     '("#948985" "#948985" "brightwhite"))
 
-   (base0      '("#000000" "#000000" "black"))
-   (base1      '("#14110f" "#14110f" "brightblack"))
-   (base2      '("#191513" "#191513" "brightblack"))
-   (base3      '("#211b19" "#211b19" "brightblack"))
-   (base4      '("#3d322e" "#3d322e" "brightblack"))
-   (base5      '("#604f49" "#604f49" "brightblack"))
-   (base6      '("#898176" "#898176" "brightblack"))
-   (base7      '("#afa597" "#afa597" "brightblack"))
-   (base8      '("#e5d8c5" "#e5d8c5" "white"))
+   (base0      '("#ffffff" "#ffffff" "white"))
+   (base1      '("#f9f6f4" "#f9f6f4" "brightblack"))
+   (base2      '("#f0edec" "#f0edec" "brightblack"))
+   (base3      '("#e5dad9" "#e5dad9" "brightblack"))
+   (base4      '("#ddd3d2" "#ddd3d2" "brightblack"))
+   (base5      '("#d2c6c5" "#d2c6c5" "brightblack"))
+   (base6      '("#bcafa9" "#bcafa9" "brightblack"))
+   (base7      '("#a59995" "#a59995" "brightblack"))
+   (base8      '("#948985" "#948985" "black"))
 
    (grey       base4)
-   (red        '("#896664" "#896664" "red"))
-   (orange     '("#896664" "#896664" "brightred"))
-   (green      '("#5a7051" "#5a7051" "green"))
-   (teal       '("#64897a" "#64897a" "brightgreen"))
-   (yellow     '("#777a59" "#777a59" "yellow"))
-   (blue       '("#646d89" "#646d89" "brightblue"))
-   (dark-blue  '("#646d89" "#646d89" "blue"))
-   (magenta    '("#896079" "#896079" "magenta"))
-   (violet     '("#896079" "#896079" "brightmagenta"))
-   (cyan       '("#64897a" "#64897a" "brightcyan"))
-   (dark-cyan  '("#64897a" "#64897a" "cyan"))
+   (red        '("#a8334c" "#a8334c" "red"))
+   (orange     '("#944927" "#944927" "brightred"))
+   (green      '("#597a37" "#597a37" "green"))
+   (teal       '("#35a69c" "#35a69c" "brightgreen"))
+   (yellow     '("#a8623e" "#a8623e" "yellow"))
+   (blue       '("#286486" "#286486" "brightblue"))
+   (dark-blue  '("#cbd9e3" "#cbd9e3" "blue"))
+   (magenta    '("#88507D" "#88507D" "magenta"))
+   (violet     '("#8850b4" "#8850b4" "brightmagenta"))
+   (cyan       '("#3B8992" "#3B8992" "brightcyan"))
+   (dark-cyan  '("#2a646b" "#2a646b" "cyan"))
 
    ;; face categories -- required for all themes
    (highlight      blue)
    (vertical-bar   base4)
-   (selection      base3)
-   (builtin        yellow)
-   (comments       base5)
-   (doc-comments   base5)
+   (selection      dark-blue)
+   (builtin        blue)
+   (comments       base8)
+   (doc-comments   base8)
    (constants      fg)
    (functions      orange)
    (keywords       red)
@@ -65,7 +65,7 @@
    (strings        green)
    (variables      fg)
    (numbers        magenta)
-   (region         base3)
+   (region         dark-blue)
    (error          red)
    (warning        yellow)
    (success        green)
@@ -96,10 +96,11 @@
     :inherit 'italic)
    (hl-line :background bg-alt)
    (mode-line
-    :background bg :foreground modeline-fg :overline base5
+    :background bg :foreground modeline-fg :overline "#a59995"
     :inherit 'fixed-pitch)
    (mode-line-inactive
-    :background bg :foreground base5 :overline base5
+    :background modeline-bg-inactive :foreground "#a59995"
+    :overline "#dbd6d4"
     :box `(:line-width 5 :color ,modeline-bg))
    ((region &override) :foreground region-fg)
    (link :foreground fg :underline t)
@@ -114,12 +115,9 @@
    ;; completion
    (completions-common-part :inherit 'bold :foreground blue)
 
-   ;; company
-   (company-tooltip :foreground fg :background bg)
-
    ;;;; org <built-in>
    (org-hide :foreground hidden)
-   (org-block :background "#1e1917")
+   (org-block :background "#ede8e6")
    (org-link :foreground blue :underline t)
 
    ;; org-mode headings
@@ -156,4 +154,4 @@
   ;;;; Base theme variable overrides-
   ())
 
-;;; doom-kurai-theme.el ends here
+;;; doom-cafe-theme.el ends here

@@ -96,7 +96,7 @@ local scr_popup = awful.popup {
   ontop = true,
   placement = awful.placement.centered,
   visible = false,
-  border_color = beautiful.bg_focus,
+  border_color = beautiful.bg_subtle,
   border_width = 2,
   bg = beautiful.bg_normal,
 }
