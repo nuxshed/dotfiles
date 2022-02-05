@@ -13,12 +13,12 @@ in
       enable = true;
       options = {
         recolor = true;
-        default-bg = "#2a2320";
-        default-fg = "#b4a99b";
-        recolor-darkcolor = "#b4a99b";
-        recolor-lightcolor = "#2a2320";
-        statusbar-bg = "#332b26";
-        statusbar-fg = "#b4a99b";
+        default-bg = "#191513";
+        default-fg = "#998f83";
+        recolor-darkcolor = "#998f83";
+        recolor-lightcolor = "#191513";
+        statusbar-bg = "#211b19";
+        statusbar-fg = "#998f83";
         statusbar-home-tilde = true;
       };
     };
