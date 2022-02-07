@@ -31,7 +31,7 @@
          :publishing-directory "~/projects/site/blog/"
          :recursive t
          :publishing-function org-html-publish-to-html
-         :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a><a href=\"\" class=\"active\">Blog</a><a href=\"../about.html\">About</a></div>"
+         :html-preamble "<div class=\"links\"><a href=\"../index.html\">Home</a>\n<a href=\"\" class=\"active\">Blog</a>\n<a href=\"../about.html\">About</a></div>"
          :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\" />"
 	 :html-doctype "html5"
 	 :html-link-home "../index.html"

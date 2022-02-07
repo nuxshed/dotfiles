@@ -38,6 +38,7 @@
 (require 'ui)
 (require 'init-layout)
 (require 'org)
+(require 'publish)
 (require 'prettify-symbols)
 
 ;; init.el ends here
