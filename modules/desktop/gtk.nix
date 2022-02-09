@@ -4,7 +4,7 @@
   gtk = {
     enable = true;
     font = {
-      name = "JetBrainsMono Nerd Font";
+      name = "Commissioner";
       size = 10;
     };
     theme.name = "Lounge-night-compact";
