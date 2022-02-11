@@ -131,13 +131,8 @@ hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 
 # options
 
-hc set frame_border_active_color '#89b482'
-hc set frame_border_normal_color '#282828'
-hc set frame_bg_normal_color '#1d2021'
-hc set frame_bg_active_color '#282828'
-
-hc set window_border_active_color '#d1ccca'
-hc set window_border_normal_color '#e9e4e2'
+hc set window_border_active_color '#211b19'
+hc set window_border_normal_color '#191513'
 
 hc set frame_border_width 0
 hc set always_show_frame on
@@ -155,13 +150,14 @@ hc set raise_on_focus 0
 hc set update_dragged_clients 1
 hc set focus_follows_mouse 1
 
-hc attr theme.padding_top 35
+hc attr theme.padding_top 0
 
 "${cmds[@]}" &
 
 bars() {
-  tint2 -c ~/.config/tint2/cafe/tint1 &
-  tint2 -c ~/.config/tint2/cafe/tint2 &
+  # tint2 -c ~/.config/tint2/kurai/tint1 &
+  # tint2 -c ~/.config/tint2/kurai/tint2 &
+  tint2 -c ~/.config/tint2/kurai &
 }
 
 pgrep tint2 || bars
