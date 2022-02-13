@@ -6,8 +6,6 @@
     ./gtk.nix
   ];
   home.packages = with pkgs; [
-    eww
-    skippy-xd
     tint2
   ];
   home.file.".config/tint2".source =
