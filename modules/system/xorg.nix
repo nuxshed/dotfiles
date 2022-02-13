@@ -29,4 +29,6 @@
     enable = true;
     wrapperFeatures.gtk = true;
   };
+
+  programs.slock.enable = true;
 }
