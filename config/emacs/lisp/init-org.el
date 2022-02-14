@@ -4,7 +4,7 @@
 (use-package org-bullets
   :after org
   :hook
-  (org-mode . org-bullets-mode))
+  (org-mode . (lambda () (org-bullets-mode 1))))
 
 (setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
 (setq org-agenda-files '("~/org/agenda.org"))
@@ -14,9 +14,6 @@
       org-hide-macro-markers t
       org-link-descriptive t)
 
-(add-hook 'org-agenda-mode-hook
-	  (lambda ()
-	    (local-set-key (kbd "q") 'org-agenda-exit)))
 (use-package htmlize)
 (add-hook 'org-mode-hook (lambda ()
 			   (toggle-truncate-lines)
@@ -25,6 +22,7 @@
 (setq org-src-window-setup 'current-window)
 
 (use-package deft
+  :commands (deft deft-new-file deft-new-file-named deft-find-file)
   :config
   (setq deft-directory "~/notes"
         deft-default-extension "org"
@@ -39,5 +37,5 @@
 
 (require 'publish)
 
-(provide 'org)
+(provide 'init-org)
 ;;; init-org.el ends here

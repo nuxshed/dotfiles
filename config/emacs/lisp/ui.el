@@ -14,8 +14,7 @@
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-(use-package all-the-icons-dired)
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+(use-package all-the-icons-dired :hook (dired-mode-hook . all-the-icons-dired-mode))
 (setq all-the-icons-dired-monochrome 't)
 
 ;; Ibuffer
@@ -66,13 +65,7 @@
 	    (ibuffer-switch-to-saved-filter-groups "main")))
 
 (use-package all-the-icons-ibuffer
-  :ensure t
-  :init (all-the-icons-ibuffer-mode 1))
-
-;; Appearance
-(set-face-attribute 'default nil :font "Cartograph CF 10")
-(set-face-attribute 'fixed-pitch nil :font "Cartograph CF 10")
-(set-face-attribute 'variable-pitch nil :font "Commissioner 10")
+  :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
 
 (use-package all-the-icons :defer t)
 
@@ -83,7 +76,6 @@
   (load-theme 'doom-kurai t))
 
 (fringe-mode 10)
-(add-to-list 'default-frame-alist '(internal-border-width . 24))
 
 (require 'modeline)
 (require 'splash)
@@ -103,6 +95,8 @@
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
+
+(add-hook 'emacs-startup-hook (lambda () (set-face-attribute 'variable-pitch :font "Commissioner 10")))
 
 (provide 'ui)
 ;;; ui.el ends here

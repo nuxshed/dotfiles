@@ -21,7 +21,7 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/themes";
     home.file.".emacs.d/lisp".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/lisp";
-    home.file.".emacs.d/snippets".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/snippets";
+    home.file.".emacs.d/.dir-locals.el".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/.dir-locals.el";
   };
 }

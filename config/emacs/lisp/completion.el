@@ -27,6 +27,7 @@
   (setq completion-styles '(hotfuzz)))
 
 (use-package marginalia
+  :after vertico
   :init (marginalia-mode))
 
 (provide 'completion)

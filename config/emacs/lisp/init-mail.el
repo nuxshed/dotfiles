@@ -25,5 +25,5 @@
 
 (setq smtpmail-auth-credentials (expand-file-name "~/.authinfo"))
 
-(provide 'mail)
-;;; mail.el ends here
+(provide 'init-mail)
+;;; init-mail.el ends here
