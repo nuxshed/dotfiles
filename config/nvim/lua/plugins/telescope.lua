@@ -53,7 +53,6 @@ telescope.setup {
 }
 
 l "fzf"
-l "projects"
 l "file_browser"
 l "live_grep_raw"
 
@@ -152,7 +151,6 @@ wk.register {
       m = { b.man_pages, "man pages" },
       h = { b.help_tags, "help" },
       i = { ivy, "ivy" },
-      p = { x.projects.projects, "projects" },
       g = {
         name = "+git",
         f = { b.git_files, "files" },

@@ -59,54 +59,10 @@ require("packer").startup {
       config = [[require"plugins.dashboard"]],
     }
 
-    -- indent lines
-    use {
-      "lukas-reineke/indent-blankline.nvim",
-      event = "BufRead",
-      config = function()
-        require("indent_blankline").setup {
-          char = "|",
-          context_char = "|",
-          show_foldtext = false,
-          show_first_indent_level = true,
-          filetype_exclude = {
-            "dashboard",
-            "log",
-            "gitcommit",
-            "packer",
-            "markdown",
-            "txt",
-            "help",
-            "NvimTree",
-            "git",
-            "TelescopePrompt",
-            "undotree",
-            "", -- for all buffers without a file type
-          },
-          buftype_exclude = { "terminal", "nofile" },
-          show_current_context = true,
-          context_patterns = {
-            "class",
-            "function",
-            "method",
-            "block",
-            "list_literal",
-            "selector",
-            "^if",
-            "^table",
-            "if_statement",
-            "while",
-            "for",
-          },
-        }
-      end,
-    }
-
     -- Telescope
     use {
       "nvim-telescope/telescope.nvim",
       event = "VimEnter",
-      wants = "project.nvim",
       config = [[require"plugins.telescope"]],
       requires = {
         { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
@@ -196,35 +152,6 @@ require("packer").startup {
       end,
     }
 
-    -- Project Management --------------------------------------
-    use {
-      "ahmedkhalf/project.nvim",
-      keys = { "<leader>fp" },
-      cmd = { "ProjectRoot" },
-      config = function()
-        require("project_nvim").setup {
-          manual_mode = true,
-          ignore_lsp = { "null-ls" },
-          show_hidden = true,
-          patterns = {
-            "stylua.toml",
-            "rc.lua",
-            "config.org",
-            "Makefile",
-            "package.json",
-            "Cargo.toml",
-            ".git",
-            "_darcs",
-            ".hg",
-            ".bzr",
-            ".svn",
-            "index.html",
-            "!^.config",
-          },
-        }
-      end,
-    }
-
     -- Git -----------------------------------------------------
     use {
       "lewis6991/gitsigns.nvim",
@@ -232,22 +159,22 @@ require("packer").startup {
       module = "gitsigns",
       config = [[require("plugins.gitsigns")]],
     }
-    use {
-      "TimUntersberger/neogit",
-      cmd = "Neogit",
-      module = "neogit",
-    }
+    -- use {
+    --   "TimUntersberger/neogit",
+    --   cmd = "Neogit",
+    --   module = "neogit",
+    -- }
 
     -- Markdown ------------------------------------------------
-    use {
-      "plasticboy/vim-markdown",
-      after = "tabular",
-      requires = {
-        "godlygeek/tabular",
-        opt = true,
-      },
-      ft = "markdown",
-    }
+    -- use {
+    --   "plasticboy/vim-markdown",
+    --   after = "tabular",
+    --   requires = {
+    --     "godlygeek/tabular",
+    --     opt = true,
+    --   },
+    --   ft = "markdown",
+    -- }
 
     -- Utilities -----------------------------------------------
 
@@ -271,14 +198,6 @@ require("packer").startup {
       config = function()
         require("Comment").setup()
       end,
-    }
-
-    -- terminal
-    use {
-      "akinsho/nvim-toggleterm.lua",
-      keys = { "<A-`>" },
-      cmd = "ToggleTerm",
-      config = [[require"plugins.terminal"]],
     }
 
     -- todo comments
@@ -319,21 +238,17 @@ require("packer").startup {
       cmd = { "Twilight" },
     }
 
-    -- textobjects
-    -- use "wellle/targets.vim"
-    -- use "machakann/vim-sandwich"
-
     -- highlight my logs
-    use {
-      "MTDL9/vim-log-highlighting",
-      ft = "log",
-    }
+    -- use {
+    --   "MTDL9/vim-log-highlighting",
+    --   ft = "log",
+    -- }
 
     -- undotree
-    use {
-      "mbbill/undotree",
-      cmd = { "UndotreeToggle" },
-    }
+    -- use {
+    --   "mbbill/undotree",
+    --   cmd = { "UndotreeToggle" },
+    -- }
 
     -- highlight colors
     use {
