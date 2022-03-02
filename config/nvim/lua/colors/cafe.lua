@@ -1,5 +1,4 @@
 local M = {}
-local cmd = vim.cmd
 
 function M.setup()
   require("base16-colorscheme").setup {

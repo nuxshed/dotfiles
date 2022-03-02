@@ -8,7 +8,7 @@ in
     enable = mkEnableOption "kitty";
   };
 
-  imports = [ ./colors/kurai.nix ];
+  imports = [ ./colors/zenbones.nix ];
 
 
   config = mkIf cfg.enable {

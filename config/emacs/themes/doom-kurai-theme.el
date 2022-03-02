@@ -104,6 +104,8 @@
    ((region &override) :foreground region-fg)
    (link :foreground fg :underline t)
 
+   (cursor :background fg)
+
    ;; syntax
    (font-lock-keyword-face :inherit 'italic :foreground red)
    (font-lock-string-face :inherit 'italic :foreground green)

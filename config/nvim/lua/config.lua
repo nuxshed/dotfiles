@@ -2,7 +2,7 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "kurai",
+  colorscheme = "cafe",
   leader = " ",
   localleader = ",",
   borders = "single",
