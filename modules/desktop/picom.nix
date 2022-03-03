@@ -12,7 +12,8 @@ in
     services.picom = {
       enable = true;
       package = pkgs.picom-git;
-      # fade = true;
+      fade = true;
+      experimentalBackends = true;
       # inactiveDim = "0.05";
       shadow = true;
       extraOptions = ''
