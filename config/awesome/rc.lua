@@ -13,6 +13,7 @@ require("beautiful").init(require("gears").filesystem.get_configuration_dir() ..
 
 F = {}
 
+require "squeals"
 require "conf"
 
 require "ui.bar"
@@ -20,3 +21,5 @@ require "ui.exec"
 require "ui.run"
 require "ui.exit"
 require "ui.scr"
+require "ui.start"
+require "ui.titlebar"

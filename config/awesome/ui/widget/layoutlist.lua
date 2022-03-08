@@ -37,7 +37,7 @@ local layoutlist = awful.popup {
   border_width = 2,
   border_color = beautiful.bg_focus,
   placement = function(c)
-    (awful.placement.top_right)(c, { margins = { top = 50, right = 10 } })
+    (awful.placement.bottom_left)(c, { margins = { left = 65, bottom = 10 } })
   end,
   ontop = true,
 }

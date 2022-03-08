@@ -1,15 +1,13 @@
-local helpers = require "helpers"
 return function(s)
   local awful = require "awful"
   local bling = require "modules.bling"
-  local gears = require "gears"
   local wibox = require "wibox"
   bling.widget.tag_preview.enable {
     placement_fn = function(c) -- Place the widget using awful.placement (this overrides x & y)
       awful.placement.top_left(c, {
         margins = {
-          top = 50,
-          left = 20,
+          top = 20,
+          left = 65,
         },
       })
     end,
@@ -17,6 +15,7 @@ return function(s)
   return awful.widget.taglist {
     screen = s,
     filter = awful.widget.taglist.filter.all,
+    layout = { spacing = 5, layout = wibox.layout.fixed.vertical },
     buttons = {
       awful.button({}, 1, function(t)
         t:view_only()
@@ -34,9 +33,10 @@ return function(s)
         {
           id = "text_role",
           widget = wibox.widget.textbox,
+          align = "center",
+          valign = "center",
         },
-        left = 7,
-        right = 7,
+        margins = 2,
         widget = wibox.container.margin,
       },
       id = "background_role",

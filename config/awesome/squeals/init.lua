@@ -1,0 +1,1 @@
+require "squeals.battery"
