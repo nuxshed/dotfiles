@@ -6,8 +6,9 @@ require("gitsigns").setup {
     topdelete = { text = "-" },
     changedelete = { text = "~" },
   },
+  signcolumn = false,
   keymaps = {
-    -- Default keymap options
+    ----[[   ]]Default keymap options
     noremap = true,
     buffer = true,
 
@@ -21,6 +22,7 @@ require("gitsigns").setup {
     },
 
     ["n <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+    ["n <leader>gb"] = '<cmd>lua require"gitsigns".blame_line()<CR>',
     ["v <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
     ["n <leader>gu"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
     ["n <leader>gr"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
