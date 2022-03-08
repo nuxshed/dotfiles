@@ -25,6 +25,7 @@
 
 (require 'init-evil)
 (require 'init-org)
+(require 'publish)
 (require 'init-layout)
 (require 'ui)
 (require 'prog)

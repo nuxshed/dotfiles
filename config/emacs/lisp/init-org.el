@@ -37,7 +37,5 @@
             (define-key evil-normal-state-local-map (kbd "q") 'quit-window)
             (define-key evil-normal-state-local-map (kbd "f") 'deft-find-file)))
 
-(require 'publish)
-
 (provide 'init-org)
 ;;; init-org.el ends here
