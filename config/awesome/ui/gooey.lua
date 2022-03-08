@@ -13,7 +13,7 @@ function M.make_button(opts)
   local icon_widget = wibox.widget {
     widget = wibox.widget.imagebox,
     image = icons_dir .. icon .. ".svg",
-    stylesheet = " * { stroke: " .. icon_color .. " }",
+    -- stylesheet = " * { stroke: " .. icon_color .. " }",
   }
 
   local text_widget = wibox.widget {

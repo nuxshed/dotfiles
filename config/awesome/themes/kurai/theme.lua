@@ -3,6 +3,8 @@ local gears = require "gears"
 
 local gfs = require "gears.filesystem"
 local themes_path = gfs.get_themes_dir()
+local theme_path = gfs.get_configuration_dir() .. "/themes/cafe/"
+local icons_path = gfs.get_configuration_dir() .. "/icons/"
 
 local theme = {}
 
@@ -23,7 +25,7 @@ theme.fg_urgent = "#998f83"
 theme.fg_minimize = "#6b655c"
 
 theme.useless_gap = dpi(20)
-theme.border_width = dpi(2)
+theme.border_width = dpi(0)
 theme.border_color_normal = "#191513"
 theme.border_color_active = "#302824"
 theme.border_color_marked = "#998f83"
@@ -39,6 +41,9 @@ theme.border_color_marked = "#998f83"
 -- prompt_[fg|bg|fg_cursor|bg_cursor|font]
 -- hotkeys_[bg|fg|border_width|border_color|shape|opacity|modifiers_fg|label_bg|label_fg|group_margin|font|description_font]
 
+theme.titlebar_bg_focus = theme.bg_subtle
+theme.titlebar_bg_normal = theme.bg_normal
+
 theme.taglist_fg_empty = "#6b655c"
 
 -- Variables set for theming notifications:
@@ -46,6 +51,9 @@ theme.taglist_fg_empty = "#6b655c"
 -- notification_[bg|fg]
 -- notification_[width|height|margin]
 -- notification_[border_color|border_width|shape|opacity]
+
+theme.start_icon = icons_path .. "menu.svg"
+theme.charge_icon = icons_path .. "charge.svg"
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
@@ -61,16 +69,16 @@ theme.bar_status_fg = "#726b62"
 -- beautiful.variable in your rc.lua
 
 -- Define the image to load
-theme.titlebar_close_button_normal = themes_path .. "default/titlebar/close_normal.png"
-theme.titlebar_close_button_focus = themes_path .. "default/titlebar/close_focus.png"
+theme.titlebar_close_button_normal = theme_path .. "close.svg"
+theme.titlebar_close_button_focus = theme_path .. "close.svg"
 
-theme.titlebar_minimize_button_normal = themes_path .. "default/titlebar/minimize_normal.png"
-theme.titlebar_minimize_button_focus = themes_path .. "default/titlebar/minimize_focus.png"
+theme.titlebar_minimize_button_normal = theme_path .. "minimize.svg"
+theme.titlebar_minimize_button_focus = theme_path .. "minimize.svg"
 
-theme.titlebar_maximized_button_normal_inactive = themes_path .. "default/titlebar/maximized_normal_inactive.png"
-theme.titlebar_maximized_button_focus_inactive = themes_path .. "default/titlebar/maximized_focus_inactive.png"
-theme.titlebar_maximized_button_normal_active = themes_path .. "default/titlebar/maximized_normal_active.png"
-theme.titlebar_maximized_button_focus_active = themes_path .. "default/titlebar/maximized_focus_active.png"
+theme.titlebar_maximized_button_normal_inactive = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_focus_inactive = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_normal_active = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_focus_active = theme_path .. "maximized.svg"
 
 theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floatingw.png", theme.fg_normal)
 theme.layout_tile = gears.color.recolor_image(themes_path .. "default/layouts/tilew.png", theme.fg_normal)
