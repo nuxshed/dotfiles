@@ -108,7 +108,7 @@ local calendar = wibox.widget {
       layout = wibox.layout.fixed.vertical,
       {
         widget = wibox.widget.textclock "%A",
-        font = beautiful.font_name .. " Bold 10",
+        font = beautiful.font_name .. " Bold 9",
         align = "center",
       },
       {

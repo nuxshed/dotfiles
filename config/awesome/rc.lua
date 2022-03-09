@@ -16,10 +16,12 @@ F = {}
 require "squeals"
 require "conf"
 
+require "ui.action"
 require "ui.bar"
 require "ui.exec"
-require "ui.run"
 require "ui.exit"
+require "ui.notifs"
+require "ui.run"
 require "ui.scr"
 require "ui.start"
 require "ui.titlebar"

@@ -28,6 +28,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey, "Shift" }, "s", function()
     F.scr.toggle()
   end, { description = "screenshot popup", group = "awesome" }),
+  awful.key({ modkey }, "a", function()
+    F.action.toggle()
+  end, { description = "action center", group = "awesome" }),
 
   -- Frequently Used
   awful.key({ modkey }, "b", function()

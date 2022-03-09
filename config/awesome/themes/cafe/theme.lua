@@ -26,9 +26,9 @@ theme.fg_minimize = "#948985"
 
 theme.useless_gap = dpi(20)
 theme.border_width = dpi(0)
-theme.border_color_normal = "#685c56"
-theme.border_color_active = "#685c56"
-theme.border_color_marked = "#685c56"
+theme.border_color_normal = theme.bg_subtle
+theme.border_color_active = theme.bg_subtle
+theme.border_color_marked = theme.bg_subtle
 
 theme.green = "#597a37"
 theme.warn = "#a8623e"
@@ -57,6 +57,8 @@ theme.taglist_fg_empty = "#948985"
 
 theme.start_icon = icons_path .. "menu.svg"
 theme.charge_icon = icons_path .. "charge.svg"
+theme.notification_icon = icons_path .. "notification.png"
+theme.notification_spacing = 10
 
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
