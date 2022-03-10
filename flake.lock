@@ -368,22 +368,6 @@
         "type": "gitlab"
       }
     },
-    "layout-machi": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1641764319,
-        "narHash": "sha256-FEQQUJcjCuH+FSl2F2sh9xAsDR1o1p+OAjMfkeLh7p0=",
-        "owner": "xinhaoyuan",
-        "repo": "layout-machi",
-        "rev": "e413822ae1364e9ff182aeec1d149b0ecef22e8c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "xinhaoyuan",
-        "repo": "layout-machi",
-        "type": "github"
-      }
-    },
     "naersk": {
       "inputs": {
         "nixpkgs": "nixpkgs_5"
@@ -791,10 +775,26 @@
         "bling": "bling",
         "emacs-overlay": "emacs-overlay",
         "home-manager": "home-manager",
-        "layout-machi": "layout-machi",
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-f2k": "nixpkgs-f2k"
+        "nixpkgs-f2k": "nixpkgs-f2k",
+        "rubato": "rubato"
+      }
+    },
+    "rubato": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642006681,
+        "narHash": "sha256-ism0VTMRTBKWwNCil0RRhdkfkGwRNh8pt5APmhm+gMs=",
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "rev": "51b4f760c9601254f4817ac90441ccd1ad0a0616",
+        "type": "github"
+      },
+      "original": {
+        "owner": "andOrlando",
+        "repo": "rubato",
+        "type": "github"
       }
     },
     "rust-analyzer-src": {

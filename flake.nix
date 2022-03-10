@@ -10,7 +10,7 @@
 
     # awesomewm modules
     bling = { url = "github:BlingCorp/bling"; flake = false; };
-    layout-machi = { url = "github:xinhaoyuan/layout-machi"; flake = false; };
+    rubato = { url = "github:andOrlando/rubato"; flake = false; };
   };
 
   outputs = { self, nixpkgs, home-manager, neovim-nightly, emacs-overlay, nixpkgs-f2k, ... }@inputs:
@@ -46,7 +46,7 @@
       extraSpecialArgs = {
         inherit inputs self;
         bling = inputs.bling;
-        layout-machi = inputs.layout-machi;
+        rubato = inputs.rubato;
       };
 
       overlays = [

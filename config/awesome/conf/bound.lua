@@ -1,7 +1,6 @@
 local awful = require "awful"
 local modkey = C.modkey
 local bling = require "modules.bling"
-local machi = require "modules.layout-machi"
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings {
@@ -158,22 +157,6 @@ awful.keyboard.append_global_keybindings {
       end
     end,
   },
-}
-
--- machi
-awful.keyboard.append_global_keybindings {
-  awful.key({ modkey }, ",", function()
-    machi.switcher.start()
-  end, {
-    description = "edit the current layout as machi layout",
-    group = "layout",
-  }),
-  awful.key({ modkey }, ".", function()
-    machi.default_editor.start_interactive()
-  end, {
-    description = "edit the current layout as machi layout",
-    group = "layout",
-  }),
 }
 
 client.connect_signal("request::default_mousebindings", function()

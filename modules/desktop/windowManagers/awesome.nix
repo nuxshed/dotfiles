@@ -12,7 +12,7 @@ in
     home.file = {
       ".config/awesome".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/awesome";
       "dotfiles/config/awesome/modules/bling".source = inputs.bling.outPath;
-      "dotfiles/config/awesome/modules/layout-machi".source = inputs.layout-machi.outPath;
+      "dotfiles/config/awesome/modules/rubato".source = inputs.rubato.outPath;
     };
   };
 }

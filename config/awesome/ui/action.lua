@@ -2,6 +2,7 @@ local awful = require "awful"
 local beautiful = require "beautiful"
 local gears = require "gears"
 local naughty = require "naughty"
+local rubato = require "modules.rubato"
 local wibox = require "wibox"
 
 F.action = {}
@@ -269,6 +270,41 @@ local action = awful.popup {
   border_width = 2,
 }
 
-function F.action.toggle()
-  action.visible = not action.visible
+local slide = rubato.timed {
+  pos = 1500,
+  rate = 60,
+  intro = 0.3,
+  duration = 0.8,
+  easing = rubato.quadratic,
+  awestore_compat = true,
+  subscribed = function(pos)
+    action.x = pos
+  end,
+}
+
+local action_status = false
+
+slide.ended:subscribe(function()
+  if action_status then
+    action.visible = false
+  end
+end)
+
+local function action_show()
+  action.visible = true
+  slide:set(1005)
+  action_status = false
+end
+
+local function action_hide()
+  slide:set(1500)
+  action_status = true
+end
+
+F.action.toggle = function()
+  if action.visible then
+    action_hide()
+  else
+    action_show()
+  end
 end
