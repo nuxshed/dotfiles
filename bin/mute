@@ -1,9 +1,0 @@
-#!/bin/sh
-
-pactl set-sink-mute @DEFAULT_SINK@ toggle
-
-dunstctl close
-case $(pactl get-sink-mute @DEFAULT_SINK@) in
-  "Mute: yes") notify-send "Volume" "Muted" ;;
-  "Mute: no") notify-send "Volume" "Unmuted" ;;
-esac
