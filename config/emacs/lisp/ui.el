@@ -12,9 +12,9 @@
         dired-isearch-filenames 'dwim)
   (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file ".."))))
 (add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(add-hook 'dired-mode-hook 'dired-omit-mode)
-
 (use-package all-the-icons-dired :hook (dired-mode-hook . all-the-icons-dired-mode))
+
+(add-hook 'dired-mode-hook 'dired-omit-mode)
 (setq all-the-icons-dired-monochrome 't)
 
 ;; Ibuffer
@@ -73,7 +73,7 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (use-package doom-themes
   :config
-  (load-theme 'doom-cafe t))
+  (load-theme 'doom-gruvbox-material t))
 
 (fringe-mode 10)
 
@@ -95,8 +95,6 @@
   :config (which-key-mode)
   (which-key-setup-side-window-bottom)
   (setq which-key-idle-delay 0.1))
-
-(add-hook 'emacs-startup-hook (lambda () (set-face-attribute 'variable-pitch :font "Commissioner 10")))
 
 (provide 'ui)
 ;;; ui.el ends here

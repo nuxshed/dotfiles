@@ -2,13 +2,6 @@
 
 (use-package org-contrib)
 
-(use-package org-bullets
-  :after org
-  :hook
-  (org-mode . (lambda () (org-bullets-mode 1))))
-
-(setq org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●"))
-
 (setq org-agenda-files '("~/org/agenda.org"))
 
 (setq org-hide-leading-stars t
@@ -17,7 +10,10 @@
       org-link-descriptive t)
 
 (use-package htmlize)
+(use-package org-modern)
+
 (add-hook 'org-mode-hook (lambda ()
+			   (org-modern-mode)
 			   (toggle-truncate-lines)
 			   (flyspell-mode t)
 			   (electric-indent-local-mode -1)))

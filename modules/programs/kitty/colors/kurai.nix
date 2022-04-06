@@ -4,7 +4,7 @@
     foreground = "#998f83";
     background = "#191513";
     selection_foreground = "#998f83";
-    selection_background = "#CBD9E3";
+    selection_background = "#332b26";
     cursor = "#998f83";
     cursor_text_color = "#191513";
     active_tab_foreground = "#998f83";

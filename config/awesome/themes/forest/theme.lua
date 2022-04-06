@@ -11,28 +11,28 @@ local theme = {}
 theme.font = "Cartograph CF Regular 8"
 theme.font_name = "Cartograph CF Regular "
 
-theme.bg_normal = "#191513"
-theme.bg_focus = "#302824"
-theme.bg_subtle = "#211b19"
-theme.bg_urgent = "#191513"
-theme.bg_minimize = "#191513"
-theme.bg_dark = "#191513"
+theme.bg_normal = "#1d2021"
+theme.bg_focus = "#282828"
+theme.bg_subtle = "#212526"
+theme.bg_urgent = "#1d2021"
+theme.bg_minimize = "#1d2021"
+theme.bg_dark = "#1d2021"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#998f83"
-theme.fg_focus = "#998f83"
-theme.fg_urgent = "#998f83"
-theme.fg_minimize = "#6b655c"
+theme.fg_normal = "#ddc7a1"
+theme.fg_focus = "#ddc7a1"
+theme.fg_urgent = "#ddc7a1"
+theme.fg_minimize = "#a89984"
 
 theme.useless_gap = dpi(20)
 theme.border_width = dpi(0)
-theme.border_color_normal = "#191513"
-theme.border_color_active = "#302824"
-theme.border_color_marked = "#998f83"
+theme.border_color_normal = "#1d2021"
+theme.border_color_active = "#282828"
+theme.border_color_marked = "#ddc7a1"
 
-theme.green = "#5a7051"
-theme.warn = "#777a59"
-theme.critical = "#896664"
+theme.green = "#a9b665"
+theme.warn = "#d8a657"
+theme.critical = "#ea6962"
 
 -- There are other variable sets
 -- overriding the default one when
@@ -48,7 +48,7 @@ theme.critical = "#896664"
 theme.titlebar_bg_focus = theme.bg_subtle
 theme.titlebar_bg_normal = theme.bg_normal
 
-theme.taglist_fg_empty = "#6b655c"
+theme.taglist_fg_empty = "#a89984"
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -96,7 +96,7 @@ theme.tag_preview_client_opacity = 0.5
 theme.tag_preview_client_bg = "#332b26"
 theme.tag_preview_client_border_color = "#332b26"
 theme.tag_preview_client_border_width = 3
-theme.tag_preview_widget_bg = "#191513"
+theme.tag_preview_widget_bg = "#1d2021"
 theme.tag_preview_widget_border_color = theme.bg_focus
 theme.tag_preview_widget_border_width = 2
 theme.tag_preview_widget_margin = 10
