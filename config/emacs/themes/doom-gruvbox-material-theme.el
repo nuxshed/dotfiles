@@ -99,7 +99,7 @@
     :background bg :foreground modeline-fg :overline fg-alt
     :inherit 'fixed-pitch)
    (mode-line-inactive
-    :background modeline-bg-inactive :foreground fg-al
+    :background modeline-bg-inactive :foreground fg-alt
     :overline fg-alt
     :box `(:line-width 5 :color ,modeline-bg))
    ((region &override) :foreground region-fg)
