@@ -1,15 +1,17 @@
 #!/bin/sh
 
+savefile="/home/$USER/Pictures/Screenshots/$(date).png"
+
 printscreen() {
-  maim --hidecursor "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor "$savefile"
 }
 
 printwindow() {
-  maim --hidecursor --window "$(xdotool getactivewindow)" "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor --window "$(xdotool getactivewindow)" "$savefile"
 }
 
 printselection() {
-  maim --hidecursor --select "/home/$USER/Pictures/Screenshots/$(date).png"
+  maim --hidecursor --select "$savefile"
 }
 
 printscreentoclipboard() {
@@ -24,16 +26,23 @@ printselectiontoclipboard() {
   maim --hidecursor --select | xclip -selection clipboard -t image/png
 }
 
+notify() {
+  notify-send -i "$savefile" "scr" "screenshot saved"
+}
+
 while [ "$1" ]; do
   case $1 in
     screen)
       printscreen
+      notify
       exit ;;
     window)
       printwindow
+      notify
       exit ;;
     selection)
       printselection
+      notify
       exit ;;
     screentoclip)
       printscreentoclipboard
@@ -49,3 +58,4 @@ while [ "$1" ]; do
       exit
   esac
 done
+
