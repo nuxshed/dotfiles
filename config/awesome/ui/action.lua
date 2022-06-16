@@ -292,7 +292,7 @@ end)
 
 local function action_show()
   action.visible = true
-  slide:set(1005)
+  slide:set(1010)
   action_status = false
 end
 
