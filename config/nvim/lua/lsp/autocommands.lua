@@ -4,7 +4,7 @@ local M = {}
 
 function M.setup(client)
   -- cursor commands
-  if client and client.resolved_capabilities.document_highlight then
+  if client and client.server_capabilities.document_highlight then
     augroup("lsp_document_highlight", {
       {
         events = { "CursorHold" },

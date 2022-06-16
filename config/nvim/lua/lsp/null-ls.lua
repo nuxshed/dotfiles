@@ -11,7 +11,7 @@ M.setup = function()
       b.formatting.stylua,
     },
     on_attach = function(client)
-      if client.resolved_capabilities.document_formatting then
+      if client.server_capabilities.document_formatting then
         utils.augroup("lsp_format", {
           {
             events = { "BufWritePre" },
