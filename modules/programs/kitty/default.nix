@@ -8,15 +8,15 @@ in
     enable = mkEnableOption "kitty";
   };
 
-  imports = [ ./colors/zenbones.nix ];
+  imports = [ ./colors/material.nix ];
 
 
   config = mkIf cfg.enable {
     programs.kitty = {
       enable = true;
       font = {
-        name = "JetBrainsMono Nerd Font";
-        size = 9;
+        name = "Iosevka Nerd Font";
+        size = 10;
       };
       settings = {
         cursor_shape = "underline";
