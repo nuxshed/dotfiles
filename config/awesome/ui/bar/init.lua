@@ -1,6 +1,7 @@
 local awful = require "awful"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
+local gears = require("gears")
 local helpers = require "helpers"
 
 local start_icon = wibox.widget {
@@ -28,7 +29,7 @@ local bat_arcchart = wibox.widget {
   min_value = 0,
   max_value = 100,
   colors = { beautiful.fg_normal },
-  bg = beautiful.bg_focus,
+  bg = beautiful.fg_minimize,
 }
 
 local battery_percent = wibox.widget {
@@ -65,7 +66,7 @@ local battery_popup = awful.popup {
   border_width = 2,
   border_color = beautiful.bg_focus,
   placement = function(c)
-    (awful.placement.bottom_left)(c, { margins = { left = 65, bottom = 50 } })
+    (awful.placement.bottom_right)(c, { margins = { bottom = 55, right = 70 } })
   end,
   ontop = true,
 }
@@ -118,19 +119,11 @@ local time = wibox.widget {
   },
   {
     widget = wibox.container.margin,
-    margins = 7,
+    margins = 10,
     {
-      layout = wibox.layout.fixed.vertical,
-      {
-        widget = wibox.widget.textclock "%H",
-        font = beautiful.font_name .. " Bold 10",
-        align = "center",
-      },
-      {
-        widget = wibox.widget.textclock "%M",
-        font = beautiful.font_name .. " Bold 10",
-        align = "center",
-      },
+      widget = wibox.widget.textclock "%H:%M",
+      font = beautiful.font_name .. " Bold 10",
+      align = "center",
     },
   },
 }
@@ -162,8 +155,7 @@ local layoutbox = wibox.widget {
   },
   {
     widget = wibox.container.margin,
-
-    margins = 10,
+    margins = 8,
     {
       widget = awful.widget.layoutbox,
     },
@@ -172,13 +164,25 @@ local layoutbox = wibox.widget {
 
 helpers.add_hover_cursor(layoutbox, "hand1")
 
+local action_icon = require"ui.gooey".make_button {
+  icon = "chevron-left",
+  bg = beautiful.bg_normal,
+  icon_fg = beautiful.fg_normal,
+  width = 30,
+  margins = 6,
+  hover = true,
+  exec = function()
+    F.action.toggle()
+  end,
+}
+
 screen.connect_signal("request::desktop_decoration", function(s)
   local l = awful.layout.suit
   awful.tag({ "1", "2", "3", "4", "5" }, s, { l.tile, l.tile, l.tile, l.tile, l.tile })
 
   awful.popup({
     placement = function(c)
-      (awful.placement.left + awful.placement.maximize_vertically)(c)
+      (awful.placement.bottom + awful.placement.maximize_horizontally)(c)
     end,
     screen = s,
     widget = {
@@ -187,11 +191,11 @@ screen.connect_signal("request::desktop_decoration", function(s)
           {
             start_icon,
             require "ui.bar.taglist"(s),
-            layout = wibox.layout.fixed.vertical,
+            layout = wibox.layout.fixed.horizontal,
             spacing = 10,
           },
           widget = wibox.container.margin,
-          margins = 5,
+          margins = 3,
         },
         -- {
         --   widget = wibox.container.place,
@@ -205,15 +209,16 @@ screen.connect_signal("request::desktop_decoration", function(s)
           { widget = battery },
           { widget = time },
           { widget = layoutbox },
-          layout = wibox.layout.fixed.vertical,
+          action_icon,
+          layout = wibox.layout.fixed.horizontal,
           spacing = 10,
           bottom = 10,
         },
-        layout = wibox.layout.align.vertical,
-        forced_width = 35,
+        layout = wibox.layout.align.horizontal,
+        forced_height = 30,
       },
       widget = wibox.container.margin,
-      margins = 10,
+      margins = 8,
     },
-  }):struts { left = 50 }
+  }):struts { bottom = 40 }
 end)

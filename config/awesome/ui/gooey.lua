@@ -9,11 +9,11 @@ function M.make_button(opts)
   opts = opts or {}
 
   local icon = opts.icon or "default"
-  local icon_color = opts.icon_fg or beautiful.fg_normal
+  local icon_color = opts.icon_fg or "#00000000"
   local icon_widget = wibox.widget {
     widget = wibox.widget.imagebox,
     image = icons_dir .. icon .. ".svg",
-    -- stylesheet = " * { stroke: " .. icon_color .. " }",
+    stylesheet = " * { stroke: " .. icon_color .. " }",
   }
 
   local text_widget = wibox.widget {

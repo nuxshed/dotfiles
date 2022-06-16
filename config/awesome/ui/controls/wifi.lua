@@ -9,7 +9,7 @@ local wifi = wibox.widget {
     {
       widget = wibox.widget.imagebox,
       image = gears.filesystem.get_configuration_dir() .. "icons/wifi.svg",
-      stylesheet = " * { stroke: " .. beautiful.fg_normal .. " }",
+      stylesheet = " * { stroke: " .. beautiful.fg_normal .. " } circle { fill: " .. beautiful.fg_normal .. "; }",
       forced_width = 30,
       valign = "center",
       halign = "center",

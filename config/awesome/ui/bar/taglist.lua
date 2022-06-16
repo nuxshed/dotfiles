@@ -16,7 +16,7 @@ return function(s)
   return awful.widget.taglist {
     screen = s,
     filter = awful.widget.taglist.filter.all,
-    layout = { spacing = 5, layout = wibox.layout.fixed.vertical },
+    layout = { spacing = 5, layout = wibox.layout.fixed.horizontal },
     buttons = {
       awful.button({}, 1, function(t)
         t:view_only()
@@ -37,7 +37,8 @@ return function(s)
           align = "center",
           valign = "center",
         },
-        margins = 2,
+        left = 8,
+        right = 8,
         widget = wibox.container.margin,
       },
       id = "background_role",

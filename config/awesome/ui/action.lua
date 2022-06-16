@@ -59,7 +59,7 @@ local notifs_container = wibox.widget {
     widget = wibox.container.margin,
   },
   forced_width = beautiful.notifs_width or 240,
-  forced_height = 500,
+  forced_height = 430,
   layout = wibox.layout.fixed.vertical,
 }
 
@@ -254,6 +254,7 @@ local action = awful.popup {
     widget = wibox.container.margin,
     margins = 30,
     forced_width = 355,
+  forced_height = 690,
     {
       layout = wibox.layout.fixed.vertical,
       notifs,
@@ -261,7 +262,7 @@ local action = awful.popup {
     },
   },
   placement = function(c)
-    (awful.placement.right + awful.placement.maximize_vertically)(c)
+    (awful.placement.right)(c, { margins = { bottom = 50 } })
   end,
   ontop = true,
   visible = false,
@@ -292,7 +293,7 @@ end)
 
 local function action_show()
   action.visible = true
-  slide:set(1010)
+  slide:set(995)
   action_status = false
 end
 
