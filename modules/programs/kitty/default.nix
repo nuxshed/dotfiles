@@ -26,7 +26,7 @@ in
         tab_fade = 1;
         tab_bar_margin_width = 5;
         tab_bar_margin_height = 5;
-        confirm_os_window_close = -1;
+        confirm_os_window_close = 0;
         allow_remote_control = "yes";
         listen_on = "unix:/tmp/mykitty";
       };
