@@ -73,7 +73,7 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (use-package doom-themes
   :config
-  (load-theme 'doom-gruvbox-material t))
+  (load-theme 'doom-base16-material t))
 
 (fringe-mode 10)
 

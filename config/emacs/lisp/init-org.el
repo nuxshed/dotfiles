@@ -10,13 +10,13 @@
       org-link-descriptive t)
 
 (use-package htmlize)
-(use-package org-modern)
 
 (add-hook 'org-mode-hook (lambda ()
 			   (org-modern-mode)
 			   (toggle-truncate-lines)
 			   (flyspell-mode t)
 			   (electric-indent-local-mode -1)))
+
 (setq org-src-window-setup 'current-window)
 
 (use-package deft

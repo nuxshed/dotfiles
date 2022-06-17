@@ -45,7 +45,7 @@
    (blue       '("#82AAFF" "#82AAFF" "brightblue"))
    (dark-blue  '("#6887cc" "#6887cc" "blue"))
    (magenta    '("#C792EA" "#C792EA" "magenta"))
-   (violet     '("#88507D" "#88507D" "brightmagenta"))
+   (violet     '("#C792EA" "#C792EA" "brightmagenta"))
    (cyan       '("#89DDFF" "#89DDFF" "brightcyan"))
    (dark-cyan  '("#89DDFF" "#89DDFF" "cyan"))
 
@@ -54,8 +54,8 @@
    (vertical-bar   base4)
    (selection      base4)
    (builtin        blue)
-   (comments       base8)
-   (doc-comments   base8)
+   (comments       fg-alt)
+   (doc-comments   fg-alt)
    (constants      fg)
    (functions      orange)
    (keywords       red)
@@ -78,12 +78,9 @@
 
    (region-fg base8)
 
-   (modeline-fg     nil)
+   (modeline-fg     base7)
    (modeline-bg     bg)
-   (modeline-fg-alt base6)
-   (modeline-bg-l   base1)
-   (modeline-bg-inactive   base2)
-   (modeline-bg-inactive-l `(,(doom-darken (car bg) 0.025) ,@(cdr base2))))
+   (modeline-bg-inactive   base2))
 
 
   ;; Base theme face overrides
@@ -137,7 +134,6 @@
    (css-proprietary-property :foreground orange)
    (css-property             :foreground green)
    (css-selector             :foreground blue)
-
 
    ;; ace-window
    (aw-leading-char-face :foreground red)
