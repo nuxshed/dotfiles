@@ -8,6 +8,7 @@ F.exit = {}
 local function make_exit_button(icon, exec)
   return gooey.make_button {
     icon = icon,
+    icon_fg = beautiful.fg_normal,
     bg = beautiful.bg_subtle,
     hover = true,
     exec = function()

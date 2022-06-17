@@ -77,20 +77,6 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "s", function()
     Scratch.term:toggle()
   end),
-
-  -- Tabbed
-  awful.key({ "Mod1" }, "a", function()
-    bling.module.tabbed.pick_with_dmenu()
-  end, { description = "pick client to add to tab group", group = "tabs" }),
-  awful.key({ "Mod1" }, "s", function()
-    bling.module.tabbed.iter()
-  end, { description = "iterate through tabbing group", group = "tabs" }),
-  awful.key({ "Mod1" }, "d", function()
-    bling.module.tabbed.pop()
-  end, {
-    description = "remove focused client from tabbing group",
-    group = "tabs",
-  }),
 }
 
 -- Tags related keybindings

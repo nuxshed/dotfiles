@@ -1,7 +1,7 @@
 local awful = require "awful"
 local wibox = require "wibox"
 local beautiful = require "beautiful"
-local gears = require("gears")
+local gears = require "gears"
 local helpers = require "helpers"
 
 local start_icon = wibox.widget {
@@ -164,7 +164,7 @@ local layoutbox = wibox.widget {
 
 helpers.add_hover_cursor(layoutbox, "hand1")
 
-local action_icon = require"ui.gooey".make_button {
+local action_icon = require("ui.gooey").make_button {
   icon = "chevron-left",
   bg = beautiful.bg_normal,
   icon_fg = beautiful.fg_normal,

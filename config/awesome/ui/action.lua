@@ -254,7 +254,7 @@ local action = awful.popup {
     widget = wibox.container.margin,
     margins = 30,
     forced_width = 355,
-  forced_height = 690,
+    forced_height = 690,
     {
       layout = wibox.layout.fixed.vertical,
       notifs,

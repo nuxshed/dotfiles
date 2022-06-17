@@ -23,6 +23,7 @@ end
 
 local selection = gooey.make_button {
   icon = "crop",
+  icon_fg = beautiful.fg_normal,
   bg = beautiful.bg_subtle,
   hover = true,
   exec = function()
@@ -33,6 +34,7 @@ local selection = gooey.make_button {
 
 local window = gooey.make_button {
   icon = "window",
+  icon_fg = beautiful.fg_normal,
   bg = beautiful.bg_subtle,
   hover = true,
   exec = function()
@@ -43,6 +45,7 @@ local window = gooey.make_button {
 
 local screen = gooey.make_button {
   icon = "monitor",
+  icon_fg = beautiful.fg_normal,
   bg = beautiful.bg_subtle,
   hover = true,
   exec = function()
