@@ -1,0 +1,49 @@
+# Background 1
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #eaecf2 100
+background_color_hover = #eaecf2 100
+background_color_pressed = #eaecf2 100
+
+# Background 2
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #dedfe5 100
+background_color_hover = #dedfe5 100
+background_color_pressed = #dedfe5 100
+
+# Background 3
+rounded = 0
+border_width = 0
+border_sides = TBLR
+background_color = #333a57 100
+background_color_hover = #333a57 100
+background_color_pressed = #333a57 100
+
+# Panel
+panel_items = T
+panel_size = 300 30
+panel_margin = 15 15
+panel_padding = 20 10 20
+panel_background_id = 1
+panel_position = top left horizontal
+panel_window_name = tint2
+mouse_effects = 1
+
+# Taskbar
+taskbar_mode = multi_desktop
+taskbar_hide_if_empty = 0
+taskbar_padding = 12 0 12
+taskbar_background_id = 2
+taskbar_active_background_id = 3
+taskbar_name = 0
+taskbar_hide_inactive_tasks = 0
+taskbar_hide_different_monitor = 0
+taskbar_hide_different_desktop = 0
+taskbar_always_show_all_desktop_tasks = 0
+taskbar_name_padding = 10 0
+taskbar_distribute_size = 0
+taskbar_sort_order = center
+task_align = left

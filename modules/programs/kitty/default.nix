@@ -8,7 +8,7 @@ in
     enable = mkEnableOption "kitty";
   };
 
-  imports = [ ./colors/material.nix ];
+  imports = [ ./colors/hydrangea.nix ];
 
 
   config = mkIf cfg.enable {

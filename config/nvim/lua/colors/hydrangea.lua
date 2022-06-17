@@ -1,3 +1,5 @@
+-- based on tokyobones (from zenbones.nvim)
+
 local M = {}
 local cmd = vim.cmd
 

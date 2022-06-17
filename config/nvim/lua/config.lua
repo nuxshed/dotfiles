@@ -2,7 +2,7 @@
 -- meta, aint it?
 
 O = {
-  colorscheme = "material",
+  colorscheme = "hydrangea",
   leader = " ",
   localleader = ",",
   borders = "single",

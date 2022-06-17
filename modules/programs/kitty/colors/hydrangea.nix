@@ -1,4 +1,7 @@
 { config, pkgs, libs, ... }:
+
+# based on tokyobones (from zenbones.nvim)
+
 {
   programs.kitty.settings = {
     foreground = "#343b58";
