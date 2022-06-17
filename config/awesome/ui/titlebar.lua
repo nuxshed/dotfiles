@@ -16,7 +16,7 @@ client.connect_signal("request::titlebars", function(c)
   }
 
   awful.titlebar(c, {
-    size = 37.5,
+    size = 40,
     position = "left",
   }):setup {
     {

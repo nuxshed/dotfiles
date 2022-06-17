@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   stroke="currentColor"
+   stroke-width="2"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   class="feather feather-chevron-right"
+   version="1.1"
+   id="svg28"
+   sodipodi:docname="submenu.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs32" />
+  <sodipodi:namedview
+     id="namedview30"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="17.824983"
+     inkscape:cx="4.6563858"
+     inkscape:cy="12.089773"
+     inkscape:window-width="1268"
+     inkscape:window-height="668"
+     inkscape:window-x="30"
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg28" />
+  <polyline
+     points="9 18 15 12 9 6"
+     id="polyline26"
+     style="fill:#546e7a;fill-opacity:1;stroke:#546e7a;stroke-opacity:1;stroke-width:0;stroke-dasharray:none"
+     transform="matrix(0.62500324,0,0,0.62500324,4.9999741,4.6999838)" />
+</svg>

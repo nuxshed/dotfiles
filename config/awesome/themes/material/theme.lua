@@ -66,9 +66,11 @@ theme.notification_spacing = 10
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_submenu_icon = themes_path .. "default/submenu.png"
-theme.menu_height = dpi(15)
-theme.menu_width = dpi(100)
+theme.menu_fg_normal = "#d5d5d5"
+theme.menu_fg_focus = "#82aaff"
+theme.menu_submenu_icon = icons_path .. "submenu.svg"
+theme.menu_height = dpi(30)
+theme.menu_width = dpi(130)
 
 -- You can add as many variables as
 -- you wish and access them by using
@@ -76,15 +78,23 @@ theme.menu_width = dpi(100)
 
 -- Define the image to load
 theme.titlebar_close_button_normal = theme_path .. "close.svg"
+theme.titlebar_close_button_normal_hover = theme_path .. "close_hover.svg"
 theme.titlebar_close_button_focus = theme_path .. "close.svg"
+theme.titlebar_close_button_focus_hover = theme_path .. "close_hover.svg"
 
 theme.titlebar_minimize_button_normal = theme_path .. "minimize.svg"
+theme.titlebar_minimize_button_normal_hover = theme_path .. "minimize_hover.svg"
 theme.titlebar_minimize_button_focus = theme_path .. "minimize.svg"
+theme.titlebar_minimize_button_focus_hover = theme_path .. "minimize_hover.svg"
 
 theme.titlebar_maximized_button_normal_inactive = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_normal_inactive_hover = theme_path .. "maximized_hover.svg"
 theme.titlebar_maximized_button_focus_inactive = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_focus_inactive_hover = theme_path .. "maximized_hover.svg"
 theme.titlebar_maximized_button_normal_active = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_normal_active_hover = theme_path .. "maximized_hover.svg"
 theme.titlebar_maximized_button_focus_active = theme_path .. "maximized.svg"
+theme.titlebar_maximized_button_focus_active_hover = theme_path .. "maximized_hover.svg"
 
 theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floatingw.png", theme.fg_normal)
 theme.layout_tile = gears.color.recolor_image(themes_path .. "default/layouts/tilew.png", theme.fg_normal)
