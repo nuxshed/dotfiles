@@ -12,13 +12,14 @@
   home.file.".config/tint2".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/tint2";
 
+  home.pointerCursor = {
+    name = "phinger-cursors";
+    package = pkgs.phinger-cursors;
+    size = 32;
+  };
+
   xsession = {
     enable = true;
-    pointerCursor = {
-      name = "capitaine-cursors";
-      package = pkgs.capitaine-cursors;
-      size = 32;
-    };
     initExtra = "~/.fehbg\nxss-lock slock &";
   };
 
