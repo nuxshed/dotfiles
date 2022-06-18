@@ -1,119 +1,91 @@
 configuration {
-  icon-theme: "Papirus-Dark";
-  show-icons: true;
   modi: "drun";
+  font: "Iosevka Nerd Font 10";
+  show-icons: true;
+  display-drun: "";
+  drun-display-format: "{name}";
+  sidebar-mode: false;
 }
 
 @theme "/dev/null"
 
-element-text, element-icon {
-    background-color: inherit;
-    text-color:       inherit;
-}
-
 * {
   bg: #263238;
-  fg: #d5d5d5;
-  selbg: #2e3c43;
-  selfg: #eeffff;
+  fg: #eeffff;
+  accent: #f07178;
+  subtle: #2e3c43;
 
   background-color: @bg;
   text-color: @fg;
-  selected-normal-foreground: @selfg;
-  normal-foreground: @fg;
-  selected-normal-background: @selbg;
-  normal-background: @bg;
-  border-color: @selbg;
-  font: "FiraCode Nerd Font 10";
-  margin: 3px;
-  padding: 7px;
-  border: 0px;
+  border-color: @subtle;
 }
 
 window {
-  location: center;
-  anchor: center;
-  height: 55%;
-  width: 35%;
   border: 2px;
-  orientation: horizontal;
-  children: [mainbox];
-  padding: 0px;
+  width: 50%;
+  padding: 32px;
 }
 
-mainbox {
-  padding: 10px;
-  margin: 0px;
-}
-
-inputbar {
-  children: [entry];
-}
-
-listview {
-  dynamic: true;
-  cycle: true;
-  scrollbar: false;
-}
-
-element {
-  padding: 1px;
-}
-
-element-icon {
-  size: 22;
-  vertical-align: 1;
-  horizontal-align: 1;
+prompt {
+  background-color: @subtle;
+  enabled: true;
+  padding: 0.5% 32px 0% -0.5%;
+  font: "Rubik 10";
 }
 
 entry {
-  text-color: @normal-foreground;
-  vertical-align: 1;
-  padding: 1px;
+  placeholder: "Search";
+  background-color: @subtle;
+  placeholder-color: @fg;
+  expand: true;
+  padding: 0.15% 0% 0% 0%;
 }
 
-element normal.normal {
-  background-color: @normal-background;
-  text-color: @normal-foreground;
+inputbar {
+  children: [ prompt, entry ];
+  background-color: @subtle;
+  expand: false;
+  margin: 0%;
+  padding: 10px;
 }
 
-element normal.urgent {
-  background-color: @urgent-background;
-  text-color: @urgent-foreground;
+listview {
+  columns: 4;
+  lines: 3;
+  cycle: false;
+  dynamic: true;
+  layout: vertical;
 }
 
-element normal.active {
-  background-color: @active-background;
-  text-color: @active-foreground;
+mainbox {
+  children: [ inputbar, listview ];
+  spacing: 2%;
+  padding: 2% 1% 2% 1%;
 }
 
-element selected.normal {
-  background-color: @selected-normal-background;
-  text-color: @selected-normal-foreground;
-  font: "FiraCode Nerd Font 10";
+element {
+  orientation: vertical;
+  padding: 2% 0% 2% 0%;
 }
 
-element selected.urgent {
-  background-color: @selected-urgent-background;
-  text-color: @selected-urgent-foreground;
+element-icon {
+  size: 48px;
+  horizontal-align: 0.5;
 }
 
-element selected.active {
-  background-color: @selected-active-background;
-  text-color: @selected-active-foreground;
+element-text {
+  expand: true;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+  margin: 0.5% 0.5% -0.5% 0.5%;
 }
 
-element alternate.normal {
-  background-color: @normal-background;
-  text-color: @normal-foreground;
+element-text,
+element-icon {
+  background-color: inherit;
+  text-color: inherit;
 }
 
-element alternate.urgent {
-  background-color: @urgent-background;
-  text-color: @urgent-foreground;
-}
-
-element alternate.active {
-  background-color: @active-background;
-  text-color: @active-foreground;
+element selected {
+  background-color: @subtle;
 }
