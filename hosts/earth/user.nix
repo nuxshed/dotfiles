@@ -56,6 +56,7 @@
         gimp.enable = true;
         inkscape.enable = true;
         krita.enable = false;
+        kdenlive.enable = true;
       };
     };
   };

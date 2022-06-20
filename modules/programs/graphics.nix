@@ -9,6 +9,7 @@ in
     gimp.enable = mkEnableOption "gimp";
     inkscape.enable = mkEnableOption "inkscape";
     krita.enable = mkEnableOption "krita";
+    kdenlive.enable = mkEnableOption "kdenlive";
   };
 
   config = {
@@ -17,6 +18,7 @@ in
       (mkIf cfg.gimp.enable pkgs.gimp)
       (mkIf cfg.inkscape.enable pkgs.inkscape)
       (mkIf cfg.krita.enable pkgs.krita)
+      (mkIf cfg.kdenlive.enable pkgs.kdenlive)
     ];
   };
 }
