@@ -4,16 +4,18 @@ local gears = require "gears"
 local wibox = require "wibox"
 local helpers = require "helpers"
 
+local icon = wibox.widget {
+  widget = wibox.widget.imagebox,
+  image = gears.filesystem.get_configuration_dir() .. "icons/bluetooth.svg",
+  stylesheet = " * { stroke: " .. beautiful.control_button_normal_fg .. " }",
+  forced_width = 30,
+  valign = "center",
+  halign = "center",
+}
+
 local bluetooth = wibox.widget {
   {
-    {
-      widget = wibox.widget.imagebox,
-      image = gears.filesystem.get_configuration_dir() .. "icons/bluetooth.svg",
-      stylesheet = " * { stroke: " .. beautiful.fg_normal .. " }",
-      forced_width = 25,
-      valign = "center",
-      halign = "center",
-    },
+    icon,
     widget = wibox.container.margin,
     margins = 12.5,
   },
@@ -24,18 +26,18 @@ local bluetooth = wibox.widget {
 helpers.add_hover_cursor(bluetooth, "hand1")
 
 -- thanks to nes
-local on = beautiful.bg_focus
-local off = beautiful.bg_normal
 local s = true
 bluetooth:buttons {
   awful.button({}, 1, function()
     s = not s
     if s then
-      bluetooth.bg = off
-      awful.spawn "bluetoothctl power off"
+      bluetooth.bg = beautiful.control_button_normal_bg
+      icon.stylesheet =
+        " * { stroke: " .. beautiful.control_button_normal_fg .. " }", awful.spawn "bluetoothctl power off"
     else
-      bluetooth.bg = on
-      awful.spawn "bluetoothctl power on"
+      bluetooth.bg = beautiful.control_button_active_bg
+      icon.stylesheet =
+        " * { stroke: " .. beautiful.control_button_active_fg .. " }", awful.spawn "bluetoothctl power on"
     end
   end),
 }

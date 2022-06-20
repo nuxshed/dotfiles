@@ -14,9 +14,9 @@ theme.font_name = "Cartograph CF Regular "
 theme.bg_normal = "#263238"
 theme.bg_focus = "#2E3C43"
 theme.bg_subtle = "#314549"
+theme.bg_dark = "#1f292d"
 theme.bg_urgent = "#263238"
 theme.bg_minimize = "#263238"
-theme.bg_dark = "#263238"
 theme.bg_systray = theme.bg_normal
 
 theme.fg_normal = "#eeffff"
@@ -47,10 +47,15 @@ theme.critical = "#F07178"
 theme.titlebar_bg_focus = theme.bg_subtle
 theme.titlebar_bg_normal = theme.bg_focus
 
-theme.taglist_fg_empty = "#546e7a"
+theme.taglist_fg_empty = theme.fg_minimize
 
-theme.slider_active_color = "#c3e88d"
-theme.slider_handle_color = "#eeffff"
+theme.slider_active_color = theme.warn
+theme.slider_handle_color = theme.fg_normal
+
+theme.control_button_active_bg = theme.green
+theme.control_button_active_fg = theme.bg_normal
+theme.control_button_normal_bg = theme.bg_normal
+theme.control_button_normal_fg = theme.fg_normal
 
 -- Variables set for theming notifications:
 -- notification_font
@@ -68,9 +73,11 @@ theme.notification_spacing = 10
 -- menu_[border_color|border_width]
 theme.menu_fg_normal = "#d5d5d5"
 theme.menu_fg_focus = "#82aaff"
-theme.menu_submenu_icon = icons_path .. "submenu.svg"
+theme.menu_submenu_icon = theme_path .. "submenu.svg"
 theme.menu_height = dpi(30)
-theme.menu_width = dpi(130)
+theme.menu_width = dpi(150)
+theme.menu_border_width = dpi(4)
+theme.menu_border_color = "#00000000"
 
 -- You can add as many variables as
 -- you wish and access them by using
@@ -105,13 +112,19 @@ theme.layout_spiral = gears.color.recolor_image(themes_path .. "default/layouts/
 theme.tag_preview_widget_border_radius = 0
 theme.tag_preview_client_border_radius = 0
 theme.tag_preview_client_opacity = 0.5
-theme.tag_preview_client_bg = "#314549"
-theme.tag_preview_client_border_color = "#314549"
+theme.tag_preview_client_bg = theme.bg_normal
+theme.tag_preview_client_border_color = theme.bg_subtle
 theme.tag_preview_client_border_width = 3
-theme.tag_preview_widget_bg = "#263238"
+theme.tag_preview_widget_bg = theme.bg_dark
 theme.tag_preview_widget_border_color = theme.bg_focus
 theme.tag_preview_widget_border_width = 2
 theme.tag_preview_widget_margin = 10
+
+theme.task_preview_widget_border_radius = 0
+theme.task_preview_widget_bg = theme.bg_dark
+theme.task_preview_widget_border_color = theme.bg_focus
+theme.task_preview_widget_border_width = 3
+theme.task_preview_widget_margin = 15
 
 theme.tabbar_radius = 0
 theme.tabbar_style = "default"

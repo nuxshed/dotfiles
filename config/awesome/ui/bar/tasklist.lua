@@ -1,13 +1,12 @@
-local helpers = require "helpers"
 return function(s)
   local awful = require "awful"
   local bling = require "modules.bling"
   local wibox = require "wibox"
   bling.widget.task_preview.enable {
     placement_fn = function(c)
-      awful.placement.top(c, {
+      awful.placement.bottom(c, {
         margins = {
-          top = 50,
+          bottom = 50,
         },
       })
     end,
@@ -29,9 +28,6 @@ return function(s)
       awful.button({}, 5, function()
         awful.client.focus.byidx(1)
       end),
-    },
-    style = {
-      shape = helpers.squircle(1.3, 0),
     },
     layout = {
       spacing = 5,

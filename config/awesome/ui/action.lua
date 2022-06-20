@@ -262,11 +262,11 @@ local action = awful.popup {
     },
   },
   placement = function(c)
-    (awful.placement.right)(c, { margins = { bottom = 50 } })
+    (awful.placement.right)(c, { margins = { bottom = 50, right = 13 } })
   end,
   ontop = true,
   visible = false,
-  bg = beautiful.bg_dark,
+  bg = beautiful.bg_normal,
   border_color = beautiful.bg_subtle,
   border_width = 2,
 }

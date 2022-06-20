@@ -1,6 +1,5 @@
 return function(s)
   local awful = require "awful"
-  local beautiful = require "beautiful"
   local bling = require "modules.bling"
   local wibox = require "wibox"
   bling.widget.tag_preview.enable {

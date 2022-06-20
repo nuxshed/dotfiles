@@ -56,8 +56,10 @@ local screen = gooey.make_button {
 
 local clip_switch = gooey.make_switch {
   icon = "clipboard",
+  icon_fg_on = beautiful.bg_normal,
   bg = beautiful.bg_subtle,
   bg_off = beautiful.bg_subtle,
+  bg_on = beautiful.green,
   exec_on = function()
     clip_enabled = true
   end,

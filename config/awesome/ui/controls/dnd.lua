@@ -5,16 +5,18 @@ local naughty = require "naughty"
 local wibox = require "wibox"
 local helpers = require "helpers"
 
+local icon = wibox.widget {
+  widget = wibox.widget.imagebox,
+  image = gears.filesystem.get_configuration_dir() .. "icons/moon.svg",
+  stylesheet = " * { stroke: " .. beautiful.fg_normal .. " }",
+  forced_width = 28,
+  valign = "center",
+  halign = "center",
+}
+
 local dnd = wibox.widget {
   {
-    {
-      widget = wibox.widget.imagebox,
-      image = gears.filesystem.get_configuration_dir() .. "icons/moon.svg",
-      stylesheet = " * { stroke: " .. beautiful.fg_normal .. " }",
-      forced_width = 28,
-      valign = "center",
-      halign = "center",
-    },
+    icon,
     widget = wibox.container.margin,
     margins = 11,
   },
@@ -24,18 +26,16 @@ local dnd = wibox.widget {
 
 helpers.add_hover_cursor(dnd, "hand1")
 
-local on = beautiful.bg_focus
-local off = beautiful.bg_normal
 local s = true
 dnd:buttons {
   awful.button({}, 1, function()
     s = not s
     if s then
-      dnd.bg = off
-      naughty.resume()
+      dnd.bg = beautiful.control_button_normal_bg
+      icon.stylesheet = " * { stroke: " .. beautiful.control_button_normal_fg .. " }", naughty.resume()
     else
-      dnd.bg = on
-      naughty.suspend()
+      dnd.bg = beautiful.control_button_active_bg
+      icon.stylesheet = " * { stroke: " .. beautiful.control_button_active_fg .. " }", naughty.suspend()
     end
   end),
 }

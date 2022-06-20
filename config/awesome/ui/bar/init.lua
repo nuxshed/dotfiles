@@ -29,7 +29,7 @@ local bat_arcchart = wibox.widget {
   min_value = 0,
   max_value = 100,
   colors = { beautiful.fg_normal },
-  bg = beautiful.fg_minimize,
+  bg = beautiful.bg_focus,
 }
 
 local battery_percent = wibox.widget {
@@ -66,7 +66,7 @@ local battery_popup = awful.popup {
   border_width = 2,
   border_color = beautiful.bg_focus,
   placement = function(c)
-    (awful.placement.bottom_right)(c, { margins = { bottom = 55, right = 70 } })
+    (awful.placement.bottom_right)(c, { margins = { bottom = 55, right = 110 } })
   end,
   ontop = true,
 }
@@ -130,14 +130,6 @@ local time = wibox.widget {
 
 helpers.add_hover_cursor(time, "hand1")
 
-local time_t = awful.tooltip {
-  objects = { time },
-  delay_show = 1,
-  timer_function = function()
-    return os.date "%A %B %d %Y"
-  end,
-}
-
 local layoutbox = wibox.widget {
   bg = beautiful.bg_subtle,
   fg = beautiful.fg_time,
@@ -197,14 +189,14 @@ screen.connect_signal("request::desktop_decoration", function(s)
           widget = wibox.container.margin,
           margins = 3,
         },
-        -- {
-        --   widget = wibox.container.place,
-        --   halign = "center",
-        --   {
-        --     widget = require "ui.bar.tasklist"(s),
-        --   },
-        -- },
-        nil,
+        {
+          widget = wibox.container.place,
+          halign = "center",
+          {
+            widget = require "ui.bar.tasklist"(s),
+          },
+        },
+        -- nil,
         {
           { widget = battery },
           { widget = time },

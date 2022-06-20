@@ -2,6 +2,7 @@ local awful = require "awful"
 local beautiful = require "beautiful"
 local wibox = require "wibox"
 local gooey = require "ui.gooey"
+local rubato = require "modules.rubato"
 
 F.start = {}
 
@@ -187,6 +188,41 @@ local start = awful.popup {
   bg = beautiful.bg_normal,
 }
 
-function F.start.toggle()
-  start.visible = not start.visible
+local slide = rubato.timed {
+  pos = -500,
+  rate = 60,
+  intro = 0.3,
+  duration = 0.8,
+  easing = rubato.quadratic,
+  awestore_compat = true,
+  subscribed = function(pos)
+    start.x = pos
+  end,
+}
+
+local start_status = false
+
+slide.ended:subscribe(function()
+  if start_status then
+    start.visible = false
+  end
+end)
+
+local function start_show()
+  start.visible = true
+  slide:set(10)
+  start_status = false
+end
+
+local function start_hide()
+  slide:set(-500)
+  start_status = true
+end
+
+F.start.toggle = function()
+  if start.visible then
+    start_hide()
+  else
+    start_show()
+  end
 end

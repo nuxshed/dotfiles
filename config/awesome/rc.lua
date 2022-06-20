@@ -9,7 +9,9 @@ naughty.connect_signal("request::display_error", function(message, startup)
   }
 end)
 
-require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/material/theme.lua")
+_G.theme = "material"
+
+require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/" .. theme .. "/theme.lua")
 
 F = {}
 
@@ -18,10 +20,11 @@ require "conf"
 
 require "ui.action"
 require "ui.bar"
-require "ui.exec"
-require "ui.exit"
 require "ui.notifs"
-require "ui.run"
-require "ui.scr"
+require "ui.prompt.exec"
+require "ui.prompt.run"
 require "ui.start"
 require "ui.titlebar"
+require "ui.utilities.exit"
+require "ui.utilities.scr"
+require "ui.utilities.theme_switch"

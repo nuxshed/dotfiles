@@ -66,6 +66,7 @@ function M.make_switch(opts)
 
   local icon = opts.icon or "default"
   local icon_color = opts.icon_fg or beautiful.fg_normal
+  local icon_color_on = opts.icon_fg_on or beautiful.fg_focus
   local icon_widget = wibox.widget {
     widget = wibox.widget.imagebox,
     image = icons_dir .. icon .. ".svg",
@@ -103,9 +104,11 @@ function M.make_switch(opts)
       s = not s
       if s then
         button.bg = opts.bg_off or beautiful.bg_normal
+        icon_widget.stylesheet = " * { stroke: " .. icon_color .. " }"
         opts.exec_off()
       else
         button.bg = opts.bg_on or beautiful.bg_focus
+        icon_widget.stylesheet = " * { stroke: " .. icon_color_on .. " }"
         opts.exec_on()
       end
     end),
