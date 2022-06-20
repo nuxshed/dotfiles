@@ -25,7 +25,6 @@
 
 (require 'init-evil)
 (require 'init-org)
-(require 'publish)
 (require 'init-layout)
 (require 'ui)
 (require 'prog)
@@ -36,5 +35,10 @@
   :ensure nil
   :load-path "~/.emacs.d/lisp/init-mail.el"
   :commands mu4e)
+
+(use-package publish
+  :ensure nil
+  :load-path "~/.emacs.d/lisp/publish.el"
+  :commands (org-publish-project org-publish-all))
 
 ;;; init.el ends here

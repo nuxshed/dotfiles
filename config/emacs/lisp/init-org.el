@@ -1,6 +1,8 @@
 ;; -*- lexical-binding: t; -*-
 
 (use-package org-contrib)
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode))
 
 (setq org-agenda-files '("~/org/agenda.org"))
 
@@ -12,7 +14,6 @@
 (use-package htmlize)
 
 (add-hook 'org-mode-hook (lambda ()
-			   (org-modern-mode)
 			   (toggle-truncate-lines)
 			   (flyspell-mode t)
 			   (electric-indent-local-mode -1)))
