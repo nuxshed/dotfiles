@@ -1,0 +1,20 @@
+{ config, pkgs, ... }:
+{
+  services.xserver = {
+    enable = true;
+    layout = "gb";
+    xkbOptions = "eurosign:e,caps:escape";
+    libinput.enable = true;
+    displayManager.gdm.enable = true;
+ 
+    windowManager = {
+      awesome = {
+        enable = true;
+        pkg = pkgs.awesome-git;
+      };
+      berry.enable = true;
+    };
+
+    programs.slock.enable = true;
+  };
+}

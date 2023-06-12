@@ -26,7 +26,7 @@ while [ "$1" ]; do
       notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished garbage collection"
       exit ;;
     home)
-      nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
+      nix build "$HOME/dotfiles#homeConfigurations.earth.activationPackage" && ./result/activate
       notify-send -i "$HOME/dotfiles/nixos.png" "pls" "home-manager config rebuilt "
       exit ;;
     rebuild)
@@ -48,7 +48,7 @@ while [ "$1" ]; do
     upgrade)
       nix flake update "$HOME/dotfiles"
       sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
-      nix build "$HOME/dotfiles#homemanagerConfigurations.earth.activationPackage" && ./result/activate
+      nix build "$HOME/dotfiles#homeConfigurations.earth.activationPackage" && ./result/activate
       notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished upgrade"
       exit ;;
     optimise)

@@ -1,55 +1,34 @@
+# Edit this configuration file to define what should be installed on
+# your system.  Help is available in the configuration.nix(5) man page
+# and in the NixOS manual (accessible by running `nixos-help`).
+
 { config, pkgs, ... }:
 
 {
   imports =
     [
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
-
-      # Other Modules
-      ../../modules/system/env.nix
-      ../../modules/system/fonts.nix
-      ../../modules/system/sound.nix
-      ../../modules/system/xorg.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  # use latest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  time.timeZone = "Asia/Kolkata";
 
   networking = {
     hostName = "earth";
     networkmanager.enable = true;
-    useDHCP = false;
-    interfaces.enp0s31f6.useDHCP = true;
-    interfaces.wlp4s0.useDHCP = true;
-  };
-
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
   };
 
   hardware.bluetooth.enable = true;
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = "Asia/Kolkata";
+
   console = {
     font = "Lat2-Terminus16";
     keyMap = "uk";
   };
 
-  programs.gnupg.agent.enable = true;
-
-  users.users.advait = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
-    shell = pkgs.zsh;
-  };
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   programs.zsh = {
     enable = true;
@@ -59,23 +38,52 @@
 
   environment.binsh = "${pkgs.dash}/bin/dash";
 
+  services.xserver = {
+    enable = true;
+    layout = "gb";
+    xkbOptions = "eurosign:e,caps:escape";
+    libinput.enable = true;
+    displayManager.gdm.enable = true;
+ 
+    windowManager = {
+     awesome = {
+       enable = true;
+     #  pkg = pkgs.awesome-git;
+     };
+     berry.enable = true;
+     herbstluftwm.enable = true;
+    };
+
+  };
+
+  users.users.nuxsh = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+    shell = pkgs.zsh;
+  };
+
   environment.systemPackages = with pkgs; [
     coreutils
     gcc
-    gnupg
-    pinentry
     usbutils
     vim
-    zsh
+    git
   ];
 
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  
   nix = {
     package = pkgs.nixUnstable;
-    trustedUsers = [ "root" "advait" "@wheel" ];
+    trustedUsers = [ "root" "advait" ];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
 
-  system.stateVersion = "21.11";
+  system.stateVersion = "23.05";
+
 }
+

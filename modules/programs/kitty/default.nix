@@ -1,23 +1,12 @@
 { config, pkgs, lib, ... }:
 
-with lib;
-let cfg = config.modules.programs.kitty;
-in
 {
-  options.modules.programs.kitty = {
-    enable = mkEnableOption "kitty";
-  };
-
-  imports = [ ./colors/material.nix ];
+  imports = [ ./colors/hydrangea.nix ];
 
 
-  config = mkIf cfg.enable {
+  config = {
     programs.kitty = {
       enable = true;
-      font = {
-        name = "Iosevka Nerd Font";
-        size = 10;
-      };
       settings = {
         cursor_shape = "underline";
         window_padding_width = "20 30 20 30";
