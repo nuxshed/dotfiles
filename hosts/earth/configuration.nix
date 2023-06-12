@@ -8,6 +8,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ../../modules/system
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -38,24 +39,6 @@
 
   environment.binsh = "${pkgs.dash}/bin/dash";
 
-  services.xserver = {
-    enable = true;
-    layout = "gb";
-    xkbOptions = "eurosign:e,caps:escape";
-    libinput.enable = true;
-    displayManager.gdm.enable = true;
- 
-    windowManager = {
-     awesome = {
-       enable = true;
-     #  pkg = pkgs.awesome-git;
-     };
-     berry.enable = true;
-     herbstluftwm.enable = true;
-    };
-
-  };
-
   users.users.nuxsh = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" ];
@@ -77,7 +60,7 @@
   
   nix = {
     package = pkgs.nixUnstable;
-    trustedUsers = [ "root" "advait" ];
+    settings.trusted-users = [ "root" "advait" ];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

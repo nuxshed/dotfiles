@@ -8,13 +8,14 @@
     displayManager.gdm.enable = true;
  
     windowManager = {
-      awesome = {
-        enable = true;
-        pkg = pkgs.awesome-git;
-      };
-      berry.enable = true;
+     awesome = {
+       enable = true;
+     #  pkg = pkgs.awesome-git;
+     };
+     berry.enable = true;
+     herbstluftwm.enable = true;
     };
 
-    programs.slock.enable = true;
-  };
+};
+  programs.slock.enable = true;
 }

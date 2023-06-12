@@ -6,15 +6,15 @@
 
 status_volume() {
   vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
-  echo "墳 $vol%"
+  echo "󰕾 $vol%"
 }
 
 status_battery() {
   CHARGE=$(cat /sys/class/power_supply/BAT1/capacity)
   STATUS=$(cat /sys/class/power_supply/BAT1/status)
 
-  ramp0=; ramp1=; ramp2=; ramp3=; ramp4=; ramp5=
-  ramp6=; ramp7=; ramp8=; ramp9=; rampc=
+  ramp0=󰁺; ramp1=󰁻; ramp2=󰁼; ramp3=󰁽; ramp4=󰁾; ramp5=󰁿
+  ramp6=󰂀; ramp7=󰂁; ramp8=󰂂; ramp9=󰁹; rampc=󰂄
 
   if [ "$STATUS" = "Charging" ]; then
     icon=$rampc
