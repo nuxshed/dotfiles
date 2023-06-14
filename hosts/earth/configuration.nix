@@ -51,6 +51,8 @@
     usbutils
     vim
     git
+    maim
+    xclip
   ];
 
   programs.gnupg.agent = {

@@ -10,7 +10,7 @@
     windowManager = {
      awesome = {
        enable = true;
-     #  pkg = pkgs.awesome-git;
+       package = pkgs.awesome-git;
      };
      berry.enable = true;
      herbstluftwm.enable = true;

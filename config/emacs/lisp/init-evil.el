@@ -36,8 +36,9 @@
     "oa" 'org-agenda
     "fh" 'consult-org-heading
     ;; Open
-    "om" 'mu4e
     "os" 'eshell
+    ;; Toggle
+    "tn" 'display-line-numbers-mode
     ;; Notes
     "no" 'deft
     "nf" 'deft-find-file

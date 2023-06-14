@@ -1,4 +1,4 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./xserver.nix ./fonts.nix ];
+  imports = [ ./env.nix ./fonts.nix ./xserver.nix ];
 }

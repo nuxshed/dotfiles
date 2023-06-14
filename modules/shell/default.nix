@@ -3,8 +3,8 @@
   imports = [ ./git.nix ];
   
   home.packages = with pkgs; [
-    acpi alsa-utils bottom brightnessctl exa fd feh ffmpeg
-    fzf github-cli gnumake hsetroot lazygit maim ncdu pamixer
+    acpi alsa-utils bottom brightnessctl exa fd feh ffmpeg-full
+    fzf github-cli gnumake hsetroot lazygit maim mpv ncdu pamixer
     playerctl (ripgrep.override { withPCRE2 = true; }) slop
     tmux unzip wget xclip zoxide
   ];

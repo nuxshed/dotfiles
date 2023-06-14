@@ -8,9 +8,14 @@
     
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+
+    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+
+    bling = { url = "github:BlingCorp/bling"; flake = false; };
+    rubato = { url = "github:andOrlando/rubato"; flake = false; };
   };
 
-  outputs = { nixpkgs, home-manager, neovim-nightly, emacs-overlay, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixpkgs-f2k, neovim-nightly, emacs-overlay, ... }@inputs: {
     nixosConfigurations = {
       earth = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
@@ -20,6 +25,7 @@
            nixpkgs.overlays = [
              neovim-nightly.overlay
              emacs-overlay.overlay
+             nixpkgs-f2k.overlays.window-managers
            ];
          }
         ];
@@ -36,6 +42,7 @@
            nixpkgs.overlays = [
              neovim-nightly.overlay
              emacs-overlay.overlay
+             nixpkgs-f2k.overlays.window-managers
            ];
          }
       ];

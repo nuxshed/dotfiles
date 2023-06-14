@@ -14,7 +14,6 @@ recordscreen() {
 	ffmpeg \
 		-video_size "$resolution" \
 		-framerate 35 \
-		-f x11grab \
 		-i :0.0 \
 		-pix_fmt yuv420p \
 		-c:v libx264 \

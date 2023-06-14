@@ -23,6 +23,9 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 25)
 
+(setq make-backup-files nil)
+(setq-default truncate-lines t)
+
 (require 'init-evil)
 (require 'init-org)
 (require 'init-layout)
