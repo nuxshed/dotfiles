@@ -158,7 +158,7 @@ end
 local music_popup = awful.popup {
   bg = beautiful.bg_normal,
   placement = function(c)
-    (awful.placement.bottom_left)(c, { margins = { bottom = 120, left = 20 } })
+    (awful.placement.bottom_left)(c, { margins = { bottom = 115, left = 20 } })
   end,
   ontop = true,
   widget = wibox.widget {

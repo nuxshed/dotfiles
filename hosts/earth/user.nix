@@ -2,7 +2,7 @@
 {
   imports = [
    ../../modules/desktop
-   #../../modules/dev
+   ../../modules/dev
    ../../modules/editors
     ../../modules/programs
     ../../modules/shell

@@ -15,7 +15,7 @@
 ;; Ibuffer
 (setq ibuffer-formats
       '((mark modified read-only locked " "
-              (name 20 20 :left :elide)
+              (name 30 30 :left :elide)
               " "
               (size-h 11 -1 :right)
               " "

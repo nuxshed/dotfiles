@@ -64,8 +64,14 @@ awful.keyboard.append_global_keybindings {
     F.theme_switch.toggle()
   end, { description = "run prompt", group = "launcher" }),
 
+  -- Music
   awful.key({ modkey, "Shift" }, "m", function()
     F.music.toggle()
+  end, { description = "run prompt", group = "launcher" }),
+
+  -- Sidebars
+  awful.key({ modkey }, "a", function()
+    S.notifs.toggle()
   end, { description = "run prompt", group = "launcher" }),
 
   -- XF86 Keys

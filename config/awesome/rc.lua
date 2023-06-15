@@ -5,6 +5,7 @@ _G.theme = "hydrangea"
 require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/" .. theme .. "/theme.lua")
 
 F = {}
+S = {}
 
 require "squeals"
 require "conf"
@@ -17,3 +18,4 @@ require "ui.titlebar"
 require "ui.utilities.exit"
 require "ui.utilities.theme_switch"
 require "ui.widget.music"
+require "ui.sidebar"
