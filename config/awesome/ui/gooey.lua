@@ -1,5 +1,6 @@
 local awful = require "awful"
 local beautiful = require "beautiful"
+local gears = require "gears"
 local icons_dir = require("gears").filesystem.get_configuration_dir() .. "/icons/"
 local wibox = require "wibox"
 
@@ -135,5 +136,24 @@ function M.make_prompt_widget(prompt, opts)
     forced_height = opts.forced_height or 500,
   }
 end
+
+function M.make_toggle(opts)
+  opts = opts or {}
+
+  local color_off = opts.color_off or beautiful.fg_minimize
+  local color_on = opts.color_on or beautiful.bg_focus
+  local handle_color = opts.handle_color or beautiful.bg_normal
+  local border_width = opts.border_width or 1
+  local border_color = opts.border_color or beautiful.fg_normal
+end
+
+awful.popup {
+   widget = {
+      M.make_toggle {}
+   },
+  placement = awful.placement.top_left,
+  shape = gears.shape.rounded_rect,
+  visible = true,
+}
 
 return M

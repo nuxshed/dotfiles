@@ -28,7 +28,6 @@
     size = 32;
   };
   home.file = {
-    ".config/herbstluftwm".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/herbstluftwm";
     ".config/tint2".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/tint2";
   };
 }

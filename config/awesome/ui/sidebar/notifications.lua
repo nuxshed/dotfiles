@@ -213,7 +213,6 @@ local notifs = wibox.widget {
   layout = wibox.layout.fixed.vertical,
 }
 
-
 local sidebar = awful.popup {
   widget = {
     widget = wibox.container.margin,

@@ -1,11 +1,14 @@
 { config, pkgs, lib, ... }:
 {
-  imports = [ ./kitty ./spotify.nix ];
-  home.packages = with pkgs; [ brave font-manager rofi ];
+  imports = [ ./kitty ];
+  home.packages = with pkgs; [ vivaldi font-manager rofi ];
 
   nixpkgs.config = {
     allowUnfree = true;
   };
+
+  home.file.".config/rofi".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/rofi";
 
   programs.zathura = {
     enable = true;
@@ -15,11 +18,8 @@
       default-fg = "#343b58";
       recolor-darkcolor = "#343b58";
       recolor-lightcolor = "#eaecf2";
-      notification-fg = "#343b58";
-      notification-bg = "#998f83";
-      statusbar-bg = "#343b58";
-      statusbar-fg = "#998f83";
       statusbar-home-tilde = true;
+      guioptions = "none";
     };
   };
 

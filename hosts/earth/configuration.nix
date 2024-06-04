@@ -19,6 +19,11 @@
     networkmanager.enable = true;
   };
 
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+
   hardware.bluetooth.enable = true;
 
   time.timeZone = "Asia/Kolkata";
@@ -61,7 +66,7 @@
   };
   
   nix = {
-    package = pkgs.nixUnstable;
+    package = pkgs.nix;
     settings.trusted-users = [ "root" "advait" ];
     extraOptions = ''
       experimental-features = nix-command flakes

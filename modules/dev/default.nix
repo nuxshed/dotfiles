@@ -2,7 +2,10 @@
 {
   home.packages = with pkgs; [
     lua luarocks stylua
-    clojure leiningen jre8
-    nixfmt rnix-lsp
+    clojure clojure-lsp clj-kondo leiningen jre8
+    nixfmt llvmPackages.bintools rustup python3
   ];
+  home.file.".config/clj-kondo/config.edn".text = ''
+  {:ignore [:unresolved-symbol :unresolved-namespace :unused-value]}
+  '';
 }

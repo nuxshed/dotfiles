@@ -68,7 +68,7 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (use-package doom-themes
   :config
-  (load-theme 'doom-hydrangea t))
+  (load-theme 'doom-redrot t))
 
 (fringe-mode 10)
 

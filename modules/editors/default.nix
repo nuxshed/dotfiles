@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [ neovim-nightly emacs-unstable ];
+  home.packages = with pkgs; [ emacs ];
  home.file.".emacs.d/init.el".source =
    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/init.el";
  home.file.".emacs.d/early-init.el".source =
@@ -45,10 +45,5 @@
     nnoremap <silent> <C-n> :tabnew<CR>
     nnoremap <silent> <C-Left> :tabprevious<CR>
     nnoremap <silent> <C-Right> :tabnext<CR>
-  '';
-  home.file.".config/nvim/init.vim".text = ''
-    set runtimepath^=~/.vim runtimepath+=~/.vim/after
-    let &packpath=&runtimepath
-    source ~/.vimrc
   '';
 } 

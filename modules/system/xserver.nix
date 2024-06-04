@@ -13,7 +13,6 @@
        package = pkgs.awesome-git;
      };
      berry.enable = true;
-     herbstluftwm.enable = true;
     };
 
 };

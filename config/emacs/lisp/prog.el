@@ -6,6 +6,7 @@
 (use-package clojure-mode :mode "\\.clj\\'")
 (use-package nix-mode :mode "\\.nix\\'")
 (use-package lua-mode :mode "\\.lua\\'")
+(use-package rust-mode :mode "\\.rs\\'")
 
 (use-package lispy
   :hook ((emacs-lisp-mode clojure-mode) . lispy-mode))

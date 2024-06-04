@@ -5,6 +5,7 @@ local helpers = require "helpers"
 
 local bat_bar = wibox.widget {
   widget = wibox.widget.progressbar,
+  forced_width = 20,
   forced_height = 10,
   value = 100,
   min_value = 0,
@@ -52,11 +53,10 @@ end)
 
 local time = wibox.widget {
   widget = wibox.container.background,
-  forced_height = 50,
   bg = beautiful.bg_normal,
   {
     widget = wibox.container.margin,
-    top = 5,
+    margins = 5,
     {
       layout = wibox.layout.fixed.vertical,
       {
@@ -112,7 +112,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             { widget = time },
             layout = wibox.layout.fixed.vertical,
             spacing = 10,
-            bottom = 10,
+            right = 10,
           },
           layout = wibox.layout.align.vertical,
           forced_width = 35,

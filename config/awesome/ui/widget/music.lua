@@ -4,6 +4,7 @@ local naughty = require "naughty"
 local playerctl = require("modules.bling").signal.playerctl.lib()
 local wibox = require "wibox"
 local rubato = require "modules.rubato"
+local helpers = require "helpers"
 
 local gears = require "gears"
 
@@ -33,11 +34,11 @@ local artist_widget = wibox.widget {
 }
 
 local progress = wibox.widget {
-   widget = wibox.widget.progressbar,
-   forced_height = 5,
-   forced_width = 100,
-   color = beautiful.fg_focus,
-   background_color = beautiful.bg_focus,
+  widget = wibox.widget.progressbar,
+  forced_height = 5,
+  forced_width = 100,
+  color = beautiful.fg_focus,
+  background_color = beautiful.bg_focus,
 }
 
 playerctl:connect_signal("metadata", function(_, title, artist, album_path, album, player_name)
@@ -46,7 +47,7 @@ playerctl:connect_signal("metadata", function(_, title, artist, album_path, albu
   artist_widget:set_markup_silently(artist)
 end)
 
-playerctl:connect_signal("position", function (_, prog, prog_max, _)
+playerctl:connect_signal("position", function(_, prog, prog_max, _)
   progress.max_value = prog_max
   progress.value = prog
 end)
@@ -72,22 +73,25 @@ local play = wibox.widget {
   forced_width = 25,
 }
 
-playerctl:connect_signal("playback_status", function (_, playing, _)
+playerctl:connect_signal("playback_status", function(_, playing, _)
   if playing then
-     play.image = beautiful.music_pause_icon
+    play.image = beautiful.music_pause_icon
   else
-     play.image = beautiful.music_play_icon
+    play.image = beautiful.music_play_icon
   end
 end)
 
-play:buttons(gears.table.join(
-  awful.button({}, 1, function() playerctl:play_pause() end)))
+play:buttons(gears.table.join(awful.button({}, 1, function()
+  playerctl:play_pause()
+end)))
 
-next:buttons(gears.table.join(
-  awful.button({}, 1, function() playerctl:next() end)))
+next:buttons(gears.table.join(awful.button({}, 1, function()
+  playerctl:next()
+end)))
 
-prev:buttons(gears.table.join(
-  awful.button({}, 1, function() playerctl:previous() end)))
+prev:buttons(gears.table.join(awful.button({}, 1, function()
+  playerctl:previous()
+end)))
 
 local music = awful.popup {
   widget = {
@@ -108,36 +112,36 @@ local music = awful.popup {
         --  fg = beautiful.fg_minimize,
         --  name_widget,
         --},
-	{
-        layout = wibox.layout.fixed.vertical,
-	spacing = 3,
-	{
-          widget = wibox.container.scroll.horizontal,
-          step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
-	  speed = 25,
-	  forced_width = 200,
-          title_widget,
-	},
-	{
-          widget = wibox.container.scroll.horizontal,
-          step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
-	  speed = 25,
-	  forced_width = 200,
-          artist_widget,
-	},
-	},
-	{
-	   widget = wibox.container.place,
-	   halign = "center",
-	   {
-	     layout = wibox.layout.fixed.horizontal,
-	     spacing = 10,
-	     prev,
-	     play,
-	     next,
-	   },
-	},
-	progress,
+        {
+          layout = wibox.layout.fixed.vertical,
+          spacing = 3,
+          {
+            widget = wibox.container.scroll.horizontal,
+            step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
+            speed = 25,
+            forced_width = 200,
+            title_widget,
+          },
+          {
+            widget = wibox.container.scroll.horizontal,
+            step_function = wibox.container.scroll.step_functions.waiting_nonlinear_back_and_forth,
+            speed = 25,
+            forced_width = 200,
+            artist_widget,
+          },
+        },
+        {
+          widget = wibox.container.place,
+          halign = "center",
+          {
+            layout = wibox.layout.fixed.horizontal,
+            spacing = 10,
+            prev,
+            play,
+            next,
+          },
+        },
+        progress,
       },
     },
   },
@@ -160,27 +164,29 @@ local music_popup = awful.popup {
   placement = function(c)
     (awful.placement.bottom_left)(c, { margins = { bottom = 115, left = 20 } })
   end,
-  ontop = true,
+  ontop = false,
   widget = wibox.widget {
+    bg = beautiful.bg_normal,
     widget = wibox.container.background,
     forced_width = 35,
     forced_height = 35,
-
-  buttons = {
-    awful.button({}, 1, function()
-	  toggle()
-    end),
-  },
+    buttons = {
+      awful.button({}, 1, function()
+        F.music.toggle()
+      end),
+    },
     {
-       widget = wibox.container.margin,
-       margins = 7,
+      widget = wibox.container.margin,
+      margins = 7,
       {
-      widget = wibox.widget.imagebox,
-      image = beautiful.music_default_icon,
+        widget = wibox.widget.imagebox,
+        image = beautiful.music_default_icon,
       },
     },
   },
 }
+
+helpers.add_hover_cursor(music_popup, "hand1")
 
 local slide = rubato.timed {
   pos = -100,
@@ -204,12 +210,11 @@ end)
 
 playerctl:connect_signal("playback_status", function(_, playing)
   if playing == true then
-  music_popup.visible = true
-  slide:set(20)
-  popup_status = false
+    music_popup.visible = true
+    slide:set(20)
+    popup_status = false
   else
-  slide:set(-100)
-  popup_status = true
+    slide:set(-100)
+    popup_status = true
   end
 end)
-

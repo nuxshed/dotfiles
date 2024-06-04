@@ -33,7 +33,7 @@ awful.keyboard.append_global_keybindings {
 
   -- Frequently Used
   awful.key({ modkey }, "b", function()
-    awful.spawn "brave"
+    awful.spawn "vivaldi"
   end),
   awful.key({ modkey }, "e", function()
     awful.spawn "emacs"

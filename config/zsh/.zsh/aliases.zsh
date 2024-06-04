@@ -1,4 +1,3 @@
-alias vim="nvim"
 alias ls="exa"
 alias la="exa -a"
 alias li="exa --icons"
