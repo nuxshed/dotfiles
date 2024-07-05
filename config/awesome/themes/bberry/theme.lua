@@ -3,42 +3,46 @@ local gears = require "gears"
 
 local gfs = require "gears.filesystem"
 local themes_path = gfs.get_themes_dir()
-local icons_path = gfs.get_configuration_dir() .. "/themes/hydrangea/icons/"
+local icons_path = gfs.get_configuration_dir() .. "/themes/bberry/icons/"
 
 local theme = {}
 
 theme.font = "Cartograph CF Regular 8"
 theme.font_name = "Cartograph CF Regular "
 
-theme.bg_normal = "#eaecf2"
-theme.bg_focus = "#c5c7d2"
-theme.bg_subtle = "#e3e5ea"
-theme.bg_urgent = "#d4d6db"
-theme.bg_minimize = "#d4d6db"
-theme.bg_dark = "#d4d6db"
+theme.bg_normal = "#1f2024"
+theme.bg_focus = "#282b33"
+theme.bg_subtle = "#222228"
+theme.bg_urgent = "#282b33"
+theme.bg_minimize = "#1f2024"
+theme.bg_dark = "#1f2024"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#343b58"
-theme.fg_focus = "#343b58"
-theme.fg_urgent = "#343b58"
-theme.fg_minimize = "#a3a4af"
+theme.fg_normal = "#c6c6c6"
+theme.fg_focus = "#c6c6c6"
+theme.fg_urgent = "#c6c6c6"
+theme.fg_minimize = "#727269"
 
 theme.useless_gap = dpi(15)
 theme.border_width = dpi(0)
-theme.border_color_normal = theme.bg_subtle
-theme.border_color_active = theme.bg_focus
-theme.border_color_marked = theme.bg_subtle
+theme.border_color_normal = theme.bg_normal
+theme.border_color_active = theme.bg_normal
+theme.border_color_marked = theme.bg_normal
 
 theme.blue = "#4b6ea6"
 
-theme.green = "#33635c"
-theme.warn = "#965027"
-theme.critical = "#8c4351"
+theme.green = "#8ca378"
+theme.warn = "#cfcf9c"
+theme.critical = "#ef7789"
 
 theme.titlebar_bg_focus = theme.bg_focus
 theme.titlebar_bg_normal = theme.bg_subtle
 
 theme.taglist_fg_empty = theme.fg_minimize
+
+theme.tooltip_bg = theme.bg_dark
+theme.tooltip_border_width = 2
+theme.tooltip_border_color = theme.fg_minimize
 
 theme.slider_active_color = theme.fg_minimize
 theme.slider_handle_color = theme.fg_minimize
@@ -58,7 +62,9 @@ theme.music_play_icon = icons_path .. "play.svg"
 theme.music_pause_icon = icons_path .. "pause.svg"
 
 theme.menu_fg_normal = theme.fg_minimize
-theme.menu_fg_focus = theme.fg_normal
+theme.menu_fg_focus = theme.fg_focus
+theme.menu_bg_normal = theme.bg_minimize
+theme.menu_bg_focus = theme.bg_focus
 theme.menu_submenu_icon = gears.color.recolor_image(icons_path .. "submenu.svg", theme.fg_subtle)
 theme.menu_height = dpi(30)
 theme.menu_width = dpi(130)

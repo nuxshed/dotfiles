@@ -1,10 +1,11 @@
 { config, pkgs, lib, ... }:
 {
   home.packages = with pkgs; [
-    lua luarocks stylua
+    lua luarocks stylua direnv
     clojure clojure-lsp clj-kondo leiningen jre8
     nixfmt llvmPackages.bintools rustup python3
   ];
+  services.lorri.enable = true;
   home.file.".config/clj-kondo/config.edn".text = ''
   {:ignore [:unresolved-symbol :unresolved-namespace :unused-value]}
   '';

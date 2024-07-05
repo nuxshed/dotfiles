@@ -21,7 +21,7 @@ local function make_theme_button(name)
   }
 end
 
-local cafe = make_theme_button "cafe"
+local bberry = make_theme_button "bberry"
 local hydrangea = make_theme_button "hydrangea"
 
 local theme_switcher = awful.popup {
@@ -31,7 +31,7 @@ local theme_switcher = awful.popup {
     {
       layout = wibox.layout.fixed.horizontal,
       spacing = 20,
-      cafe,
+      bberry,
       hydrangea,
     },
   },

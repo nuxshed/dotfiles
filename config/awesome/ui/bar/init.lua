@@ -101,7 +101,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
                 spacing = 10,
               },
               widget = wibox.container.margin,
-              margins = 5,
+              margins = 8,
             },
             widget = wibox.container.background,
             bg = beautiful.bg_normal,
@@ -121,5 +121,5 @@ screen.connect_signal("request::desktop_decoration", function(s)
         margins = 20,
       },
     })
-    :struts { left = 60 }
+    :struts { left = 75 }
 end)

@@ -1,6 +1,6 @@
 require "awful.autofocus"
 
-_G.theme = "hydrangea"
+_G.theme = "bberry"
 
 require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/" .. theme .. "/theme.lua")
 

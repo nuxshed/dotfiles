@@ -9,7 +9,7 @@
 
 (setq warning-minimum-level :error)
 ;; 
-(add-to-list 'default-frame-alist '(font . "Cozette 14"))
+(add-to-list 'default-frame-alist '(font . "Cartograph CF 11"))
 (add-to-list 'default-frame-alist '(internal-border-width . 24))
 
 (require 'package)

@@ -125,6 +125,9 @@ bindkey '^[[6~' end-of-buffer-or-history          # page down
 bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # prompt
 PROMPT='%F{blue}%~%f'$'\n''%F{green}>%f '  
 precmd() {

@@ -1,11 +1,11 @@
 { inputs, config, pkgs, lib, ... }:
 {
   imports = [];
-  home.packages = with pkgs; [ dunst libnotify lounge-gtk-theme papirus-icon-theme redshift slock tint2 xss-lock  ];
+  home.packages = with pkgs; [ dunst libnotify lounge-gtk-theme picom-pijulius papirus-icon-theme redshift slock tint2 xss-lock  ];
 
   xsession = {
     enable = true;
-    initExtra = "~/.fehbg\nxss-lock slock &";
+    initExtra = "~/.fehbg\nxss-lock slock & picom &";
   };
 
   home.file = {
@@ -13,8 +13,6 @@
     "dotfiles/config/awesome/modules/bling".source = inputs.bling.outPath;
     "dotfiles/config/awesome/modules/rubato".source = inputs.rubato.outPath;
   };
-
-  services.picom.enable = true;
 
   gtk = {
     enable = true;

@@ -31,12 +31,18 @@
     "fr" 'consult-recent-file
     "fb" 'consult-bookmark
     "ff" 'find-file
-    "fd" 'dired
+    "fd" 'treemacs-select-directory
+    "ft" 'treemacs
+    ;; Search
+    "sr" 'consult-ripgrep
+    "sf" 'consult-fd
     ;; Org
     "oa" 'org-agenda
     "fh" 'consult-org-heading
     ;; Open
     "os" 'eshell
+    ;; vterm
+    "tt" 'vterm-toggle
     ;; Toggle
     "tn" 'display-line-numbers-mode
     ;; Notes
@@ -48,11 +54,19 @@
     "bb" 'consult-buffer
     "bx" 'switch-to-scratch
     "bi" 'ibuffer
+    "b]" 'next-buffer
+    "b[" 'previous-buffer
     ;; Windows
     "wv" 'split-window-right
     "wh" 'split-window-below
     "wt" 'window-split-toggle
     "ws" 'ace-window
+    ;; Packages
+    "pi" 'package-install
+    "pd" 'package-delete
+    "pu" 'package-upgrade-all
+    "pr" 'package-refresh-contents
+    "pc" 'package-autoremove
     ;; Help
     "hh" 'help
     "hk" 'describe-key
@@ -61,5 +75,9 @@
     "hf" 'describe-face
     "hs" 'describe-symbol
     "hm" 'describe-mode))
+
+;; not evil, but whatever
+(global-set-key (kbd "<M-right>") 'next-buffer)
+(global-set-key (kbd "<M-left>") 'previous-buffer)
 
 (provide 'init-evil)

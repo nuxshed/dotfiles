@@ -1,9 +1,8 @@
 C = {}
 
-C.terminal = "kitty"
-C.browser = "brave"
+C.terminal = "wezterm"
+C.browser = "vivaldi"
 C.editor = "emacs"
-C.filebrowser = "thunar"
 C.modkey = "Mod4"
 C.altmod = "Mod1"
 

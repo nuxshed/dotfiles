@@ -9,6 +9,15 @@
     tmux unzip wget xclip zoxide
   ];
 
+  programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      nix-direnv.enable = true;
+    };
+    zsh.enable = true;
+  };
+
   home.file.".bin".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/bin";
   home.file.".zsh".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/zsh/.zsh";

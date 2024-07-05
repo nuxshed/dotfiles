@@ -64,11 +64,20 @@
 
 (use-package all-the-icons :defer t)
 
+;; Treemacs
+(use-package treemacs :defer t)
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+
 ;; Theme
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (use-package doom-themes
   :config
-  (load-theme 'doom-redrot t))
+  (load-theme 'doom-bberry t))
 
 (fringe-mode 10)
 
@@ -85,6 +94,8 @@
 
 (use-package vterm
   :commands (vterm vterm-other-window))
+
+(use-package vterm-toggle)
 
 (use-package which-key
   :config (which-key-mode)

@@ -1,6 +1,5 @@
 { config, pkgs, lib, ... }:
 {
-  imports = [ ./kitty ];
   home.packages = with pkgs; [ vivaldi font-manager rofi ];
 
   nixpkgs.config = {
@@ -9,6 +8,8 @@
 
   home.file.".config/rofi".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/rofi";
+  home.file.".config/wezterm".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/wezterm";
 
   programs.zathura = {
     enable = true;

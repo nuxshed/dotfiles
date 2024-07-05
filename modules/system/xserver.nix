@@ -4,7 +4,10 @@
     enable = true;
     layout = "gb";
     xkbOptions = "eurosign:e,caps:escape";
-    libinput.enable = true;
+    libinput = {
+      enable = true;
+      naturalScrolling = true;
+    };
     displayManager.gdm.enable = true;
  
     windowManager = {

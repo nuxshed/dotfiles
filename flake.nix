@@ -7,6 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+    spicetify-nix.url = "github:the-argus/spicetify-nix";
     
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
 
@@ -14,7 +15,7 @@
     rubato = { url = "github:andOrlando/rubato"; flake = false; };
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, ... }@inputs: {
+  outputs = { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, spicetify-nix, ... }@inputs: {
     nixosConfigurations = {
       earth = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
@@ -36,6 +37,25 @@
       extraSpecialArgs = { inherit inputs; };
       modules = [
         ./hosts/earth/user.nix
+          spicetify-nix.homeManagerModule
+          {
+            programs.spicetify = {
+              enable = true;
+              theme = spicetify-nix.packages.x86_64-linux.default.themes.catppuccin;
+              colorScheme = "mocha";
+              enabledExtensions = with spicetify-nix.packages.x86_64-linux.default.extensions; [
+                fullAppDisplay
+                shuffle
+                adblock
+                lastfm
+                history
+                keyboardShortcut
+                bookmark
+                powerBar
+                phraseToPlaylist
+              ];
+            };
+          }
          {
            nixpkgs.overlays = [
              emacs-overlay.overlay
