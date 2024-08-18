@@ -14,8 +14,10 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   networking = {
-    hostName = "earth";
+    hostName = "zephyrus";
     networkmanager.enable = true;
   };
 
@@ -25,12 +27,16 @@
   };
 
   hardware.bluetooth.enable = true;
+  hardware.pulseaudio.enable = true;
+
+  services.supergfxd.enable = true;
+  systemd.services.supergfxd.path = [pkgs.pciutils ];
+  services.asusd = {enable = true; enableUserService = true; };
 
   time.timeZone = "Asia/Kolkata";
 
   console = {
     font = "Lat2-Terminus16";
-    keyMap = "uk";
   };
 
   programs.zsh = {
@@ -72,7 +78,7 @@
     '';
   };
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.11";
 
 }
 

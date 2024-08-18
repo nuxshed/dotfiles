@@ -1,7 +1,7 @@
 { inputs, config, pkgs, lib, ... }:
 {
   imports = [];
-  home.packages = with pkgs; [ dunst libnotify lounge-gtk-theme picom-pijulius papirus-icon-theme redshift slock tint2 xss-lock  ];
+  home.packages = with pkgs; [ dunst libnotify lounge-gtk-theme picom-pijulius papirus-icon-theme redshift slock tint2 xdotool xss-lock  ];
 
   xsession = {
     enable = true;
@@ -13,6 +13,8 @@
     "dotfiles/config/awesome/modules/bling".source = inputs.bling.outPath;
     "dotfiles/config/awesome/modules/rubato".source = inputs.rubato.outPath;
   };
+  
+  home.file.".ratpoisonrc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/.ratpoisonrc";
 
   gtk = {
     enable = true;

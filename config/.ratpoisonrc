@@ -1,0 +1,71 @@
+bind c exec alacritty
+bind b exec vivaldi
+bind e exec emacs
+
+## Setup initial workspaces
+# This should set up rpws and groups, bind defaults
+exec rpws init 4 -k
+
+## Ratpoison shortcuts
+# Create a new keymap for all window management
+newkmap win
+definekey top Super_L readkey win
+
+# Groups
+definekey win 1                 rpws1
+definekey win 2                 rpws2
+definekey win 3                 rpws3
+definekey win 4                 rpws4
+
+definekey win M-1               gmove default
+definekey win M-2               gmove wspl2
+definekey win M-3               gmove wspl3
+definekey win M-4               gmove wspl4
+
+definekey win greater           rpwsn
+definekey win less              rpwsp
+
+# Frames
+definekey win s                 hsplit 1/2
+definekey win S                 vsplit 1/2
+definekey win r                 remove
+definekey win o                 only
+definekey win u                 undo
+
+definekey win d                 dedicate
+
+definekey win h                 focusleft
+definekey win j                 focusdown
+definekey win k                 focusup
+definekey win l                 focusright
+definekey win Left              focusleft
+definekey win Down              focusdown
+definekey win Up                focusup
+definekey win Right             focusright
+
+definekey win M-h               exchangeleft
+definekey win M-j               exchangedown
+definekey win M-k               exchangeup
+definekey win M-l               exchangeright
+definekey win M-Left            exchangeleft
+definekey win M-Down            exchangedown
+definekey win M-Up              exchangeup
+definekey win M-Right           exchangeright
+
+definekey win M-C-h             resize -10 0
+definekey win M-C-j             resize 0 -10
+definekey win M-C-k             resize 0 10
+definekey win M-C-l             resize 10 0
+definekey win M-C-Left          resize -10 0
+definekey win M-C-Down          resize 0 -10
+definekey win M-C-Up            resize 0 10
+definekey win M-C-Right         resize 10 0
+
+definekey win M-Tab             next
+definekey win Tab               next
+definekey win M-S-Tab           prev
+definekey win S-Tab             prev
+#definekey win w                switch window
+#definekey win Mod4+space       stack flip
+
+definekey win question          help win

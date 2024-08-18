@@ -13,6 +13,12 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  boot.kernelParams = [
+    "quiet"
+    "splash"
+    "nvidia-drm.modeset=1" "i915.enable_dpcd_backlight=1" "nvidia.NVreg_EnableBacklightHandler=0" "nvidia.NVRegistryDwords=EnableBrightnessControl=0"
+  ];
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/3ca5ce1e-e991-48d6-917d-082b4608903e";
       fsType = "ext4";

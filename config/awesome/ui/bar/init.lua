@@ -91,35 +91,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
       end,
       screen = s,
       bg = "#00000000",
-      widget = {
-        {
-          {
-            {
-              {
-                require "ui.bar.taglist"(s),
-                layout = wibox.layout.fixed.vertical,
-                spacing = 10,
-              },
-              widget = wibox.container.margin,
-              margins = 8,
-            },
-            widget = wibox.container.background,
-            bg = beautiful.bg_normal,
-          },
-          nil,
-          {
-            { widget = battery },
-            { widget = time },
-            layout = wibox.layout.fixed.vertical,
-            spacing = 10,
-            right = 10,
-          },
-          layout = wibox.layout.align.vertical,
-          forced_width = 35,
-        },
-        widget = wibox.container.margin,
-        margins = 20,
-      },
     })
-    :struts { left = 75 }
+    :struts { left = 0 }
 end)

@@ -1,6 +1,6 @@
 configuration {
   modi: "drun";
-  font: "Cartograph CF 10";
+  font: "Cartograph CF 14";
   show-icons: true;
   display-drun: "";
   drun-display-format: "{name}";
@@ -10,9 +10,9 @@ configuration {
 @theme "/dev/null"
 
 * {
-  bg: #eaecf2;
-  fg: #343b58;
-  subtle: #d4d6db;
+  bg: #222228;
+  fg: #c6c6c6;
+  subtle: #34373e;
 
   background-color: @bg;
   text-color: @fg;
@@ -49,7 +49,7 @@ inputbar {
 }
 
 listview {
-  columns: 3;
+  columns: 4;
   lines: 3;
   cycle: false;
   dynamic: true;
@@ -68,7 +68,7 @@ element {
 }
 
 element-icon {
-  size: 48px;
+  size: 96px;
   horizontal-align: 0.5;
 }
 

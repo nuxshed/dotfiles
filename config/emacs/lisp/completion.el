@@ -24,10 +24,7 @@
           nil
           t)
 
-(use-package vertico
-  :init
-  (vertico-mode)
-  (setq vertico-cycle t))
+(use-package vertico)
 
 (use-package hotfuzz
   :config
@@ -48,8 +45,9 @@
   (advice-add #'hotfuzz--adjust-metadata
               :around #'+hotfuzz--adjust-metadata--enable-history-a)
 
-(use-package marginalia
-  :after vertico
-  :init (marginalia-mode))
+(use-package marginalia)
+
+(vertico-mode)
+(marginalia-mode)
 
 (provide 'completion)

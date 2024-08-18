@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 {
   home.packages = with pkgs; [ vivaldi font-manager rofi ];
+  imports = [ ./alacritty.nix ];
 
   nixpkgs.config = {
     allowUnfree = true;

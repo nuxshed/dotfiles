@@ -29,33 +29,26 @@
          }
         ];
       };
+      zephyrus = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/zephyrus/configuration.nix
+         {
+           nixpkgs.overlays = [
+             emacs-overlay.overlay
+             nixpkgs-f2k.overlays.window-managers
+           ];
+         }
+        ];
+      };
     };
 
   homeConfigurations = {
-    "earth" = home-manager.lib.homeManagerConfiguration {
+    "zephyrus" = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       extraSpecialArgs = { inherit inputs; };
       modules = [
         ./hosts/earth/user.nix
-          spicetify-nix.homeManagerModule
-          {
-            programs.spicetify = {
-              enable = true;
-              theme = spicetify-nix.packages.x86_64-linux.default.themes.catppuccin;
-              colorScheme = "mocha";
-              enabledExtensions = with spicetify-nix.packages.x86_64-linux.default.extensions; [
-                fullAppDisplay
-                shuffle
-                adblock
-                lastfm
-                history
-                keyboardShortcut
-                bookmark
-                powerBar
-                phraseToPlaylist
-              ];
-            };
-          }
          {
            nixpkgs.overlays = [
              emacs-overlay.overlay

@@ -2,7 +2,6 @@
 {
   services.xserver = {
     enable = true;
-    layout = "gb";
     xkbOptions = "eurosign:e,caps:escape";
     libinput = {
       enable = true;
@@ -16,6 +15,7 @@
        package = pkgs.awesome-git;
      };
      berry.enable = true;
+     ratpoison.enable = true;
     };
 
 };

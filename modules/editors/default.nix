@@ -17,20 +17,8 @@
   home.file.".emacs.d/custom.el".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/emacs/custom.el";
   home.file.".vimrc".text = ''
-    " bootstrap vim-plug
-    if empty(glob('~/.vim/autoload/plug.vim'))
-      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    endif
-    call plug#begin()
-    Plug 'tpope/vim-commentary'
-    Plug 'tpope/vim-surround'
-    Plug 'vim-scripts/pyte'
-    Plug 'lilydjwg/colorizer'
-    call plug#end()
     set termguicolors
     set background=light
-    colorscheme pyte
     set cursorline
     hi clear LineNr
     hi clear CursorLineNr

@@ -1,6 +1,6 @@
 C = {}
 
-C.terminal = "wezterm"
+C.terminal = "alacritty"
 C.browser = "vivaldi"
 C.editor = "emacs"
 C.modkey = "Mod4"

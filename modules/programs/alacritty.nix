@@ -4,42 +4,42 @@
     enable = true;
     settings = {
       window.padding = { x = 30; y = 30;};
-      font.size = 8;
+      font.size = 11;
       colors.primary = {
-        foreground = "#343b58";
-        background = "#eaecf2";
+        foreground = "#c6c6c6";
+        background = "#222228";
       };
       colors.normal =  {
-        white = "#eaecf2";
-        red = "#8c4351";
-        green = "#33635c";
-        yellow = "#965027";
-        blue = "#34548a";
-        magenta = "#5a4a78";
-        black = "#343b58";
-        cyan = "#166775";
+        white = "#c6c6c6";
+        red = "#e1c1ee";
+        green = "#8ca378";
+        yellow = "#cfcf9c";
+        blue = "#819cd6";
+        magenta = "#b0a2e7";
+        black = "#222228";
+        cyan = "#616c96";
       };
       colors.bright =  {
-        white = "#eaecf2";
-        red = "#8c4351";
-        green = "#33635c";
-        yellow = "#965027";
-        blue = "#34548a";
-        magenta = "#5a4a78";
-        black = "#343b58";
-        cyan = "#166775";
+        white = "#eceff4";
+        red = "#e1c1ee";
+        green = "#8ca378";
+        yellow = "#cfcf9c";
+        blue = "#819cd6";
+        magenta = "#b0a2e7";
+        black = "#515462";
+        cyan = "#616c96";
       };
       colors.dim =  {
-        white = "#eaecf2";
-        red = "#8c4351";
-        green = "#33635c";
-        yellow = "#965027";
-        blue = "#34548a";
-        magenta = "#5a4a78";
-        black = "#343b58";
-        cyan = "#166775";
+        white = "#727269";
+        red = "#e1c1ee";
+        green = "#8ca378";
+        yellow = "#cfcf9c";
+        blue = "#819cd6";
+        magenta = "#b0a2e7";
+        black = "#222228";
+        cyan = "#616c96";
       };
-      colors.selection = {background = "#cbd9e3"; text = "#343b58";};
+      colors.selection = {background = "#616c96"; text = "#c6c6c6";};
     };
   };
 }
