@@ -4,11 +4,17 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "thunderbolt"
+    "nvme"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -16,19 +22,22 @@
   boot.kernelParams = [
     "quiet"
     "splash"
-    "nvidia-drm.modeset=1" "i915.enable_dpcd_backlight=1" "nvidia.NVreg_EnableBacklightHandler=0" "nvidia.NVRegistryDwords=EnableBrightnessControl=0"
+    "nvidia-drm.modeset=1"
+    "i915.enable_dpcd_backlight=1"
+    "nvidia.NVreg_EnableBacklightHandler=0"
+    "nvidia.NVRegistryDwords=EnableBrightnessControl=0"
   ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/3ca5ce1e-e991-48d6-917d-082b4608903e";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/3ca5ce1e-e991-48d6-917d-082b4608903e";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/F2BD-5B00";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/F2BD-5B00";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
 
   swapDevices = [ ];
 
@@ -40,5 +49,6 @@
   # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

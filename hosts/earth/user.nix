@@ -1,9 +1,8 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   imports = [
-   ../../modules/desktop
-   ../../modules/dev
-   ../../modules/editors
+    ../../modules/desktop
+    ../../modules/dev
+    ../../modules/editors
     ../../modules/programs
     ../../modules/shell
   ];

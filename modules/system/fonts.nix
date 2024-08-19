@@ -1,9 +1,7 @@
-{ config, pkgs, ... }:
-{
-  fonts.fonts = with pkgs; [
+{ config, pkgs, ... }: {
+  fonts.packages = with pkgs; [
     cascadia-code
     ibm-plex
-    (nerdfonts.override { fonts = [ "CascadiaCode" "Iosevka" "JetBrainsMono" ]; })
     noto-fonts-emoji-blob-bin
   ];
 

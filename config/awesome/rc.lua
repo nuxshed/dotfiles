@@ -12,8 +12,3 @@ require "conf"
 
 require "ui.notifs"
 require "ui.bar"
-require "ui.prompt.exec"
-require "ui.prompt.run"
-require "ui.utilities.exit"
-require "ui.utilities.theme_switch"
-require "ui.sidebar"

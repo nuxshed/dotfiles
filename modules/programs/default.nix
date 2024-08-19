@@ -1,16 +1,13 @@
-{ config, pkgs, lib, ... }:
-{
-  home.packages = with pkgs; [ vivaldi font-manager rofi ];
+{ config, pkgs, lib, ... }: {
+  home.packages = with pkgs; [ vivaldi font-manager rofi giph xdotool ];
   imports = [ ./alacritty.nix ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config = { allowUnfree = true; };
 
-  home.file.".config/rofi".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/rofi";
-  home.file.".config/wezterm".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/wezterm";
+  home.file.".config/rofi".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/rofi";
+  home.file.".config/wezterm".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/wezterm";
 
   programs.zathura = {
     enable = true;

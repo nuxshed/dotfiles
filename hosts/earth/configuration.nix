@@ -5,11 +5,7 @@
 { config, pkgs, self, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/system
-    ];
+  imports = [ ./hardware-configuration.nix ../../modules/system ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -63,7 +59,7 @@
     enable = true;
     enableSSHSupport = true;
   };
-  
+
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "root" "advait" ];

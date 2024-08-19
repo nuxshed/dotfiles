@@ -1,20 +1,34 @@
-{ inputs, config, pkgs, lib, ... }:
-{
-  imports = [];
-  home.packages = with pkgs; [ dunst libnotify lounge-gtk-theme picom-pijulius papirus-icon-theme redshift slock tint2 xdotool xss-lock  ];
+{ inputs, config, pkgs, lib, ... }: {
+  imports = [ ];
+  home.packages = with pkgs; [
+    dunst
+    libnotify
+    lounge-gtk-theme
+    picom-pijulius
+    papirus-icon-theme
+    redshift
+    slock
+    tint2
+    xdotool
+    xss-lock
+  ];
 
   xsession = {
     enable = true;
-    initExtra = "~/.fehbg\nxss-lock slock & picom &";
+    initExtra = ''
+      ~/.fehbg
+      xss-lock slock & picom &'';
   };
 
   home.file = {
-    ".config/awesome".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/awesome";
+    ".config/awesome".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/config/awesome";
     "dotfiles/config/awesome/modules/bling".source = inputs.bling.outPath;
     "dotfiles/config/awesome/modules/rubato".source = inputs.rubato.outPath;
   };
-  
-  home.file.".ratpoisonrc".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/.ratpoisonrc";
+
+  home.file.".ratpoisonrc".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/.ratpoisonrc";
 
   gtk = {
     enable = true;
@@ -28,6 +42,7 @@
     size = 32;
   };
   home.file = {
-    ".config/tint2".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/config/tint2";
+    ".config/tint2".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/config/tint2";
   };
 }

@@ -5,11 +5,7 @@
 { config, pkgs, self, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../../modules/system
-    ];
+  imports = [ ./hardware-configuration.nix ../../modules/system ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -30,14 +26,15 @@
   hardware.pulseaudio.enable = true;
 
   services.supergfxd.enable = true;
-  systemd.services.supergfxd.path = [pkgs.pciutils ];
-  services.asusd = {enable = true; enableUserService = true; };
+  systemd.services.supergfxd.path = [ pkgs.pciutils ];
+  services.asusd = {
+    enable = true;
+    enableUserService = true;
+  };
 
   time.timeZone = "Asia/Kolkata";
 
-  console = {
-    font = "Lat2-Terminus16";
-  };
+  console = { font = "Lat2-Terminus16"; };
 
   programs.zsh = {
     enable = true;
@@ -49,7 +46,7 @@
 
   users.users.nuxsh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" ];
     shell = pkgs.zsh;
   };
 
@@ -69,7 +66,7 @@
     enable = true;
     enableSSHSupport = true;
   };
-  
+
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "root" "advait" ];
