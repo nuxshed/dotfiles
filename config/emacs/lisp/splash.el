@@ -33,7 +33,7 @@
 ;;  |                                                                             |
 ;;  |                                                                             |
 ;;  |                                                                             |
-;;  |                                     lol                                     |
+;;  |                                                                             |
 ;;  |                           GNU Emacs version 28.0                            |
 ;;  |             Emacs started in 0.584s with 20 garbage collections             |
 ;;  |                                                                             |
@@ -95,7 +95,6 @@
           (insert-char ?\n padding-center)
 
 
-          (insert "lol")
           (center-line) (insert "\n")
           (insert (concat
                    (propertize "GNU Emacs"  'face 'bold)

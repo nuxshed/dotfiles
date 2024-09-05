@@ -3,33 +3,33 @@ local gears = require "gears"
 
 local gfs = require "gears.filesystem"
 local themes_path = gfs.get_themes_dir()
-local icons_path = gfs.get_configuration_dir() .. "/themes/bberry/icons/"
+local icons_path = gfs.get_configuration_dir() .. "/icons/"
 
 local theme = {}
 
-theme.font = "Cartograph CF Regular 8"
-theme.font_name = "Cartograph CF Regular "
+theme.font = "Cartograph CF Regular 14"
+theme.font_name = "Cartograph CF "
 
 theme.bg_normal = "#1f2024"
-theme.bg_focus = "#282b33"
-theme.bg_subtle = "#222228"
-theme.bg_urgent = "#282b33"
-theme.bg_minimize = "#1f2024"
-theme.bg_dark = "#1f2024"
+theme.bg_focus = "#31353f"
+theme.bg_subtle = "#2b2b33"
+theme.bg_urgent = theme.bg_focus
+theme.bg_minimize = theme.bg_normal
+theme.bg_dark = theme.bg_normal
 theme.bg_systray = theme.bg_normal
 
 theme.fg_normal = "#c6c6c6"
-theme.fg_focus = "#c6c6c6"
-theme.fg_urgent = "#c6c6c6"
-theme.fg_minimize = "#727269"
+theme.fg_focus = "#ededed"
+theme.fg_urgent = "#e1c1ee"
+theme.fg_minimize = "#4c4f59"
 
 theme.border_width = dpi(0)
 theme.border_color_normal = theme.bg_normal
-theme.border_color_active = theme.bg_normal
+theme.border_color_active = theme.bg_focus
 theme.border_color_marked = theme.bg_normal
 
-theme.blue = "#4b6ea6"
-
+theme.blue = "#819cd6"
+theme.purple = "#b0a2e7"
 theme.green = "#8ca378"
 theme.warn = "#cfcf9c"
 theme.critical = "#ef7789"
@@ -37,7 +37,9 @@ theme.critical = "#ef7789"
 theme.titlebar_bg_focus = theme.bg_focus
 theme.titlebar_bg_normal = theme.bg_subtle
 
-theme.taglist_fg_empty = theme.fg_minimize
+theme.taglist_bg_empty = theme.bg_subtle
+theme.taglist_bg_focus = theme.purple
+theme.taglist_bg_occupied = theme.bg_focus
 
 theme.tooltip_bg = theme.bg_dark
 theme.tooltip_border_width = 2
@@ -51,20 +53,12 @@ theme.control_button_active_fg = theme.fg_normal
 theme.control_button_normal_bg = theme.bg_normal
 theme.control_button_normal_fg = theme.fg_normal
 
-theme.notification_icon = icons_path .. "notification.png"
 theme.notification_spacing = 10
-
-theme.music_default_icon = icons_path .. "music.svg"
-theme.music_prev_icon = icons_path .. "prev.svg"
-theme.music_next_icon = icons_path .. "next.svg"
-theme.music_play_icon = icons_path .. "play.svg"
-theme.music_pause_icon = icons_path .. "pause.svg"
 
 theme.menu_fg_normal = theme.fg_minimize
 theme.menu_fg_focus = theme.fg_focus
 theme.menu_bg_normal = theme.bg_minimize
 theme.menu_bg_focus = theme.bg_focus
-theme.menu_submenu_icon = gears.color.recolor_image(icons_path .. "submenu.svg", theme.fg_subtle)
 theme.menu_height = dpi(30)
 theme.menu_width = dpi(130)
 theme.menu_border_width = dpi(10)

@@ -64,14 +64,6 @@
 
 (use-package all-the-icons :defer t)
 
-;; Treemacs
-(use-package treemacs :defer t)
-(use-package treemacs-evil
-  :after (treemacs evil)
-  :ensure t)
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
 
 ;; Theme
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
@@ -79,23 +71,36 @@
   :config
   (load-theme 'doom-bberry t))
 
+(setq display-line-numbers-type 'relative)
+
 (fringe-mode 10)
 
 (require 'modeline)
-(require 'splash)
-(splash-screen)
 
-(use-package good-scroll
-  :config
-  (good-scroll-mode 1))
+    (require 'splash)
+  (splash-screen)
+
+  (use-package good-scroll
+    :config
+    (good-scroll-mode 1))
+
+  (use-package vterm
+    :commands (vterm vterm-other-window))
+
+  (use-package vterm-toggle)
+
+  ;; Treemacs
+  (use-package treemacs :defer t)
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+  (use-package treemacs-icons-dired
+    :hook (dired-mode . treemacs-icons-dired-enable-once)
+    :ensure t)
 
 (use-package consult
   :after vertico)
 
-(use-package vterm
-  :commands (vterm vterm-other-window))
-
-(use-package vterm-toggle)
 
 (use-package which-key
   :config (which-key-mode)

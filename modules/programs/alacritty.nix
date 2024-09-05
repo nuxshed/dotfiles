@@ -4,9 +4,15 @@
     settings = {
       window.padding = {
         x = 30;
-        y = 30;
+        y = 10;
       };
-      font.size = 11;
+      font = {
+        size = 10;
+        normal = {
+          family = "Cartograph CF";
+          style = "Regular";
+        };
+      };
       colors.primary = {
         foreground = "#c6c6c6";
         background = "#222228";

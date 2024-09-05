@@ -21,6 +21,7 @@
     mpv
     ncdu
     pamixer
+    pandoc
     playerctl
     powertop
     (ripgrep.override { withPCRE2 = true; })

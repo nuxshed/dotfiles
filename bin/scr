@@ -32,30 +32,36 @@ notify() {
 
 while [ "$1" ]; do
   case $1 in
-    screen)
-      printscreen
-      notify
-      exit ;;
-    window)
-      printwindow
-      notify
-      exit ;;
-    selection)
-      printselection
-      notify
-      exit ;;
-    screentoclip)
-      printscreentoclipboard
-      exit ;;
-    windowtoclip)
-      printwindowtoclipboard
-      exit ;;
-    selectiontoclip)
-      printselectiontoclipboard
-      exit ;;
-    *)
-      printf "usage: scr screen[toclip]|window[toclip]|selection[toclip]\n"
-      exit
+  screen)
+    printscreen
+    notify
+    exit
+    ;;
+  window)
+    printwindow
+    notify
+    exit
+    ;;
+  selection)
+    printselection
+    notify
+    exit
+    ;;
+  screentoclip)
+    printscreentoclipboard
+    exit
+    ;;
+  windowtoclip)
+    printwindowtoclipboard
+    exit
+    ;;
+  selectiontoclip)
+    printselectiontoclipboard
+    exit
+    ;;
+  *)
+    printf "usage: scr screen[toclip]|window[toclip]|selection[toclip]\n"
+    exit
+    ;;
   esac
 done
-

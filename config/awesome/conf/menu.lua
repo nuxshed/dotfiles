@@ -7,17 +7,12 @@ M.main = awful.menu {
     { "Terminal", C.terminal },
     { "Browser", C.browser },
     { "Editor", C.editor },
+    { "Notes", C.notes },
     {
-      "Configure",
+      "Config",
       {
         {
-          "Change theme",
-          function()
-            F.theme_switch.toggle()
-          end,
-        },
-        {
-          "Edit config",
+          "Edit",
           C.editor .. " " .. require("gears").filesystem.get_configuration_dir() .. "/rc.lua",
         },
       },

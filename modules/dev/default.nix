@@ -9,7 +9,7 @@
     clj-kondo
     leiningen
     jre8
-    nixfmt
+    nixfmt-classic
     llvmPackages.bintools
     rustup
     python3

@@ -8,7 +8,7 @@
 -- ░ ░   ░ ░ ░ ░ ▒  ░ ░ ░ ▒     ░   ▒ ▒ ░░
 --       ░     ░ ░      ░ ░     ░  ░░ ░
 --                                  ░ ░
--- gooey.lua v0.0 (nuxsh)
+-- 0.0 (nuxsh)
 
 -- [TODO]
 -- checkboxes
@@ -18,7 +18,6 @@
 -- text input (TRIED -> FAILED)
 -- remember toggle states (HARD)
 -- accordions?
--- cooler prompt widget?
 -- sliders? (already pretty high level in awesome)
 
 local awful = require "awful"
@@ -77,7 +76,7 @@ function M.make_button(opts)
     widget = wibox.container.background,
     forced_width = opts.width or 100,
     forced_height = opts.height or 100,
-    bg = opts.bg or beautiful.bg_subtle,
+    bg = opts.bg or beautiful.bg_normal,
     fg = opts.fg or beautiful.fg_normal,
     {
       widget = wibox.container.place,
@@ -98,13 +97,13 @@ function M.make_button(opts)
     },
   }
 
-  if opts.hover then
+  if opts.bg_hover then
     button:connect_signal("mouse::enter", function()
       button.bg = opts.bg_hover or beautiful.bg_focus
     end)
 
     button:connect_signal("mouse::leave", function()
-      button.bg = opts.bg or beautiful.bg_subtle
+      button.bg = opts.bg or beautiful.bg_normal
     end)
   end
 
@@ -128,7 +127,7 @@ function M.make_radio_button(opts)
     widget = wibox.container.background,
     forced_width = opts.width or 100,
     forced_height = opts.height or 30,
-    bg = opts.bg_off or beautiful.bg_subtle,
+    bg = opts.bg_off or beautiful.bg_normal,
     fg = opts.fg_off or beautiful.fg_minimize,
     {
       widget = wibox.container.margin,
@@ -151,7 +150,7 @@ function M.make_radio_button(opts)
   return button
 end
 
--- Create a radio group widget
+-- Create a radio group wiobsidiandget
 function M.make_radio_group(opts)
   opts = opts or {}
   local buttons = {}
@@ -165,7 +164,7 @@ function M.make_radio_group(opts)
         button.bg = opts.bg_on or beautiful.bg_focus
         button.fg = opts.fg_on or beautiful.fg_focus
       else
-        button.bg = opts.bg_off or beautiful.bg_subtle
+        button.bg = opts.bg_off or beautiful.bg_normal
         button.fg = opts.fg_off or beautiful.fg_minimize
       end
     end
@@ -200,13 +199,26 @@ function M.make_prompt_widget(prompt, opts)
     widget = {
       widget = wibox.container.margin,
       margins = opts.margins or 20,
-      prompt,
+      {
+        layout = wibox.layout.fixed.horizontal,
+        spacing = 10,
+        {
+          widget = wibox.container.background,
+          bg = opts.bg or beautiful.bg_focus,
+          {
+            widget = wibox.widget.textbox,
+            font = beautiful.font_name .. "Regular 16",
+            text = opts.mode or "",
+          },
+        },
+        prompt,
+      },
     },
     ontop = true,
     placement = opts.placement or awful.placement.centered,
     visible = false,
     border_color = opts.border_color or beautiful.border_color_active,
-    border_width = opts.border_width or 2,
+    border_width = opts.border_width or 4,
     bg = opts.bg or beautiful.bg_normal,
     forced_width = opts.forced_width or 500,
     forced_height = opts.forced_height or 500,
@@ -218,7 +230,7 @@ function M.make_toggle(opts)
   opts = opts or {}
 
   local state = opts.initial_state or false
-  local button_bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_subtle)
+  local button_bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_normal)
   local button_fg = state and (opts.fg_on or beautiful.fg_focus) or (opts.fg_off or beautiful.fg_minimize)
   local button_icon = state and (opts.icon_on or "") or (opts.icon_off or "")
 
@@ -239,7 +251,7 @@ function M.make_toggle(opts)
     border_width = opts.border_width or beautiful.border_width,
     {
       widget = wibox.container.margin,
-      margins = opts.margins or 20,
+      margins = opts.margins or 25,
       inner_widget,
     },
   }
@@ -257,7 +269,7 @@ function M.make_toggle(opts)
           opts.exec_on()
         end
       else
-        button.bg = opts.bg_off or beautiful.bg_subtle
+        button.bg = opts.bg_off or beautiful.bg_normal
         button.fg = opts.fg_off or beautiful.fg_minimize
         if not opts.text then
           inner_widget.image = icons_dir .. (opts.icon_off or "") .. ".svg"
@@ -278,12 +290,12 @@ end
 
 -- Create a checkbox
 function M.make_checkbox(opts)
-   opts = opts or {}
+  opts = opts or {}
 
-   opts.bg_off = opts.bg_off or beautiful.bg_normal
-   opts.border_width = opts.border_width or 3
+  opts.bg_off = opts.bg_off or beautiful.bg_normal
+  opts.border_width = opts.border_width or 3
 
-   return M.make_toggle(opts)
+  return M.make_toggle(opts)
 end
 
 -- Create a sliding toggle switch
@@ -325,8 +337,7 @@ function M.make_sliding_toggle(opts)
   }
 
   local function update_toggle()
-    toggle_thumb.bg = state and (opts.thumb_on_bg or beautiful.bg_focus)
-      or (opts.thumb_off_bg or beautiful.bg_minimize)
+    toggle_thumb.bg = state and (opts.thumb_on_bg or beautiful.bg_focus) or (opts.thumb_off_bg or beautiful.bg_minimize)
     toggle_container.left = state and (total_width - toggle_thumb_size) or 0
     toggle_container.right = state and 0 or (total_width - toggle_thumb_size)
     toggle.bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_minimize)
@@ -349,10 +360,11 @@ function M.make_sliding_toggle(opts)
 end
 
 -- Custom grid layout
-function M.make_grid_layout(widgets, rows, cols)
+function M.make_grid_layout(widgets, rows, cols, opts)
+  opts = opts or {}
   local grid = wibox.widget {
     layout = wibox.layout.grid,
-    spacing = 5,
+    spacing = opts.spacing or 10,
     homogeneous = false,
     expand = true,
     forced_num_rows = rows,
@@ -366,8 +378,8 @@ function M.make_grid_layout(widgets, rows, cols)
   return grid
 end
 
--- Create a tabbed popup widget
-function M.make_tabbed_popup(tabs, opts)
+-- Create a tabbed widget
+function M.make_tabbed_widget(tabs, opts)
   opts = opts or {}
   local tab_buttons = {}
   local tab_content = wibox.widget {
@@ -413,6 +425,7 @@ function M.make_tabbed_popup(tabs, opts)
 
     local content_widget = wibox.widget {
       layout = wibox.container.background,
+      bg = opts.content_bg or "#00000000",
       visible = (i == 1),
       {
         tab.content,
@@ -430,35 +443,26 @@ function M.make_tabbed_popup(tabs, opts)
       spacing = 10,
       table.unpack(tab_buttons),
     },
-    bg = beautiful.bg_normal,
+    bg = opts.inactive_tab_bg or beautiful.bg_normal,
+    border_width = opts.bar_border_width or 0,
+    border_color = opts.bar_border_color or beautiful.bg_focus,
     widget = wibox.container.background,
   }
 
-  local popup = awful.popup {
-    widget = {
-      {
-        widget = wibox.container.margin,
-        margins = opts.margins or 18,
-        {
-          layout = wibox.layout.fixed.vertical,
-          spacing = 18,
-          tab_bar,
-          tab_content,
-        },
-      },
-      bg = opts.bg or beautiful.bg_normal,
-      widget = wibox.container.background,
+  local tabbed_widget = wibox.widget {
+    layout = wibox.layout.fixed.vertical,
+    spacing = 18,
+    widget = wibox.container.background,
+    forced_height = opts.forced_height or nil,
+    {
+      layout = wibox.layout.fixed.vertical,
+      spacing = 18,
+      tab_bar,
+      tab_content,
     },
-    ontop = opts.ontop or false,
-    placement = opts.placement or awful.placement.centered,
-    visible = opts.visible or false,
-    border_color = opts.border_color or beautiful.border_color_active,
-    border_width = opts.border_width or 2,
-    width = opts.width or 500,
-    height = opts.height or 500,
   }
 
-  return popup
+  return tabbed_widget
 end
 
 return M

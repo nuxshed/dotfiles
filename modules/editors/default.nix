@@ -19,19 +19,12 @@
   home.file.".emacs.d/custom.el".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/emacs/custom.el";
   home.file.".vimrc".text = ''
-    set termguicolors
-    set background=light
-    set cursorline
-    hi clear LineNr
-    hi clear CursorLineNr
-    hi clear TabLineFill
-    hi CursorLine cterm=bold
+    syntax on
     set number
     set showtabline=2
     set shiftwidth=2
     set expandtab
     set laststatus=0
-    set mouse=a
     nnoremap <silent> <C-n> :tabnew<CR>
     nnoremap <silent> <C-Left> :tabprevious<CR>
     nnoremap <silent> <C-Right> :tabnext<CR>

@@ -69,7 +69,7 @@
 
   nix = {
     package = pkgs.nix;
-    settings.trusted-users = [ "root" "advait" ];
+    settings.trusted-users = [ "root" "nuxsh" ];
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

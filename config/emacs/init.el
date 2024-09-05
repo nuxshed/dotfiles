@@ -45,9 +45,10 @@
 (require 'init-evil)
 (require 'init-org)
 (require 'init-layout)
+(require 'prettify-symbols)
+
 (require 'ui)
 (require 'prog)
 (require 'completion)
-(require 'prettify-symbols)
 
 ;;; init.el ends here

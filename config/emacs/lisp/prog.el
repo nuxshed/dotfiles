@@ -19,25 +19,14 @@
 (use-package cider
   :commands cider-jack-in)
 
-(use-package flycheck
-  :hook (prog-mode . flycheck-mode))
-
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-(with-eval-after-load 'rust-mode
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-(use-package flycheck-rust)
-
-(use-package consult-flycheck
-  :after flycheck-mode)
-
 (use-package format-all
-  :commands (format-all-buffer))
+  :commands (format-all-mode))
 
 (use-package lsp-mode)
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui)
+
+(add-hook 'c-mode-hook #'lsp-deferred)
+(add-hook 'lua-mode-hook #'lsp-deferred)
 
 (provide 'prog)
 ;;; prog.el ends here

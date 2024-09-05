@@ -5,7 +5,7 @@
 # ARGS: vol/volume. bat/battery, music/playerctl
 
 status_volume() {
-  vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume) 
+  vol=$(pamixer --sink @DEFAULT_SINK@ --get-volume)
   echo "󰕾 $vol%"
 }
 
@@ -13,8 +13,17 @@ status_battery() {
   CHARGE=$(cat /sys/class/power_supply/BAT1/capacity)
   STATUS=$(cat /sys/class/power_supply/BAT1/status)
 
-  ramp0=󰁺; ramp1=󰁻; ramp2=󰁼; ramp3=󰁽; ramp4=󰁾; ramp5=󰁿
-  ramp6=󰂀; ramp7=󰂁; ramp8=󰂂; ramp9=󰁹; rampc=󰂄
+  ramp0=󰁺
+  ramp1=󰁻
+  ramp2=󰁼
+  ramp3=󰁽
+  ramp4=󰁾
+  ramp5=󰁿
+  ramp6=󰂀
+  ramp7=󰂁
+  ramp8=󰂂
+  ramp9=󰁹
+  rampc=󰂄
 
   if [ "$STATUS" = "Charging" ]; then
     icon=$rampc
@@ -27,7 +36,7 @@ status_battery() {
       icon=$ramp2
     elif [ "$CHARGE" -lt 40 ]; then
       icon=$ramp3
-    elif [ "$CHARGE" -lt 50 ]; then 
+    elif [ "$CHARGE" -lt 50 ]; then
       icon=$ramp4
     elif [ "$CHARGE" -lt 60 ]; then
       icon=$ramp5
@@ -53,7 +62,7 @@ status_temperature() {
 }
 
 status_playerctl() {
-  player_status=$(playerctl status 2> /dev/null)
+  player_status=$(playerctl status 2>/dev/null)
   if [ "$player_status" = "Playing" ]; then
     echo " $(playerctl metadata artist) - $(playerctl metadata title)"
   elif [ "$player_status" = "Paused" ]; then
@@ -65,17 +74,21 @@ status_playerctl() {
 
 while [ "$1" ]; do
   case "$1" in
-    vol)
-      status_volume
-      exit ;;
-    bat)
-      status_battery
-      exit ;;
-    temp)
-      status_temperature
-      exit ;;
-    music)
-      status_playerctl
-      exit ;;
+  vol)
+    status_volume
+    exit
+    ;;
+  bat)
+    status_battery
+    exit
+    ;;
+  temp)
+    status_temperature
+    exit
+    ;;
+  music)
+    status_playerctl
+    exit
+    ;;
   esac
 done

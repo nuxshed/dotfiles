@@ -62,8 +62,7 @@ Containing LEFT, and RIGHT aligned respectively."
                       (propertize "*" 'face '(:inherit font-lock-warning-face)))
                   (if (buffer-narrowed-p)
                       (propertize "-" 'face '(:inherit font-lock-warning-face))))
-            '("%p %l:%c "
-              (propertize " %m" 'face 'font-lock-string-face))))))
+            '(" %m | %p | %l:%c ")))))
 
 (provide 'modeline)
 ;;; modeline.el ends here

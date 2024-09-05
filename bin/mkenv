@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# mkenv
+# easily make development environments with nix
+
+while [ "$1" ]; do
+  case $1 in
+  help)
+    #TODO:
+    exit
+    ;;
+  template)
+    nix flake init -t "github:the-nix-way/dev-templates#$2"
+    direnv allow
+    exit
+    ;;
+  #TODO: local templates
+  esac
+done

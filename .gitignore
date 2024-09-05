@@ -3,4 +3,6 @@ config/zsh/.zsh/zinit
 packer_compiled.*
 secrets.lua
 config/awesome/modules
+.direnv
+bin/.direnv
 *~

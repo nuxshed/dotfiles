@@ -5,12 +5,9 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
     emacs-overlay.url = "github:nix-community/emacs-overlay";
-    spicetify-nix.url = "github:the-argus/spicetify-nix";
-
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-
+    agenix.url = "github:ryantm/agenix";
     bling = {
       url = "github:BlingCorp/bling";
       flake = false;
@@ -21,13 +18,14 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, spicetify-nix
-    , ... }@inputs: {
+  outputs =
+    { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, agenix, ... }@inputs: {
       nixosConfigurations = {
         earth = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
             ./hosts/earth/configuration.nix
+            agenix.nixosModules.default
             {
               nixpkgs.overlays =
                 [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];

@@ -16,8 +16,10 @@
   xsession = {
     enable = true;
     initExtra = ''
-      ~/.fehbg
-      xss-lock slock & picom &'';
+      unclutter -idle 1 -root &
+      xrandr	--output eDP-1 --brightness 0.3
+      xss-lock slock &
+      picom &'';
   };
 
   home.file = {

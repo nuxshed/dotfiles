@@ -1,8 +1,9 @@
 C = {}
 
 C.terminal = "alacritty"
-C.browser = "vivaldi"
+C.browser = "firefox"
 C.editor = "emacs"
+C.notes = "obsidian"
 C.modkey = "Mod4"
 C.altmod = "Mod1"
 

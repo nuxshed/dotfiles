@@ -28,18 +28,21 @@ awful.keyboard.append_global_keybindings {
     F.action.toggle()
   end, { description = "action center", group = "awesome" }),
   awful.key({ modkey }, "s", function()
-    F.start.toggle()
-  end, { description = "start", group = "awesome" }),
+    F.notifs.toggle()
+  end, { description = "notif center", group = "awesome" }),
 
   -- Frequently Used
   awful.key({ modkey }, "b", function()
-    awful.spawn "vivaldi"
+    awful.spawn(C.browser)
   end),
   awful.key({ modkey }, "e", function()
-    awful.spawn "emacs"
+    awful.spawn(C.editor)
   end),
   awful.key({ modkey }, "z", function()
     awful.spawn "zathura"
+  end),
+  awful.key({ modkey }, "n", function()
+    awful.spawn(C.notes)
   end),
 }
 
@@ -67,11 +70,6 @@ awful.keyboard.append_global_keybindings {
   -- Music
   awful.key({ modkey, "Shift" }, "m", function()
     F.music.toggle()
-  end, { description = "run prompt", group = "launcher" }),
-
-  -- Sidebars
-  awful.key({ modkey }, "a", function()
-    S.notifs.toggle()
   end, { description = "run prompt", group = "launcher" }),
 
   -- XF86 Keys

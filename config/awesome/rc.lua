@@ -12,3 +12,6 @@ require "conf"
 
 require "ui.notifs"
 require "ui.bar"
+require "ui.action_center"
+require "ui.notif_center"
+require "ui.prompt"

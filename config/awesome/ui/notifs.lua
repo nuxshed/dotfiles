@@ -32,7 +32,7 @@ naughty.connect_signal("request::display", function(n)
     n.app_icon = beautiful.notification_icon
   end
 
-  n.title = "<span font='" .. beautiful.font_name .. "10'><b>" .. n.title .. "</b></span>"
+  n.title = "<span font='" .. beautiful.font_name .. "Regular 14'><b>" .. n.title .. "</b></span>"
 
   local time = os.date "%H:%M"
 
