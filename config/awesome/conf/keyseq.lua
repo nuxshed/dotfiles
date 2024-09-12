@@ -169,7 +169,7 @@ function K.start(bindings)
                     end
                 end
                 if not partial then
-                    show_message("No match")
+                    show_message(" No match")
                     sequence = {}
                     restart_timer(self)
                     return

@@ -12,6 +12,7 @@ require "conf.bound"
 require "conf.client"
 require "conf.layout"
 require "conf.ruled"
+require "conf.undementia"
 
 local keyseq = require("conf.keyseq")
 local awful = require "awful"
