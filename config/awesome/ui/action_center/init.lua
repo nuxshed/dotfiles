@@ -1,11 +1,13 @@
 local awful = require "awful"
 local beautiful = require "beautiful"
+local gears = require "gears"
 local rubato = require "modules.rubato"
 local wibox = require "wibox"
-
 local gooey = require "ui.gooey"
 
 F.action = {}
+
+-- Helper Functions
 
 local function make_button(opts)
   return gooey.make_button {
@@ -15,6 +17,20 @@ local function make_button(opts)
     bg_hover = opts.bg_hover or beautiful.bg_focus,
     margins = opts.margins or 25,
     exec = opts.exec,
+  }
+end
+
+local function make_toggle(opts)
+  return gooey.make_toggle {
+    initial_state = opts.initial_state or false,
+    width = opts.width or 100,
+    icon_on = opts.icon_on or "default_on_icon",
+    icon_off = opts.icon_off or "default_off_icon",
+    margins = opts.margins or 25,
+    border_color = opts.border_color or beautiful.bg_focus,
+    border_width = opts.border_width or 4,
+    exec_on = opts.exec_on,
+    exec_off = opts.exec_off,
   }
 end
 
@@ -64,33 +80,85 @@ local tabbed_widget = gooey.make_tabbed_widget({
   { label = "Actions", content = actions },
 }, { forced_height = 110 })
 
-local section1 = wibox.widget {
-  widget = wibox.container.background,
-  bg = beautiful.bg_normal,
-  forced_height = 100,
-  forced_width = 200,
-  border_width = 4,
-  border_color = beautiful.bg_focus,
-  {
-    widget = wibox.container.margin,
-    margins = 20,
-    {
-      widget = wibox.widget.textbox,
-      text = "Placeholder",
-      font = beautiful.font_name .. "Regular 18",
-      halign = "center",
-    },
-  },
+
+local brightness_slider = wibox.widget {
+    widget = wibox.widget.slider,
+    bar_height = 30,
+    bar_active_color = beautiful.bg_focus,
+    bar_color = beautiful.bg_subtle,
+    handle_color = beautiful.fg_minimize,
+    handle_shape = gears.shape.square,
+    handle_width = 26,
+    handle_margins = {top = 16, bottom = 16},
+    value = 30,
+    maximum = 100,
 }
 
-local wifi = gooey.make_toggle {
+brightness_slider:connect_signal("property::value", function(_, value)
+    awful.spawn("brightnessctl set " .. value .. "%", false)
+end)
+
+local volume_slider = wibox.widget {
+    widget = wibox.widget.slider,
+    bar_height = 30,
+    bar_active_color = beautiful.bg_focus,
+    bar_color = beautiful.bg_subtle,
+    handle_color = beautiful.fg_minimize,
+    handle_shape = gears.shape.square,
+    handle_width = 26,
+    handle_margins = {top = 16, bottom = 16},
+    value = 50,
+    maximum = 100,
+}
+
+volume_slider:connect_signal("property::value", function(_, value)
+    awful.spawn("amixer set Master " .. value .. "%", false)
+end)
+
+local section1 = wibox.widget {
+    widget = wibox.container.background,
+    bg = beautiful.bg_normal,
+    forced_height = 100,
+    forced_width = 200,
+    border_width = 4,
+    border_color = beautiful.bg_focus,
+    {
+        widget = wibox.container.margin,
+        margins = 30,
+        {
+            layout = wibox.layout.flex.vertical,
+            spacing = 0,
+            volume_slider,
+            brightness_slider,
+        },
+    },
+}
+
+local function update_brightness_slider()
+    awful.spawn.easy_async_with_shell("brightnessctl get", function(stdout)
+        local brightness = tonumber(stdout) or 30
+        awful.spawn.easy_async_with_shell("brightnessctl max", function(max_brightness)
+            max_brightness = tonumber(max_brightness) or 100
+            brightness_slider.value = (brightness / max_brightness) * 100
+        end)
+    end)
+end
+
+local function update_volume_slider()
+    awful.spawn.easy_async_with_shell("amixer get Master", function(stdout)
+        local volume = stdout:match("(%d?%d?%d)%%")
+        volume = tonumber(volume) or 50
+        volume_slider.value = volume
+    end)
+end
+
+update_brightness_slider()
+update_volume_slider()
+
+local wifi = make_toggle {
   initial_state = true,
-  width = 100,
   icon_on = "wifi",
   icon_off = "wifi-off",
-  margins = 21,
-  border_color = beautiful.bg_focus,
-  border_width = 4,
   exec_on = function()
     awful.spawn "nmcli radio wifi on"
   end,
@@ -99,31 +167,34 @@ local wifi = gooey.make_toggle {
   end,
 }
 
-local bluetooth = gooey.make_toggle {
+local bluetooth = make_toggle {
   initial_state = false,
-  width = 100,
   icon_on = "bluetooth",
   icon_off = "bluetooth",
-  border_color = beautiful.bg_focus,
-  border_width = 4,
+  exec_on = function()
+    awful.spawn "bluetoothctl power on"
+  end,
+  exec_off = function()
+    awful.spawn "bluetoothctl power off"
+  end,
 }
 
-local backlight = gooey.make_toggle {
+local backlight = make_toggle {
   initial_state = true,
-  width = 100,
   icon_on = "sunrise",
   icon_off = "sunset",
-  border_color = beautiful.bg_focus,
-  border_width = 4,
 }
 
-local dnd = gooey.make_toggle {
+local dnd = make_toggle {
   initial_state = false,
-  width = 100,
   icon_on = "moon",
   icon_off = "moon",
-  border_color = beautiful.bg_focus,
-  border_width = 4,
+  exec_on = function()
+    awful.spawn "notify-send 'Do Not Disturb: On'"
+  end,
+  exec_off = function()
+    awful.spawn "notify-send 'Do Not Disturb: Off'"
+  end,
 }
 
 local section2 = wibox.widget {

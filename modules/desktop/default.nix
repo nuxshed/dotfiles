@@ -17,7 +17,7 @@
     enable = true;
     initExtra = ''
       unclutter -idle 1 -root &
-      xrandr	--output eDP-1 --brightness 0.3
+      xrandr	--output eDP-1 --brightness 0.7
       xss-lock slock &
       picom &'';
   };

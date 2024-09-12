@@ -2,6 +2,8 @@ local awful = require "awful"
 local modkey = C.modkey or "Mod4"
 local altmod = C.altmod or "Mod1"
 
+
+
 -- General Awesome keys
 awful.keyboard.append_global_keybindings {
   awful.key({ modkey, "Shift" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),

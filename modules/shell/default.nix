@@ -13,6 +13,7 @@
     ffmpeg-full
     fzf
     github-cli
+    gifsicle
     gnumake
     hsetroot
     lazygit

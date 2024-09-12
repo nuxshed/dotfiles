@@ -31,8 +31,10 @@ theme.border_color_marked = theme.bg_normal
 theme.blue = "#819cd6"
 theme.purple = "#b0a2e7"
 theme.green = "#8ca378"
-theme.warn = "#cfcf9c"
-theme.critical = "#ef7789"
+theme.red = "#ef7789"
+theme.yellow = "#cfcf9c"
+theme.warn = theme.yellow
+theme.critical = theme.red
 
 theme.titlebar_bg_focus = theme.bg_focus
 theme.titlebar_bg_normal = theme.bg_subtle
