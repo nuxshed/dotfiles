@@ -115,6 +115,13 @@
    ;; completion
    (completions-common-part :inherit 'bold :foreground blue)
 
+  (mode-line-evil-normal :foreground base0 :background red)
+  (mode-line-evil-insert :foreground base0 :background green)
+  (mode-line-evil-visual :foreground base0 :background yellow)
+  (mode-line-evil-motion :foreground base0 :background blue)
+  (mode-line-evil-replace :foreground base0 :background magenta)
+  (mode-line-evil-operator :foreground base0 :background cyan)
+
    ;;;; org <built-in>
    (org-hide :foreground hidden)
    (org-block :background "#ede8e6")

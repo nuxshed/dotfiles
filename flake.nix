@@ -36,6 +36,7 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./hosts/zephyrus/configuration.nix
+            agenix.nixosModules.default
             {
               nixpkgs.overlays =
                 [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
@@ -49,7 +50,7 @@
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           extraSpecialArgs = { inherit inputs; };
           modules = [
-            ./hosts/earth/user.nix
+            ./hosts/zephyrus/user.nix
             {
               nixpkgs.overlays =
                 [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];

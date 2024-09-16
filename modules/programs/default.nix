@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }: {
-  home.packages = with pkgs; [ firefox font-manager heroic rofi inkscape xdotool ];
+  home.packages = with pkgs; [ firefox font-manager heroic rofi inkscape xdotool (pkgs.discord.override {
+  withOpenASAR = true;
+  withVencord = true;
+}) ];
   imports = [ ./alacritty.nix ];
 
   nixpkgs.config = { allowUnfree = true; };
