@@ -1,21 +1,22 @@
 #!/bin/sh
 
-# pls
-# inspired by hlissner's hey
-
 while [ "$1" ]; do
   case $1 in
   help)
     printf "\033[0;32musage: \033[0;0mpls \033[38;5;8m[command]\n\n"
     printf "\033[0;32mavailable commands:\033[0;0m\n"
     printf "    check                 \033[38;5;8mrun 'nix flake check' on your dotfiles\n\033[0;0m"
-    printf "    gc                    \033[38;5;8mcollect garbage\n\033[0;0m"
+    printf "    gc \033[38;5;8m[all|n]            collect garbage and optionally delete selected/all generations\n\033[0;0m"
     printf "    home                  \033[38;5;8mrebuild home-manager config\n\033[0;0m"
     printf "    rebuild               \033[38;5;8mrebuild system config\n\033[0;0m"
     printf "    repl                  \033[38;5;8mopen a nix-repl with nixpkgs and dotfiles\n\033[0;0m"
     printf "    update \033[38;5;8m[input]        update specific input or all\n\033[0;0m"
     printf "    upgrade               \033[38;5;8mupdate all inputs and rebuild\n\033[0;0m"
     printf "    optimise              \033[38;5;8moptimise the nix store\n\033[0;0m"
+    printf "    search \033[38;5;8m[pkg]          search for a package in nixpkgs\n\033[0;0m"
+    printf "    switch \033[38;5;8m[n]            switch to a specific or previous system generation\n\033[0;0m"
+    printf "    diff                  \033[38;5;8mshow diff between current and previous generation\n\033[0;0m"
+    printf "    info                  \033[38;5;8mdisplay basic system info\n\033[0;0m"
     printf "    help                  \033[38;5;8mprint this help message\n"
     exit
     ;;
@@ -25,23 +26,27 @@ while [ "$1" ]; do
     ;;
   gc)
     nix-collect-garbage
+    if [ "$2" = "all" ]; then
+      sudo nix-env --delete-generations old
+    elif [ "$2" ]; then
+      sudo nix-env --delete-generations "$2"
+    fi
     notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished garbage collection"
-    #TODO: delete old
     exit
     ;;
   home)
     nix build --impure "$HOME/dotfiles#homeConfigurations.zephyrus.activationPackage" -o $HOME/.cache/result && $HOME/.cache/result/activate
-    notify-send -i "$HOME/dotfiles/nixos.png" "pls" "home-manager config rebuilt "
+    notify-send -i "$HOME/dotfiles/nixos.png" "pls" "home-manager config rebuilt"
     exit
     ;;
   rebuild)
     sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
-    notify-send -i "$HOME/dotfiles/nixos.png" "pls" "nixos config rebuilt "
+    notify-send -i "$HOME/dotfiles/nixos.png" "pls" "nixos config rebuilt"
     exit
     ;;
   repl)
-    [ ! -r /tmp/dotfiles-repl.nix ] && echo "builtins.getFlake (toString $HOME/dotfiles)" >/tmp/dotfiles-repl
-    nix repl '<nixpkgs>' /tmp/dotfiles-repl
+    echo '{ inputs = builtins.getFlake "'${HOME}'/dotfiles"; }' > /tmp/dotfiles-repl.nix
+    nix repl /tmp/dotfiles-repl.nix
     exit
     ;;
   update)
@@ -63,6 +68,41 @@ while [ "$1" ]; do
   optimise)
     nix-store --optimise
     notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished optimising nix store"
+    exit
+    ;;
+  search)
+    if [ -z "$2" ]; then
+      printf "\033[0;31merr: pls provide a package to search\n"
+      exit
+    fi
+    nix search nixpkgs "$2" 2>/dev/null
+    exit
+    ;;
+  switch)
+    if [ -z "$2" ]; then
+      previous_gen=$(sudo nix-env --list-generations | grep '\*' | awk '{print $1-1}')
+      sudo nix-env --switch-generation "$previous_gen"
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Rolled back to previous generation $previous_gen"
+    else
+      sudo nix-env --switch-generation "$2"
+      notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Switched to generation $2"
+    fi
+    exit
+    ;;
+diff)
+  current_gen=$(nix-env --list-generations | grep '\*' | awk '{print $1}')
+  previous_gen=$((current_gen - 1))
+  if [ "$previous_gen" -gt 0 ]; then
+    nix-env --compare-generations "$previous_gen" "$current_gen"
+  else
+    printf "\033[0;31merr: no previous generation to compare\n"
+  fi
+  exit
+  ;;
+  info)
+    nixos-version
+    nix-env -q | wc -l | awk '{print "packages: "$1}'
+    ls /nix/var/nix/profiles/system-*-link | wc -l | awk '{print "generations: "$1}'
     exit
     ;;
   *)
