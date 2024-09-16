@@ -1,7 +1,7 @@
 # .zshenv
 
 # exports
-export EDITOR=vim
+export EDITOR=emacs
 export MANPAGER="less -R --use-color -Dd+r -Du+b -DS+ky -DP+kg -DE+kR"
 export VISUAL=/bin/vim
 export DOTFILES=$HOME/dotfiles

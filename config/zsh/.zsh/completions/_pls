@@ -1,0 +1,50 @@
+#compdef pls
+
+# Zsh completion for the `pls` script
+# Define the available commands and their respective options/arguments
+_pls() {
+  local -a commands
+  commands=(
+    'help:Print the help message'
+    'check:Run "nix flake check" on dotfiles'
+    'gc:Collect garbage and optionally delete selected/all generations'
+    'home:Rebuild home-manager config'
+    'rebuild:Rebuild system config'
+    'repl:Open a nix-repl with nixpkgs and dotfiles'
+    'update:Update specific input or all'
+    'upgrade:Update all inputs and rebuild'
+    'optimise:Optimise the nix store'
+    'search:Search for a package in nixpkgs'
+    'switch:Switch to a specific or previous system generation'
+    'diff:Show diff between current and previous generation'
+    'info:Display basic system info'
+  )
+
+  _arguments \
+    '1:command:->cmds' \
+    '*::args:->args'
+  
+  case $state in
+    cmds)
+      _describe 'command' commands
+      ;;
+    args)
+      case $words[2] in
+        gc)
+          _arguments '1:options:(all)'
+          ;;
+        search)
+          _arguments '1:package:_files'
+          ;;
+        switch)
+          _arguments '1:generation:'
+          ;;
+        update)
+          _arguments '1:input:(all)'
+          ;;
+      esac
+      ;;
+  esac
+}
+
+_pls "$@"
