@@ -25,7 +25,7 @@ local sectors_data = {
     end_angle = math.pi / 2,
     icon = "globe",
     callback = function()
-      awful.spawn "firefox"
+      awful.spawn.easy_async("firefox", function() end)
     end,
   },
   {
@@ -33,7 +33,7 @@ local sectors_data = {
     end_angle = math.pi,
     icon = "code",
     callback = function()
-      awful.spawn "emacs"
+      awful.spawn.easy_async("emacs", function() end)
     end,
   },
   {
@@ -41,7 +41,7 @@ local sectors_data = {
     end_angle = 3 * math.pi / 2,
     icon = "terminal",
     callback = function()
-      awful.spawn "alacritty"
+      awful.spawn.easy_async("alacritty", function() end)
     end,
   },
   {
@@ -49,7 +49,7 @@ local sectors_data = {
     end_angle = 2 * math.pi,
     icon = "edit",
     callback = function()
-      awful.spawn "obsidian"
+      awful.spawn.easy_async("obsidian", function() end)
     end,
   },
 }

@@ -37,25 +37,25 @@ end
 local browser = make_button {
   icon = "firefox",
   exec = function()
-    awful.spawn "firefox"
+    awful.spawn.easy_async("firefox", function() end)
   end,
 }
 local editor = make_button {
   icon = "emacs",
   exec = function()
-    awful.spawn "emacs"
+    awful.spawn.easy_async("emacs", function() end)
   end,
 }
 local notes = make_button {
   icon = "obsidian",
   exec = function()
-    awful.spawn "obsidian"
+    awful.spawn.easy_async("obsidian", function() end)
   end,
 }
 local inkscape = make_button {
   icon = "inkscape",
   exec = function()
-    awful.spawn "inkscape"
+    awful.spawn.easy_async("inkscape", function() end)
   end,
 }
 
@@ -78,28 +78,28 @@ local screenshot = make_button {
   icon = "crop",
   icon_fg = beautiful.fg_normal,
   exec = function()
-    awful.spawn "scr selectiontoclip"
+    awful.spawn.easy_async("scr selectiontoclip", function() end)
   end,
 }
 local recording = make_button {
   icon = "video",
   icon_fg = beautiful.fg_normal,
   exec = function()
-    awful.spawn "emacs"
+    awful.spawn.easy_async("emacs", function() end)
   end,
 }
 local lock_screen = make_button {
   icon = "lock",
   icon_fg = beautiful.fg_normal,
   exec = function()
-    awful.spawn "loginctl lock-session"
+    awful.spawn.easy_async("loginctl lock-session", function() end)
   end,
 }
 local power = make_button {
   icon = "power",
   icon_fg = beautiful.fg_normal,
   exec = function()
-    awful.spawn "notify-send 'TODO'"
+    awful.spawn.easy_async("notify-send 'TODO'", function() end)
   end,
 }
 
@@ -203,10 +203,10 @@ local wifi = make_toggle {
   icon_on = "wifi",
   icon_off = "wifi-off",
   exec_on = function()
-    awful.spawn "nmcli radio wifi on"
+    awful.spawn.easy_async("nmcli radio wifi on", function() end)
   end,
   exec_off = function()
-    awful.spawn "nmcli radio wifi off"
+    awful.spawn.easy_async("nmcli radio wifi off", function() end)
   end,
 }
 
@@ -215,10 +215,10 @@ local bluetooth = make_toggle {
   icon_on = "bluetooth",
   icon_off = "bluetooth",
   exec_on = function()
-    awful.spawn "bluetoothctl power on"
+    awful.spawn.easy_async("bluetoothctl power on", function() end)
   end,
   exec_off = function()
-    awful.spawn "bluetoothctl power off"
+    awful.spawn.easy_async("bluetoothctl power off", function() end)
   end,
 }
 
@@ -233,10 +233,10 @@ local dnd = make_toggle {
   icon_on = "moon",
   icon_off = "moon",
   exec_on = function()
-    awful.spawn "notify-send 'Do Not Disturb: On'"
+    awful.spawn.easy_async("notify-send 'Do Not Disturb: On'", function() end)
   end,
   exec_off = function()
-    awful.spawn "notify-send 'Do Not Disturb: Off'"
+    awful.spawn.easy_async("notify-send 'Do Not Disturb: Off'", function() end)
   end,
 }
 
