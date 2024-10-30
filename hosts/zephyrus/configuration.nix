@@ -7,27 +7,18 @@
 {
   imports = [ ./hardware-configuration.nix ../../modules/system ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.supportedFilesystems = [ "ntfs" ];
 
   networking = {
     hostName = "zephyrus";
     networkmanager.enable = true;
   };
 
-  services.usbmuxd = {
-    enable = true;
-    package = pkgs.usbmuxd2;
-  };
-
-  hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
 
   services.supergfxd.enable = true;
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
+
   services.asusd = {
     enable = true;
     enableUserService = true;
@@ -50,16 +41,6 @@
     extraGroups = [ "wheel" "networkmanager" "audio" ];
     shell = pkgs.zsh;
   };
-
-  environment.systemPackages = with pkgs; [
-    coreutils
-    gcc
-    usbutils
-    vim
-    git
-    maim
-    xclip
-  ];
 
   programs.nix-ld.enable = true;
 

@@ -6,7 +6,7 @@
 (add-to-list 'load-path (expand-file-name "./lisp" user-emacs-directory))
 
 (setq user-full-name "nuxsh"
-      user-mail-address "nuxshed@gmail.com")
+      user-mail-address "nuxsh@proton.me")
 
 (setq use-short-answers t
       frame-inhibit-implied-resize t

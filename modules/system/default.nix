@@ -1,11 +1,26 @@
 { config, pkgs, inputs, ... }: {
-  imports = [ ./env.nix ./fonts.nix ./xserver.nix inputs.agenix.nixosModules.default ];
-  environment.systemPackages = [ inputs.agenix.packages.x86_64-linux.default ];
-  services.onedrive.enable = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # secrets
-  # agenix = {
-  #   enable = true;
-  #   secrets = ./secrets/secrets.nix;
-  # };
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
+
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
+
+  hardware.bluetooth.enable = true;
+
+  imports = [ ./env.nix ./fonts.nix ./xserver.nix ];
+  environment.systemPackages = with pkgs; [
+    coreutils
+    gcc
+    usbutils
+    vim
+    git
+    maim
+    xclip
+  ];
+  services.onedrive.enable = true;
 }

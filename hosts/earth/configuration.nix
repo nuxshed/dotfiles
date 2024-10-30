@@ -7,20 +7,10 @@
 {
   imports = [ ./hardware-configuration.nix ../../modules/system ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking = {
     hostName = "earth";
     networkmanager.enable = true;
   };
-
-  services.usbmuxd = {
-    enable = true;
-    package = pkgs.usbmuxd2;
-  };
-
-  hardware.bluetooth.enable = true;
 
   time.timeZone = "Asia/Kolkata";
 
@@ -42,16 +32,6 @@
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.zsh;
   };
-
-  environment.systemPackages = with pkgs; [
-    coreutils
-    gcc
-    usbutils
-    vim
-    git
-    maim
-    xclip
-  ];
 
   programs.nix-ld.enable = true;
 

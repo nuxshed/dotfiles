@@ -1,75 +1,70 @@
-local awful = require "awful"
-local beautiful = require "beautiful"
 local naughty = require "naughty"
+local gears = require "gears"
 local wibox = require "wibox"
+local beautiful = require "beautiful"
 
-naughty.config.defaults.ontop = true
-naughty.config.defaults.screen = awful.screen.focused()
-naughty.config.defaults.timeout = 10
-naughty.config.defaults.title = "Notification"
-naughty.config.defaults.position = "top_right"
-naughty.config.defaults.border_width = 2
-naughty.config.defaults.border_color = beautiful.bg_subtle
-
-naughty.config.presets.normal = {
-  font = beautiful.font,
-  fg = beautiful.fg_normal,
-  bg = beautiful.bg_normal,
-}
-
-naughty.config.presets.low = {
-  font = beautiful.font,
-  fg = beautiful.fg_normal,
-  bg = beautiful.bg_normal,
-}
-
-naughty.config.presets.ok = naughty.config.presets.normal
-naughty.config.presets.info = naughty.config.presets.normal
-naughty.config.presets.warn = naughty.config.presets.critical
-
+-- Default notification template
 naughty.connect_signal("request::display", function(n)
-  if not n.app_icon then
-    n.app_icon = beautiful.notification_icon
-  end
+  -- Notification icon
+  local icon = wibox.widget {
+    {
+      image = n.icon or beautiful.notification_icon,
+      resize = true,
+      widget = wibox.widget.imagebox,
+    },
+    margins = 10,
+    widget = wibox.container.margin,
+  }
 
-  n.title = "<span font='" .. beautiful.font_name .. "Regular 14'><b>" .. n.title .. "</b></span>"
+  -- Notification title
+  local title = wibox.widget {
+    text = n.title or "Notification",
+    -- align = "center",
+    font = beautiful.font_name .. " 16",
+    widget = wibox.widget.textbox,
+  }
 
-  local time = os.date "%H:%M"
+  -- Notification message
+  local message = wibox.widget {
+    text = n.message or "This is a message",
+    -- align = "center",
+    font = beautiful.font_name .. " 16",
+    widget = wibox.widget.textbox,
+  }
 
+  -- Notification layout
   naughty.layout.box {
     notification = n,
     type = "notification",
-    bg = beautiful.bg_normal,
+    shape = gears.shape.rounded_rect,
     widget_template = {
       {
         {
+          -- icon,
           {
             {
-              naughty.widget.icon,
-              {
-                naughty.widget.title,
-                naughty.widget.message,
-                spacing = 4,
-                layout = wibox.layout.fixed.vertical,
-              },
-              fill_space = true,
-              spacing = 10,
-              layout = wibox.layout.fixed.horizontal,
+	      {
+		 title,
+		 widget = wibox.container.background,
+		 bg = beautiful.bg_focus,
+	      },
+              message,
+              layout = wibox.layout.fixed.vertical,
+	      spacing = 5,
             },
-            naughty.list.actions,
-            spacing = 10,
-            layout = wibox.layout.fixed.vertical,
+            margins = 10,
+            widget = wibox.container.margin,
           },
-          margins = 20,
-          bottom = 10,
-          widget = wibox.container.margin,
+          layout = wibox.layout.align.horizontal,
         },
-        id = "background_role",
-        widget = naughty.container.background,
+        margins = 10,
+        widget = wibox.container.margin,
       },
-      strategy = "max",
-      width = 600,
-      widget = wibox.container.constraint,
+
+      bg = beautiful.bg_normal,
+      widget = wibox.container.background,
+      border_width = 4,
+      border_color = beautiful.bg_focus,
     },
   }
 end)

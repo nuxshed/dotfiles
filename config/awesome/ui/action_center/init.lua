@@ -34,10 +34,30 @@ local function make_toggle(opts)
   }
 end
 
-local browser = make_button { icon = "firefox", exec = function() awful.spawn "firefox" end }
-local editor = make_button { icon = "emacs", exec = function() awful.spawn "emacs" end }
-local notes = make_button { icon = "obsidian", exec = function() awful.spawn "obsidian" end }
-local inkscape = make_button { icon = "inkscape", exec = function() awful.spawn "inkscape" end }
+local browser = make_button {
+  icon = "firefox",
+  exec = function()
+    awful.spawn "firefox"
+  end,
+}
+local editor = make_button {
+  icon = "emacs",
+  exec = function()
+    awful.spawn "emacs"
+  end,
+}
+local notes = make_button {
+  icon = "obsidian",
+  exec = function()
+    awful.spawn "obsidian"
+  end,
+}
+local inkscape = make_button {
+  icon = "inkscape",
+  exec = function()
+    awful.spawn "inkscape"
+  end,
+}
 
 local apps = wibox.widget {
   widget = wibox.container.margin,
@@ -54,10 +74,34 @@ local apps = wibox.widget {
   },
 }
 
-local screenshot = make_button { icon = "crop", icon_fg = beautiful.fg_normal, exec = function() awful.spawn "scr selectiontoclip" end }
-local recording = make_button { icon = "video", icon_fg = beautiful.fg_normal, exec = function() awful.spawn "emacs" end }
-local lock_screen = make_button { icon = "lock", icon_fg = beautiful.fg_normal, exec = function() awful.spawn "loginctl lock-session" end }
-local power = make_button { icon = "power", icon_fg = beautiful.fg_normal, exec = function() awful.spawn "notify-send 'TODO'" end }
+local screenshot = make_button {
+  icon = "crop",
+  icon_fg = beautiful.fg_normal,
+  exec = function()
+    awful.spawn "scr selectiontoclip"
+  end,
+}
+local recording = make_button {
+  icon = "video",
+  icon_fg = beautiful.fg_normal,
+  exec = function()
+    awful.spawn "emacs"
+  end,
+}
+local lock_screen = make_button {
+  icon = "lock",
+  icon_fg = beautiful.fg_normal,
+  exec = function()
+    awful.spawn "loginctl lock-session"
+  end,
+}
+local power = make_button {
+  icon = "power",
+  icon_fg = beautiful.fg_normal,
+  exec = function()
+    awful.spawn "notify-send 'TODO'"
+  end,
+}
 
 local actions = wibox.widget {
   widget = wibox.container.margin,
@@ -80,76 +124,75 @@ local tabbed_widget = gooey.make_tabbed_widget({
   { label = "Actions", content = actions },
 }, { forced_height = 110 })
 
-
 local brightness_slider = wibox.widget {
-    widget = wibox.widget.slider,
-    bar_height = 30,
-    bar_active_color = beautiful.bg_focus,
-    bar_color = beautiful.bg_subtle,
-    handle_color = beautiful.fg_minimize,
-    handle_shape = gears.shape.square,
-    handle_width = 26,
-    handle_margins = {top = 16, bottom = 16},
-    value = 30,
-    maximum = 100,
+  widget = wibox.widget.slider,
+  bar_height = 30,
+  bar_active_color = beautiful.bg_focus,
+  bar_color = beautiful.bg_subtle,
+  handle_color = beautiful.fg_minimize,
+  handle_shape = gears.shape.square,
+  handle_width = 26,
+  handle_margins = { top = 16, bottom = 16 },
+  value = 30,
+  maximum = 100,
 }
 
 brightness_slider:connect_signal("property::value", function(_, value)
-    awful.spawn("brightnessctl set " .. value .. "%", false)
+  awful.spawn("brightnessctl set " .. value .. "%", false)
 end)
 
 local volume_slider = wibox.widget {
-    widget = wibox.widget.slider,
-    bar_height = 30,
-    bar_active_color = beautiful.bg_focus,
-    bar_color = beautiful.bg_subtle,
-    handle_color = beautiful.fg_minimize,
-    handle_shape = gears.shape.square,
-    handle_width = 26,
-    handle_margins = {top = 16, bottom = 16},
-    value = 50,
-    maximum = 100,
+  widget = wibox.widget.slider,
+  bar_height = 30,
+  bar_active_color = beautiful.bg_focus,
+  bar_color = beautiful.bg_subtle,
+  handle_color = beautiful.fg_minimize,
+  handle_shape = gears.shape.square,
+  handle_width = 26,
+  handle_margins = { top = 16, bottom = 16 },
+  value = 50,
+  maximum = 100,
 }
 
 volume_slider:connect_signal("property::value", function(_, value)
-    awful.spawn("amixer set Master " .. value .. "%", false)
+  awful.spawn("amixer set Master " .. value .. "%", false)
 end)
 
 local section1 = wibox.widget {
-    widget = wibox.container.background,
-    bg = beautiful.bg_normal,
-    forced_height = 100,
-    forced_width = 200,
-    border_width = 4,
-    border_color = beautiful.bg_focus,
+  widget = wibox.container.background,
+  bg = beautiful.bg_normal,
+  forced_height = 100,
+  forced_width = 200,
+  border_width = 4,
+  border_color = beautiful.bg_focus,
+  {
+    widget = wibox.container.margin,
+    margins = 30,
     {
-        widget = wibox.container.margin,
-        margins = 30,
-        {
-            layout = wibox.layout.flex.vertical,
-            spacing = 0,
-            volume_slider,
-            brightness_slider,
-        },
+      layout = wibox.layout.flex.vertical,
+      spacing = 0,
+      volume_slider,
+      brightness_slider,
     },
+  },
 }
 
 local function update_brightness_slider()
-    awful.spawn.easy_async_with_shell("brightnessctl get", function(stdout)
-        local brightness = tonumber(stdout) or 30
-        awful.spawn.easy_async_with_shell("brightnessctl max", function(max_brightness)
-            max_brightness = tonumber(max_brightness) or 100
-            brightness_slider.value = (brightness / max_brightness) * 100
-        end)
+  awful.spawn.easy_async_with_shell("brightnessctl get", function(stdout)
+    local brightness = tonumber(stdout) or 30
+    awful.spawn.easy_async_with_shell("brightnessctl max", function(max_brightness)
+      max_brightness = tonumber(max_brightness) or 100
+      brightness_slider.value = (brightness / max_brightness) * 100
     end)
+  end)
 end
 
 local function update_volume_slider()
-    awful.spawn.easy_async_with_shell("amixer get Master", function(stdout)
-        local volume = stdout:match("(%d?%d?%d)%%")
-        volume = tonumber(volume) or 50
-        volume_slider.value = volume
-    end)
+  awful.spawn.easy_async_with_shell("amixer get Master", function(stdout)
+    local volume = stdout:match "(%d?%d?%d)%%"
+    volume = tonumber(volume) or 50
+    volume_slider.value = volume
+  end)
 end
 
 update_brightness_slider()

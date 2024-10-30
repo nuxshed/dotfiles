@@ -1,6 +1,6 @@
 require "awful.autofocus"
 
-_G.theme = "bberry"
+_G.theme = "blackout"
 
 require("beautiful").init(require("gears").filesystem.get_configuration_dir() .. "themes/" .. theme .. "/theme.lua")
 
@@ -17,3 +17,4 @@ require "ui.notif_center"
 require "ui.prompt"
 require "ui.action_popup"
 require "ui.root_menu"
+require "ui.splash"

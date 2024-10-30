@@ -3,7 +3,7 @@
   withOpenASAR = true;
   withVencord = true;
 }) ];
-  imports = [ ./alacritty.nix ];
+  imports = [ ./alacritty ];
 
   nixpkgs.config = { allowUnfree = true; };
 
