@@ -70,16 +70,24 @@ awful.keyboard.append_global_keybindings {
 
   -- XF86 Keys
   awful.key({}, "XF86AudioLowerVolume", function()
-    awful.spawn.easy_async("amixer set Master 5%-", function() end)
+    awful.spawn.easy_async("amixer set Master 5%-", function()
+      require "ui.popups.volume".update()
+    end)
   end, { description = "lower volume", group = "media" }),
   awful.key({}, "XF86AudioRaiseVolume", function()
-    awful.spawn.easy_async("amixer set Master 5%+", function() end)
+    awful.spawn.easy_async("amixer set Master 5%+", function()
+      require "ui.popups.volume".update()
+    end)
   end, { description = "raise volume", group = "media" }),
   awful.key({}, "XF86MonBrightnessUp", function()
-    awful.spawn.easy_async("brightnessctl s +5%", function() end)
+    awful.spawn.easy_async("brightnessctl s +5%", function()
+        require "ui.popups.brightness".update()
+    end)
   end, { description = "increase brightness", group = "media" }),
   awful.key({}, "XF86MonBrightnessDown", function()
-    awful.spawn.easy_async("brightnessctl s 5%-", function() end)
+    awful.spawn.easy_async("brightnessctl s 5%-", function()
+        require "ui.popups.brightness".update()
+    end)
   end, { description = "decrease brightness", group = "media" }),
 
   -- Scratch
