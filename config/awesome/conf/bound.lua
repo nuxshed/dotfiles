@@ -27,12 +27,9 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "q", function()
     F.exit.toggle()
   end, { description = "exit popup", group = "awesome" }),
-  awful.key({ modkey }, "a", function()
-    F.action.toggle()
-  end, { description = "action center", group = "awesome" }),
   awful.key({ modkey }, "s", function()
-    F.notifs.toggle()
-  end, { description = "notification center", group = "awesome" }),
+    F.sidebar.toggle()
+  end, { description = "toggle sidebar", group = "awesome" }),
 }
 
 -- Frequently Used Applications
@@ -266,3 +263,19 @@ awful.mouse.append_global_mousebindings {
   awful.button({}, 4, awful.tag.viewprev),
   awful.button({}, 5, awful.tag.viewnext),
 }
+
+-- Toggle Sidebars
+awful.keyboard.append_global_keybindings({
+    awful.key({ C.modkey }, "s",
+        function()
+            awesome.emit_signal("toggle::sidebar")
+        end,
+        {description = "Toggle Sidebar", group = "custom"}
+    ),
+    awful.key({ C.modkey }, "a",
+        function()
+            F.slidebar.toggle()
+        end,
+        {description = "Toggle Slide-over Bar", group = "custom"}
+    ),
+})

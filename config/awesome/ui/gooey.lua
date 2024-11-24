@@ -35,7 +35,7 @@ function M.create_icon_widget(icon, icon_color)
     widget = wibox.widget.imagebox,
     halign = "center",
     image = icons_dir .. icon .. ".svg",
-    stylesheet = " * { stroke: " .. (icon_color or beautiful.fg) .. " }",
+    color = icon_color or beautiful.fg_normal,
   }
 end
 
@@ -230,60 +230,51 @@ function M.make_toggle(opts)
   opts = opts or {}
 
   local state = opts.initial_state or false
-  local button_bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_normal)
-  local button_fg = state and (opts.fg_on or beautiful.fg_focus) or (opts.fg_off or beautiful.fg_minimize)
-  local button_icon = state and (opts.icon_on or "") or (opts.icon_off or "")
-
-  local inner_widget
-  if opts.text then
-    inner_widget = M.create_text_widget(opts.text, opts.font or beautiful.font)
-  else
-    inner_widget = M.create_icon_widget(button_icon, opts.icon_fg or beautiful.fg_normal)
-  end
+  local icon_widget = wibox.widget {
+    widget = wibox.widget.imagebox,
+    halign = "center",
+    image = icons_dir .. opts.icon .. ".svg",
+    stylesheet = " * { stroke: " .. (state and opts.icon_fg_on or opts.icon_fg_off) .. " }",
+  }
 
   local button = wibox.widget {
-    widget = wibox.container.background,
+    {
+      icon_widget,
+      margins = opts.margins or 25,
+      widget = wibox.container.margin,
+    },
     forced_width = opts.width or 100,
     forced_height = opts.height or 100,
-    bg = button_bg,
-    fg = button_fg,
-    border_color = opts.border_color or beautiful.border_color,
-    border_width = opts.border_width or beautiful.border_width,
-    {
-      widget = wibox.container.margin,
-      margins = opts.margins or 25,
-      inner_widget,
-    },
+    bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_normal),
+    widget = wibox.container.background,
   }
 
-  button:buttons {
+  local function update_state()
+    button.bg = state and (opts.bg_on or beautiful.bg_focus) or (opts.bg_off or beautiful.bg_normal)
+    icon_widget.stylesheet = " * { stroke: " .. (state and opts.icon_fg_on or opts.icon_fg_off) .. " }"
+  end
+
+  update_state()
+
+  button:connect_signal("mouse::enter", function()
+    if not state then
+      button.bg = opts.bg_hover or beautiful.bg_focus
+    end
+  end)
+
+  button:connect_signal("mouse::leave", function()
+    if not state then
+      button.bg = opts.bg_off or beautiful.bg_normal
+    end
+  end)
+
+  button:buttons(gears.table.join(
     awful.button({}, 1, function()
       state = not state
-      if state then
-        button.bg = opts.bg_on or beautiful.bg_focus
-        button.fg = opts.fg_on or beautiful.fg_focus
-        if not opts.text then
-          inner_widget.image = icons_dir .. (opts.icon_on or "") .. ".svg"
-        end
-        if opts.exec_on then
-          opts.exec_on()
-        end
-      else
-        button.bg = opts.bg_off or beautiful.bg_normal
-        button.fg = opts.fg_off or beautiful.fg_minimize
-        if not opts.text then
-          inner_widget.image = icons_dir .. (opts.icon_off or "") .. ".svg"
-        end
-        if opts.exec_off then
-          opts.exec_off()
-        end
-      end
-    end),
-  }
-
-  if opts.tooltip then
-    M.add_tooltip(button, opts.tooltip)
-  end
+      update_state()
+      if opts.exec then opts.exec(state) end
+    end)
+  ))
 
   return button
 end
