@@ -209,6 +209,28 @@ awful.keyboard.append_global_keybindings {
       end
     end,
   },
+
+  -- Sidebars
+  awful.key({ C.modkey }, "s",
+  function()
+      awesome.emit_signal("toggle::sidebar")
+  end,
+  {description = "Toggle Sidebar", group = "custom"}
+),
+awful.key({ C.modkey }, "a",
+  function()
+      F.slidebar.toggle()
+  end,
+  {description = "Toggle Slide-over Bar", group = "custom"}
+),
+
+-- Applets
+  awful.key({ modkey, "Shift" }, "c", function()
+    F.applets.colr.toggle()
+  end, { description = "pick a color", group = "custom" }),
+  awful.key({ modkey, "Shift" }, "t", function()
+    F.applets.timer.toggle()
+  end, { description = "toggle timer", group = "custom" }),
 }
 
 -- Mouse bindings
@@ -263,19 +285,3 @@ awful.mouse.append_global_mousebindings {
   awful.button({}, 4, awful.tag.viewprev),
   awful.button({}, 5, awful.tag.viewnext),
 }
-
--- Toggle Sidebars
-awful.keyboard.append_global_keybindings({
-    awful.key({ C.modkey }, "s",
-        function()
-            awesome.emit_signal("toggle::sidebar")
-        end,
-        {description = "Toggle Sidebar", group = "custom"}
-    ),
-    awful.key({ C.modkey }, "a",
-        function()
-            F.slidebar.toggle()
-        end,
-        {description = "Toggle Slide-over Bar", group = "custom"}
-    ),
-})

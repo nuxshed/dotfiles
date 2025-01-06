@@ -7,6 +7,7 @@ local gooey = require "ui.gooey"
 local naughty = require "naughty"
 
 F.sidebar = {}
+F.quick_settings = {}
 
 local function make_button(opts)
     return gooey.make_button {
@@ -36,7 +37,7 @@ local function make_toggle(icon, default_state, exec)
 
     toggle:connect_signal("button::press", function(_, _, _, button)
         if button == 1 then
-            toggle:toggle()  
+            toggle:toggle()
         end
     end)
 
@@ -165,7 +166,7 @@ local function create_notif(icon, n)
         },
         forced_height = 135,
         widget = wibox.container.background,
-        bg = beautiful.bg_subtle,
+        bg = beautiful.bg_normal,
         border_width = 3,
         border_color = beautiful.bg_focus,
     }
@@ -212,7 +213,7 @@ local notifs = wibox.widget {
     layout = wibox.layout.fixed.vertical,
 }
 
-local quick_settings = wibox.widget {
+local quick_settings_widget = wibox.widget {
     {
         make_toggle("wifi", true, function(state)
             awful.spawn.easy_async("nmcli radio wifi " .. (state and "on" or "off"))
@@ -237,8 +238,9 @@ local quick_settings = wibox.widget {
 
 local sidebar = awful.popup {
     widget = {
-        margins = 30,
+        margins = 40,
         widget = wibox.container.margin,
+        forced_width = 500,
         {
             layout = wibox.layout.align.vertical,
             {
@@ -262,11 +264,6 @@ local sidebar = awful.popup {
                 margins = { bottom = 50 },
             },
             notifs,
-            {
-                quick_settings,
-                widget = wibox.container.margin,
-                margins = { top = 20 },
-            },
         },
     },
     placement = function(c)
@@ -278,10 +275,25 @@ local sidebar = awful.popup {
     end,
     ontop = true,
     visible = false,
-    width = 600,
     screen = awful.screen.focused(),
     type = "dock",
     bg = beautiful.bg_normal, 
+}
+
+local quick_settings_popup = awful.popup {
+    widget = quick_settings_widget,
+    placement = function(c)
+        local s = awful.screen.focused()
+        c.x = sidebar.x + 32
+        c.y = sidebar.y + sidebar.height - 180
+    end,
+    ontop = true,
+    visible = false,
+    width = sidebar.width - 40,
+    height = 500,
+    screen = awful.screen.focused(),
+    type = "dock",
+    bg = beautiful.bg_normal,
 }
 
 local slide = rubato.timed {
@@ -293,6 +305,7 @@ local slide = rubato.timed {
     awestore_compat = true,
     subscribed = function(pos)
         sidebar.x = pos
+        quick_settings_popup.x = pos + 32
     end,
 }
 
@@ -301,6 +314,7 @@ F.sidebar.show = function()
     sidebar.screen = s
     sidebar.height = s.geometry.height
     sidebar.visible = true
+    quick_settings_popup.visible = true
     slide.target = s.geometry.width - sidebar.width
     naughty.suspend()
 end
@@ -309,6 +323,7 @@ F.sidebar.hide = function()
     slide.target = awful.screen.focused().geometry.width
     gears.timer.start_new(slide.duration, function()
         sidebar.visible = false
+        quick_settings_popup.visible = false
         naughty.resume()
         return false
     end)

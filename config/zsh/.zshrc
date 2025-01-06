@@ -129,7 +129,7 @@ bindkey '^[[F' end-of-line                        # end
 eval "$(direnv hook zsh)"
 
 # prompt
-PROMPT='%F{blue}%~%f'$'\n''%F{green}>%f '  
+PROMPT='%~%f'$'\n''>%f '  
 precmd() {
     precmd() {
         echo

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }: {
 
-  imports = [ ./themes/bberry.nix ];
+  imports = [ ./themes/blackout.nix ];
 
   programs.alacritty = {
     enable = true;

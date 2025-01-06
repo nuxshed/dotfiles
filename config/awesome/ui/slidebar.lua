@@ -43,7 +43,7 @@ local clock = wibox.widget {
     bg = beautiful.bg_subtle,
     {
         widget = wibox.container.margin,
-        margins = 12,
+        margins = 16,
         {
             layout = wibox.layout.fixed.vertical,
             {
@@ -88,39 +88,87 @@ local battery_widget = wibox.widget {
     {
         bat_arcchart,
         widget = wibox.container.margin,
-        margins = 14,
+        margins = 15,
     },
 }
 
-awesome.connect_signal("squeal::battery", function(capacity, status)
+awesome.connect_signal("squeal::battery", function(capacity)
     local fill_color = beautiful.fg_normal
-
-    if capacity >= 11 and capacity <= 35 then
-        fill_color = beautiful.warn
-    elseif capacity <= 10 then
-        fill_color = beautiful.critical
-    end
-
-    if status == "Charging\n" then
-        fill_color = beautiful.green
-    end
-
     bat_arcchart.value = capacity
     bat_arcchart.colors = { fill_color }
-    battery_percent.text = tostring(capacity) .. "%"
     battery_circle.value = capacity / 100
     battery_circle.color = fill_color
 end)
 
 screen.connect_signal("request::desktop_decoration", function(s)
+    -- Create a tasklist widget
+    local tasklist = awful.widget.tasklist {
+        screen  = s,
+        filter  = awful.widget.tasklist.filter.currenttags,
+        buttons = tasklist_buttons,
+        style   = {
+            shape = gears.shape.rounded_bar,
+        },
+        layout   = {
+            spacing = 12,
+            layout  = wibox.layout.fixed.vertical
+        },
+        widget_template = {
+            {
+                {
+                    {
+                        id     = 'icon_role',
+                        widget = wibox.widget.imagebox,
+                    },
+                    margins = 15,
+                    widget  = wibox.container.margin,
+                },
+                layout = wibox.layout.fixed.horizontal,
+            },
+            left  = 12,
+            right = 12,
+            widget = wibox.container.margin,
+            bg = beautiful.bg_subtle,
+            widget = wibox.container.background,
+            create_callback = function(self, c, index, objects)
+                self.bg = c == client.focus and beautiful.bg_focus or beautiful.bg_subtle
+                c:connect_signal("focus", function()
+                    self.bg = beautiful.bg_focus
+                end)
+                c:connect_signal("unfocus", function()
+                    self.bg = beautiful.bg_subtle
+                end)
+            end,
+        },
+    }
+
+    -- Setup the slidebar layout
     slidebar:setup {
         {
-            clock,
-            battery_widget,
-            layout = wibox.layout.fixed.vertical,
-            spacing = 20,  
+            {
+                {
+                    tasklist,
+                    layout = wibox.layout.fixed.vertical,
+                    spacing = 10,
+                },
+                margins = 5,
+                widget = wibox.container.margin,
+            },
+            nil,
+            {
+                {
+                    battery_widget,
+                    clock,
+                    layout = wibox.layout.fixed.vertical,
+                    spacing = 20,
+                },
+                layout = wibox.container.place,
+                valign = "bottom",
+            },
+            layout = wibox.layout.align.vertical,
+            expand = "none",
         },
+        margins = 15,
         widget = wibox.container.margin,
-        margins = 16,
     }
 end) 
