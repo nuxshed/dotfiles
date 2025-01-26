@@ -24,7 +24,8 @@
         modules = [
           ./hosts/earth/configuration.nix
           {
-            nixpkgs.overlays = [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
+            nixpkgs.overlays =
+              [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
           }
         ];
       };
@@ -33,7 +34,8 @@
         modules = [
           ./hosts/zephyrus/configuration.nix
           {
-            nixpkgs.overlays = [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
+            nixpkgs.overlays =
+              [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
           }
         ];
       };
@@ -46,7 +48,8 @@
         modules = [
           ./hosts/zephyrus/user.nix
           {
-            nixpkgs.overlays = [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
+            nixpkgs.overlays =
+              [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
           }
         ];
       };

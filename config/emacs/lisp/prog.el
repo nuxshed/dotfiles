@@ -30,5 +30,10 @@
 (add-hook 'c-mode-hook #'lsp-deferred)
 (add-hook 'lua-mode-hook #'lsp-deferred)
 
+(setq lsp-clients-clangd-args '("--query-driver=/nix/store/*/bin/*"
+                                "--clang-tidy"
+                                "--header-insertion=never"
+                                "--completion-style=detailed"))
+
 (provide 'prog)
 ;;; prog.el ends here

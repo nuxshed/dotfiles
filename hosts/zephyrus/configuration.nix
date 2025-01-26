@@ -7,8 +7,6 @@
 {
   imports = [ ./hardware-configuration.nix ../../modules/system ];
 
-
-
   networking = {
     hostName = "zephyrus";
     networkmanager.enable = true;
@@ -49,6 +47,11 @@
     enableSSHSupport = true;
   };
 
+  services.mysql = {
+    enable = true;
+    package = pkgs.mariadb;
+  };
+
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "root" "nuxsh" ];
@@ -58,6 +61,4 @@
   };
 
   system.stateVersion = "24.11";
-
 }
-

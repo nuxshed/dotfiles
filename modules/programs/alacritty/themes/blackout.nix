@@ -35,7 +35,7 @@
         cyan = "#d7d5d1";
       };
       selection = {
-        background = "#050505";
+        background = "#444444";
         text = "#d7d5d1";
       };
     };
