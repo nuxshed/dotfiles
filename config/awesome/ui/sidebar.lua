@@ -238,32 +238,40 @@ local quick_settings_widget = wibox.widget {
 
 local sidebar = awful.popup {
     widget = {
-        margins = 40,
-        widget = wibox.container.margin,
-        forced_width = 500,
+        layout = wibox.layout.align.horizontal,
         {
-            layout = wibox.layout.align.vertical,
+            widget = wibox.container.background,
+            bg = beautiful.bg_focus,
+            forced_width = 15,
+        },
+        {
+            margins = 40,
+            widget = wibox.container.margin,
+            forced_width = 485,
             {
-                halign = "center",
-                widget = wibox.container.place,
+                layout = wibox.layout.align.vertical,
                 {
-                    layout = wibox.layout.fixed.vertical,
-                    spacing = 20,
+                    halign = "center",
+                    widget = wibox.container.place,
                     {
-                        widget = wibox.widget.textclock,
-                        format = "<span font='" .. beautiful.font_name .. " Bold 84'>%H:%M</span>",
-                        align = "center",
+                        layout = wibox.layout.fixed.vertical,
+                        spacing = 20,
+                        {
+                            widget = wibox.widget.textclock,
+                            format = "<span font='" .. beautiful.font_name .. " Bold 84'>%H:%M</span>",
+                            align = "center",
+                        },
+                        {
+                            widget = wibox.widget.textclock,
+                            format = "<span font='" .. beautiful.font_name .. " 18'>%A, %B %d</span>",
+                            align = "center",
+                        },
                     },
-                    {
-                        widget = wibox.widget.textclock,
-                        format = "<span font='" .. beautiful.font_name .. " 18'>%A, %B %d</span>",
-                        align = "center",
-                    },
+                    widget = wibox.container.margin,
+                    margins = { bottom = 50 },
                 },
-                widget = wibox.container.margin,
-                margins = { bottom = 50 },
+                notifs,
             },
-            notifs,
         },
     },
     placement = function(c)

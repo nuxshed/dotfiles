@@ -4,7 +4,7 @@ alias li="exa --icons"
 alias lg="lazygit"
 alias btctl="bluetoothctl"
 alias grep="grep --color=auto"
-alias vim="emacs -nw"
+alias vim="nvim"
 
 # replace AUTO_CD
 alias ~="cd ~"

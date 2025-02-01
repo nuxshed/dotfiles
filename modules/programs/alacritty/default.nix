@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }: {
 
-  imports = [ ./themes/blackout.nix ];
+  imports = [ ./themes/ncfiesta.nix ];
 
   programs.alacritty = {
     enable = true;

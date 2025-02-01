@@ -30,13 +30,14 @@ awful.keyboard.append_global_keybindings {
   awful.key({ modkey }, "s", function()
     F.sidebar.toggle()
   end, { description = "toggle sidebar", group = "awesome" }),
+  awful.key({ modkey }, "b",
+  function() F.bar.toggle() end,
+  {description = "toggle bar", group = "custom"}
+),
 }
 
 -- Frequently Used Applications
 awful.keyboard.append_global_keybindings {
-  awful.key({ modkey }, "b", function()
-    awful.spawn.easy_async(C.browser, function() end)
-  end, { description = "open browser", group = "applications" }),
   awful.key({ modkey }, "e", function()
     awful.spawn.easy_async(C.editor, function() end)
   end, { description = "open editor", group = "applications" }),

@@ -1,0 +1,39 @@
+/* Global styling */
+* {
+  font-family: "Cartograph CF Nerd Font", "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: #d4d4d4;
+  background: #000000;
+  border: none;
+}
+
+#workspaces button {
+    background: transparent;
+    border-radius: 0px;
+    padding: 6px 10px;
+    margin: 0 3px;
+}
+
+#workspaces button.active {
+    color: #000000;
+}
+
+#clock {
+  background: #1a1a1a;
+  color: #d4d4d4;
+  border-radius: 0px;
+  padding: 4px 8px;
+  margin: 8px;
+}
+
+#battery, #volume {
+    margin: 10px 20px;
+}
+
+#battery.low {
+  color: #ffddff;
+}
+
+#battery.charging {
+  color: #ddffff;
+}

@@ -1,7 +1,7 @@
 local dpi = require("beautiful.xresources").apply_dpi
-local gears = require("gears")
+local gears = require "gears"
 
-local gfs = require("gears.filesystem")
+local gfs = require "gears.filesystem"
 local themes_path = gfs.get_themes_dir()
 local icons_path = gfs.get_configuration_dir() .. "/icons/"
 
@@ -10,26 +10,25 @@ local theme = {}
 theme.font = "Cartograph CF Regular 14"
 theme.font_name = "Cartograph CF "
 
-theme.bg_normal = "#000000"
-theme.bg_focus = "#262626"
-theme.bg_subtle = "#191919"
-theme.bg_urgent = theme.bg_focus
-theme.bg_minimize = theme.bg_normal
-theme.bg_dark = theme.bg_normal
+theme.bg_normal = "#f0edec"
+theme.bg_focus = "#d6d2d1"
+theme.bg_subtle = "#e9e4e2"
+theme.bg_urgent = "#f0edec"
+theme.bg_minimize = "#f0edec"
+theme.bg_dark = "#f0edec"
 theme.bg_systray = theme.bg_normal
 
-theme.fg_normal = "#d7d5d1"
-theme.fg_faded = "#999794"
-theme.fg_focus = "#ededed"
-theme.fg_urgent = "#c6c6c6"
-theme.fg_minimize = "#545053"
+theme.fg_normal = "#685c56"
+theme.fg_focus = "#685c56"
+theme.fg_urgent = "#685c56"
+theme.fg_minimize = "#948985"
 
 theme.useless_gap = 30
 
-theme.border_width = 0
-theme.border_color_normal = theme.bg_subtle
+theme.border_width = dpi(0)
+theme.border_color_normal = theme.bg_normal
 theme.border_color_active = theme.bg_focus
-theme.border_color_marked = theme.bg_subtle
+theme.border_color_marked = theme.bg_normal
 
 theme.blue = theme.fg_normal
 theme.purple = theme.fg_normal
@@ -69,20 +68,6 @@ theme.menu_width = dpi(130)
 theme.menu_border_width = dpi(10)
 theme.menu_border_color = "#00000000"
 
-theme.titlebar_close_button_normal = gears.color.recolor_image(icons_path .. "close.svg", theme.fg_minimize)
-theme.titlebar_close_button_focus = gears.color.recolor_image(icons_path .. "close.svg", theme.fg_faded)
-
-theme.titlebar_minimize_button_normal = gears.color.recolor_image(icons_path .. "minimize.svg", theme.fg_minimize)
-theme.titlebar_minimize_button_focus = gears.color.recolor_image(icons_path .. "minimize.svg", theme.fg_faded)
-
-theme.titlebar_maximized_button_normal_inactive =
-	gears.color.recolor_image(icons_path .. "maximized.svg", theme.fg_minimize)
-theme.titlebar_maximized_button_focus_inactive =
-	gears.color.recolor_image(icons_path .. "maximized.svg", theme.fg_faded)
-theme.titlebar_maximized_button_normal_active =
-	gears.color.recolor_image(icons_path .. "maximized.svg", theme.fg_minimize)
-theme.titlebar_maximized_button_focus_active = gears.color.recolor_image(icons_path .. "maximized.svg", theme.fg_faded)
-
 theme.layout_floating = gears.color.recolor_image(themes_path .. "default/layouts/floatingw.png", theme.fg_normal)
 theme.layout_tile = gears.color.recolor_image(themes_path .. "default/layouts/tilew.png", theme.fg_normal)
 theme.layout_max = gears.color.recolor_image(themes_path .. "default/layouts/maxw.png", theme.fg_normal)
@@ -110,11 +95,6 @@ theme.tabbar_radius = 0
 theme.tabbar_style = "default"
 theme.tabbar_size = 40
 theme.tabbar_position = "top"
-
-theme.mstab_border_radius = 0
-theme.mstab_bar_height = 80
-theme.mstab_tabbar_position = "top"
-theme.mstab_tabbar_style = "default"
 
 theme.icon_theme = nil
 

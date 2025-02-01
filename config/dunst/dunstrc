@@ -1,0 +1,27 @@
+[global]
+    font = Cartograph CF 10
+    frame_width = 2
+    separator_height = 2
+    padding = 8
+    horizontal_padding = 16
+    icon_position = left
+    icon_size = 48
+    max_icon_size = 48
+    line_height = 1.2
+    word_wrap = true
+    format = "%s\n%b"
+
+[urgency_low]
+    background = "#000000"
+    foreground = "#c5c8c6"
+    timeout = 3
+
+[urgency_normal]
+    background = "#000000"
+    foreground = "#c5c8c6"
+    timeout = 6
+
+[urgency_critical]
+    background = "#000000"
+    foreground = "#ffddff"
+    timeout = 0

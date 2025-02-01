@@ -1,0 +1,11 @@
+{
+  "blink-ripgrep.nvim": { "branch": "main", "commit": "519ac7894113f6a7b517b157c26e31fbd58a0de5" },
+  "blink.cmp": { "branch": "main", "commit": "f2710804fd17211c18468100367ce2d3a230ed2e" },
+  "lazy.nvim": { "branch": "main", "commit": "7e6c863bc7563efbdd757a310d17ebc95166cef3" },
+  "mason-lspconfig.nvim": { "branch": "main", "commit": "f75e877f5266e87523eb5a18fcde2081820d087b" },
+  "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
+  "monochrome.nvim": { "branch": "main", "commit": "2de78d9688ea4a177bcd9be554ab9192337d35ff" },
+  "no-clown-fiesta.nvim": { "branch": "master", "commit": "2f57d1115e246b62a1a81bba806fe79aaa53b610" },
+  "nvim-lspconfig": { "branch": "master", "commit": "ead2fbc4893fdd062e1dd0842679a48bfb7bac5c" },
+  "nvim-treesitter": { "branch": "master", "commit": "7e3942ceca9e0c28760f77ac33bc16399146d879" }
+}

@@ -2,13 +2,21 @@
   imports = [ ];
   home.packages = with pkgs; [
     dunst
+    eww
+    swaybg
+    waybar
+    grim
+    slurp
     libnotify
     lounge-gtk-theme
     picom-pijulius
     papirus-icon-theme
     redshift
+    rofi-wayland
     slock
+    swaylock
     tint2
+    wl-clipboard-rs
     xdotool
     xss-lock
   ];
@@ -22,6 +30,11 @@
       picom &'';
   };
 
+  wayland.windowManager.hyprland = {
+    enable = true;
+    extraConfig = builtins.readFile ../../config/hypr/hyprland.conf;
+  };
+
   home.file = {
     ".config/awesome".source = config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/dotfiles/config/awesome";
@@ -31,6 +44,15 @@
 
   home.file.".ratpoisonrc".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/.ratpoisonrc";
+
+  home.file.".config/eww".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/eww";
+
+  home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/waybar";
+
+  home.file.".config/dunst".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/dunst";
 
   gtk = {
     enable = true;

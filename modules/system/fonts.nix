@@ -4,6 +4,7 @@
     eb-garamond
     ibm-plex
     noto-fonts-emoji-blob-bin
+    nerd-fonts.fira-code
   ];
 
   fonts.fontconfig = {

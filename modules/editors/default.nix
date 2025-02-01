@@ -1,7 +1,13 @@
-{ config, pkgs, lib, ... }:
+{ inputs, config, pkgs, lib, ... }:
 
 {
+  programs.neovim = {
+    enable = true;
+    package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+  };
+
   home.packages = with pkgs; [ emacs ];
+
   home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/emacs/init.el";
   home.file.".emacs.d/early-init.el".source =
@@ -18,6 +24,10 @@
     "${config.home.homeDirectory}/dotfiles/config/emacs/scripts";
   home.file.".emacs.d/custom.el".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/emacs/custom.el";
+
+    home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.homeDirectory}/dotfiles/config/nvim";
+
   home.file.".vimrc".text = ''
     syntax on
     set number

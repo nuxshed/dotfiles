@@ -32,7 +32,7 @@ zinit wait lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
   atload'
     eval "$(dircolors)"
-    zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "ma=38;5;7;7;1"
+    zstyle ":completion:*:default" list-colors "${(s.:.)LS_COLORS}" "di=34:fi=0:ln=36:pi=33:so=35:bd=34;46:cd=34;43:or=31;1:mi=31;1:ex=32"
     zstyle ":completion:*:*:kill:*:processes" list-colors "=(#b) #([0-9]#) ([0-9a-z-]#)*=36=0=01"
   ' \
     zsh-users/zsh-completions \
@@ -77,7 +77,7 @@ zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
 zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:messages' format ' %F{blue} -- %d --%f'
 zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
@@ -129,7 +129,7 @@ bindkey '^[[F' end-of-line                        # end
 eval "$(direnv hook zsh)"
 
 # prompt
-PROMPT='%~%f'$'\n''>%f '  
+PROMPT='%F{cyan}%~%f'$'\n''>%f '  
 precmd() {
     precmd() {
         echo

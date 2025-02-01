@@ -21,6 +21,11 @@
     git
     maim
     xclip
+    clang
+    llvm
+    clang-tools
   ];
+
   services.onedrive.enable = true;
+
 }
