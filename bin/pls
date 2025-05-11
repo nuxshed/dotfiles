@@ -45,21 +45,20 @@ while [ "$1" ]; do
     exit
     ;;
   repl)
-    echo '{ inputs = builtins.getFlake "'${HOME}'/dotfiles"; }' > /tmp/dotfiles-repl.nix
-    nix repl /tmp/dotfiles-repl.nix
+    nix repl --expr '{ inputs = builtins.getFlake "'${HOME}'/dotfiles"; }'
     exit
     ;;
   update)
     if [ "$2" ]; then
-      nix flake lock --update-input "$2" "$HOME/dotfiles"
+      nix flake update "$2" --flake "$HOME/dotfiles"
     else
-      nix flake update "$HOME/dotfiles"
+      nix flake update --flake "$HOME/dotfiles"
     fi
     notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished update"
     exit
     ;;
   upgrade)
-    nix flake update "$HOME/dotfiles"
+    nix flake update --flake "$HOME/dotfiles"
     sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
     nix build --impure "$HOME/dotfiles#homeConfigurations.zephyrus.activationPackage" -o $HOME/.cache/result && $HOME/.cache/result/activate
     notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished upgrade"

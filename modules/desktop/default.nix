@@ -9,13 +9,13 @@
     slurp
     libnotify
     lounge-gtk-theme
-    picom-pijulius
+    picom
     papirus-icon-theme
     redshift
     rofi-wayland
     slock
     swaylock
-    tint2
+    # tint2
     wl-clipboard-rs
     xdotool
     xss-lock
@@ -24,10 +24,10 @@
   xsession = {
     enable = true;
     initExtra = ''
-      unclutter -idle 1 -root &
-      xrandr	--output eDP-1 --brightness 0.7
-      xss-lock slock &
+      xrandr --output eDP-1 --brightness 0.7
+      ~/.fehbg
       picom &'';
+      xss-lock slock &
   };
 
   wayland.windowManager.hyprland = {

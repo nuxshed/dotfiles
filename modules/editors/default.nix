@@ -6,6 +6,8 @@
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
   };
 
+  programs.vscode.enable = true;
+
   home.packages = with pkgs; [ emacs ];
 
   home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink

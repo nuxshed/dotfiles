@@ -1,6 +1,6 @@
 configuration {
   modi: "drun";
-  font: "Cartograph CF 10";
+  font: "Cartograph CF 13";
   show-icons: true;
   display-drun: "";
   drun-display-format: "{name}";

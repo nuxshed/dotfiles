@@ -30,9 +30,20 @@ lspconfig.lua_ls.setup {
   },
 }
 
-lspconfig.clangd.setup({
-	-- 	cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
-	-- 	init_options = {
-	-- 		fallbackFlags = { "-std=c++17" },
-	-- 	},
-})
+lspconfig.clangd.setup {
+  -- 	cmd = { "clangd", "--background-index", "--clang-tidy", "--log=verbose" },
+  -- 	init_options = {
+  -- 		fallbackFlags = { "-std=c++17" },
+  -- 	},
+}
+
+vim.diagnostic.config {
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  virtual_text = {
+    spacing = 4,
+    prefix = "",
+  },
+  severity_sort = true,
+}

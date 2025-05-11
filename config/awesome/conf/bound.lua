@@ -58,13 +58,25 @@ awful.keyboard.append_global_keybindings {
   awful.key({ "Shift" }, "Print", function()
     awful.spawn.easy_async("scr selection", function() end)
   end, { description = "screenshot selection", group = "utility" }),
-  awful.key({ modkey }, "Print", function()
+  awful.key({ modkey, "Control" }, "s", function()
     awful.spawn.easy_async("scr screentoclip", function() end)
   end, { description = "screenshot to clipboard", group = "utility" }),
-  awful.key({ modkey, "Shift" }, "Print", function()
+  awful.key({ modkey, "Shift" }, "s", function()
     awful.spawn.easy_async("scr selectiontoclip", function() end)
   end, { description = "screenshot selection to clipboard", group = "utility" }),
 
+  -- asusctl
+  awful.key({}, "XF86KbdBrightnessUp", function()
+    awful.spawn.easy_async("asusctl -n", function() end)
+  end, { description = "increase keyboard backlight brightness", group = "hardware" }),
+
+  awful.key({}, "XF86KbdBrightnessDown", function()
+    awful.spawn.easy_async("asusctl -p", function() end)
+  end, { description = "decrease keyboard backlight brightness", group = "hardware" }),
+
+  awful.key({}, "XF86Launch3", function()
+    awful.spawn.easy_async("asusctl aura -n", function() end)
+  end, { description = "change aura mode", group = "hardware" }),
 
   -- XF86 Keys
   awful.key({}, "XF86AudioLowerVolume", function()

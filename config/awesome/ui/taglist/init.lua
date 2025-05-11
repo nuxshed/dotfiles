@@ -7,7 +7,7 @@ local rubato = require "modules.rubato"
 
 screen.connect_signal("request::desktop_decoration", function(s)
   local l = awful.layout.suit
-  awful.tag({ "1", "2", "3", "4", "5" }, s, { l.tile, l.tile, l.tile, l.tile, l.tile })
+  awful.tag({ "1", "2", "3", "4", "5", "6" }, s, { l.tile, l.tile, l.tile, l.tile, l.tile, l.tile })
 end)
 
 local function create_horizontal_taglist(s)

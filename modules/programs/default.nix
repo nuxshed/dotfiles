@@ -1,5 +1,5 @@
-{ config, pkgs, lib, ... }: {
-  home.packages = with pkgs; [ firefox font-manager inkscape xdotool ];
+{ inputs, config, pkgs, lib, ... }: {
+  home.packages = with pkgs; [ inputs.zen-browser.packages."${system}".default firefox font-manager inkscape xdotool xcolor obsidian ];
   imports = [ ./alacritty ];
 
   nixpkgs.config = { allowUnfree = true; };
@@ -15,10 +15,10 @@
     enable = true;
     options = {
       recolor = true;
-      default-bg = "#000000";
+      default-bg = "#141414";
       default-fg = "#c6c6c6";
       recolor-darkcolor = "#c6c6c6";
-      recolor-lightcolor = "#000000";
+      recolor-lightcolor = "#141414";
       statusbar-home-tilde = true;
       guioptions = "none";
     };

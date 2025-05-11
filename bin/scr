@@ -11,7 +11,7 @@ printwindow() {
 }
 
 printselection() {
-  maim --hidecursor --select "$savefile"
+  maim --hidecursor --select --bordersize=2 "$savefile"
 }
 
 printscreentoclipboard() {
@@ -23,7 +23,7 @@ printwindowtoclipboard() {
 }
 
 printselectiontoclipboard() {
-  maim --hidecursor --select | xclip -selection clipboard -t image/png
+  maim --hidecursor --select --bordersize=5 | xclip -selection clipboard -t image/png
 }
 
 notify() {

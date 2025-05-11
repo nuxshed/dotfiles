@@ -8,6 +8,7 @@
     clojure-lsp
     clj-kondo
     leiningen
+    nodejs
     jre8
     nixfmt-classic
     llvmPackages.bintools

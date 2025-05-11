@@ -36,7 +36,7 @@
 
   users.users.nuxsh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "docker" ];
     shell = pkgs.zsh;
   };
 

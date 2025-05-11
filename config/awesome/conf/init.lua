@@ -36,7 +36,7 @@ local seqs = {
 }
 
 awful.keyboard.append_global_keybindings {
-  awful.key({ "Mod4", "Shift" }, "s", function()
+  awful.key({ "Mod1", "Control" }, "s", function()
     keyseq.start(seqs)
   end),
 }

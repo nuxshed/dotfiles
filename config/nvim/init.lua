@@ -1,6 +1,6 @@
 require "config"
 require "utils"
-require "plugins"
 require "options"
+require "plugins"
 require "highlights"
 require "statusline"

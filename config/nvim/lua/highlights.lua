@@ -13,9 +13,4 @@ cmd "hi StatusLineNC guibg=NONE"
 
 -- cmd("hi CursorLineNr guibg=" .. c.lightbg)
 
-cmd "hi link NvimTreeLspDiagnosticsWarning LspDiagnosticsSignWarning"
-cmd "hi link NvimTreeLspDiagnosticsError LspDiagnosticsSignError"
-cmd "hi link NvimTreeLspDiagnosticsInformation LspDiagnosticsSignInformation"
-cmd "hi link NvimTreeLspDiagnosticsHint LspDiagnosticsSignHint"
-
 require("colors." .. O.colorscheme).overrides()
