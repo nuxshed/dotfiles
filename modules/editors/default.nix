@@ -4,11 +4,12 @@
   programs.neovim = {
     enable = true;
     package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    sideloadInitLua = true;
   };
 
   programs.vscode.enable = true;
 
-  home.packages = with pkgs; [ emacs ];
+  home.packages = with pkgs; [ emacs-unstable-pgtk antigravity opencode ];
 
   home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/emacs/init.el";

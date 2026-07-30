@@ -1,0 +1,22 @@
+#!/bin/sh
+
+LOGFILE="$HOME/.cache/batdhist"
+INTERVAL=300
+
+while true; do
+  acpi_output=$(acpi -b)
+  state=$(echo "$acpi_output" | grep -oE 'Charging\|Discharging\|Full\|Unknown' | head -n 1)
+  percent=$(echo "$acpi_output" | grep -o '[0-9]\+%' | tr -d '%')
+
+  timestamp=$(date +%s)
+
+  last_log=$(tail -n 1 "$LOGFILE" 2>/dev/null)
+  last_percent=$(echo "$last_log" | awk '{print $2}')
+  last_state=$(echo "$last_log" | awk '{print $3}')
+
+  if [ "$percent" != "$last_percent" ] || [ "$state" != "$last_state" ]; then
+    printf '%s\t%s\t%s\n' "$timestamp" "$percent" "$state" >> "$LOGFILE"
+  fi
+
+  sleep "$INTERVAL"
+done

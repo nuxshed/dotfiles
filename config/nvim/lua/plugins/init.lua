@@ -90,6 +90,10 @@ require("lazy").setup {
       require "plugins.treesitter"
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+  },
   -- telescope.nvim
   {
     "nvim-telescope/telescope.nvim",
@@ -177,6 +181,9 @@ require("lazy").setup {
       require "plugins.nvim-tree"
     end,
   },
+  {
+    'dccsillag/magma-nvim',
+  },
 
   -- zen-mode and twilight
   {
@@ -237,6 +244,12 @@ require("lazy").setup {
     }
   },
 
+  {
+    "chomosuke/typst-preview.nvim",
+    ft = "typst",
+    version = '1.*',
+  },
+
   -- auto-formatting
   {
     "stevearc/conform.nvim",
@@ -249,5 +262,14 @@ require("lazy").setup {
         bash = { "shfmt" },
       }
     }
+  },
+
+  -- latex
+  {
+    "lervag/vimtex",
+    lazy = false,
+    init = function()
+      vim.g.vimtex_view_method = "zathura"
+    end
   }
 }

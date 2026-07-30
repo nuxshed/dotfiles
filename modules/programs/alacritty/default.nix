@@ -16,6 +16,9 @@
           style = "Regular";
         };
       };
+      scrolling = {
+        multiplier = 20;
+      };
     };
   };
 }

@@ -1,0 +1,65 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "usage: fe <search_term>"
+    exit 1
+fi
+
+SEARCH_TERM="$1"
+RESULTS=$(rg --vimgrep "$SEARCH_TERM" 2>/dev/null)
+
+if [ -z "$RESULTS" ]; then
+    echo "no matches found for '$SEARCH_TERM'"
+    exit 1
+fi
+
+NUM_MATCHES=$(echo "$RESULTS" | wc -l)
+
+if [ "$NUM_MATCHES" -eq 1 ]; then
+    SELECTED="$RESULTS"
+else
+    MAGENTA='\033[35m'
+    GREEN='\033[32m'
+    RED_BOLD='\033[1;31m'
+    RESET='\033[0m'
+    BOLD='\033[1m'
+
+    echo "${BOLD}found matches:${RESET}"
+    echo "$RESULTS" | awk -F: -v term="$SEARCH_TERM" -v m="$MAGENTA" -v g="$GREEN" -v r_b="$RED_BOLD" -v r="$RESET" '
+    {
+        file = $1
+        line = $2
+        text = substr($0, index($0,$4))
+        
+        gsub(term, r_b term r, text)
+        
+        if (file != current_file) {
+            if (current_file != "") printf "\n"
+            printf "%s%s%s\n", m, file, r
+            current_file = file
+        }
+        
+        printf "[%d] %s%s%s:\n%s\n", NR, g, line, r, text
+    }'
+
+    printf "\nwhich one: "
+    read -r CHOICE
+
+    if ! echo "$CHOICE" | grep -q '^[0-9]\+$'; then
+        echo "invalid selection."
+        exit 1
+    fi
+
+    SELECTED=$(echo "$RESULTS" | sed -n "${CHOICE}p")
+
+    if [ -z "$SELECTED" ]; then
+        echo "selection out of range."
+        exit 1
+    fi
+fi
+
+FILE=$(echo "$SELECTED" | cut -d: -f1)
+LINE=$(echo "$SELECTED" | cut -d: -f2)
+COL=$(echo "$SELECTED" | cut -d: -f3)
+
+nvim +"call cursor($LINE, $COL)" "$FILE"

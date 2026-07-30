@@ -4,7 +4,7 @@
     "height": 45,
     "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "battery"],
+    "modules-right": ["pulseaudio", "battery", "tray"],
     "hyprland/workspaces": {
         "format": "{icon}",
         "on-click": "activate",
@@ -20,5 +20,9 @@
         "format": " {capacity}%",
         "format-charging": " {capacity}%",
         "format-full": " Full"
+    },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
     }
 }

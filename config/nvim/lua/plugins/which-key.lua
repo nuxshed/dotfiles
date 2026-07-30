@@ -7,6 +7,7 @@ wk.add {
   { "<leader>t", group = "toggle" },
   { "<leader>tn", "<cmd>set nu!<cr>", desc = "numbers" },
   { "<leader>tr", "<cmd>set relativenumber!<cr>", desc = "relativenumber" },
+  { "<leader>tw", "<cmd>set wrap!<cr>", desc = "wrap" },
   { "<leader>tz", "<cmd>ZenMode<cr>", desc = "zen mode" },
   { "<leader>tt", "<cmd>Twilight<cr>", desc = "twilight" },
   { "<leader>tc", "<cmd>ColorizerToggle<cr>", desc = "colorizer" },

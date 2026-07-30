@@ -1,7 +1,7 @@
 # .zshenv
 
 # exports
-export EDITOR=emacs
+export EDITOR=nvim
 export MANPAGER="less -R --use-color -Dd+r -Du+b -DS+ky -DP+kg -DE+kR"
 export VISUAL=/bin/vim
 export DOTFILES=$HOME/dotfiles
@@ -10,7 +10,7 @@ export NPM_PREFIX_DIR=$HOME/.node_modules
 
 typeset -U PATH path
 
-path=("$HOME/.bin" "$HOME/.local/bin" "$HOME/.emacs.d/bin" "$HOME/.cache/npm/bin" "$HOME/.luarocks/bin" "$path[@]")
+path=("$HOME/.bin" "$HOME/.local/bin" "$HOME/.emacs.d/bin" "$HOME/.cache/npm/bin" "$HOME/.luarocks/bin" "$HOME/.cargo/bin" "$path[@]")
 export PATH
 
 if [ -d "$HOME/n" ]; then

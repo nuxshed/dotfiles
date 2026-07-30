@@ -61,7 +61,6 @@ while [ "$1" ]; do
     nix flake update --flake "$HOME/dotfiles"
     sudo nixos-rebuild "${2:-switch}" --flake "$HOME/dotfiles#"
     nix build --impure "$HOME/dotfiles#homeConfigurations.zephyrus.activationPackage" -o $HOME/.cache/result && $HOME/.cache/result/activate
-    notify-send -i "$HOME/dotfiles/nixos.png" "pls" "Finished upgrade"
     exit
     ;;
   optimise)

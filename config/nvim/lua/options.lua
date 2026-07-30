@@ -66,6 +66,7 @@ o.splitbelow = true -- Put new windows below current
 o.splitright = true -- Put new windows right of current
 o.wildmode = "longest:full,full" -- Command-line completion mode
 o.wrap = false -- Disable line wrap
+o.linebreak = true -- Breaks at word boundaries instead of chars
 o.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 
 -- markdown

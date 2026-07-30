@@ -1,6 +1,6 @@
 configuration {
   modi: "drun";
-  font: "Cartograph CF 13";
+  font: "Cartograph CF 8";
   show-icons: true;
   display-drun: "";
   drun-display-format: "{name}";
@@ -22,13 +22,13 @@ configuration {
 window {
   border: 5px;
   width: 50%;
-  padding: 32px;
+  padding: 24px;
 }
 
 prompt {
   background-color: @subtle;
   enabled: true;
-  padding: 1% 32px 0% -1%;
+  padding: 1% 24px 0% -1%;
   font: "Rubik 10";
 }
 
@@ -49,7 +49,7 @@ inputbar {
 }
 
 listview {
-  columns: 3;
+  columns: 4;
   lines: 3;
   cycle: false;
   dynamic: true;
@@ -68,7 +68,7 @@ element {
 }
 
 element-icon {
-  size: 48px;
+  size: 28;
   horizontal-align: 0.5;
 }
 

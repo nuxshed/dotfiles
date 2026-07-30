@@ -12,14 +12,17 @@
     networkmanager.enable = true;
   };
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   services.supergfxd.enable = true;
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia.open = true;
+
   services.asusd = {
     enable = true;
-    enableUserService = true;
   };
 
   time.timeZone = "Asia/Kolkata";
@@ -36,7 +39,7 @@
 
   users.users.nuxsh = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "docker" "dialout" "tty" ];
     shell = pkgs.zsh;
   };
 
@@ -55,6 +58,11 @@
     package = pkgs.mariadb;
   };
 
+  services.postgresql = {
+    enable = true;
+    enableTCPIP = true;
+  };
+
   nix = {
     package = pkgs.nix;
     settings.trusted-users = [ "root" "nuxsh" ];
@@ -63,5 +71,5 @@
     '';
   };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "26.05";
 }

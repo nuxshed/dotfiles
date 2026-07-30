@@ -10,6 +10,6 @@
   home = {
     username = "nuxsh";
     homeDirectory = "/home/nuxsh";
-    stateVersion = "23.05";
+    stateVersion = "26.05";
   };
 }

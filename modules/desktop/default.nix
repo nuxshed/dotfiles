@@ -1,18 +1,16 @@
 { inputs, config, pkgs, lib, ... }: {
   imports = [ ];
   home.packages = with pkgs; [
-    dunst
     eww
     swaybg
-    waybar
     grim
+    gnome-calendar
+    hyprpaper
     slurp
     libnotify
-    lounge-gtk-theme
     picom
     papirus-icon-theme
-    redshift
-    rofi-wayland
+    rofi
     slock
     swaylock
     # tint2
@@ -26,13 +24,18 @@
     initExtra = ''
       xrandr --output eDP-1 --brightness 0.7
       ~/.fehbg
-      picom &'';
       xss-lock slock &
+      picom &'';
   };
 
   wayland.windowManager.hyprland = {
     enable = true;
     extraConfig = builtins.readFile ../../config/hypr/hyprland.conf;
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "qtct";
   };
 
   home.file = {
@@ -51,8 +54,8 @@
   home.file.".config/waybar".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/waybar";
 
-  home.file.".config/dunst".source = config.lib.file.mkOutOfStoreSymlink
-    "${config.home.homeDirectory}/dotfiles/config/dunst";
+  home.file.".config/quickshell".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/quickshell";
 
   gtk = {
     enable = true;

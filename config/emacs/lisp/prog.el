@@ -10,6 +10,12 @@
 (use-package lua-mode :mode "\\.lua\\'")
 (use-package rust-mode :mode "\\.rs\\'"
   :init (setq rust-mode-treesitter-derive t))
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
 
 (use-package direnv
  :config
@@ -24,8 +30,8 @@
 (use-package format-all
   :commands (format-all-mode))
 
-(use-package lsp-mode)
-(use-package lsp-ui)
+;; (use-package lsp-mode)
+;; (use-package lsp-ui)
 
 (add-hook 'c-mode-hook #'lsp-deferred)
 (add-hook 'lua-mode-hook #'lsp-deferred)

@@ -1,28 +1,49 @@
 local wezterm = require("wezterm")
 local config = {
-	font = wezterm.font("Cartograph CF"),
-	color_scheme = "bberry",
-	enable_tab_bar = false,
-window_padding = {
-  left = 30,
-  right = 20,
-  top = 15,
-  bottom = 5,
-}
+  font = wezterm.font("Cartograph CF"),
+  font_size = 10,
+  dpi = 190,
+  color_scheme = "ncfiesta",
+  enable_tab_bar = false,
+  window_padding = {
+    left = 60,
+    right = 60,
+    top = 40,
+    bottom = 40,
+  },
+  adjust_window_size_when_changing_font_size = false,
+  -- enable_wayland = false,
 }
 
 config.color_schemes = {
-  ["bberry"] = {
-    foreground = "#c6c6c6",
-    background = "#222228",
-    cursor_bg = "#929292",
-    cursor_border = "#929292",
-    cursor_fg = "#929292",
-    selection_bg = "#616c96",
-    selection_fg = "#c6c6c6",
-    
-    ansi = { "#282b33", "#e1c1ee", "#8ca378", "#cfcf9c", "#819cd6", "#b0a2e7", "#515462", "#c6c6c6" },
-    brights = { "#404a55", "#e1c1ee", "#8ca378", "#cfcf9c", "#819cd6", "#b0a2e7", "#727269", "#eceff4" },
+  ["ncfiesta"] = {
+    foreground = "#E1E1E1",
+    background = "#151515",
+    cursor_bg = "#E1E1E1",
+    cursor_border = "#E1E1E1",
+    cursor_fg = "#151515",
+    selection_bg = "#373737",
+    selection_fg = "#E1E1E1",
+    ansi = {
+      "#151515",
+      "#b46958",
+      "#90A959",
+      "#F4BF75",
+      "#BAD7FF",
+      "#AA759F",
+      "#88afa2",
+      "#E1E1E1",
+    },
+    brights = {
+      "#373737",
+      "#b46958",
+      "#90A959",
+      "#F4BF75",
+      "#BAD7FF",
+      "#AA759F",
+      "#88afa2",
+      "#E1E1E1",
+    }
   },
 }
 

@@ -1,6 +1,8 @@
 { inputs, config, pkgs, lib, ... }: {
-  home.packages = with pkgs; [ inputs.zen-browser.packages."${system}".default firefox font-manager inkscape xdotool xcolor obsidian ];
-  imports = [ ./alacritty ];
+  home.packages = with pkgs; [ inputs.zen-browser.packages."${system}".default firefox font-manager inkscape foot xdotool xcolor obsidian wezterm
+                               foliate
+                               ];
+  imports = [ ./alacritty inputs.spicetify-nix.homeManagerModules.default ];
 
   nixpkgs.config = { allowUnfree = true; };
 
@@ -21,7 +23,31 @@
       recolor-lightcolor = "#141414";
       statusbar-home-tilde = true;
       guioptions = "none";
+      clipboard = "selection-clipboard";
+      scroll-step = 100;
+    };
+    mappings = {
+      "j" = "feedkeys <C-Down>";
+      "k" = "feedkeys <C-Up>";
     };
   };
+
+
+# programs.spicetify =
+# let
+#   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+# in
+# {
+#   enable = true;
+#
+#   enabledExtensions = with spicePkgs.extensions; [
+#     hidePodcasts shuffle keyboardShortcut powerBar showQueueDuration lastfm volumePercentage
+#   ];
+#
+#   enabledCustomApps = with spicePkgs.apps; [
+#     marketplace
+#     ncsVisualizer
+#   ];
+# };
 
 }
