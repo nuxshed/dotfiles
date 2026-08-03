@@ -38,6 +38,9 @@
     "sf" 'consult-fd
     ;; Org
     "oa" 'org-agenda
+    "ot" 'org-transclusion-mode
+    "on" 'my/org-transclusion-new
+    "oo" 'my/org-transclusion-open
     "fh" 'consult-org-heading
     ;; Open
     "os" 'eshell
@@ -61,12 +64,16 @@
     "wh" 'split-window-below
     "wt" 'window-split-toggle
     "ws" 'ace-window
+    "wf" (lambda () (interactive) (split-window-right) (other-window 1) (call-interactively 'find-file))
     ;; Packages
     "pi" 'package-install
     "pd" 'package-delete
     "pu" 'package-upgrade-all
     "pr" 'package-refresh-contents
     "pc" 'package-autoremove
+    ;; Racket
+    "rr" 'racket-run
+    "ri" 'racket-repl
     ;; Help
     "hh" 'help
     "hk" 'describe-key

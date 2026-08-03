@@ -8,8 +8,7 @@
 (use-package clojure-mode :mode "\\.clj\\'")
 (use-package nix-mode :mode "\\.nix\\'")
 (use-package lua-mode :mode "\\.lua\\'")
-(use-package rust-mode :mode "\\.rs\\'"
-  :init (setq rust-mode-treesitter-derive t))
+(use-package rust-mode :mode "\\.rs\\'")
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
@@ -17,9 +16,8 @@
   :bind (:map markdown-mode-map
          ("C-c C-e" . markdown-do)))
 
-(use-package direnv
- :config
- (direnv-mode))
+(use-package envrc
+  :hook (after-init . envrc-global-mode))
 
 (use-package lispy
   :hook ((emacs-lisp-mode clojure-mode) . lispy-mode))
@@ -30,16 +28,18 @@
 (use-package format-all
   :commands (format-all-mode))
 
-;; (use-package lsp-mode)
-;; (use-package lsp-ui)
+(add-hook 'c-mode-hook #'eglot-ensure)
+(add-hook 'lua-mode-hook #'eglot-ensure)
 
-(add-hook 'c-mode-hook #'lsp-deferred)
-(add-hook 'lua-mode-hook #'lsp-deferred)
+(use-package racket-mode
+  :mode "\\.rkt\\'"
+  :hook (racket-mode . (lambda ()
+                         (when (executable-find racket-program)
+                           (racket-xp-mode 1)))))
 
-(setq lsp-clients-clangd-args '("--query-driver=/nix/store/*/bin/*"
-                                "--clang-tidy"
-                                "--header-insertion=never"
-                                "--completion-style=detailed"))
+(use-package nael
+  :ensure t
+  :hook (nael-mode . eglot-ensure))
 
 (provide 'prog)
 ;;; prog.el ends here

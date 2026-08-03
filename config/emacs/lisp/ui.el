@@ -69,7 +69,7 @@
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
 (use-package doom-themes
   :config
-  (load-theme 'doom-ncfiesta t))
+  (load-theme 'doom-bberry t))
 
 (setq display-line-numbers-type 'relative)
 
@@ -99,7 +99,8 @@
     :ensure t)
 
 (use-package consult
-  :after vertico)
+  :after vertico
+  :bind ("C-x b" . consult-buffer))
 
 
 (use-package which-key

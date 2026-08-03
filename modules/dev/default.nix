@@ -13,6 +13,7 @@
     nixfmt
     llvmPackages.bintools
     rustup
+    racket
     python3
     gemini-cli
     claude-code

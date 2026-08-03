@@ -93,7 +93,10 @@
       (path-separator . ":") (null-device . "/dev/null"))
      (eshell-connection-default-profile (eshell-path-env-list))))
  '(custom-safe-themes
-   '("5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5"
+   '("af571d5b191e9d7ab7dae255d3b52b0cdc4713c164e5d31a27f597c330b85ec3"
+     "e7820b899036ae7e966dcaaec29fd6b87aef253748b7de09e74fdc54407a7a02"
+     "db67a566e993fdc10756f7e48140808127923c0b344b40e18497cc83445c93da"
+     "5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5"
      "0325a6b5eea7e5febae709dab35ec8648908af12cf2d2b569bedc8da0a3a81c1"
      "e47335cb55ccd2e363ec19b63470d1a59a06b31d526c4d75253275fa838199d5"
      "23bf8ef95269268a8588b9a7b778fd6208d10cf9f27a6e29477a4613a4cfabc9"
@@ -220,6 +223,7 @@
 	    doom-themes all-the-icons-ibuffer ace-window deft htmlize
 	    org-bullets org-contrib evil-leader evil-collection evil
 	    gcmh))
+ '(package-vc-selected-packages '((ob-racket :url "https://github.com/DEADB17/ob-racket")))
  '(safe-local-variable-directories '("/home/nuxsh/dotfiles/config/emacs/")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -16,6 +16,8 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(setq package-install-upgrade-built-in t)
+
 (use-package gcmh
   :init
   (gcmh-mode 1))
