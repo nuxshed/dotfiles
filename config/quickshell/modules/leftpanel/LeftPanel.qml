@@ -6,71 +6,80 @@ import "blocks"
 import "popups"
 import "../../config"
 
+Variants {
+    model: Quickshell.screens
 
- Variants {
-     model: Quickshell.screens
+    PanelWindow {
+        id: panelWindow
 
-     PanelWindow {
-         id: panelWindow
-         required property var modelData
-         screen: modelData
+        required property var modelData
 
-         anchors {
-             top: true
-             bottom: true
-             left: true
-         }
+        screen: modelData
 
-         implicitWidth: 70
-         color: Colors.background
+        anchors {
+            top: true
+            bottom: true
+            left: true
+        }
 
-         ColumnLayout {
-             anchors.fill: parent
-             anchors.margins: 10
-             spacing: 10
+        implicitWidth: 70
+        color: Colors.background
 
-             Workspaces {}
+        function openPopout(popout, block) {
+            for (const other of [mediaPopout, networkPopout, batteryPopout])
+                if (other !== popout && other.visible)
+                    other.hide()
 
+            popout.show(block)
+        }
 
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 10
+            spacing: 10
 
-             Item { Layout.fillHeight: true }
+            Workspaces {}
 
-             ColumnLayout {
-                 Layout.alignment: Qt.AlignHCenter
-                 spacing: 8
-                 Media {
-                     id: mediaBlock
-                     onClicked: {
-                         if (powerPopup.visible) powerPopup.hide()
-                         mediaPopup.show(mediaBlock)
-                     }
-                 }
-                 
-                 Network {
-                     id: networkBlock
-                     onClicked: {
-                         if (powerPopup.visible) powerPopup.hide()
-                     }
-                 }
-                 
-                 Battery {
-                     id: batteryBlock
-                     onClicked: {
-                         powerPopup.show(batteryBlock)
-                     }
-                 }
-                 Time {
+            Item { Layout.fillHeight: true }
+
+            ColumnLayout {
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 8
+
+                Media {
+                    id: mediaBlock
+                    onClicked: panelWindow.openPopout(mediaPopout, mediaBlock)
+                }
+
+                Network {
+                    id: networkBlock
+                    onClicked: panelWindow.openPopout(networkPopout, networkBlock)
+                }
+
+                Battery {
+                    id: batteryBlock
+                    onClicked: panelWindow.openPopout(batteryPopout, batteryBlock)
+                }
+
+                Time {
                     id: timeBlock
                 }
-             }
-         }
-         
-         MediaPopup {
-             id: mediaPopup
-         }
-         
-         Power {
-             id: powerPopup
-         }
-     }
- }
+            }
+        }
+
+        MediaPopout {
+            id: mediaPopout
+            panel: panelWindow
+        }
+
+        NetworkPopout {
+            id: networkPopout
+            panel: panelWindow
+        }
+
+        BatteryPopout {
+            id: batteryPopout
+            panel: panelWindow
+        }
+    }
+}

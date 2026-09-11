@@ -15,6 +15,8 @@ Singleton {
     property int signalLevel: 0     // 0-4 bars (Wi-Fi only)
     property bool isConnected: false
     property bool isWiredConnected: false
+    property string wiredDevice: ""
+    readonly property bool wiredAvailable: wiredDevice.length > 0
     property string ssid: ""
     property bool isAvailable: false
     
@@ -45,15 +47,24 @@ Singleton {
     }
     
     function connectToNetwork(ssid, password) {
-        if (password && password.length > 0) {
-            // Connect with password
+        if (password && password.length > 0)
             connectProc.exec(["nmcli", "dev", "wifi", "connect", ssid, "password", password])
-        } else {
-            // Connect to open network or already saved network
+        else if (savedConnections.includes(ssid))
             connectProc.exec(["nmcli", "conn", "up", ssid])
-        }
+        else
+            connectProc.exec(["nmcli", "dev", "wifi", "connect", ssid])
     }
     
+    function connectWired() {
+        if (wiredDevice)
+            wiredProc.exec(["nmcli", "device", "connect", wiredDevice])
+    }
+
+    function disconnectWired() {
+        if (wiredDevice)
+            wiredProc.exec(["nmcli", "device", "disconnect", wiredDevice])
+    }
+
     function disconnectFromNetwork() {
         if (active) {
             disconnectProc.exec(["nmcli", "connection", "down", active.ssid])
@@ -98,17 +109,21 @@ Singleton {
             onStreamFinished: {
                 const lines = text.trim().split("\n").filter(l => l.length > 0)
                 let wiredUp = false
+                let device = ""
 
                 for (const line of lines) {
                     const parts = line.split(":")
-                    const type = parts[1]
-                    const state = parts[2]
+                    if (parts[1] !== "ethernet")
+                        continue
 
-                    if (type === "ethernet" && (state === "connected" || state === "connected (global)")) {
+                    const up = parts[2].startsWith("connected")
+                    if (!device || up)
+                        device = parts[0]
+                    if (up)
                         wiredUp = true
-                        break
-                    }
                 }
+
+                root.wiredDevice = device
 
                 if (root.isWiredConnected !== wiredUp) {
                     root.isWiredConnected = wiredUp
@@ -166,6 +181,12 @@ Singleton {
         }
     }
     
+    Process {
+        id: wiredProc
+
+        onExited: getDeviceStatus.running = true
+    }
+
     Process {
         id: rescanProc
         
@@ -290,6 +311,8 @@ Singleton {
                 root.ssid = newSsid
                 root.isAvailable = true
                 
+                root.networksChanged()
+
                 if (changed) {
                     root.networkChanged()
                 }

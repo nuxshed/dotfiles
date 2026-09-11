@@ -1,16 +1,33 @@
 pragma Singleton
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Services.Notifications
 import QtQuick
 
 Singleton {
     id: root
-    
-    property list<QtObject> notifications: []
-    readonly property var popups: notifications.filter(n => n.popup && !n.closed)
+
+    property list<NotifData> list: []
+    readonly property var popups: list.filter(n => n.popup || n.reaper.running)
+
+    function clear(): void {
+        for (const n of list.slice())
+            n.close();
+    }
+
+    Timer {
+        running: root.list.length > 0
+        repeat: true
+        interval: 10000
+        triggeredOnStart: true
+        onTriggered: {
+            for (const n of root.list)
+                n.updateTime();
+        }
+    }
 
     NotificationServer {
-        id: server
         keepOnReload: false
         actionsSupported: true
         bodyMarkupSupported: true
@@ -18,65 +35,95 @@ Singleton {
         imageSupported: true
 
         onNotification: notif => {
-            notif.tracked = true
-            
-            const wrapper = notifComponent.createObject(root, {
-                notification: notif,
-                popup: true
-            })
-            root.notifications = [wrapper, ...root.notifications]
-        }
-    }
-
-    component NotifWrapper: QtObject {
-        property Notification notification
-        property bool popup: true
-        property bool closed: false
-        readonly property date createdAt: new Date()
-        
-        property string summary: ""
-        property string body: ""
-        property string appName: ""
-        property string appIcon: ""
-        property string image: ""
-        property int urgency: 0
-        property var actions: []
-
-        Component.onCompleted: {
-            summary = notification?.summary ?? ""
-            body = notification?.body ?? ""
-            appName = notification?.appName ?? ""
-            appIcon = notification?.appIcon ?? ""
-            image = notification?.image ?? ""
-            urgency = notification?.urgency ?? 0
-            actions = notification?.actions ?? []
-        }
-
-        property Timer expireTimer: Timer {
-            running: popup && !closed
-            interval: 5000
-            onTriggered: popup = false
-        }
-
-        function close() {
-            closed = true
-            popup = false
-            notification?.dismiss()
-        }
-        
-        function lock() {
-            expireTimer.stop()
-        }
-        
-        function unlock() {
-            if (popup && !closed) {
-                expireTimer.restart()
-            }
+            notif.tracked = true;
+            const data = notifComp.createObject(root, {
+                notification: notif
+            });
+            data.init();
+            root.list = [data, ...root.list];
         }
     }
 
     Component {
-        id: notifComponent
-        NotifWrapper {}
+        id: notifComp
+
+        NotifData {}
+    }
+
+    component NotifData: QtObject {
+        id: data
+
+        required property Notification notification
+        property bool popup: true
+        property string timeStr: "now"
+
+        readonly property date time: new Date()
+        readonly property var actions: notification?.actions ?? []
+
+        property string summary
+        property string body
+        property string appName
+        property string appIcon
+        property string image
+        property bool critical
+
+        readonly property Connections conn: Connections {
+            target: data.notification
+
+            function onClosed(): void {
+                data.popup = false;
+            }
+        }
+
+        readonly property Timer timer: Timer {
+            running: true
+            interval: 5000
+            onTriggered: {
+                if (!data.critical)
+                    data.popup = false;
+            }
+        }
+
+        readonly property Timer reaper: Timer {
+            interval: 600
+            onTriggered: {
+                root.list = root.list.filter(n => n !== data);
+                data.destroy();
+            }
+        }
+
+        function init(): void {
+            summary = notification.summary;
+            body = notification.body;
+            appName = notification.appName;
+            appIcon = notification.appIcon;
+            image = notification.image;
+            critical = notification.urgency === NotificationUrgency.Critical;
+            updateTime();
+        }
+
+        function updateTime(): void {
+            const diff = Math.floor((Date.now() - time.getTime()) / 1000);
+            if (diff < 60)
+                timeStr = "now";
+            else if (diff < 3600)
+                timeStr = `${Math.floor(diff / 60)}m`;
+            else if (diff < 86400)
+                timeStr = `${Math.floor(diff / 3600)}h`;
+            else
+                timeStr = `${Math.floor(diff / 86400)}d`;
+        }
+
+        function close(): void {
+            popup = false;
+            notification?.dismiss();
+        }
+
+        onPopupChanged: {
+            if (popup)
+                return;
+            timer.stop();
+            reaper.restart();
+        }
     }
 }

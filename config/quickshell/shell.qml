@@ -4,6 +4,7 @@ import Quickshell
 import "modules/leftpanel"
 import "modules/osd"
 import "modules/notifications"
+import "modules/dialogs"
 
 Scope {
     LeftPanel {}
@@ -11,11 +12,11 @@ Scope {
     Variants {
         model: Quickshell.screens
         
-        delegate: NotificationPopups {
-            screen: modelData
-        }
+        delegate: NotificationPopups {}
     }
 
     Volume {}
     Brightness {}
+
+    PasswordDialog {}
 }
