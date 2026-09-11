@@ -52,6 +52,11 @@
     "no" 'deft
     "nf" 'deft-find-file
     "nn" 'deft-new-file-named
+    ;; Roam
+    "nr" 'org-roam-node-find
+    "ni" 'org-roam-node-insert
+    "nb" 'org-roam-buffer-toggle
+    "nc" 'org-roam-capture
     ;; Bufffers
     "bd" 'kill-current-buffer
     "bb" 'consult-buffer

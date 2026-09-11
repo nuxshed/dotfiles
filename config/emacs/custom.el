@@ -93,7 +93,8 @@
       (path-separator . ":") (null-device . "/dev/null"))
      (eshell-connection-default-profile (eshell-path-env-list))))
  '(custom-safe-themes
-   '("af571d5b191e9d7ab7dae255d3b52b0cdc4713c164e5d31a27f597c330b85ec3"
+   '("d12b1d9b0498280f60e5ec92e5ecec4b5db5370d05e787bc7cc49eae6fb07bc0"
+     "af571d5b191e9d7ab7dae255d3b52b0cdc4713c164e5d31a27f597c330b85ec3"
      "e7820b899036ae7e966dcaaec29fd6b87aef253748b7de09e74fdc54407a7a02"
      "db67a566e993fdc10756f7e48140808127923c0b344b40e18497cc83445c93da"
      "5c7720c63b729140ed88cf35413f36c728ab7c70f8cd8422d9ee1cedeb618de5"
@@ -215,15 +216,14 @@
      "dfa2cc9d420af81b30ee9d2304d9e17a27631c77d11c285a2571deca22cad863"
      default))
  '(package-selected-packages
-   '(lsp-ui lsp-mode flycheck-rust rust-mode rainbow-mode marginalia
-	    hotfuzz vertico company-box company-quickhelp
-	    company-statistics company format-all consult-flycheck
-	    flycheck cider lispy lua-mode nix-mode clojure-mode
-	    smartparens which-key vterm consult good-scroll
-	    doom-themes all-the-icons-ibuffer ace-window deft htmlize
-	    org-bullets org-contrib evil-leader evil-collection evil
-	    gcmh))
- '(package-vc-selected-packages '((ob-racket :url "https://github.com/DEADB17/ob-racket")))
+   '(rust-mode rainbow-mode marginalia hotfuzz vertico format-all cider
+	       lispy lua-mode nix-mode clojure-mode smartparens
+	       which-key vterm consult good-scroll doom-themes
+	       all-the-icons-ibuffer ace-window deft htmlize
+	       org-contrib evil-leader evil-collection evil gcmh))
+ '(package-vc-selected-packages
+   '((ob-lean4 :url "https://github.com/soymou/ob-lean4")
+     (ob-racket :url "https://github.com/DEADB17/ob-racket")))
  '(safe-local-variable-directories '("/home/nuxsh/dotfiles/config/emacs/")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

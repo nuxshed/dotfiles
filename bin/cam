@@ -2,6 +2,44 @@
 
 # cam - see yourself on your screen
 
-sudo chown root:video /dev/video0
-sudo chmod g+rwx /dev/video0
-mpv av://v4l2:/dev/video0
+dev=/dev/video0
+fps=30
+size=1920x1080
+out=""
+save=0
+
+while [ $# -gt 0 ]; do
+	case $1 in
+		-s) save=1
+		    case ${2:-} in -*|"") ;; *) out=$2; shift ;; esac ;;
+		-r) fps=$2; shift ;;
+		-z) size=$2; shift ;;
+		-d) dev=$2; shift ;;
+		*)  echo "usage: ${0##*/} [-s [file]] [-r fps] [-z WxH] [-d device]" >&2
+		    exit 1 ;;
+	esac
+	shift
+done
+
+in="-f v4l2 -input_format mjpeg -framerate $fps -video_size $size"
+
+if [ $save -eq 0 ]; then
+	exec ffplay $in -fflags nobuffer -flags low_delay "$dev"
+fi
+
+[ -n "$out" ] || out="$HOME/Videos/Camera/cam_$(date +%Y%m%d-%H%M%S).mkv"
+mkdir -p "$(dirname "$out")"
+
+fifo=/tmp/cam.$$.mkv
+mkfifo "$fifo"
+trap 'rm -f "$fifo"' EXIT
+
+ffmpeg -loglevel error $in -i "$dev" -map 0 -c copy \
+	-f tee "[f=matroska]$out|[f=matroska]$fifo" </dev/null &
+pid=$!
+
+ffplay -fflags nobuffer -flags low_delay -i "$fifo"
+
+kill -INT $pid 2>/dev/null
+wait $pid 2>/dev/null
+echo "saved: $out"

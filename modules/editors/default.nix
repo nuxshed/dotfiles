@@ -9,7 +9,7 @@
 
   programs.vscode.enable = true;
 
-  home.packages = with pkgs; [ emacs-unstable-pgtk antigravity opencode ];
+  home.packages = with pkgs; [ emacs-unstable-pgtk opencode ];
 
   home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/emacs/init.el";

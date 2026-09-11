@@ -18,6 +18,7 @@
     gemini-cli
     claude-code
     (texlive.combine { inherit (texlive) scheme-full latexmk; })
+    sqlite
   ];
   home.file.".config/clj-kondo/config.edn".text = ''
     {:ignore [:unresolved-symbol :unresolved-namespace :unused-value]}

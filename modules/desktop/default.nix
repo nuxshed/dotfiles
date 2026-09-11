@@ -1,7 +1,6 @@
 { inputs, config, pkgs, lib, ... }: {
   imports = [ ];
   home.packages = with pkgs; [
-    eww
     swaybg
     grim
     gnome-calendar
@@ -30,8 +29,13 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    extraConfig = builtins.readFile ../../config/hypr/hyprland.conf;
+    # HM generates ~/.config/hypr/hyprland.lua (with the systemd session hooks);
+    # this makes it load our Lua config from ~/.config/hypr/config.lua.
+    extraConfig = ''require("config")'';
   };
+
+  home.file.".config/hypr/config.lua".source = config.lib.file.mkOutOfStoreSymlink
+    "${config.home.homeDirectory}/dotfiles/config/hypr/hyprland.lua";
 
   qt = {
     enable = true;

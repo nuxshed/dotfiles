@@ -47,7 +47,7 @@
   virtualisation.docker.enable = true;
 
   programs.hyprland.enable = true;
-  services.displayManager.defaultSession = "start-hyprland";
+  services.displayManager.defaultSession = "hyprland";
 
   qt.enable = true;
 
@@ -58,6 +58,12 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.enable = true;
+
+  services.gnome.gnome-keyring.enable = true;
+
+  security.pam.services.ly.enableGnomeKeyring = true;
+
+  services.dbus.packages = [ pkgs.gcr ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -75,7 +81,7 @@
     pkgs.llvm
     pkgs.clang-tools
     pkgs.qt6Packages.qt5compat
-    pkgs.libsForQt5.qt5.qtgraphicaleffects 
+    pkgs.qt5.qtgraphicaleffects 
     pkgs.kdePackages.qtbase 
     pkgs.kdePackages.qtdeclarative 
     pkgs.kdePackages.wayland 
@@ -90,6 +96,9 @@
     pkgs.avahi-compat
     pkgs.lutris
     pkgs.heroic
+    pkgs.libsecret
+    pkgs.gcr
+    pkgs.seahorse
     (pkgs.appimage-run.override {
     extraPkgs = pkgs: with pkgs; [
       libGL

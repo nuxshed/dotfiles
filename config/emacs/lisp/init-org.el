@@ -6,7 +6,15 @@
   :hook (org-mode . org-modern-mode)
   :config
   (setq org-modern-block-name nil
-        org-modern-star nil))
+        org-modern-star nil
+        org-modern-list nil))
+
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-headline-bullets-list '("*")
+        org-superstar-item-bullet-alist '((?- . ?•) (?+ . ?◦) (?* . ?▸))
+        org-superstar-leading-bullet ?\s))
 
 (use-package org-appear
   :hook (org-mode . org-appear-mode))
@@ -23,6 +31,9 @@
       org-src-tab-acts-natively t
       org-src-preserve-indentation t
       org-edit-src-content-indentation 0)
+
+(with-eval-after-load 'org
+  (add-to-list 'org-src-lang-modes '("lean" . nael)))
 
 (use-package htmlize)
 
@@ -77,7 +88,40 @@
          ("C-c t E" . org-transclusion-live-sync-exit)
          ("C-c t o" . my/org-transclusion-open))
   :config
-  (setq org-transclusion-include-first-section t))
+  (setq org-transclusion-include-first-section t)
+  (add-hook 'evil-insert-state-entry-hook
+            (lambda ()
+              (condition-case nil
+                  (org-transclusion-live-sync-start)
+                (error nil))))
+  (add-hook 'evil-insert-state-exit-hook
+            (lambda ()
+              (when (bound-and-true-p org-transclusion-live-sync-mode)
+                (org-transclusion-live-sync-exit)))))
+
+(use-package cdlatex
+  :hook (org-mode . turn-on-cdlatex)
+  :config
+  (advice-add 'cdlatex-tab :around
+              (lambda (orig &rest args)
+                (if (org-at-item-p)
+                    (org-cycle)
+                  (apply orig args)))))
+
+(use-package org-roam
+  :after org
+  :init
+  (setq org-roam-directory "~/notes/roam"
+        org-roam-completion-everywhere t)
+  :config
+  (make-directory org-roam-directory t)
+  (org-roam-db-autosync-mode))
+
+(use-package ob-lean4
+  :vc (:url "https://github.com/soymou/ob-lean4")
+  :after org
+  :config
+  (add-to-list 'org-babel-load-languages '(lean4 . t)))
 
 (use-package ob-racket
   :vc (:url "https://github.com/DEADB17/ob-racket")

@@ -6,3 +6,5 @@ config/awesome/modules
 .direnv
 bin/.direnv
 *~
+
+CLAUDE.md
