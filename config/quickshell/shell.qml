@@ -7,6 +7,7 @@ import "modules/notifications"
 import "modules/dialogs"
 import "modules/toolbar"
 import "modules/capture"
+import "modules/ipc"
 
 Scope {
     LeftPanel {}
@@ -27,4 +28,5 @@ Scope {
     Annotator {}
     RecordIndicator {}
     Pins {}
+    Ipc {}
 }

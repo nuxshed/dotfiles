@@ -187,9 +187,9 @@ hl.bind("SUPER + ALT + Right", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,pr
 hl.bind("SUPER + ALT + Down", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,preferred,auto,1.60,transform,2"))
 hl.bind("SUPER + ALT + Left", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,preferred,auto,1.60,transform,3"))
 
--- Screenshots (grim + slurp)
-hl.bind(mod .. " + SHIFT + s", hl.dsp.exec_cmd([[grim -g "$(slurp -c ffffff80 -b 00000099)" - | wl-copy -t image/png]]))
-hl.bind(mod .. " + CTRL + s", hl.dsp.exec_cmd([[grim -g "$(slurp -c ffffff80 -b 00000099)" ~/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S').png]]))
+-- Screenshots (quickshell)
+hl.bind(mod .. " + SHIFT + s", hl.dsp.exec_cmd("qs ipc call screenshot region copy"))
+hl.bind(mod .. " + CTRL + s", hl.dsp.exec_cmd("qs ipc call screenshot fullscreen"))
 
 -- Volume
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer -i 5"), { repeating = true })
