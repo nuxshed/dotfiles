@@ -207,6 +207,7 @@ hl.bind("XF86KbdBrightnessDown", hl.dsp.exec_cmd("asusctl -p"))
 hl.bind("XF86Launch3", hl.dsp.exec_cmd("asusctl aura -n"))
 
 -- Session
+hl.bind(mod .. " + ALT + l", hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("pls home"))
 hl.bind(mod .. " + SHIFT + e", hl.dsp.exit())
 

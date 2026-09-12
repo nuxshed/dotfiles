@@ -18,6 +18,8 @@
   };
 
   services.logind.settings.Login.HandlePowerKey = "ignore";
+  services.logind.settings.Login.HandleLidSwitch = "lock";
+  services.logind.settings.Login.HandleLidSwitchExternalPower = "lock";
 
   networking.firewall = {
     enable = false;

@@ -44,4 +44,16 @@ Scope {
             return Recorder.active;
         }
     }
+
+    IpcHandler {
+        target: "lock"
+
+        function lock(): void {
+            Lock.lock();
+        }
+
+        function locked(): bool {
+            return Lock.locked;
+        }
+    }
 }

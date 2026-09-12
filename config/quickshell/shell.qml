@@ -8,6 +8,7 @@ import "modules/dialogs"
 import "modules/toolbar"
 import "modules/capture"
 import "modules/ipc"
+import "modules/lock"
 
 Scope {
     LeftPanel {}
@@ -28,5 +29,6 @@ Scope {
     Annotator {}
     RecordIndicator {}
     Pins {}
+    LockScreen {}
     Ipc {}
 }
