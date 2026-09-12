@@ -10,22 +10,26 @@ Rectangle {
 
     required property var notif
 
-    readonly property bool hasImage: notif.image.length > 0
-    readonly property bool hasAppIcon: notif.appIcon.length > 0
-    readonly property bool dismissing: !notif.popup
+    property bool popupMode: true
+
+    readonly property int actionCount: notif?.actions.length ?? 0
+
+    readonly property bool hasImage: (notif?.image.length ?? 0) > 0
+    readonly property bool hasAppIcon: (notif?.appIcon.length ?? 0) > 0
+    readonly property bool dismissing: popupMode ? !(notif?.popup ?? false) : (notif?.closing ?? false)
     readonly property int nonAnimHeight: Math.max(image.height, summary.implicitHeight + (expanded ? 6 + appName.height + body.height + actions.height + actions.anchors.topMargin : bodyPreview.height)) + inner.anchors.margins * 2
 
     property bool expanded: false
     property bool opened: false
     property bool collapsed: false
 
-    color: notif.critical ? Colors.surfaceActive : Colors.surface
+    color: notif?.critical ? Colors.surfaceActive : Colors.surface
     radius: 14
     clip: true
 
     implicitHeight: inner.implicitHeight
 
-    x: implicitWidth
+    x: popupMode ? implicitWidth : 0
     Component.onCompleted: {
         x = 0;
         opened = true;
@@ -74,28 +78,21 @@ Rectangle {
 
         anchors.fill: parent
         hoverEnabled: true
-        preventStealing: true
+        preventStealing: root.popupMode
         acceptedButtons: Qt.LeftButton | Qt.MiddleButton
         cursorShape: pressed ? Qt.ClosedHandCursor : Qt.ArrowCursor
 
         drag.target: root
         drag.axis: Drag.XAxis
 
-        onEntered: root.notif.timer.stop()
-        onExited: {
-            if (!pressed)
-                root.notif.timer.restart();
-        }
-
         onPressed: event => {
-            root.notif.timer.stop();
             startY = event.y;
             if (event.button === Qt.MiddleButton)
-                root.notif.close();
+                root.notif?.dismiss();
         }
 
         onPositionChanged: event => {
-            if (pressed) {
+            if (pressed && root.popupMode) {
                 const diffY = event.y - startY;
                 if (Math.abs(diffY) > 20)
                     root.expanded = diffY > 0;
@@ -103,13 +100,12 @@ Rectangle {
         }
 
         onReleased: {
-            if (!containsMouse)
-                root.notif.timer.restart();
-
             if (Math.abs(root.x) < root.implicitWidth * 0.3)
                 root.x = 0;
-            else
+            else if (root.popupMode)
                 root.notif.popup = false;
+            else
+                root.notif?.dismiss();
         }
     }
 
@@ -139,11 +135,11 @@ Rectangle {
             height: 34
             radius: width / 2
             clip: true
-            color: root.notif.critical ? Colors.red : Colors.subtle
+            color: root.notif?.critical ? Colors.red : Colors.subtle
 
             Image {
                 anchors.fill: parent
-                source: root.hasImage ? root.notif.image : ""
+                source: root.notif?.image ?? ""
                 fillMode: Image.PreserveAspectCrop
                 sourceSize.width: 34
                 sourceSize.height: 34
@@ -171,7 +167,7 @@ Rectangle {
             width: root.hasImage ? 16 : 34
             height: width
             radius: width / 2
-            color: root.hasImage ? (root.notif.critical ? Colors.red : Colors.subtle) : "transparent"
+            color: root.hasImage ? (root.notif?.critical ? Colors.red : Colors.subtle) : "transparent"
             visible: root.hasAppIcon && iconImage.status === Image.Ready
 
             Image {
@@ -180,7 +176,7 @@ Rectangle {
                 anchors.centerIn: parent
                 width: Math.round(parent.width * 0.6)
                 height: width
-                source: root.hasAppIcon ? Quickshell.iconPath(root.notif.appIcon, true) : ""
+                source: root.hasAppIcon ? Quickshell.iconPath(root.notif?.appIcon ?? "", true) : ""
                 sourceSize.width: 34
                 sourceSize.height: 34
                 asynchronous: true
@@ -212,7 +208,7 @@ Rectangle {
         TextMetrics {
             id: appNameMetrics
 
-            text: root.notif.appName
+            text: root.notif?.appName ?? ""
             font: appName.font
             elide: Text.ElideRight
             elideWidth: expandBtn.x - time.width - timeSep.width - summary.x - 20
@@ -272,7 +268,7 @@ Rectangle {
         TextMetrics {
             id: summaryMetrics
 
-            text: root.notif.summary
+            text: root.notif?.summary ?? ""
             font: summary.font
             elide: Text.ElideRight
             elideWidth: expandBtn.x - time.width - timeSep.width - summary.x - 20
@@ -317,7 +313,7 @@ Rectangle {
             anchors.left: timeSep.right
             anchors.leftMargin: 6
 
-            text: root.notif.timeStr
+            text: root.notif?.timeStr ?? ""
             color: Colors.textMuted
             font.pixelSize: 10
         }
@@ -390,7 +386,7 @@ Rectangle {
         TextMetrics {
             id: bodyPreviewMetrics
 
-            text: root.notif.body
+            text: root.notif?.body ?? ""
             font: bodyPreview.font
             elide: Text.ElideRight
             elideWidth: bodyPreview.width
@@ -404,7 +400,7 @@ Rectangle {
             anchors.top: summary.bottom
             anchors.rightMargin: 6
 
-            text: root.notif.body
+            text: root.notif?.body ?? ""
             color: Colors.textMuted
             font.pixelSize: 10
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -441,20 +437,20 @@ Rectangle {
             Btn {
                 width: 26
                 icon: "close"
-                onTriggered: root.notif.close()
+                onTriggered: root.notif?.dismiss()
             }
 
             Repeater {
-                model: root.notif.actions
+                model: root.notif?.actions ?? []
 
                 Btn {
                     required property var modelData
 
-                    width: (actions.width - 26 * 2 - 4 * (root.notif.actions.length + 1)) / root.notif.actions.length
+                    width: (actions.width - 26 * 2 - 4 * (root.actionCount + 1)) / root.actionCount
                     label: modelData.text
                     onTriggered: {
                         modelData.invoke();
-                        root.notif.popup = false;
+                        root.notif?.dismiss();
                     }
                 }
             }
@@ -463,7 +459,7 @@ Rectangle {
                 width: 26
                 icon: copyTimer.running ? "inventory" : "content_copy"
                 onTriggered: {
-                    Quickshell.clipboardText = root.notif.body;
+                    Quickshell.clipboardText = root.notif?.body ?? "";
                     copyTimer.restart();
                 }
 

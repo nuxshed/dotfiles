@@ -15,7 +15,7 @@ Scope {
     Variants {
         model: Quickshell.screens
 
-        delegate: NotificationPopups {}
+        delegate: NotificationPanel {}
     }
 
     Volume {}

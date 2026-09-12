@@ -8,12 +8,28 @@ import QtQuick
 Singleton {
     id: root
 
+    readonly property int maxStored: 50
+    readonly property int expireDelay: 5000
+    readonly property int exitDelay: 600
+
     property list<NotifData> list: []
-    readonly property var popups: list.filter(n => n.popup || n.reaper.running)
+    property int holds: 0
+
+    readonly property bool paused: holds > 0
+    readonly property var all: list.slice()
+    readonly property var popups: list.filter(n => n.popup || n.exit.running)
+
+    function hold(): void {
+        holds++;
+    }
+
+    function release(): void {
+        holds = Math.max(0, holds - 1);
+    }
 
     function clear(): void {
         for (const n of list.slice())
-            n.close();
+            n.dismiss();
     }
 
     Timer {
@@ -35,12 +51,14 @@ Singleton {
         imageSupported: true
 
         onNotification: notif => {
-            notif.tracked = true;
             const data = notifComp.createObject(root, {
                 notification: notif
             });
             data.init();
             root.list = [data, ...root.list];
+
+            for (const old of root.list.slice(root.maxStored))
+                old.dismiss();
         }
     }
 
@@ -55,7 +73,12 @@ Singleton {
 
         required property Notification notification
         property bool popup: true
+        property bool closing: false
+        property bool appClosed: false
         property string timeStr: "now"
+
+        property int remaining: root.expireDelay
+        property real resumedAt: 0
 
         readonly property date time: new Date()
         readonly property var actions: notification?.actions ?? []
@@ -67,25 +90,38 @@ Singleton {
         property string image
         property bool critical
 
-        readonly property Connections conn: Connections {
-            target: data.notification
+        readonly property RetainableLock lock: RetainableLock {
+            object: data.notification
+            locked: true
 
-            function onClosed(): void {
+            onDropped: {
+                data.appClosed = true;
                 data.popup = false;
             }
         }
 
         readonly property Timer timer: Timer {
-            running: true
-            interval: 5000
-            onTriggered: {
-                if (!data.critical)
-                    data.popup = false;
+            interval: Math.max(1, data.remaining)
+            running: data.popup && !data.critical && !data.closing && !root.paused
+
+            onTriggered: data.popup = false
+
+            onRunningChanged: {
+                if (running)
+                    data.resumedAt = Date.now();
+                else if (data.resumedAt > 0) {
+                    data.remaining = Math.max(0, data.remaining - (Date.now() - data.resumedAt));
+                    data.resumedAt = 0;
+                }
             }
         }
 
+        readonly property Timer exit: Timer {
+            interval: root.exitDelay
+        }
+
         readonly property Timer reaper: Timer {
-            interval: 600
+            interval: root.exitDelay
             onTriggered: {
                 root.list = root.list.filter(n => n !== data);
                 data.destroy();
@@ -114,16 +150,20 @@ Singleton {
                 timeStr = `${Math.floor(diff / 86400)}d`;
         }
 
-        function close(): void {
+        function dismiss(): void {
+            if (closing)
+                return;
+            closing = true;
             popup = false;
-            notification?.dismiss();
+            if (!appClosed)
+                notification?.dismiss();
+            lock.locked = false;
+            reaper.restart();
         }
 
         onPopupChanged: {
-            if (popup)
-                return;
-            timer.stop();
-            reaper.restart();
+            if (!popup)
+                exit.restart();
         }
     }
 }
