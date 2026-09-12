@@ -7,15 +7,17 @@ fps=30
 size=1920x1080
 out=""
 save=0
+full=0
 
 while [ $# -gt 0 ]; do
 	case $1 in
+		-F) full=1 ;;
 		-s) save=1
 		    case ${2:-} in -*|"") ;; *) out=$2; shift ;; esac ;;
 		-r) fps=$2; shift ;;
 		-z) size=$2; shift ;;
 		-d) dev=$2; shift ;;
-		*)  echo "usage: ${0##*/} [-s [file]] [-r fps] [-z WxH] [-d device]" >&2
+		*)  echo "usage: ${0##*/} [-s [file]] [-F] [-r fps] [-z WxH] [-d device]" >&2
 		    exit 1 ;;
 	esac
 	shift
@@ -23,8 +25,11 @@ done
 
 in="-f v4l2 -input_format mjpeg -framerate $fps -video_size $size"
 
+fs=""
+[ $full -eq 1 ] && fs="-fs"
+
 if [ $save -eq 0 ]; then
-	exec ffplay $in -fflags nobuffer -flags low_delay "$dev"
+	exec ffplay $fs $in -fflags nobuffer -flags low_delay "$dev"
 fi
 
 [ -n "$out" ] || out="$HOME/Videos/Camera/cam_$(date +%Y%m%d-%H%M%S).mkv"
@@ -38,7 +43,7 @@ ffmpeg -loglevel error $in -i "$dev" -map 0 -c copy \
 	-f tee "[f=matroska]$out|[f=matroska]$fifo" </dev/null &
 pid=$!
 
-ffplay -fflags nobuffer -flags low_delay -i "$fifo"
+ffplay $fs -fflags nobuffer -flags low_delay -i "$fifo"
 
 kill -INT $pid 2>/dev/null
 wait $pid 2>/dev/null

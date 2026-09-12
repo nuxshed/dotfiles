@@ -5,6 +5,7 @@ import QtQuick
 QtObject {
     // bgs
     readonly property string background: "#0f0f0f"
+    readonly property string backgroundDeep: "#000000"
     readonly property string surface: "#1a1a1a"
     readonly property string surfaceActive: "#242424"
     readonly property string subtle: "#343434"
