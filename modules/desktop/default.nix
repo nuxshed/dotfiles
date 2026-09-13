@@ -1,5 +1,5 @@
 { inputs, config, pkgs, lib, ... }: {
-  imports = [ ];
+  imports = [ ./spotlight.nix ];
   home.packages = with pkgs; [
     swaybg
     grim

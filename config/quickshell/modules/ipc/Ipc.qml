@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Io
 import "../../services"
+import "../../services/spotlight"
 
 Scope {
     IpcHandler {
@@ -42,6 +43,27 @@ Scope {
 
         function active(): bool {
             return Recorder.active;
+        }
+    }
+
+    IpcHandler {
+        target: "spotlight"
+
+        function toggle(): void {
+            Spotlight.toggle();
+        }
+
+        function show(): void {
+            Spotlight.show();
+        }
+
+        function hide(): void {
+            Spotlight.hide();
+        }
+
+        function open(text: string): void {
+            Spotlight.show();
+            Spotlight.setQuery(text);
         }
     }
 

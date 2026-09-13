@@ -9,6 +9,7 @@ import "modules/toolbar"
 import "modules/capture"
 import "modules/ipc"
 import "modules/lock"
+import "modules/spotlight"
 
 Scope {
     LeftPanel {}
@@ -30,5 +31,6 @@ Scope {
     RecordIndicator {}
     Pins {}
     LockScreen {}
+    SpotlightPanel {}
     Ipc {}
 }
