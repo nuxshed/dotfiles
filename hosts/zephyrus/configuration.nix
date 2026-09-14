@@ -63,9 +63,18 @@
     enableTCPIP = true;
   };
 
+  # 15G and no swap device. A flake update once let nix fan out to 22 parallel
+  # builds on 22 cores each; cc1plus exhausted RAM and the OOM killer took out
+  # dbus-broker and user@1000.service, leaving the session without a bus.
+  zramSwap.enable = true;
+
   nix = {
     package = pkgs.nix;
-    settings.trusted-users = [ "root" "nuxsh" ];
+    settings = {
+      trusted-users = [ "root" "nuxsh" ];
+      max-jobs = 4;
+      cores = 4;
+    };
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

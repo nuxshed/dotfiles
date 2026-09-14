@@ -13,32 +13,56 @@
     feh
     ffmpeg-full
     forgejo-cli
+    frogmouth
     fzf
     github-cli
     gifsicle
+    glow
     gnumake
+    groff
     hsetroot
+    imagemagick
+    jq
     lazygit
     libtool
+    lsof
     maim
     man-pages
     man-pages-posix
     mpv
     ncdu
+    p7zip
     pamixer
     pandoc
+    pfetch
     pinentry-curses
     playerctl
     powertop
+    # pactl/pacmd only; the sound server itself is pipewire
+    pulseaudio
     (ripgrep.override { withPCRE2 = true; })
     slop
+    socat
+    tdf
+    tesseract
     tmux
     television
+    tree
     bat
+    unrar
     unzip
+    v4l-utils
     wget
+    wkhtmltopdf
     xclip
+    zip
     zoxide
+
+    # iOS device mounting
+    ideviceinstaller
+    ifuse
+    libimobiledevice
+    usbmuxd
   ];
 
   programs = {

@@ -15,6 +15,14 @@
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    quickshell-mcp = {
+      url = "github:franklinnolasco7/quickshell-mcp";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    claude-desktop-extra = {
+      url = "github:patrickjaja/claude-desktop-extra";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     bling = {
       url = "github:BlingCorp/bling";
       flake = false;

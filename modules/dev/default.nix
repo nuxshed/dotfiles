@@ -1,5 +1,11 @@
-{ config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   home.packages = with pkgs; [
+    inputs.quickshell-mcp.packages.${pkgs.stdenv.hostPlatform.system}.default
+    bun
+    cachix
+    cloc
+    docker-compose
+    typst
     lua
     luarocks
     stylua

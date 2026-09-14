@@ -1,10 +1,15 @@
 { inputs, config, pkgs, lib, ... }: {
   imports = [ ./spotlight.nix ];
   home.packages = with pkgs; [
+    blueman
     swaybg
     grim
     gnome-calendar
     hyprpaper
+    hyprpicker
+    lxappearance
+    qt6.qt5compat
+    qt6.qtwayland
     slurp
     libnotify
     picom
@@ -13,7 +18,9 @@
     slock
     swaylock
     # tint2
+    wf-recorder
     wl-clipboard-rs
+    wl-screenrec
     xdotool
     xss-lock
   ];
