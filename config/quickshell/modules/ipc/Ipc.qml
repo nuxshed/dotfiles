@@ -154,4 +154,24 @@ Scope {
             Lock.setMode(name);
         }
     }
+
+    IpcHandler {
+        target: "notes"
+
+        function toggle(): void {
+            Notes.toggle();
+        }
+
+        function open(): void {
+            Notes.open = true;
+        }
+
+        function hide(): void {
+            Notes.open = false;
+        }
+
+        function add(): void {
+            Notes.add();
+        }
+    }
 }

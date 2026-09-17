@@ -132,6 +132,7 @@ hl.bind(mod .. " + space", hl.dsp.exec_cmd("qs ipc call spotlight toggle"))
 hl.bind(mod .. " + e", hl.dsp.exec_cmd("qs ipc call files toggle"))
 hl.bind(mod .. " + SHIFT + Escape", hl.dsp.exec_cmd("qs ipc call sysmon toggle"))
 hl.bind(mod .. " + m", hl.dsp.exec_cmd("qs ipc call sysmon open overview"))
+hl.bind(mod .. " + n", hl.dsp.exec_cmd("qs ipc call notes toggle"))
 hl.bind(mod .. " + c", hl.dsp.window.close())
 
 -- Workspaces

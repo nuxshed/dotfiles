@@ -12,6 +12,7 @@ PanelWindow {
     property real posY: 120
 
     default property alias content: holder.data
+    readonly property alias card: card
 
     color: "transparent"
     exclusionMode: ExclusionMode.Ignore
