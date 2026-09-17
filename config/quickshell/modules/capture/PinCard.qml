@@ -185,6 +185,7 @@ FloatingCard {
                 text: root.clock(root.playing || root.position > 0 ? root.position : root.duration)
                 color: Colors.textMuted
                 font.pixelSize: 12
+                font.family: Fonts.family
                 horizontalAlignment: Text.AlignRight
             }
         }
@@ -198,6 +199,7 @@ FloatingCard {
                 text: root.path.split("/").pop()
                 color: Colors.textMuted
                 font.pixelSize: 11
+                font.family: Fonts.family
                 elide: Text.ElideMiddle
             }
 

@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import "../../config"
 
 Repeater {
     id: root
@@ -50,7 +51,8 @@ Repeater {
             rotation: mark.rot
             text: String(mark.index).padStart(2, "0")
             font.pixelSize: root.label
-            font.bold: mark.glow > 0.5
+            font.family: Fonts.family
+            font.weight: mark.glow > 0.5 ? Font.Medium : Font.Normal
             color: Qt.rgba(1, 1, 1, mark.glow > 0 ? 0.4 + mark.glow * 0.6 : 0.25)
         }
     }

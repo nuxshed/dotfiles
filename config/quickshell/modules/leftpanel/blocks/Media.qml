@@ -56,7 +56,8 @@ Item {
             text: "m"
             color: Colors.textBright
             font.pixelSize: 20
-            font.bold: true
+            font.family: Fonts.family
+            font.weight: Font.Medium
             visible: artworkSource === ""
             opacity: isPlaying ? 1.0 : 0.5
             
@@ -79,6 +80,7 @@ Item {
                 text: "▶"
                 color: Colors.textBright
                 font.pixelSize: 14
+                font.family: Fonts.family
             }
         }
 

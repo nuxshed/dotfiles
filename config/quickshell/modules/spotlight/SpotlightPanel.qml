@@ -115,6 +115,7 @@ PanelWindow {
                         text: Spotlight.scope?.label ?? ""
                         color: Colors.blue
                         font.pixelSize: 10
+                        font.family: Fonts.family
                     }
                 }
 
@@ -125,6 +126,7 @@ PanelWindow {
                     Layout.fillHeight: true
                     color: Colors.textBright
                     font.pixelSize: 14
+                    font.family: Fonts.family
                     selectByMouse: true
                     selectionColor: Colors.blue
                     verticalAlignment: TextInput.AlignVCenter
@@ -212,6 +214,7 @@ PanelWindow {
                     text: "No results"
                     color: Colors.textMuted
                     font.pixelSize: 12
+                    font.family: Fonts.family
                 }
             }
         }

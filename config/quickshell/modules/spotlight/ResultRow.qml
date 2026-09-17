@@ -26,6 +26,7 @@ Item {
         text: root.item.section ?? ""
         color: Colors.textMuted
         font.pixelSize: 10
+        font.family: Fonts.family
         font.capitalization: Font.AllUppercase
         font.letterSpacing: 0.6
         verticalAlignment: Text.AlignBottom
@@ -79,6 +80,7 @@ Item {
                     text: root.item.title ?? ""
                     color: root.selected ? Colors.textBright : Colors.text
                     font.pixelSize: 12
+                    font.family: Fonts.family
                     elide: Text.ElideRight
                 }
 
@@ -88,6 +90,7 @@ Item {
                     text: root.item.subtitle ?? ""
                     color: Colors.textMuted
                     font.pixelSize: 10
+                    font.family: Fonts.family
                     elide: Text.ElideMiddle
                 }
             }
@@ -97,6 +100,7 @@ Item {
                 text: root.item.altHint ?? ""
                 color: Colors.textMuted
                 font.pixelSize: 9
+                font.family: Fonts.family
             }
         }
 

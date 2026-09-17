@@ -194,6 +194,7 @@ Rectangle {
             maximumLineCount: 1
             color: Colors.textMuted
             font.pixelSize: 10
+            font.family: Fonts.family
 
             opacity: root.expanded ? 1 : 0
 
@@ -226,7 +227,8 @@ Rectangle {
             height: implicitHeight
             color: Colors.textBright
             font.pixelSize: 12
-            font.bold: true
+            font.family: Fonts.family
+            font.weight: Font.Medium
 
             states: State {
                 name: "expanded"
@@ -285,6 +287,7 @@ Rectangle {
             text: "•"
             color: Colors.textMuted
             font.pixelSize: 10
+            font.family: Fonts.family
 
             states: State {
                 name: "expanded"
@@ -316,6 +319,7 @@ Rectangle {
             text: root.notif?.timeStr ?? ""
             color: Colors.textMuted
             font.pixelSize: 10
+            font.family: Fonts.family
         }
 
         Item {
@@ -372,6 +376,7 @@ Rectangle {
             text: bodyPreviewMetrics.elidedText
             color: Colors.textMuted
             font.pixelSize: 10
+            font.family: Fonts.family
 
             opacity: root.expanded ? 0 : 1
 
@@ -403,6 +408,7 @@ Rectangle {
             text: root.notif?.body ?? ""
             color: Colors.textMuted
             font.pixelSize: 10
+            font.family: Fonts.family
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             height: text ? implicitHeight : 0
 
@@ -497,7 +503,8 @@ Rectangle {
             text: btn.label
             color: Colors.textDimmed
             font.pixelSize: 10
-            font.bold: true
+            font.family: Fonts.family
+            font.weight: Font.Medium
             elide: Text.ElideRight
             horizontalAlignment: Text.AlignHCenter
             visible: btn.label.length > 0

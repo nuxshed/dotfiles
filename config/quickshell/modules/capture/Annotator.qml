@@ -234,7 +234,8 @@ Variants {
                     visible: win.editing
                     color: win.stroke
                     font.pixelSize: 18
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
 
                     onAccepted: {
                         if (text.length > 0)

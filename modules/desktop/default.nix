@@ -1,6 +1,23 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }:
+let
+  google-sans-flex = pkgs.stdenvNoCC.mkDerivation {
+    pname = "google-sans-flex";
+    version = "unstable-2025-10";
+    src = pkgs.fetchFromGitHub {
+      owner = "end-4";
+      repo = "google-sans-flex";
+      rev = "251aa5abd30496368f634e54ce2a508fe5a2fdfa";
+      hash = "sha256-HMAS0L/Tsqyl1xI16cyIzg9LEb6Dyq91JY4wqFQV9Vs=";
+    };
+    installPhase = ''
+      install -Dm644 *.ttf -t $out/share/fonts/truetype
+    '';
+  };
+in {
   imports = [ ./spotlight.nix ];
+  fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
+    google-sans-flex
     blueman
     swaybg
     grim

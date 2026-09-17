@@ -158,6 +158,7 @@ Variants {
                 text: `${Math.round(win.sel.width * win.pxRatio)} × ${Math.round(win.sel.height * win.pxRatio)}`
                 color: Colors.text
                 font.pixelSize: 12
+                font.family: Fonts.family
             }
         }
 

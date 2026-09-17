@@ -54,7 +54,8 @@ Rectangle {
                     color: segment.active ? segment.tint
                         : segHover.hovered ? Colors.text : Colors.textMuted
                     font.pixelSize: 11
-                    font.bold: segment.active
+                    font.family: Fonts.family
+                    font.weight: segment.active ? Font.Medium : Font.Normal
 
                     Behavior on color {
                         ColorAnimation { duration: 150 }

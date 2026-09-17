@@ -100,7 +100,8 @@ Variants {
                     text: win.clock(Recorder.elapsed)
                     color: Colors.textBright
                     font.pixelSize: 13
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
                 }
 
                 Canvas {

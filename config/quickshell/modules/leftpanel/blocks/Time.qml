@@ -17,7 +17,8 @@ Item {
                 text: Qt.formatDateTime(new Date(), "hh")
                 color: Colors.textBright
                 font.pixelSize: 14
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Bold
                 horizontalAlignment: Text.AlignHCenter
             }
             Text {
@@ -25,7 +26,8 @@ Item {
                 text: Qt.formatDateTime(new Date(), "mm")
                 color: Colors.textDimmed
                 font.pixelSize: 14
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Bold
                 horizontalAlignment: Text.AlignHCenter
             }
         }

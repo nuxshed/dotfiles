@@ -73,7 +73,8 @@ Popout {
             text: header.label
             color: Colors.textBright
             font.pixelSize: 13
-            font.bold: true
+            font.family: Fonts.family
+            font.weight: Font.Medium
         }
 
         Item { Layout.fillWidth: true }
@@ -94,6 +95,7 @@ Popout {
                 text: "↻"
                 color: Colors.textBright
                 font.pixelSize: 13
+                font.family: Fonts.family
             }
 
             NumberAnimation {
@@ -149,6 +151,7 @@ Popout {
             text: card.placeholder
             color: Colors.textMuted
             font.pixelSize: 11
+            font.family: Fonts.family
         }
     }
 
@@ -180,6 +183,7 @@ Popout {
                     text: row.label
                     color: Colors.text
                     font.pixelSize: 11
+                    font.family: Fonts.family
                 }
 
                 Text {
@@ -187,6 +191,7 @@ Popout {
                     text: row.detail
                     color: Colors.textMuted
                     font.pixelSize: 9
+                    font.family: Fonts.family
                     elide: Text.ElideRight
                     Layout.fillWidth: true
                 }
@@ -273,7 +278,8 @@ Popout {
                                     text: apRow.modelData.ssid
                                     color: apRow.modelData.active ? Colors.blue : Colors.text
                                     font.pixelSize: 11
-                                    font.bold: apRow.modelData.active
+                                    font.family: Fonts.family
+                                    font.weight: apRow.modelData.active ? Font.Medium : Font.Normal
                                     elide: Text.ElideRight
                                 }
 
@@ -283,6 +289,7 @@ Popout {
                                         : apRow.modelData.isSecure ? "Secured" : "Open"
                                     color: Colors.textMuted
                                     font.pixelSize: 9
+                                    font.family: Fonts.family
                                 }
                             }
                         }
@@ -376,7 +383,8 @@ Popout {
                                     text: btRow.modelData.name
                                     color: btRow.modelData.connected ? Colors.blue : Colors.text
                                     font.pixelSize: 11
-                                    font.bold: btRow.modelData.connected
+                                    font.family: Fonts.family
+                                    font.weight: btRow.modelData.connected ? Font.Medium : Font.Normal
                                     elide: Text.ElideRight
                                 }
 
@@ -384,6 +392,7 @@ Popout {
                                     text: root.btStatus(btRow.modelData)
                                     color: Colors.textMuted
                                     font.pixelSize: 9
+                                    font.family: Fonts.family
                                 }
                             }
                         }

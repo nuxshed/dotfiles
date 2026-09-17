@@ -44,7 +44,8 @@ Rectangle {
                     text: modelData.name || modelData.id
                     color: modelData.id === Hyprland.focusedWorkspace.id ? Colors.workspaceTextActive : Colors.workspaceTextInactive
                     font.pixelSize: 11
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
                     visible: workspaceItem.windows.length === 0
                 }
 

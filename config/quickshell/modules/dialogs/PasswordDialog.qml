@@ -82,7 +82,8 @@ PanelWindow {
                     text: Prompt.title
                     color: Colors.textBright
                     font.pixelSize: 15
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
                     elide: Text.ElideRight
                 }
 
@@ -92,6 +93,7 @@ PanelWindow {
                     text: Prompt.subtitle
                     color: Colors.textMuted
                     font.pixelSize: 11
+                    font.family: Fonts.family
                     elide: Text.ElideRight
                 }
             }
@@ -117,6 +119,7 @@ PanelWindow {
                     echoMode: TextInput.Password
                     color: Colors.textBright
                     font.pixelSize: 12
+                    font.family: Fonts.family
                     selectByMouse: true
                     selectionColor: Colors.blue
                     verticalAlignment: TextInput.AlignVCenter
@@ -157,6 +160,7 @@ PanelWindow {
                         text: "Cancel"
                         color: Colors.text
                         font.pixelSize: 12
+                        font.family: Fonts.family
                     }
 
                     HoverHandler {
@@ -186,7 +190,8 @@ PanelWindow {
                         text: Prompt.action
                         color: input.text.length === 0 ? Colors.textMuted : Colors.background
                         font.pixelSize: 12
-                        font.bold: true
+                        font.family: Fonts.family
+                        font.weight: Font.Medium
                     }
 
                     HoverHandler {

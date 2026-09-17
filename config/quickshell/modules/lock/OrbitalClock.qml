@@ -64,6 +64,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         text: String(root.now.getHours()).padStart(2, "0")
         font.pixelSize: 110 * root.unit
+        font.family: Fonts.family
         font.weight: Font.Black
         color: Colors.textBright
     }
@@ -77,6 +78,7 @@ Item {
         Text {
             text: Qt.formatDate(root.now, "dd MMM yyyy").toUpperCase()
             font.pixelSize: 13 * root.unit
+            font.family: Fonts.family
             font.letterSpacing: 4 * root.unit
             color: Colors.textMuted
         }
@@ -84,8 +86,9 @@ Item {
         Text {
             text: Qt.formatDate(root.now, "dddd").toUpperCase()
             font.pixelSize: 18 * root.unit
+            font.family: Fonts.family
             font.letterSpacing: 8 * root.unit
-            font.bold: true
+            font.weight: Font.Medium
             color: Colors.textBright
         }
     }

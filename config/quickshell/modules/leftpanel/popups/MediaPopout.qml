@@ -68,7 +68,8 @@ Popout {
                             text: modelData.identity || "Player"
                             color: index === Mpris.activePlayerIndex ? Colors.textBright : Colors.text
                             font.pixelSize: 9
-                            font.bold: index === Mpris.activePlayerIndex
+                            font.family: Fonts.family
+                            font.weight: index === Mpris.activePlayerIndex ? Font.Medium : Font.Normal
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
@@ -154,7 +155,8 @@ Popout {
                 text: Mpris.trackTitle || "No track"
                 color: Colors.textBright
                 font.pixelSize: 13
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Medium
                 elide: Text.ElideRight
             }
 
@@ -163,6 +165,7 @@ Popout {
                 text: Mpris.trackArtist || "Unknown artist"
                 color: Colors.textDimmed
                 font.pixelSize: 11
+                font.family: Fonts.family
                 elide: Text.ElideRight
             }
         }
@@ -200,6 +203,7 @@ Popout {
                     text: "⏮"
                     color: Mpris.canGoPrevious ? Colors.textBright : Colors.textDimmed
                     font.pixelSize: 16
+                    font.family: Fonts.family
                 }
 
                 HoverHandler {
@@ -223,6 +227,7 @@ Popout {
                     text: Mpris.isPlaying ? "⏸" : "▶"
                     color: Colors.textBright
                     font.pixelSize: 20
+                    font.family: Fonts.family
                 }
 
                 HoverHandler {
@@ -245,6 +250,7 @@ Popout {
                     text: "⏭"
                     color: Mpris.canGoNext ? Colors.textBright : Colors.textDimmed
                     font.pixelSize: 16
+                    font.family: Fonts.family
                 }
 
                 HoverHandler {

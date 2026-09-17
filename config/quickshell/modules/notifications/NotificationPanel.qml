@@ -174,7 +174,8 @@ PanelWindow {
                 text: "Notifications"
                 color: Colors.textBright
                 font.pixelSize: 12
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Medium
             }
 
             Rectangle {
@@ -216,6 +217,7 @@ PanelWindow {
                 text: "No notifications"
                 color: Colors.textMuted
                 font.pixelSize: 11
+                font.family: Fonts.family
                 visible: Notifications.all.length === 0
             }
 

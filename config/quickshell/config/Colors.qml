@@ -3,25 +3,31 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    // bgs
-    readonly property string background: "#0f0f0f"
+    // bgs (material-you dark, cool grey)
+    readonly property string background: "#101114"
     readonly property string backgroundDeep: "#000000"
-    readonly property string surface: "#1a1a1a"
-    readonly property string surfaceActive: "#242424"
-    readonly property string subtle: "#343434"
-    readonly property string border: "#2a2a2a"
-    
-    // text
-    readonly property string text: "#cacaca"
-    readonly property string textMuted: "#888888"
-    readonly property string textBright: "#e1e1e1"
-    readonly property string textDimmed: "#afafaf"
+    readonly property string surface: "#1b1c1f"
+    readonly property string surfaceActive: "#212226"
+    readonly property string subtle: "#2f3136"
+    readonly property string border: "#2a2c31"
+    readonly property string outline: "#3b3e44"
 
+    // text
+    readonly property string text: "#d0d3d9"
+    readonly property string textMuted: "#8b9099"
+    readonly property string textBright: "#e8eaef"
+    readonly property string textDimmed: "#b3b7bf"
+
+    // accent (light blue primary, teal container)
+    readonly property string primary: "#a8ccff"
+    readonly property string primaryText: "#0b2a44"
+    readonly property string primaryContainer: "#124a5e"
+    readonly property string primaryContainerText: "#c4e4ff"
 
     // colors
     readonly property string red: "#b46958"
     readonly property string green: "#90A959"
-    readonly property string blue: "#BAD7FF"
+    readonly property string blue: "#a8ccff"
     readonly property string yellow: "#F4BF75"
     readonly property string magenta: "#AA759F"
     readonly property string orange: "#FFA557"

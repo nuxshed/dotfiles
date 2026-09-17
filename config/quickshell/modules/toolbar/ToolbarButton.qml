@@ -139,6 +139,7 @@ Item {
                 text: root.tooltip
                 color: Colors.text
                 font.pixelSize: 11
+                font.family: Fonts.family
             }
         }
     }

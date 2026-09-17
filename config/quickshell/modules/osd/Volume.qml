@@ -98,7 +98,7 @@ Scope {
                         color: Colors.text
                         font.pixelSize: 14
                         font.family: "Cartograph CF"
-                        font.bold: true
+                        font.weight: Font.Medium
                         Layout.preferredWidth: 40
                     }
                 }

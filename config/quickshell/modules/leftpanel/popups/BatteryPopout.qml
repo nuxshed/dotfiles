@@ -90,7 +90,8 @@ Popout {
                     text: Battery.level
                     color: Colors.textBright
                     font.pixelSize: 19
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
                 }
             }
 
@@ -102,13 +103,15 @@ Popout {
                     text: Battery.isCharging ? "Charging" : Battery.status
                     color: root.accent
                     font.pixelSize: 13
-                    font.bold: true
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
                 }
 
                 Text {
                     text: Battery.timeRemaining ? Battery.timeRemaining + " left" : "—"
                     color: Colors.textMuted
                     font.pixelSize: 10
+                    font.family: Fonts.family
                 }
             }
         }
@@ -122,7 +125,8 @@ Popout {
                 text: "PERFORMANCE"
                 color: Colors.textMuted
                 font.pixelSize: 9
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Medium
                 font.letterSpacing: 1
             }
 
@@ -143,7 +147,8 @@ Popout {
                 text: "KEYBOARD"
                 color: Colors.textMuted
                 font.pixelSize: 9
-                font.bold: true
+                font.family: Fonts.family
+                font.weight: Font.Medium
                 font.letterSpacing: 1
             }
 
@@ -166,6 +171,7 @@ Popout {
                         text: "Backlight"
                         color: Colors.text
                         font.pixelSize: 11
+                        font.family: Fonts.family
                     }
 
                     Item { Layout.fillWidth: true }
@@ -228,6 +234,7 @@ Popout {
                         text: "Aura"
                         color: Colors.text
                         font.pixelSize: 11
+                        font.family: Fonts.family
                     }
 
                     Item { Layout.fillWidth: true }
@@ -236,12 +243,14 @@ Popout {
                         text: Asusctl.getAuraDisplayName(Asusctl.auraMode)
                         color: Colors.textBright
                         font.pixelSize: 11
+                        font.family: Fonts.family
                     }
 
                     Text {
                         text: "›"
                         color: Colors.textMuted
                         font.pixelSize: 13
+                        font.family: Fonts.family
                         opacity: auraHover.hovered ? 1 : 0.5
 
                         Behavior on opacity {
