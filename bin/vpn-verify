@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# Verify the college VPN is split-tunnelled: campus subnets + *.iiit.ac.in over
+# tun0, everything else direct. Run after `nixos-rebuild switch`.
+set -uo pipefail
+
+pass() { printf '  \033[32mPASS\033[0m %s\n' "$*"; }
+fail() { printf '  \033[31mFAIL\033[0m %s\n' "$*"; FAILED=1; }
+info() { printf '  \033[90m%s\033[0m\n' "$*"; }
+FAILED=0
+skip() { printf '  \033[33mSKIP\033[0m %s\n' "$*"; }
+
+# If resolved isn't running, the config hasn't been switched to yet. Say so
+# plainly instead of reporting the DNS checks as failures.
+HAVE_RESOLVED=1
+resolvectl status &>/dev/null || HAVE_RESOLVED=0
+
+echo
+echo "1. systemd-resolved is the resolver"
+if [[ "$HAVE_RESOLVED" -eq 0 ]]; then
+  fail "systemd-resolved is not running — you have not switched to the new config yet"
+  info "run: sudo nixos-rebuild boot --flake .#zephyrus, then reboot"
+elif [[ "$(readlink -f /etc/resolv.conf)" == *stub-resolv.conf || \
+      "$(grep -c '127.0.0.53' /etc/resolv.conf)" -gt 0 ]]; then
+  pass "/etc/resolv.conf points at the resolved stub"
+else
+  fail "/etc/resolv.conf is not managed by resolved:"; info "$(cat /etc/resolv.conf)"
+fi
+
+echo
+echo "2. tunnel is up"
+if ip link show tun0 &>/dev/null; then
+  pass "tun0 exists"
+else
+  fail "tun0 missing — systemctl status openvpn-college"; exit 1
+fi
+
+echo
+echo "3. routing is split (public traffic must NOT use tun0)"
+for ip in 1.1.1.1 8.8.8.8 140.82.121.4; do
+  dev=$(ip -o route get "$ip" 2>/dev/null | grep -oP '(?<=dev )\S+')
+  [[ "$dev" == "tun0" ]] && fail "$ip routes via tun0 (tunnel is swallowing traffic)" \
+                         || pass "$ip -> $dev"
+done
+for ip in 10.4.20.21 10.2.0.1 192.168.36.1; do
+  dev=$(ip -o route get "$ip" 2>/dev/null | grep -oP '(?<=dev )\S+')
+  [[ "$dev" == "tun0" ]] && pass "$ip -> tun0" \
+                         || info "$ip -> ${dev:-?} (fine if you're on campus LAN)"
+done
+
+echo
+echo "4. DNS is scoped to tun0"
+if [[ "$HAVE_RESOLVED" -eq 0 ]]; then skip "needs systemd-resolved"; else
+resolvectl status tun0 2>/dev/null | sed 's/^/  /'
+if resolvectl status tun0 2>/dev/null | grep -q 'Default Route: no'; then
+  pass "tun0 is not the default DNS route"
+else
+  fail "tun0 is claiming default DNS route — public lookups will leak"
+fi
+fi
+
+echo
+echo "5. DNS leak test (watching tun0 port 53 for 6s)"
+if ! command -v tcpdump &>/dev/null; then
+  info "tcpdump not installed; skipping. nix-shell -p tcpdump"
+else
+  sudo timeout 6 tcpdump -ni tun0 -c 20 'port 53' >/tmp/vpn-leak.$$ 2>/dev/null &
+  tp=$!; sleep 1
+  for d in google.com github.com wikipedia.org cloudflare.com; do
+    resolvectl query --cache=no "$d" &>/dev/null
+  done
+  wait $tp 2>/dev/null
+  n=$(grep -c . /tmp/vpn-leak.$$ 2>/dev/null || echo 0)
+  [[ "$n" -eq 0 ]] && pass "no public DNS crossed the tunnel" \
+                   || { fail "$n DNS packets leaked over tun0:"; sed 's/^/    /' /tmp/vpn-leak.$$; }
+  rm -f /tmp/vpn-leak.$$
+fi
+
+echo
+echo "6. campus names still resolve"
+if [[ "$HAVE_RESOLVED" -eq 0 ]]; then skip "needs systemd-resolved"
+elif resolvectl query --cache=no intranet.iiit.ac.in &>/dev/null; then
+  pass "intranet.iiit.ac.in resolves"
+else
+  fail "campus DNS broken — check 'resolvectl domain tun0'"
+fi
+
+echo
+echo "7. egress IP is yours, not the college's"
+info "public IP: $(curl -s --max-time 8 https://ifconfig.me || echo '(no answer)')"
+info "compare against the same command with the VPN stopped."
+
+echo
+[[ "$FAILED" -eq 0 ]] && echo "All automated checks passed." || echo "Some checks FAILED (see above)."

@@ -1,4 +1,42 @@
-{ config, pkgs, inputs, ... }: 
+{ config, pkgs, lib, inputs, ... }:
+let
+  # College resolvers, used only if the server stops pushing dhcp-option DNS.
+  collegeDNSFallback = [ "10.4.20.21" "10.4.20.22" ];
+
+  # Domains routed to the college resolvers. Everything else keeps using the
+  # normal DHCP resolver, so the tunnel never sees unrelated lookups.
+  # The in-addr.arpa entries cover reverse DNS for the subnets pushed on tun0.
+  collegeDomains = [ "~iiit.ac.in" "~10.in-addr.arpa" "~36.168.192.in-addr.arpa" ];
+
+  vpnUp = pkgs.writeShellScript "openvpn-college-up" ''
+    set -eu
+    export PATH=${lib.makeBinPath [ pkgs.systemd ]}:$PATH
+
+    # Prefer whatever the server pushed; fall back to the known campus resolvers.
+    dns=""
+    for name in ''${!foreign_option_@}; do
+      case "''${!name}" in
+        "dhcp-option DNS "*) dns="$dns ''${!name#dhcp-option DNS }" ;;
+      esac
+    done
+    [ -n "$dns" ] || dns="${lib.concatStringsSep " " collegeDNSFallback}"
+
+    # Scope those resolvers to tun0 only, and never let it win the default route.
+    resolvectl dns "$dev" $dns
+    resolvectl domain "$dev" ${
+      lib.concatStringsSep " " (map (d: "'${d}'") collegeDomains)
+    }
+    resolvectl default-route "$dev" false
+    resolvectl flush-caches || true
+  '';
+
+  vpnDown = pkgs.writeShellScript "openvpn-college-down" ''
+    set -eu
+    export PATH=${lib.makeBinPath [ pkgs.systemd ]}:$PATH
+    resolvectl revert "$dev" || true
+    resolvectl flush-caches || true
+  '';
+in
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -25,12 +63,32 @@
     enable = false;
   };
 
+  # Split DNS. NetworkManager hands resolution to systemd-resolved so DNS can be
+  # scoped per interface instead of one global /etc/resolv.conf.
+  services.resolved.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
+
   services.openvpn.servers.college = {
-    config = "config /etc/openvpn/college.ovpn";
+    config = ''
+      config /etc/openvpn/college.ovpn
+
+      # The server does not push redirect-gateway, so routing is already split:
+      # only the campus subnets land on tun0. Ignore it defensively in case that
+      # ever changes on their end.
+      pull-filter ignore "redirect-gateway"
+
+      # Take the pushed DNS, but apply it ourselves (scoped) rather than letting
+      # it overwrite the global resolver.
+      script-security 2
+      up ${vpnUp}
+      down ${vpnDown}
+      down-pre
+    '';
     authUserPass = "/etc/openvpn/college-auth.txt";
 
-    autoStart = false;
-    updateResolvConf = true;
+    autoStart = true;
+    # Handled by the up/down scripts above; this would clobber /etc/resolv.conf.
+    updateResolvConf = false;
   };
 
   nixpkgs.overlays = [
