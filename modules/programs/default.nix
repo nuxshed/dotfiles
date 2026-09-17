@@ -24,10 +24,27 @@ let
         --unset __NV_PRIME_RENDER_OFFLOAD
     '';
   };
+
+  # claude-desktop-extra ships a prebuilt Electron whose chrome-sandbox cannot be
+  # SUID in the nix store. Without CHROME_DEVEL_SANDBOX pointing at it Chromium
+  # refuses the (non-setuid) helper and CHECK-fails with ud2, which shows up as
+  # "illegal hardware instruction" on launch. nixpkgs' own electron wrapper sets
+  # the same variable; the namespace sandbox is what actually gets used.
+  claude-desktop = let
+    upstream = inputs.claude-desktop-extra.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  in pkgs.symlinkJoin {
+    name = "claude-desktop";
+    paths = [ upstream ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude-desktop \
+        --set CHROME_DEVEL_SANDBOX ${upstream}/lib/claude-desktop/chrome-sandbox
+    '';
+  };
 in {
   home.packages = with pkgs; [
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.claude-desktop-extra.packages.${pkgs.stdenv.hostPlatform.system}.default
+    claude-desktop
     antigravity
     beeper
     deluge-gtk
