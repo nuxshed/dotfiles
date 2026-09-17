@@ -68,6 +68,38 @@ Scope {
     }
 
     IpcHandler {
+        target: "files"
+
+        function request(multiple: string, directory: string, save: string, path: string, out: string): void {
+            Files.request(multiple, directory, save, path, out);
+        }
+
+        function show(): void {
+            Files.show();
+        }
+
+        function toggle(): void {
+            if (Files.open)
+                Files.hide();
+            else
+                Files.show();
+        }
+
+        function browse(path: string): void {
+            Files.browse(path);
+        }
+
+        function recent(): void {
+            Files.browse(Files.cwd);
+            Files.showRecent();
+        }
+
+        function cancel(): void {
+            Files.cancel();
+        }
+    }
+
+    IpcHandler {
         target: "lock"
 
         function lock(): void {

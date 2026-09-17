@@ -38,6 +38,7 @@ in {
     wf-recorder
     wl-clipboard-rs
     wl-screenrec
+    poppler-utils
     xdotool
     xss-lock
   ];
@@ -84,6 +85,13 @@ in {
 
   home.file.".config/quickshell".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/quickshell";
+
+  xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
+    [filechooser]
+    cmd=${config.home.homeDirectory}/dotfiles/bin/qs-filechooser
+    default_dir=$HOME
+    create_help_file=0
+  '';
 
   gtk = {
     enable = true;

@@ -93,10 +93,9 @@ Variants {
             },
             {
                 icon: "folder",
-                tip: "File picker",
-                placeholder: true,
+                tip: "Files",
                 divider: true,
-                act: () => Capture.notify("File picker", "Not implemented yet")
+                act: () => Files.show()
             },
             {
                 icon: "center_focus_strong",

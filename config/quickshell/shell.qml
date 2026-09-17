@@ -10,6 +10,7 @@ import "modules/capture"
 import "modules/ipc"
 import "modules/lock"
 import "modules/spotlight"
+import "modules/files"
 
 Scope {
     LeftPanel {}
@@ -33,5 +34,6 @@ Scope {
     Pins {}
     LockScreen {}
     SpotlightPanel {}
+    FilesPanel {}
     Ipc {}
 }

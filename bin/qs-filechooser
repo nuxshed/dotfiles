@@ -1,0 +1,20 @@
+#!/bin/sh
+# xdg-desktop-portal-termfilechooser wrapper that opens the Quickshell file picker.
+# Args: multiple directory save path out [debug]
+
+multiple="$1"
+directory="$2"
+save="$3"
+path="$4"
+out="$5"
+
+done_file="$out.done"
+rm -f "$done_file"
+
+qs ipc call files request "$multiple" "$directory" "$save" "$path" "$out" || exit 1
+
+while [ ! -e "$done_file" ]; do
+  sleep 0.1
+done
+
+rm -f "$done_file"

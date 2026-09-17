@@ -59,7 +59,15 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-termfilechooser ];
+    # Route file dialogs to the Quickshell picker (bin/qs-filechooser) via termfilechooser.
+    config.hyprland = {
+      default = [ "hyprland" "gtk" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "termfilechooser" ];
+    };
+  };
 
   services.gnome.gnome-keyring.enable = true;
 

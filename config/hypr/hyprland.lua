@@ -129,6 +129,7 @@ hl.gesture({ fingers = 3, direction = "right", action = function() hl.dispatch(h
 
 hl.bind(mod .. " + Return", hl.dsp.exec_cmd("wezterm"))
 hl.bind(mod .. " + space", hl.dsp.exec_cmd("qs ipc call spotlight toggle"))
+hl.bind(mod .. " + e", hl.dsp.exec_cmd("qs ipc call files toggle"))
 hl.bind(mod .. " + c", hl.dsp.window.close())
 
 -- Workspaces
