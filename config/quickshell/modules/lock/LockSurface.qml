@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell
 import "../../config"
 import "../../services"
 
@@ -7,22 +6,41 @@ Item {
     id: root
 
     readonly property real unit: height / 768
-    readonly property string status: {
+    readonly property bool typing: Lock.buffer.length > 0 || Lock.busy || Lock.error.length > 0
+    readonly property string caption: {
         if (Lock.busy)
             return "CHECKING";
         if (Lock.error.length > 0)
             return Lock.error.toUpperCase();
-        if (Lock.buffer.length > 0)
-            return "•".repeat(Math.min(Lock.buffer.length, 24));
-        return "WAITING FOR KEY";
+        return "ENTER PASSWORD";
     }
 
+    property bool ready: false
+    property real shake: 0
+
     focus: true
+    opacity: ready && !Lock.dimmed && !Lock.unlocking ? 1 : 0
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: Lock.dimmed ? 1000 : 300
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Component.onCompleted: ready = true
 
     Keys.onPressed: event => {
         event.accepted = true;
 
-        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+        const wake = Lock.dimmed;
+        Lock.touch();
+        if (wake)
+            return;
+
+        if (event.key === Qt.Key_Tab)
+            Lock.toggleMode();
+        else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
             Lock.submit();
         else if (event.key === Qt.Key_Backspace)
             Lock.erase(event.modifiers & Qt.ControlModifier);
@@ -32,41 +50,111 @@ Item {
             Lock.type(event.text);
     }
 
+    Connections {
+        target: Lock
+
+        function onErrorChanged(): void {
+            if (Lock.error.length > 0)
+                shakeAnim.restart();
+        }
+    }
+
+    SequentialAnimation {
+        id: shakeAnim
+
+        NumberAnimation { target: root; property: "shake"; to: -10 * root.unit; duration: 50 }
+        NumberAnimation { target: root; property: "shake"; to: 10 * root.unit; duration: 50 }
+        NumberAnimation { target: root; property: "shake"; to: -6 * root.unit; duration: 50 }
+        NumberAnimation { target: root; property: "shake"; to: 6 * root.unit; duration: 50 }
+        NumberAnimation { target: root; property: "shake"; to: 0; duration: 50 }
+    }
+
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
-        cursorShape: Qt.ArrowCursor
+        hoverEnabled: true
+        cursorShape: Qt.BlankCursor
+        onPositionChanged: Lock.touch()
+        onPressed: Lock.touch()
         onWheel: wheel => wheel.accepted = true
     }
 
-    OrbitalClock {
+    Loader {
         anchors.fill: parent
-        unit: root.unit
+        sourceComponent: Lock.mode === "bounce" ? bounce : clock
     }
 
-    Column {
+    Component {
+        id: clock
+
+        OrbitalClock {
+            unit: root.unit
+            active: !Lock.dimmed
+        }
+    }
+
+    Component {
+        id: bounce
+
+        BounceClock {
+            unit: root.unit
+        }
+    }
+
+    Item {
         anchors.right: parent.right
         anchors.rightMargin: 80 * root.unit
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 80 * root.unit
         width: 360 * root.unit
-        spacing: 10 * root.unit
+        height: dots.height + captionText.height + 14 * root.unit
+        opacity: Lock.mode === "clock" || root.typing ? 1 : 0
+        transform: Translate { x: root.shake }
 
-        Text {
-            width: parent.width
-            horizontalAlignment: Text.AlignRight
-            text: (Quickshell.env("USER") ?? "").toUpperCase()
-            font.pixelSize: 18 * root.unit
-            font.letterSpacing: 8 * root.unit
-            font.bold: true
-            color: Colors.textBright
+        Behavior on opacity {
+            NumberAnimation { duration: 300 }
+        }
+
+        Row {
+            id: dots
+
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: 8 * root.unit
+            spacing: 8 * root.unit
+            opacity: Lock.busy ? 0.4 : 1
+
+            Behavior on opacity {
+                NumberAnimation { duration: 200 }
+            }
+
+            Repeater {
+                model: Math.min(Lock.buffer.length, 32)
+
+                Rectangle {
+                    width: 8 * root.unit
+                    height: width
+                    radius: width / 2
+                    color: Colors.textBright
+                    scale: 0
+
+                    Component.onCompleted: scale = 1
+
+                    Behavior on scale {
+                        NumberAnimation { duration: 150; easing.type: Easing.OutBack }
+                    }
+                }
+            }
         }
 
         Text {
-            width: parent.width
-            horizontalAlignment: Text.AlignRight
-            text: root.status
+            id: captionText
+
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            text: root.caption
             font.pixelSize: 11 * root.unit
+            font.family: Fonts.family
             font.letterSpacing: 4 * root.unit
             color: Lock.error.length > 0 ? Colors.red : Colors.textMuted
 

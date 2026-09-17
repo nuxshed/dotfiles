@@ -3,6 +3,7 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
+import QtQuick
 
 Singleton {
     id: root
@@ -11,8 +12,12 @@ Singleton {
     property string buffer: ""
     property string error: ""
     property string sessionPath: ""
+    property string mode: "clock"
+    property bool dimmed: false
+    property bool unlocking: false
 
     readonly property bool busy: pam.active
+    readonly property int idleTimeout: 120000
 
     function lock(): void {
         if (root.locked)
@@ -20,6 +25,24 @@ Singleton {
         root.buffer = "";
         root.error = "";
         root.locked = true;
+        root.touch();
+    }
+
+    function touch(): void {
+        root.dimmed = false;
+        if (root.mode === "clock")
+            idle.restart();
+        else
+            idle.stop();
+    }
+
+    function setMode(name: string): void {
+        root.mode = name === "bounce" ? "bounce" : "clock";
+        root.touch();
+    }
+
+    function toggleMode(): void {
+        root.setMode(root.mode === "clock" ? "bounce" : "clock");
     }
 
     function type(text: string): void {
@@ -59,11 +82,31 @@ Singleton {
 
             if (result === PamResult.Success) {
                 root.error = "";
-                root.locked = false;
-                Quickshell.execDetached(["loginctl", "unlock-session"]);
+                root.unlocking = true;
+                idle.stop();
+                release.start();
             } else {
                 root.error = result === PamResult.Failed ? "incorrect password" : "authentication error";
             }
+        }
+    }
+
+    Timer {
+        id: idle
+
+        interval: root.idleTimeout
+        onTriggered: root.dimmed = true
+    }
+
+    Timer {
+        id: release
+
+        interval: 350
+        onTriggered: {
+            root.locked = false;
+            root.unlocking = false;
+            root.dimmed = false;
+            Quickshell.execDetached(["loginctl", "unlock-session"]);
         }
     }
 

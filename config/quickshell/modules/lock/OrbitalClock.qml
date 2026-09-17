@@ -6,6 +6,7 @@ Item {
 
     required property real unit
 
+    property bool active: true
     property date now: new Date()
 
     readonly property real elapsed: now.getHours() * 3600000 + now.getMinutes() * 60000 + now.getSeconds() * 1000 + now.getMilliseconds()
@@ -14,7 +15,7 @@ Item {
 
     Timer {
         interval: 16
-        running: true
+        running: root.active
         repeat: true
         onTriggered: root.now = new Date()
     }

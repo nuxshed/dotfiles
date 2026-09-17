@@ -77,5 +77,9 @@ Scope {
         function locked(): bool {
             return Lock.locked;
         }
+
+        function mode(name: string): void {
+            Lock.setMode(name);
+        }
     }
 }
