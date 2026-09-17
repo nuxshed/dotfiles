@@ -68,6 +68,18 @@ Scope {
     }
 
     IpcHandler {
+        target: "preview"
+
+        function open(path: string): void {
+            Preview.openFile(path);
+        }
+
+        function close(): void {
+            Preview.close();
+        }
+    }
+
+    IpcHandler {
         target: "files"
 
         function request(multiple: string, directory: string, save: string, path: string, out: string): void {

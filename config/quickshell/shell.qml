@@ -11,6 +11,7 @@ import "modules/ipc"
 import "modules/lock"
 import "modules/spotlight"
 import "modules/files"
+import "modules/preview"
 
 Scope {
     LeftPanel {}
@@ -35,5 +36,6 @@ Scope {
     LockScreen {}
     SpotlightPanel {}
     FilesPanel {}
+    PreviewPanel {}
     Ipc {}
 }

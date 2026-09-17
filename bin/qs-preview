@@ -1,0 +1,10 @@
+#!/bin/sh
+# Opens an image in the Quickshell Preview window.
+[ -n "$1" ] || exit 1
+f=$1
+f=${f#file://}
+case "$f" in
+  /*) : ;;
+  *) f="$(realpath -- "$f" 2>/dev/null || printf '%s' "$PWD/$f")" ;;
+esac
+exec qs ipc call preview open "$f"

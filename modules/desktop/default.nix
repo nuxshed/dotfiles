@@ -86,6 +86,38 @@ in {
   home.file.".config/quickshell".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/quickshell";
 
+  xdg.desktopEntries.qs-preview = {
+    name = "Preview";
+    genericName = "Image Viewer";
+    exec = "${config.home.homeDirectory}/dotfiles/bin/qs-preview %f";
+    icon = "image-x-generic";
+    mimeType = [ "image/png" "image/jpeg" "image/gif" "image/webp" "image/bmp" ];
+    noDisplay = false;
+    categories = [ "Graphics" "Viewer" ];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = let
+      browser = "zen-beta.desktop";
+    in {
+      "image/png" = "qs-preview.desktop";
+      "image/jpeg" = "qs-preview.desktop";
+      "image/gif" = "qs-preview.desktop";
+      "image/webp" = "qs-preview.desktop";
+      "image/bmp" = "qs-preview.desktop";
+      "application/pdf" = "zathura.desktop";
+      "text/html" = browser;
+      "application/xhtml+xml" = browser;
+      "x-scheme-handler/http" = browser;
+      "x-scheme-handler/https" = browser;
+      "x-scheme-handler/obsidian" = "obsidian.desktop";
+      "x-scheme-handler/beeper" = "beepertexts.desktop";
+      "x-scheme-handler/claude" = "com.anthropic.Claude.desktop";
+      "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
+    };
+  };
+
   xdg.configFile."xdg-desktop-portal-termfilechooser/config".text = ''
     [filechooser]
     cmd=${config.home.homeDirectory}/dotfiles/bin/qs-filechooser

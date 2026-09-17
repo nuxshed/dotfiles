@@ -213,6 +213,13 @@ hl.bind(mod .. " + SHIFT + r", hl.dsp.exec_cmd("pls home"))
 hl.bind(mod .. " + SHIFT + e", hl.dsp.exit())
 
 --------------------------------------------------------------------------------
+-- Window rules
+--------------------------------------------------------------------------------
+
+-- Quickshell toplevels (e.g. the Preview window) should float, not tile.
+hl.window_rule({ match = { class = "org.quickshell" }, float = true, center = true })
+
+--------------------------------------------------------------------------------
 -- Autostart
 --------------------------------------------------------------------------------
 
