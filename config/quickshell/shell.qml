@@ -26,6 +26,7 @@ Scope {
     PasswordDialog {}
 
     Toolbar {}
+    CursorShield {}
     RegionSelector {}
     Annotator {}
     RecordIndicator {}

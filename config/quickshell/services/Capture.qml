@@ -17,6 +17,8 @@ Singleton {
     property string mode: ""
     property var targetScreen: null
     property bool busy: false
+    property bool shielding: false
+    property var pendingCapture: null
     property string lastColour: ""
 
     readonly property string uploadEndpoint: "https://uguu.se/upload"
@@ -51,6 +53,27 @@ Singleton {
         return ["bash", "-c", script]
     }
 
+    function shield(capture) {
+        pendingCapture = capture
+        shielding = true
+        settleTimer.stop()
+        shieldTimeout.restart()
+    }
+
+    function shieldEntered() {
+        if (shielding && pendingCapture)
+            settleTimer.restart()
+    }
+
+    function fireCapture() {
+        shieldTimeout.stop()
+        settleTimer.stop()
+        const capture = pendingCapture
+        pendingCapture = null
+        if (capture)
+            capture()
+    }
+
     function region(actionMode) {
         if (busy)
             return
@@ -61,7 +84,7 @@ Singleton {
         mode = actionMode
         targetScreen = screen
         freezePath = `${tmpDir}/freeze-${Date.now()}.png`
-        freezeProc.exec(sh(`mkdir -p '${tmpDir}' && grim -l 0 -o '${screen.name}' '${freezePath}'`))
+        shield(() => freezeProc.exec(sh(`mkdir -p '${tmpDir}' && grim -l 0 -o '${screen.name}' '${freezePath}'`)))
     }
 
     function fullscreen() {
@@ -71,11 +94,13 @@ Singleton {
         const out = `${shotDir}/screenshot_${stamp()}.png`
         actionProc.pending = "copy"
         actionProc.payload = out
-        actionProc.exec(sh(`mkdir -p '${shotDir}' && grim -o '${screen.name}' '${out}' && wl-copy -t image/png < '${out}'`))
+        shield(() => actionProc.exec(sh(`mkdir -p '${shotDir}' && grim -o '${screen.name}' '${out}' && wl-copy -t image/png < '${out}'`)))
     }
 
     function cancel() {
         busy = false
+        shielding = false
+        pendingCapture = null
         cleanup(freezePath)
         freezePath = ""
     }
@@ -144,9 +169,22 @@ Singleton {
         Quickshell.execDetached(sh(`mkdir -p '${path}' && xdg-open '${path}'`))
     }
 
+    Timer {
+        id: settleTimer
+        interval: 50
+        onTriggered: root.fireCapture()
+    }
+
+    Timer {
+        id: shieldTimeout
+        interval: 300
+        onTriggered: root.fireCapture()
+    }
+
     Process {
         id: freezeProc
         onExited: code => {
+            root.shielding = false
             if (code === 0)
                 root.regionReady(root.targetScreen, root.freezePath)
             else
@@ -169,6 +207,7 @@ Singleton {
         }
 
         onExited: code => {
+            root.shielding = false
             if (code !== 0) {
                 if (pending === "upload")
                     root.notify("Upload failed", "Could not reach the upload host")
