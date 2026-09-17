@@ -131,7 +131,7 @@ in
 
   security.pam.services.ly.enableGnomeKeyring = true;
 
-  services.dbus.packages = [ pkgs.gcr ];
+  services.dbus.packages = [ pkgs.gcr_4 ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -165,7 +165,7 @@ in
     pkgs.lutris
     pkgs.heroic
     pkgs.libsecret
-    pkgs.gcr
+    pkgs.gcr_4
     pkgs.seahorse
     (pkgs.appimage-run.override {
     extraPkgs = pkgs: with pkgs; [
