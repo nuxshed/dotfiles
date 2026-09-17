@@ -96,6 +96,13 @@ in {
     categories = [ "Graphics" "Viewer" ];
   };
 
+  xdg.desktopEntries.qs-sysmon = {
+    name = "System Monitor";
+    exec = "${config.home.homeDirectory}/dotfiles/bin/qs-sysmon";
+    icon = "utilities-system-monitor";
+    categories = [ "System" "Monitor" ];
+  };
+
   xdg.mimeApps = {
     enable = true;
     defaultApplications = let

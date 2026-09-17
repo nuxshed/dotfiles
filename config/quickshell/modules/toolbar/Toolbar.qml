@@ -98,6 +98,11 @@ Variants {
                 act: () => Files.show()
             },
             {
+                icon: "timeline",
+                tip: "System monitor",
+                act: () => SysMon.toggle()
+            },
+            {
                 icon: "center_focus_strong",
                 tip: "Visual intelligence",
                 placeholder: true,

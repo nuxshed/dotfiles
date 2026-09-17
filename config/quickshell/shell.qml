@@ -12,6 +12,7 @@ import "modules/lock"
 import "modules/spotlight"
 import "modules/files"
 import "modules/preview"
+import "modules/sysmon"
 
 Scope {
     LeftPanel {}
@@ -37,5 +38,7 @@ Scope {
     SpotlightPanel {}
     FilesPanel {}
     PreviewPanel {}
+    SysMonPanel {}
+    MaintenancePanel {}
     Ipc {}
 }

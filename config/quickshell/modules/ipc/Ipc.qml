@@ -80,6 +80,34 @@ Scope {
     }
 
     IpcHandler {
+        target: "sysmon"
+
+        function toggle(): void {
+            SysMon.toggle();
+        }
+
+        function open(tab: string): void {
+            SysMon.show(tab);
+        }
+
+        function close(): void {
+            SysMon.open = false;
+        }
+
+        function maintenance(): void {
+            SysMon.openMaintenance();
+        }
+
+        function storage(path: string): void {
+            SysMon.show("storage");
+            if (path.endsWith("//"))
+                SysMon.showFiles(path.slice(0, -2));
+            else
+                SysMon.showDir(path);
+        }
+    }
+
+    IpcHandler {
         target: "files"
 
         function request(multiple: string, directory: string, save: string, path: string, out: string): void {

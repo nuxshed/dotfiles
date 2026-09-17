@@ -15,7 +15,7 @@ Singleton {
 
     signal queryReset
 
-    readonly property list<QtObject> providers: [apps, calc, web, files, windows, commands, clipboard]
+    readonly property list<QtObject> providers: [apps, calc, web, files, windows, commands, clipboard, procs]
 
     function scopeFor(q) {
         if (q.startsWith("!"))
@@ -188,4 +188,5 @@ Singleton {
     readonly property Windows windows: Windows {}
     readonly property Commands commands: Commands {}
     readonly property Clipboard clipboard: Clipboard {}
+    readonly property Procs procs: Procs {}
 }

@@ -1,0 +1,176 @@
+#!/bin/sh
+# System monitor backend for the Quickshell SysMon window.
+#   qs-sysmon          toggle the window
+#   qs-sysmon sample   one snapshot of cpu/mem/net/disk/temp/gpu/battery
+#   qs-sysmon procs    process table (pid uid ticks threads rss state comm)
+#   qs-sysmon gpu      nvidia-smi query (only called while the dGPU is awake)
+#   qs-sysmon fs       mounted filesystems
+#   qs-sysmon fetch    static system info for the About page
+#   qs-sysmon sensors  hwmon temperatures, fan speeds and asus fan curves
+#   qs-sysmon curves PROFILE  asusctl fan curves for a power profile
+#   qs-sysmon files DIR  sizes of regular files directly in DIR
+#   qs-sysmon trash|rm PATH...  move to XDG trash / delete permanently
+#   qs-sysmon du DIR   sizes of DIR and its subdirectories (4 levels)
+
+sample() {
+  grep '^cpu' /proc/stat
+  echo "load $(cut -d' ' -f1-3 /proc/loadavg)"
+  echo "uptime $(cut -d' ' -f1 /proc/uptime)"
+  awk '/^(MemTotal|MemAvailable|MemFree|Buffers|Cached|SwapTotal|SwapFree|Dirty):/ { printf "mem_%s %s\n", tolower(substr($1, 1, length($1)-1)), $2 }' /proc/meminfo
+  awk 'NR>2 { n=$1; sub(/:$/, "", n); if (n !~ /^(lo|docker|br-|veth|virbr|tun|tap)/) { rx+=$2; tx+=$10; if ($2+$10 > best) { best=$2+$10; iface=n } } } END { printf "net %d %d %s\n", rx, tx, iface }' /proc/net/dev
+  awk '$3 ~ /^(nvme[0-9]+n[0-9]+|sd[a-z]+|vd[a-z]+|mmcblk[0-9]+)$/ { r+=$6; w+=$10 } END { printf "disk %d %d\n", r*512, w*512 }' /proc/diskstats
+  awk -F': ' '/^cpu MHz/ { s+=$2; n++ } /^model name/ && !m { m=$2 } END { if (n) printf "freq %d\n", s/n; if (m) printf "model %s\n", m }' /proc/cpuinfo
+  for h in /sys/class/hwmon/hwmon*; do
+    case "$(cat "$h/name" 2>/dev/null)" in
+      coretemp|k10temp|zenpower) [ -r "$h/temp1_input" ] && echo "cputemp $(cat "$h/temp1_input")"; break ;;
+    esac
+  done
+  for b in /sys/class/power_supply/BAT*; do
+    [ -d "$b" ] || continue
+    for f in status capacity charge_now charge_full charge_full_design energy_now energy_full energy_full_design current_now voltage_now power_now cycle_count charge_control_end_threshold manufacturer model_name technology; do
+      [ -r "$b/$f" ] && echo "bat_$f $(cat "$b/$f" 2>/dev/null)"
+    done
+    break
+  done
+  for a in /sys/class/power_supply/AC* /sys/class/power_supply/ADP*; do
+    [ -r "$a/online" ] && echo "ac $(cat "$a/online")" && break
+  done
+  for d in /sys/bus/pci/devices/*; do
+    [ "$(cat "$d/vendor" 2>/dev/null)" = 0x10de ] || continue
+    case "$(cat "$d/class" 2>/dev/null)" in 0x03*) echo "nvidia $(cat "$d/power/runtime_status" 2>/dev/null)"; break ;; esac
+  done
+  for c in /sys/class/drm/card*; do
+    [ -r "$c/gt_act_freq_mhz" ] && echo "igpu $(cat "$c/gt_act_freq_mhz") $(cat "$c/gt_max_freq_mhz")" && break
+  done
+  df -B1 --output=used,size / 2>/dev/null | awk 'NR==2 { print "rootfs", $1, $2 }'
+}
+
+procs() {
+  awk 'BEGIN {
+    while ((getline l < "/etc/passwd") > 0) { split(l, a, ":"); users[a[3]] = a[1] }
+    close("/etc/passwd")
+    getline l < "/proc/stat"; close("/proc/stat")
+    split(l, c, " "); t = 0; for (i = 2; i <= 9; i++) t += c[i]
+    print "total", t
+    while (("ls /proc" | getline p) > 0) {
+      if (p !~ /^[0-9]+$/) continue
+      f = "/proc/" p "/stat"
+      if ((getline l < f) <= 0) { close(f); continue }
+      close(f)
+      i = index(l, "("); j = length(l)
+      while (j > i && substr(l, j, 1) != ")") j--
+      comm = substr(l, i + 1, j - i - 1)
+      split(substr(l, j + 2), s, " ")
+      uid = ""
+      f = "/proc/" p "/status"
+      while ((getline l < f) > 0) if (l ~ /^Uid:/) { split(l, u, /[ \t]+/); uid = u[2]; break }
+      close(f)
+      f = "/proc/" p "/cmdline"
+      name = comm
+      if ((getline cl < f) > 0) {
+        sub(/\0.*/, "", cl); sub(/[ \t].*/, "", cl); sub(/:$/, "", cl); n = split(cl, parts, "/"); base = parts[n]
+        sub(/^\./, "", base); sub(/-wrapped$/, "", base); c2 = comm; sub(/^\./, "", c2)
+        if (base != "" && length(base) <= 40 && (index(base, c2) == 1 || index(c2, base) == 1)) name = base
+      }
+      close(f)
+      printf "%s %s %d %s %s %s %s\n", p, (uid in users ? users[uid] : uid), s[12] + s[13], s[18], s[22], s[1], name
+    }
+  }'
+}
+
+sensors() {
+  for h in /sys/class/hwmon/hwmon*; do
+    n=$(cat "$h/name" 2>/dev/null) || continue
+    for t in "$h"/temp*_input; do
+      [ -r "$t" ] || continue
+      l=$(cat "${t%_input}_label" 2>/dev/null)
+      v=$(cat "$t" 2>/dev/null) || continue
+      [ "$v" -gt 0 ] 2>/dev/null && echo "temp $n|${l:-${t##*/}}|$v"
+    done
+    for f in "$h"/fan*_input; do
+      [ -r "$f" ] || continue
+      echo "fan $(cat "${f%_input}_label" 2>/dev/null || echo "${f##*/}")|$(cat "$f")"
+    done
+    if [ "$n" = asus_custom_fan_curve ]; then
+      for i in 1 2 3; do
+        [ -r "$h/pwm${i}_enable" ] || continue
+        pts=""
+        for j in 1 2 3 4 5 6 7 8; do
+          [ -r "$h/pwm${i}_auto_point${j}_temp" ] || break
+          pts="$pts$(cat "$h/pwm${i}_auto_point${j}_temp"):$(cat "$h/pwm${i}_auto_point${j}_pwm"),"
+        done
+        echo "curve $i $(cat "$h/pwm${i}_enable") ${pts%,}"
+      done
+    fi
+  done
+}
+
+trash() {
+  t="${XDG_DATA_HOME:-$HOME/.local/share}/Trash"; mkdir -p "$t/files" "$t/info"
+  for f in "$@"; do
+    n=$(basename -- "$f"); d="$n"; i=1
+    while [ -e "$t/files/$d" ] || [ -e "$t/info/$d.trashinfo" ]; do d="$n.$i"; i=$((i+1)); done
+    printf "[Trash Info]\nPath=%s\nDeletionDate=%s\n" "$f" "$(date +%Y-%m-%dT%H:%M:%S)" > "$t/info/$d.trashinfo"
+    mv -- "$f" "$t/files/$d" || exit 1
+  done
+}
+
+fetch() {
+  . /etc/os-release 2>/dev/null
+  echo "os|${PRETTY_NAME:-Linux}"
+  d=/sys/devices/virtual/dmi/id
+  echo "host|$(cat $d/sys_vendor 2>/dev/null | sed 's/ COMPUTER INC.//;s/ASUSTeK/ASUS/') $(cat $d/product_name 2>/dev/null | sed -E 's/ ([A-Za-z0-9]+)_\1$/ \1/')"
+  echo "bios|$(cat $d/bios_version 2>/dev/null)"
+  echo "kernel|$(uname -r)"
+  echo "arch|$(uname -m)"
+  up=$(cut -d. -f1 /proc/uptime); echo "boot|$(date -d "@$(( $(date +%s) - up ))" '+%a %d %b, %H:%M' 2>/dev/null)"
+  echo "qs|$(qs --version 2>/dev/null | awk '{print $2}')"
+  echo "shell|$(basename "${SHELL:-sh}") $("${SHELL:-sh}" --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)"
+  echo "locale|${LANG:-?}"
+  echo "pkgs_system|$(nix-store -q --requisites /run/current-system 2>/dev/null | wc -l)"
+  echo "pkgs_user|$(nix-store -q --requisites "$HOME/.nix-profile" 2>/dev/null | wc -l)"
+  echo "pkgs_gen|$(readlink /nix/var/nix/profiles/system 2>/dev/null | grep -oE '[0-9]+' | head -1)"
+  echo "wm|Hyprland $(hyprctl version -j 2>/dev/null | grep -oE '"tag": *"[^"]*"' | head -1 | sed 's/.*"\(v[^"]*\)"/\1/')"
+  echo "layout|$(hyprctl getoption general:layout -j 2>/dev/null | grep -oE '"str": *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/')"
+  hyprctl monitors -j 2>/dev/null | awk -F'[:,]' '
+    /"name"/ && n == "" { n=$2; gsub(/[" ]/, "", n) }
+    /"width"/ { w=$2+0 }
+    /"height"/ { h=$2+0 }
+    /"refreshRate"/ { r=$2+0 }
+    /"scale"/ { sc=$2+0; printf "display|%s %dx%d @ %d Hz, scale %g\n", n, w, h, r, sc; n="" }'
+  g=$HOME/.config/gtk-3.0/settings.ini
+  [ -r "$g" ] && echo "theme|$(sed -n 's/^gtk-theme-name=//p' "$g")" && echo "icons|$(sed -n 's/^gtk-icon-theme-name=//p' "$g")" && echo "font|$(sed -n 's/^gtk-font-name=//p' "$g")"
+  echo "cursor|${XCURSOR_THEME:-default}${XCURSOR_SIZE:+ ($XCURSOR_SIZE px)}"
+  lspci 2>/dev/null | grep -iE 'vga|3d controller' | sed -E 's/.*: //; s/ Corporation//; s/ \(rev.*//; s/\[(.*)\]/\1/' | while read -r l; do echo "gpu|$l"; done
+  echo "cores|$(grep -m1 'cpu cores' /proc/cpuinfo | awk -F': ' '{print $2}')"
+}
+
+case "$1" in
+  sample) sample ;;
+  fetch) fetch ;;
+  sensors) sensors ;;
+  curves) exec asusctl fan-curve --mod-profile "$2" 2>/dev/null ;;
+  files) exec find "$2" -maxdepth 1 -type f -printf '%s\t%p\n' 2>/dev/null ;;
+  trash) shift; trash "$@" ;;
+  rm) shift; exec rm -rf -- "$@" ;;
+  fs)
+    df -B1 -x tmpfs -x devtmpfs -x efivarfs -x overlay -x squashfs --output=target,source,fstype,used,size 2>/dev/null | tail -n +2
+    t="${XDG_DATA_HOME:-$HOME/.local/share}/Trash/files"
+    echo "trash $( [ -d "$t" ] && du -sb "$t" 2>/dev/null | cut -f1 || echo 0) $( [ -d "$t" ] && ls -A "$t" 2>/dev/null | wc -l || echo 0)"
+    echo "nix $(ls /nix/var/nix/profiles 2>/dev/null | grep -c '^system-') $(nix path-info -S /run/current-system 2>/dev/null | awk '{print $2}')" ;;
+  gens)
+    cur=$(readlink /nix/var/nix/profiles/system 2>/dev/null)
+    for l in /nix/var/nix/profiles/system-*-link; do
+      [ -e "$l" ] || continue
+      n=${l##*/system-}; n=${n%-link}
+      echo "$n $(stat -c %Y "$l") $( [ "${cur##*/}" = "${l##*/}" ] && echo 1 || echo 0)"
+    done | sort -n ;;
+  empty-trash) t="${XDG_DATA_HOME:-$HOME/.local/share}/Trash"; rm -rf -- "$t/files" "$t/info"; mkdir -p "$t/files" "$t/info" ;;
+  du) exec du -x -B1 --max-depth=4 -- "$2" 2>/dev/null ;;
+  procs) procs ;;
+  gpu)
+    nvidia-smi --query-gpu=name,utilization.gpu,temperature.gpu,memory.used,memory.total,power.draw --format=csv,noheader,nounits
+    echo "--"
+    nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader,nounits 2>/dev/null ;;
+  *) exec qs ipc call sysmon toggle ;;
+esac
