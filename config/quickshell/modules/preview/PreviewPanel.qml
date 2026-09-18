@@ -29,10 +29,12 @@ FloatingWindow {
     implicitHeight: 760
     minimumSize.width: 560
     minimumSize.height: 420
-    color: Colors.background
+    color: "transparent"
     title: (Preview.dirty ? "● " : "") + (Preview.title.length > 0 ? Preview.title : "Preview")
 
     onVisibleChanged: if (visible) keyScope.forceActiveFocus()
+
+    WindowChrome { titleHeight: 52 }
 
     function rotateShapes(cw: bool): void {
         Preview.shapes = Preview.shapes.map(sh => {
@@ -130,6 +132,8 @@ FloatingWindow {
             Layout.fillWidth: true
             Layout.preferredHeight: 52
             color: Colors.surface
+            topLeftRadius: 16
+            topRightRadius: 16
 
             RowLayout {
                 anchors.fill: parent
@@ -219,6 +223,8 @@ FloatingWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
             color: Colors.backgroundDeep
+            bottomLeftRadius: Preview.cropping ? 0 : 16
+            bottomRightRadius: Preview.cropping ? 0 : 16
             clip: true
 
             Flickable {
@@ -439,6 +445,8 @@ FloatingWindow {
             Layout.preferredHeight: Preview.cropping ? 46 : 0
             visible: Preview.cropping
             color: Colors.surface
+            bottomLeftRadius: 16
+            bottomRightRadius: 16
 
             RowLayout {
                 anchors.fill: parent

@@ -42,13 +42,7 @@ FloatingWindow {
         }
     }
 
-    Rectangle {
-        anchors.fill: parent
-        radius: 16
-        color: Colors.background
-        border.width: 1
-        border.color: Colors.border
-    }
+    WindowChrome { titleHeight: 52 }
 
     ColumnLayout {
         anchors.fill: parent

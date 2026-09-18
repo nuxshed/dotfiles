@@ -10,6 +10,9 @@ PanelWindow {
     property int cardHeight: 200
     property real posX: 120
     property real posY: 120
+    property bool resizable: true
+    property int minWidth: 200
+    property int minHeight: 120
 
     default property alias content: holder.data
     readonly property alias card: card
@@ -50,6 +53,8 @@ PanelWindow {
 
         onXChanged: cardRegion.changed()
         onYChanged: cardRegion.changed()
+        onWidthChanged: cardRegion.changed()
+        onHeightChanged: cardRegion.changed()
 
         MouseArea {
             anchors.fill: parent
@@ -66,6 +71,12 @@ PanelWindow {
         Item {
             id: holder
             anchors.fill: parent
+        }
+
+        Resizer {
+            visible: root.resizable
+            minWidth: root.minWidth
+            minHeight: root.minHeight
         }
     }
 }

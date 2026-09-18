@@ -20,13 +20,7 @@ FloatingWindow {
     color: "transparent"
     title: "Maintenance"
 
-    Rectangle {
-        anchors.fill: parent
-        radius: 16
-        color: Colors.background
-        border.width: 1
-        border.color: Colors.border
-    }
+    WindowChrome { titleHeight: 64 }
 
     onVisibleChanged: if (visible) keyScope.forceActiveFocus()
 

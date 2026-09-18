@@ -374,6 +374,37 @@ PanelWindow {
             }
         }
 
+        MouseArea {
+            id: cardDrag
+
+            property real sx: 0
+            property real sy: 0
+            property real ox: 0
+            property real oy: 0
+
+            width: parent.width
+            height: 58 + (tabRow.visible ? 38 : 0)
+            onClicked: root.focusList()
+            onPressed: mouse => {
+                const p = mapToItem(null, mouse.x, mouse.y);
+                sx = p.x;
+                sy = p.y;
+                ox = card.anchors.horizontalCenterOffset;
+                oy = card.anchors.verticalCenterOffset;
+            }
+            onPositionChanged: mouse => {
+                const p = mapToItem(null, mouse.x, mouse.y);
+                card.anchors.horizontalCenterOffset = ox + p.x - sx;
+                card.anchors.verticalCenterOffset = oy + p.y - sy;
+            }
+        }
+
+        Resizer {
+            centered: true
+            minWidth: 560
+            minHeight: 400
+        }
+
         ColumnLayout {
             anchors.fill: parent
             spacing: 0
@@ -616,6 +647,8 @@ PanelWindow {
             }
 
             RowLayout {
+                id: tabRow
+
                 visible: !Files.picker && Files.tabs.length > 1
                 Layout.fillWidth: true
                 Layout.fillHeight: false
