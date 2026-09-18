@@ -1,4 +1,6 @@
 import QtQuick
+import QtQuick.Effects
+import QtQuick.Shapes
 import "../../config"
 
 Item {
@@ -11,18 +13,26 @@ Item {
     property real vx: 90 * unit
     property real vy: 70 * unit
     property real last: Date.now()
+    property real flicker: 1
+    property real roll: 0
+
+    readonly property real lift: 16 * unit
+    readonly property real visTop: time.baselineOffset + timeMetrics.tightBoundingRect.y
+    readonly property real visBottom: date.y - lift + date.baselineOffset + dateMetrics.tightBoundingRect.y + dateMetrics.tightBoundingRect.height
 
     function step(): void {
         const t = Date.now();
         const dt = Math.min((t - root.last) / 1000, 0.05);
         root.last = t;
+        root.flicker = 0.94 + Math.random() * 0.06;
+        root.roll = (root.roll + dt * 6) % 4;
 
         if (root.width <= 0 || body.width <= 0)
             return;
 
         if (!root.placed) {
             body.x = Math.random() * (root.width - body.width);
-            body.y = Math.random() * (root.height - body.height);
+            body.y = Math.random() * (root.height - root.visBottom);
             root.placed = true;
             return;
         }
@@ -35,9 +45,9 @@ Item {
             x = Math.max(0, Math.min(x, root.width - body.width));
         }
 
-        if (y <= 0 || y + body.height >= root.height) {
+        if (y + root.visTop <= 0 || y + root.visBottom >= root.height) {
             root.vy = -root.vy;
-            y = Math.max(0, Math.min(y, root.height - body.height));
+            y = Math.max(-root.visTop, Math.min(y, root.height - root.visBottom));
         }
 
         body.x = x;
@@ -59,77 +69,119 @@ Item {
         onTriggered: root.now = new Date()
     }
 
+    TextMetrics {
+        id: timeMetrics
+        font: time.font
+        text: time.text
+    }
+
+    TextMetrics {
+        id: dateMetrics
+        font: date.font
+        text: date.text
+    }
+
     Item {
         id: body
 
         width: col.width
         height: col.height
+        opacity: root.flicker
 
         Column {
             id: col
 
+            visible: false
             spacing: 0
 
             Text {
                 id: time
 
                 text: Qt.formatTime(root.now, "HH:mm")
-                font.pixelSize: 120 * root.unit
+                font.pixelSize: 96 * root.unit
                 font.family: Fonts.family
-                font.weight: Font.Black
-                font.italic: true
-                font.letterSpacing: -6 * root.unit
+                font.variableAxes: ({ "wdth": 75, "wght": 1000, "slnt": -10 })
+                font.letterSpacing: -2 * root.unit
                 color: Colors.textBright
             }
 
-            Item {
+            Shape {
                 id: disc
 
-                width: time.width * 1.08
-                height: 34 * root.unit
+                width: time.width * 1.12
+                height: 26 * root.unit
                 anchors.horizontalCenter: parent.horizontalCenter
-                transform: Translate { y: -22 * root.unit }
+                transform: Translate { y: -root.lift }
+                preferredRendererType: Shape.CurveRenderer
 
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: disc.width
-                    height: width
-                    radius: width / 2
-                    color: Colors.textBright
-                    transform: Scale { origin.y: disc.width / 2; yScale: disc.height / disc.width }
-                }
+                ShapePath {
+                    fillColor: Colors.textBright
+                    strokeWidth: -1
+                    fillRule: ShapePath.OddEvenFill
 
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: disc.width * 0.2
-                    height: width
-                    radius: width / 2
-                    color: Colors.backgroundDeep
-                    transform: Scale { origin.y: disc.width * 0.1; yScale: disc.height / disc.width * 1.6 }
+                    PathAngleArc { centerX: disc.width / 2; centerY: disc.height / 2; radiusX: disc.width / 2; radiusY: disc.height / 2; startAngle: 0; sweepAngle: 360 }
+                    PathAngleArc { centerX: disc.width / 2; centerY: disc.height / 2; radiusX: disc.width * 0.1; radiusY: disc.height * 0.3; startAngle: 0; sweepAngle: 360 }
                 }
             }
 
             Text {
+                id: date
+
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                topPadding: 8 * root.unit
-                transform: Translate { y: -22 * root.unit }
+                topPadding: 6 * root.unit
+                transform: Translate { y: -root.lift }
                 text: Qt.formatDate(root.now, "ddd dd MMM").toUpperCase()
-                font.pixelSize: 24 * root.unit
+                font.pixelSize: 17 * root.unit
                 font.family: Fonts.family
-                font.weight: Font.Bold
-                font.letterSpacing: 10 * root.unit
+                font.variableAxes: ({ "wdth": 100, "wght": 800 })
+                font.letterSpacing: 8 * root.unit
                 color: Colors.textBright
             }
         }
 
+        MultiEffect {
+            source: col
+            anchors.fill: col
+            blurEnabled: true
+            blur: 1
+            blurMax: 48
+            brightness: 0.4
+            opacity: 0.55
+        }
+
+        MultiEffect {
+            source: col
+            anchors.fill: col
+            anchors.leftMargin: -2 * root.unit
+            anchors.rightMargin: 2 * root.unit
+            colorization: 1
+            colorizationColor: Colors.red
+            opacity: 0.35
+        }
+
+        MultiEffect {
+            source: col
+            anchors.fill: col
+            anchors.leftMargin: 2 * root.unit
+            anchors.rightMargin: -2 * root.unit
+            colorization: 1
+            colorizationColor: Colors.cyan
+            opacity: 0.35
+        }
+
+        MultiEffect {
+            source: col
+            anchors.fill: col
+        }
+
         Repeater {
-            model: Math.floor(body.height / 4)
+            model: Math.floor(body.height / 4) + 1
 
             Rectangle {
                 required property int index
 
-                y: index * 4
+                y: index * 4 - 4 + root.roll
                 width: body.width
                 height: 2
                 color: Qt.rgba(0, 0, 0, 0.5)

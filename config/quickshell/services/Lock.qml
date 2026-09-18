@@ -15,6 +15,9 @@ Singleton {
     property string mode: "clock"
     property bool dimmed: false
     property bool unlocking: false
+    property bool secure: false
+    property bool sleeping: false
+    property bool autoBounce: false
 
     readonly property bool busy: pam.active
     readonly property int idleTimeout: 120000
@@ -30,6 +33,10 @@ Singleton {
 
     function touch(): void {
         root.dimmed = false;
+        if (root.autoBounce) {
+            root.autoBounce = false;
+            root.mode = "clock";
+        }
         if (root.mode === "clock")
             idle.restart();
         else
@@ -37,6 +44,7 @@ Singleton {
     }
 
     function setMode(name: string): void {
+        root.autoBounce = false;
         root.mode = name === "bounce" ? "bounce" : "clock";
         root.touch();
     }
@@ -46,15 +54,11 @@ Singleton {
     }
 
     function type(text: string): void {
-        if (root.busy)
-            return;
         root.error = "";
         root.buffer += text;
     }
 
     function erase(all: bool): void {
-        if (root.busy)
-            return;
         root.error = "";
         root.buffer = all ? "" : root.buffer.slice(0, -1);
     }
@@ -64,6 +68,24 @@ Singleton {
             return;
         root.error = "";
         pam.start();
+    }
+
+    function prepareForSleep(sleep: bool): void {
+        root.sleeping = sleep;
+        if (sleep) {
+            root.lock();
+            root.dimmed = true;
+            if (root.secure)
+                inhibit.running = false;
+        } else {
+            inhibit.running = true;
+            root.touch();
+        }
+    }
+
+    onSecureChanged: {
+        if (root.secure && root.sleeping)
+            inhibit.running = false;
     }
 
     PamContext {
@@ -91,11 +113,21 @@ Singleton {
         }
     }
 
+    Process {
+        id: inhibit
+
+        running: true
+        command: ["systemd-inhibit", "--what=sleep", "--who=quickshell", "--why=lock screen", "--mode=delay", "sleep", "infinity"]
+    }
+
     Timer {
         id: idle
 
         interval: root.idleTimeout
-        onTriggered: root.dimmed = true
+        onTriggered: {
+            root.autoBounce = true;
+            root.mode = "bounce";
+        }
     }
 
     Timer {
@@ -124,13 +156,23 @@ Singleton {
     }
 
     Process {
+        id: monitor
+
         running: root.sessionPath.length > 0
-        command: ["dbus-monitor", "--system", "type='signal',interface='org.freedesktop.login1.Session'"]
+        command: ["dbus-monitor", "--system", "type='signal',interface='org.freedesktop.login1.Session'", "type='signal',interface='org.freedesktop.login1.Manager',member='PrepareForSleep'"]
+
+        property bool sleepSignal: false
 
         stdout: SplitParser {
             onRead: line => {
                 if (line.includes(`path=${root.sessionPath};`) && line.includes("member=Lock"))
                     root.lock();
+                else if (line.includes("member=PrepareForSleep"))
+                    monitor.sleepSignal = true;
+                else if (monitor.sleepSignal && line.includes("boolean")) {
+                    monitor.sleepSignal = false;
+                    root.prepareForSleep(line.includes("true"));
+                }
             }
         }
     }

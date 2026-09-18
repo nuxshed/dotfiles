@@ -6,6 +6,7 @@ WlSessionLock {
     id: root
 
     locked: Lock.locked
+    onSecureChanged: Lock.secure = secure
 
     WlSessionLockSurface {
         color: Colors.backgroundDeep
