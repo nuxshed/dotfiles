@@ -137,6 +137,10 @@ Scope {
         function cancel(): void {
             Files.cancel();
         }
+
+        function pending(): string {
+            return Files.outFile;
+        }
     }
 
     IpcHandler {

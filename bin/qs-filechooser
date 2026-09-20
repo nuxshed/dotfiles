@@ -13,8 +13,13 @@ rm -f "$done_file"
 
 qs ipc call files request "$multiple" "$directory" "$save" "$path" "$out" || exit 1
 
+i=0
 while [ ! -e "$done_file" ]; do
   sleep 0.1
+  i=$((i + 1))
+  if [ $((i % 10)) -eq 0 ] && [ "$(qs ipc call files pending 2>/dev/null)" != "$out" ]; then
+    exit 1
+  fi
 done
 
 rm -f "$done_file"

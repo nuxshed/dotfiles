@@ -203,6 +203,11 @@ Singleton {
     }
 
     function close(): void {
+        if (root.outFile.length > 0) {
+            const out = root.outFile;
+            root.outFile = "";
+            Quickshell.execDetached(["touch", out + ".done"]);
+        }
         root.open = false;
         root.dialog = null;
         root.openWith = null;
@@ -734,8 +739,8 @@ Singleton {
         for (let i = 0; i < paths.length; i++)
             list.push(paths[i]);
         root.saveCallback = null;
-        root.close();
         root.outFile = "";
+        root.close();
         if (cb) {
             if (list.length > 0)
                 cb(list[0]);
