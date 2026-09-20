@@ -1,6 +1,8 @@
 #!/bin/sh
 
 # cam - see yourself on your screen
+#   s  save screenshot (~/Pictures/Camera)
+#   q  quit
 
 dev=/dev/video0
 fps=30
@@ -8,42 +10,64 @@ size=1920x1080
 out=""
 save=0
 full=0
+mirror=1
+
+usage() {
+	echo "usage: ${0##*/} [-s] [-o file] [-F] [-M] [-r fps] [-z WxH] [-d device]" >&2
+	exit 1
+}
 
 while [ $# -gt 0 ]; do
 	case $1 in
+		-s) save=1 ;;
+		-o) [ $# -ge 2 ] || usage; out=$2; save=1; shift ;;
 		-F) full=1 ;;
-		-s) save=1
-		    case ${2:-} in -*|"") ;; *) out=$2; shift ;; esac ;;
-		-r) fps=$2; shift ;;
-		-z) size=$2; shift ;;
-		-d) dev=$2; shift ;;
-		*)  echo "usage: ${0##*/} [-s [file]] [-F] [-r fps] [-z WxH] [-d device]" >&2
-		    exit 1 ;;
+		-M) mirror=0 ;;
+		-r) [ $# -ge 2 ] || usage; fps=$2; shift ;;
+		-z) [ $# -ge 2 ] || usage; size=$2; shift ;;
+		-d) [ $# -ge 2 ] || usage; dev=$2; shift ;;
+		*)  usage ;;
 	esac
 	shift
 done
 
-in="-f v4l2 -input_format mjpeg -framerate $fps -video_size $size"
+[ -c "$dev" ] || { echo "no such device: $dev" >&2; exit 1; }
+shots="$HOME/Pictures/Camera"
+mkdir -p "$shots"
 
-fs=""
-[ $full -eq 1 ] && fs="-fs"
+[ $mirror -eq 1 ] || mirror=""
+[ $full -eq 1 ] || full=""
 
+preview() {
+	mpv --profile=low-latency --untimed --cache=no \
+		--no-osc --osd-level=0 --no-input-cursor --really-quiet \
+		--title=cam --keep-open=no \
+		${mirror:+--vf=hflip} ${full:+--fs} \
+		--screenshot-format=png \
+		--screenshot-directory="$shots" \
+		--screenshot-template="cam_%tY%tm%td-%tH%tM%tS" \
+		"$@"
+}
 if [ $save -eq 0 ]; then
-	exec ffplay $fs $in -fflags nobuffer -flags low_delay "$dev"
+	preview --demuxer-lavf-o=input_format=mjpeg,video_size=$size,framerate=$fps \
+		"av://v4l2:$dev"
+	exit
 fi
 
 [ -n "$out" ] || out="$HOME/Videos/Camera/cam_$(date +%Y%m%d-%H%M%S).mkv"
 mkdir -p "$(dirname "$out")"
 
-fifo=/tmp/cam.$$.mkv
+fifo=$(mktemp -u -t cam.XXXXXX)
 mkfifo "$fifo"
-trap 'rm -f "$fifo"' EXIT
+pid=""
+trap 'kill -INT $pid 2>/dev/null; rm -f "$fifo"' EXIT INT TERM
 
-ffmpeg -loglevel error $in -i "$dev" -map 0 -c copy \
-	-f tee "[f=matroska]$out|[f=matroska]$fifo" </dev/null &
+ffmpeg -nostats -loglevel warning \
+	-f v4l2 -input_format mjpeg -framerate "$fps" -video_size "$size" -i "$dev" \
+	-map 0 -c copy -f tee "[f=matroska]$out|[f=matroska]$fifo" </dev/null &
 pid=$!
 
-ffplay $fs -fflags nobuffer -flags low_delay -i "$fifo"
+preview "$fifo"
 
 kill -INT $pid 2>/dev/null
 wait $pid 2>/dev/null
