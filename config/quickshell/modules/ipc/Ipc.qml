@@ -174,4 +174,30 @@ Scope {
             Notes.add();
         }
     }
+
+    IpcHandler {
+        target: "booth"
+
+        function toggle(): void {
+            Booth.toggle();
+        }
+
+        function open(): void {
+            Booth.show();
+        }
+
+        function close(): void {
+            Booth.close();
+        }
+
+        function shoot(): void {
+            Booth.show();
+            Booth.shoot();
+        }
+
+        function effects(): void {
+            Booth.show();
+            Booth.picking = !Booth.picking;
+        }
+    }
 }

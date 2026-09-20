@@ -26,6 +26,7 @@ in {
     hyprpicker
     lxappearance
     qt6.qt5compat
+    qt6.qtmultimedia
     qt6.qtwayland
     slurp
     libnotify

@@ -25,6 +25,7 @@ Provider {
         { id: "pin", title: "Pin region", icon: "picture_in_picture_alt", keywords: ["pin", "region"], act: () => Capture.region("pin") },
         { id: "colour", title: "Pick colour", icon: "colorize", keywords: ["colour", "color", "picker", "eyedropper"], act: () => Capture.pickColor() },
         { id: "record", title: "Record screen", icon: "videocam", keywords: ["record", "screen", "video"], act: () => Recorder.kind === "screen" ? Recorder.stop() : Recorder.startScreen("") },
+        { id: "booth", title: "Photo Booth", icon: "photo_camera", keywords: ["photo", "booth", "camera", "webcam", "selfie"], act: () => Booth.show() },
         { id: "record-voice", title: "Record voice", icon: "mic", keywords: ["record", "voice", "audio"], act: () => Recorder.kind === "voice" ? Recorder.stop() : Recorder.startVoice() },
         { id: "clear-notifs", title: "Clear notifications", icon: "notifications_off", keywords: ["clear", "notifications", "dismiss"], act: () => Notifications.clear() },
         { id: "reindex", title: "Rebuild file index", icon: "manage_search", keywords: ["index", "reindex", "files"], act: () => Quickshell.execDetached(["systemctl", "--user", "start", "spotlight-index.service"]) }

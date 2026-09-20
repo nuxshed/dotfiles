@@ -14,6 +14,7 @@ import "modules/files"
 import "modules/preview"
 import "modules/sysmon"
 import "modules/notes"
+import "modules/booth"
 
 Scope {
     LeftPanel {}
@@ -42,5 +43,6 @@ Scope {
     SysMonPanel {}
     MaintenancePanel {}
     NotesPanel {}
+    BoothPanel {}
     Ipc {}
 }
