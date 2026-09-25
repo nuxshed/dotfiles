@@ -134,6 +134,8 @@ hl.bind(mod .. " + SHIFT + Escape", hl.dsp.exec_cmd("qs ipc call sysmon toggle")
 hl.bind(mod .. " + m", hl.dsp.exec_cmd("qs ipc call sysmon open overview"))
 hl.bind(mod .. " + n", hl.dsp.exec_cmd("qs ipc call notes toggle"))
 hl.bind(mod .. " + SHIFT + p", hl.dsp.exec_cmd("qs ipc call booth toggle"))
+hl.bind(mod .. " + o", hl.dsp.exec_cmd("qs ipc call overview toggle"))
+hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("qs ipc call calendar toggle"))
 hl.bind(mod .. " + c", hl.dsp.window.close())
 
 -- Workspaces
@@ -222,6 +224,7 @@ hl.bind(mod .. " + SHIFT + e", hl.dsp.exit())
 
 -- Quickshell toplevels (e.g. the Preview window) should float, not tile.
 hl.window_rule({ match = { class = "org.quickshell" }, float = true, center = true })
+hl.window_rule({ match = { class = "org.quickshell", title = "^(Calendar|Focus)$" }, tile = true, maximize = true })
 
 --------------------------------------------------------------------------------
 -- Autostart

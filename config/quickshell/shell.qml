@@ -14,6 +14,9 @@ import "modules/files"
 import "modules/preview"
 import "modules/sysmon"
 import "modules/notes"
+import "modules/overview"
+import "modules/calendar"
+import "modules/focus"
 import "modules/booth"
 
 Scope {
@@ -34,7 +37,6 @@ Scope {
     CursorShield {}
     RegionSelector {}
     Annotator {}
-    RecordIndicator {}
     Pins {}
     LockScreen {}
     SpotlightPanel {}
@@ -43,6 +45,10 @@ Scope {
     SysMonPanel {}
     MaintenancePanel {}
     NotesPanel {}
+    OverviewPanel {}
+    TimerPins {}
+    CalendarWindow {}
+    FocusWindow {}
     BoothPanel {}
     Ipc {}
 }

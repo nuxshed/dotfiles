@@ -204,4 +204,118 @@ Scope {
             Booth.picking = !Booth.picking;
         }
     }
+
+    IpcHandler {
+        target: "overview"
+
+        function toggle(): void {
+            Overview.toggle();
+        }
+
+        function open(tab: string): void {
+            Overview.show(tab);
+        }
+
+        function close(): void {
+            Overview.open = false;
+        }
+    }
+
+    IpcHandler {
+        target: "pomodoro"
+
+        function toggle(): void {
+            Pomodoro.toggle();
+        }
+
+        function start(): void {
+            Pomodoro.start();
+        }
+
+        function swap(): void {
+            Pomodoro.swap();
+        }
+
+        function stop(): void {
+            Pomodoro.end();
+        }
+    }
+
+    IpcHandler {
+        target: "focus"
+
+        function toggle(): void {
+            Pomodoro.appOpen = !Pomodoro.appOpen;
+        }
+
+        function open(): void {
+            Pomodoro.appOpen = true;
+        }
+
+        function close(): void {
+            Pomodoro.appOpen = false;
+        }
+    }
+
+    IpcHandler {
+        target: "agenda"
+
+        function add(url: string): void {
+            Agenda.add(url);
+        }
+
+        function refresh(): void {
+            Agenda.refresh();
+        }
+    }
+
+    IpcHandler {
+        target: "tasks"
+
+        function add(text: string): void {
+            Tasks.add(text);
+        }
+    }
+
+    IpcHandler {
+        target: "calendar"
+
+        function toggle(): void {
+            Calendar.open = !Calendar.open;
+        }
+
+        function open(): void {
+            Calendar.show(new Date());
+        }
+
+        function close(): void {
+            Calendar.open = false;
+        }
+
+        function view(name: string): void {
+            Calendar.view = name;
+            Calendar.open = true;
+        }
+
+        function add(title: string): void {
+            const d = new Date();
+            d.setMinutes(0, 0, 0);
+            d.setHours(d.getHours() + 1);
+            Calendar.show(d);
+            Calendar.draft(d.getTime(), false);
+            Calendar.editing = Object.assign({}, Calendar.editing, { summary: title });
+        }
+    }
+
+    IpcHandler {
+        target: "timers"
+
+        function stopwatch(): void {
+            Timers.stopwatch();
+        }
+
+        function start(minutes: string): void {
+            Timers.timer(parseFloat(minutes) || 5);
+        }
+    }
 }

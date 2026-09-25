@@ -1,0 +1,10 @@
+#!/bin/sh
+# Live activity probe for the Quickshell overview island: "<cam> <mic>" as 0/1.
+
+cam=0
+[ -n "$(find /proc/[0-9]*/fd -lname '/dev/video*' 2>/dev/null | head -n 1)" ] && cam=1
+
+mic=0
+pactl list sources short 2>/dev/null | grep -v '\.monitor' | grep -q RUNNING && mic=1
+
+echo "$cam $mic"

@@ -24,9 +24,25 @@ Variants {
 
         implicitWidth: 70
         color: Colors.background
+        WlrLayershell.keyboardFocus: timePopout.visible ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+        Item {
+            focus: timePopout.visible
+            Keys.onPressed: event => {
+                if (event.key === Qt.Key_Tab)
+                    timePopout.offset++;
+                else if (event.key === Qt.Key_Backtab)
+                    timePopout.offset--;
+                else if (event.key === Qt.Key_Escape)
+                    timePopout.hide();
+                else
+                    return;
+                event.accepted = true;
+            }
+        }
 
         function openPopout(popout, block) {
-            for (const other of [mediaPopout, networkPopout, batteryPopout])
+            for (const other of [mediaPopout, networkPopout, batteryPopout, timePopout])
                 if (other !== popout && other.visible)
                     other.hide()
 
@@ -63,6 +79,7 @@ Variants {
 
                 Time {
                     id: timeBlock
+                    onClicked: panelWindow.openPopout(timePopout, timeBlock)
                 }
             }
         }
@@ -79,6 +96,11 @@ Variants {
 
         BatteryPopout {
             id: batteryPopout
+            panel: panelWindow
+        }
+
+        TimePopout {
+            id: timePopout
             panel: panelWindow
         }
     }
