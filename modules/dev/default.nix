@@ -23,7 +23,6 @@
     python3
     uv
     gemini-cli
-    claude-code
     (texlive.combine { inherit (texlive) scheme-full latexmk; })
     sqlite
   ];
