@@ -19,6 +19,13 @@ Item {
     property real shake: 0
 
     focus: true
+    onActiveFocusChanged: {
+        if (!activeFocus) {
+            console.warn("lock: surface lost focus, reclaiming");
+            forceActiveFocus();
+        }
+    }
+    Window.onActiveChanged: if (Window.active) forceActiveFocus()
     opacity: ready && !Lock.dimmed && !Lock.unlocking ? 1 : 0
 
     Behavior on opacity {
@@ -75,7 +82,10 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.BlankCursor
         onPositionChanged: Lock.touch()
-        onPressed: Lock.touch()
+        onPressed: {
+            root.forceActiveFocus();
+            Lock.touch();
+        }
         onWheel: wheel => wheel.accepted = true
     }
 
