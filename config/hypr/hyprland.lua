@@ -136,6 +136,10 @@ hl.bind(mod .. " + n", hl.dsp.exec_cmd("qs ipc call notes toggle"))
 hl.bind(mod .. " + SHIFT + p", hl.dsp.exec_cmd("qs ipc call booth toggle"))
 hl.bind(mod .. " + o", hl.dsp.exec_cmd("qs ipc call overview toggle"))
 hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("qs ipc call calendar toggle"))
+hl.bind("ALT + Tab", hl.dsp.exec_cmd("qs ipc call switcher next windows"))
+hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call switcher prev windows"))
+hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs ipc call switcher next workspaces"))
+hl.bind(mod .. " + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call switcher prev workspaces"))
 hl.bind(mod .. " + c", hl.dsp.window.close())
 
 -- Workspaces
@@ -143,8 +147,6 @@ for i = 1, 9 do
     hl.bind(mod .. " + " .. i, hl.dsp.focus({ workspace = i }))
     hl.bind(mod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
 end
-hl.bind(mod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
-hl.bind(mod .. " + SHIFT + Tab", hl.dsp.window.move({ workspace = "previous" }))
 
 hl.bind(mod .. " + SHIFT + Space", hl.dsp.window.float())
 hl.bind(mod .. " + f", hl.dsp.window.fullscreen())
@@ -182,7 +184,7 @@ hl.bind(mod .. " + slash", hl.dsp.workspace.toggle_special("magic"))
 
 -- Groups
 hl.bind(mod .. " + g", hl.dsp.group.toggle())
-hl.bind("ALT + Tab", hl.dsp.group.next())
+hl.bind(mod .. " + SHIFT + g", hl.dsp.group.next())
 
 -- Mouse: ALT + LMB drags, or floats on click
 hl.bind("ALT + mouse:272", hl.dsp.window.drag(), { mouse = true })

@@ -18,6 +18,7 @@ import "modules/overview"
 import "modules/calendar"
 import "modules/focus"
 import "modules/booth"
+import "modules/switcher"
 
 Scope {
     LeftPanel {}
@@ -50,5 +51,6 @@ Scope {
     CalendarWindow {}
     FocusWindow {}
     BoothPanel {}
+    SwitcherPanel {}
     Ipc {}
 }

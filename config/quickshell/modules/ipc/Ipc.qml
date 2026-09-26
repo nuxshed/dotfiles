@@ -318,4 +318,24 @@ Scope {
             Timers.timer(parseFloat(minutes) || 5);
         }
     }
+
+    IpcHandler {
+        target: "switcher"
+
+        function next(mode: string): void {
+            Switcher.step(mode || "windows", 1);
+        }
+
+        function prev(mode: string): void {
+            Switcher.step(mode || "windows", -1);
+        }
+
+        function commit(): void {
+            Switcher.commit();
+        }
+
+        function cancel(): void {
+            Switcher.cancel();
+        }
+    }
 }
