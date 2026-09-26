@@ -54,5 +54,6 @@ Scope {
     BoothPanel {}
     SwitcherPanel {}
     EmojiPanel {}
+    ScrollCapture {}
     Ipc {}
 }

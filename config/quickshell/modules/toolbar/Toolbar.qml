@@ -38,6 +38,11 @@ Variants {
                 act: () => Capture.region("copy")
             },
             {
+                icon: "unfold_more",
+                tip: "Scrolling screenshot",
+                act: () => Capture.region("scroll")
+            },
+            {
                 icon: "edit",
                 tip: "Region & annotate",
                 act: () => Capture.region("annotate")

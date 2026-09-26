@@ -199,6 +199,7 @@ hl.bind("SUPER + ALT + Left", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,pre
 -- Screenshots (quickshell)
 hl.bind(mod .. " + SHIFT + s", hl.dsp.exec_cmd("qs ipc call screenshot region copy"))
 hl.bind(mod .. " + CTRL + s", hl.dsp.exec_cmd("qs ipc call screenshot fullscreen"))
+hl.bind(mod .. " + ALT + s", hl.dsp.exec_cmd("qs ipc call screenshot region scroll"))
 
 -- Volume
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer -i 5"), { repeating = true })

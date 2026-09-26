@@ -20,6 +20,9 @@ Singleton {
     property bool shielding: false
     property var pendingCapture: null
     property string lastColour: ""
+    property bool scrolling: false
+    property rect scrollRect
+    property int scrollFrames: 0
 
     readonly property string uploadEndpoint: "https://uguu.se/upload"
 
@@ -147,6 +150,22 @@ Singleton {
         freezePath = ""
     }
 
+    function scroll(rect) {
+        busy = false
+        cleanup(freezePath)
+        freezePath = ""
+        scrollRect = rect
+        scrollFrames = 0
+        scrolling = true
+        const out = `${shotDir}/screenshot_${stamp()}.png`
+        scrollProc.exec(["bash", "-c", `mkdir -p '${shotDir}' && exec "$HOME/.bin/qs-scrollshot" "$1" "$2"`, "qs-scrollshot",
+            `${Math.round(rect.x)},${Math.round(rect.y)} ${Math.round(rect.width)}x${Math.round(rect.height)}`, out])
+    }
+
+    function finishScroll(save) {
+        scrollProc.write(save ? "done\n" : "cancel\n")
+    }
+
     function takeColour(output) {
         const match = (output ?? "").match(/#?[0-9a-fA-F]{6}\b/)
         if (!match)
@@ -226,6 +245,32 @@ Singleton {
             else if (pending === "ocr")
                 root.notify("Text copied", "Recognised text is on the clipboard")
 
+        }
+    }
+
+    Process {
+        id: scrollProc
+
+        property string saved: ""
+
+        stdinEnabled: true
+        onStarted: saved = ""
+
+        stdout: SplitParser {
+            onRead: line => {
+                if (line.startsWith("saved "))
+                    scrollProc.saved = line.slice(6)
+                else
+                    root.scrollFrames = parseInt(line) || root.scrollFrames
+            }
+        }
+
+        onExited: code => {
+            root.scrolling = false
+            if (code !== 0 || !saved)
+                return
+            Quickshell.execDetached(root.sh(`wl-copy -t image/png < '${saved}'`))
+            root.notify("Screenshot saved", saved.replace(root.home, "~"), saved)
         }
     }
 

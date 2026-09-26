@@ -1,0 +1,189 @@
+#!/usr/bin/env qs-python
+# Scrolling screenshot backend for the Quickshell capture tools.
+#   qs-scrollshot "X,Y WxH" OUT.png
+# Grabs the region repeatedly while the user scrolls and stitches frames as
+# they arrive. Pixels under the (software) cursor are only used when no other
+# frame shows that spot. Prints the frame count after each accepted frame.
+# Write "done" to stdin to save, anything else (or EOF) to cancel.
+
+import io
+import subprocess
+import sys
+import threading
+
+import numpy as np
+from PIL import Image
+
+INTERVAL = 0.12
+MISMATCH = 10.0
+SHIFT_COST = 2.0
+CURSOR = (-4, -4, 36, 40)
+
+
+def cursor_box(geometry, img):
+    out = subprocess.run(["hyprctl", "cursorpos"], capture_output=True, text=True)
+    try:
+        cx, cy = (float(v) for v in out.stdout.split(","))
+    except ValueError:
+        return None
+    pos, size = geometry.split()
+    gx, gy = (float(v) for v in pos.split(","))
+    scale = img.shape[1] / float(size.split("x")[0])
+    x0, y0, x1, y1 = ((cx - gx + dx) * scale if i % 2 == 0 else (cy - gy + dx) * scale for i, dx in enumerate(CURSOR))
+    h, w = img.shape[:2]
+    if x1 <= 0 or y1 <= 0 or x0 >= w or y0 >= h:
+        return None
+    return max(0, int(y0)), min(h, int(y1)), max(0, int(x0)), min(w, int(x1))
+
+
+def grab(geometry):
+    out = subprocess.run(["grim", "-t", "ppm", "-g", geometry, "-"], capture_output=True)
+    if out.returncode != 0:
+        return None, None
+    img = np.asarray(Image.open(io.BytesIO(out.stdout)).convert("RGB"))
+    return img, cursor_box(geometry, img)
+
+
+def features(img):
+    g = img.astype(np.float32).mean(axis=2)
+    cols = min(64, g.shape[1])
+    w = g.shape[1] // cols * cols
+    return g[:, :w].reshape(g.shape[0], cols, w // cols).mean(axis=2)
+
+
+def layout(a, b):
+    diff = np.abs(a - b)
+    same = diff.max(axis=1) < 1.0
+    cap = len(same) // 3
+    top = 0
+    while top < cap and same[top]:
+        top += 1
+    bottom = 0
+    while bottom < cap and same[-1 - bottom]:
+        bottom += 1
+    moving = diff[top : len(same) - bottom].max(axis=0) >= 1.0
+    return top, bottom, moving
+
+
+def scan(a, b, shifts):
+    best, shift, err = None, 0, None
+    for d in shifts:
+        e = float(np.abs(a[d:] - b[: len(a) - d]).mean())
+        cost = e + SHIFT_COST * d / len(a)
+        if best is None or cost < best:
+            best, shift, err = cost, d, e
+    return shift, err
+
+
+def offset(a, b):
+    h = len(a)
+    overlap = max(8, h // 5)
+    s = 4
+    n = h // s * s
+    ca = a[:n].reshape(-1, s, a.shape[1]).mean(axis=1)
+    cb = b[:n].reshape(-1, s, b.shape[1]).mean(axis=1)
+    coarse, _ = scan(ca, cb, range(0, len(ca) - overlap // s))
+    coarse *= s
+    return scan(a, b, range(max(0, coarse - s), min(h - overlap, coarse + s + 1)))
+
+
+class Stitcher:
+    def __init__(self, first, mask=None):
+        self.layout = None
+        self.frames = 1
+        self.anchor(first, mask)
+
+    def anchor(self, img, mask):
+        self.first, self.first_mask = img, mask
+        self.last, self.last_f = img, features(img)
+
+    def paint(self, img, mask, y0, y1):
+        end = self.pos + y1
+        if end > len(self.canvas):
+            grow = end - len(self.canvas)
+            self.canvas = np.vstack([self.canvas, np.zeros((grow,) + img.shape[1:], np.uint8)])
+            self.state = np.vstack([self.state, np.zeros((grow, img.shape[1]), np.uint8)])
+        canvas = self.canvas[self.pos + y0 : end]
+        state = self.state[self.pos + y0 : end]
+        src = img[y0:y1]
+        clean = np.ones(state.shape, bool)
+        if mask:
+            my0, my1, mx0, mx1 = mask
+            clean[max(0, my0 - y0) : max(0, my1 - y0), mx0:mx1] = False
+        solid = clean & (state < 2)
+        canvas[solid] = src[solid]
+        state[solid] = 2
+        weak = ~clean & (state == 0)
+        canvas[weak] = src[weak]
+        state[weak] = 1
+
+    def add(self, img, mask=None):
+        if img.shape != self.last.shape:
+            return False
+        f = features(img)
+        if np.abs(f - self.last_f).max() < 1.0:
+            return False
+        h = len(f)
+        top, bottom, moving = self.layout or layout(self.last_f, f)
+        d, err = 0, MISMATCH
+        if h - top - bottom >= 32 and moving.any():
+            d, err = offset(self.last_f[top : h - bottom][:, moving], f[top : h - bottom][:, moving])
+        if d <= 0 or err > MISMATCH:
+            if self.layout is None:
+                self.anchor(img, mask)
+            return False
+        if self.layout is None:
+            self.layout = (top, bottom, moving)
+            self.canvas = np.zeros((0,) + img.shape[1:], np.uint8)
+            self.state = np.zeros((0, img.shape[1]), np.uint8)
+            self.pos = 0
+            self.paint(self.first, self.first_mask, 0, h - bottom)
+        self.pos += d
+        self.paint(img, mask, top, h - bottom)
+        self.last, self.last_f = img, f
+        self.frames += 1
+        return True
+
+    def result(self):
+        if self.layout is None:
+            return self.first
+        bottom = self.layout[1]
+        return np.vstack([self.canvas, self.last[len(self.last) - bottom :]])
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("usage: qs-scrollshot 'X,Y WxH' OUT.png", file=sys.stderr)
+        return 2
+    geometry, out = sys.argv[1], sys.argv[2]
+
+    command = []
+    stop = threading.Event()
+
+    def listen():
+        command.append(sys.stdin.readline().strip())
+        stop.set()
+
+    threading.Thread(target=listen, daemon=True).start()
+
+    first, mask = grab(geometry)
+    if first is None:
+        return 1
+    stitcher = Stitcher(first, mask)
+    print(1, flush=True)
+
+    while not stop.wait(INTERVAL):
+        img, mask = grab(geometry)
+        if img is not None and stitcher.add(img, mask):
+            print(stitcher.frames, flush=True)
+
+    if command[0] != "done":
+        return 1
+
+    Image.fromarray(stitcher.result()).save(out, optimize=False, compress_level=3)
+    print("saved", out, flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

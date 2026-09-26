@@ -59,6 +59,12 @@ Variants {
                 cancel()
                 return
             }
+            if (Capture.mode === "scroll") {
+                const area = Qt.rect(r.x + modelData.x, r.y + modelData.y, r.width, r.height)
+                close()
+                Capture.scroll(area)
+                return
+            }
             const x = Math.round(r.x * pxRatio)
             const y = Math.round(r.y * pxRatio)
             const w = Math.round(r.width * pxRatio)
