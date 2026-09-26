@@ -7,6 +7,12 @@ import "../../../services"
 import "../../../config"
 
 Rectangle {
+    id: root
+
+    property bool instant: false
+
+    signal preview(Item item, int workspace)
+
     color: Colors.surface
     radius: 6
     width: 44
@@ -28,6 +34,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
 
                 readonly property var windows: HyprlandData.windowsForWorkspace(modelData.id)
+                property bool isHovered: false
 
                 color: modelData.id === Hyprland.focusedWorkspace.id ? Colors.workspaceActive : Colors.workspaceInactive
                 radius: 6
@@ -62,15 +69,33 @@ Rectangle {
                             Layout.preferredWidth: 18
                             Layout.preferredHeight: 18
                             fillMode: Image.PreserveAspectFit
-                            source: Quickshell.iconPath(modelData.class, "image-missing")
+                            source: Quickshell.iconPath(DesktopEntries.heuristicLookup(modelData.class)?.icon ?? modelData.class, "image-missing")
                         }
                     }
                 }
 
+                Timer {
+                    id: dwell
+                    interval: 120
+                    onTriggered: root.preview(workspaceItem, modelData.id)
+                }
+
                 MouseArea {
                     anchors.fill: parent
+                    hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: Hyprland.dispatch("workspace " + modelData.id)
+                    onEntered: {
+                        workspaceItem.isHovered = true;
+                        if (root.instant)
+                            root.preview(workspaceItem, modelData.id);
+                        else
+                            dwell.restart();
+                    }
+                    onExited: {
+                        workspaceItem.isHovered = false;
+                        dwell.stop();
+                    }
+                    onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${modelData.id} })`)
                 }
             }
         }

@@ -42,7 +42,7 @@ Variants {
         }
 
         function openPopout(popout, block) {
-            for (const other of [mediaPopout, networkPopout, batteryPopout, timePopout])
+            for (const other of [mediaPopout, networkPopout, batteryPopout, timePopout, workspacePopout])
                 if (other !== popout && other.visible)
                     other.hide()
 
@@ -54,7 +54,13 @@ Variants {
             anchors.margins: 10
             spacing: 10
 
-            Workspaces {}
+            Workspaces {
+                instant: workspacePopout.shown
+                onPreview: (item, workspace) => {
+                    workspacePopout.workspace = workspace;
+                    panelWindow.openPopout(workspacePopout, item);
+                }
+            }
 
             Item { Layout.fillHeight: true }
 
@@ -101,6 +107,11 @@ Variants {
 
         TimePopout {
             id: timePopout
+            panel: panelWindow
+        }
+
+        WorkspacePopout {
+            id: workspacePopout
             panel: panelWindow
         }
     }
