@@ -338,4 +338,12 @@ Scope {
             Switcher.cancel();
         }
     }
+
+    IpcHandler {
+        target: "emoji"
+
+        function toggle(): void {
+            Emoji.toggle();
+        }
+    }
 }

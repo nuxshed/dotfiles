@@ -19,6 +19,7 @@ import "modules/calendar"
 import "modules/focus"
 import "modules/booth"
 import "modules/switcher"
+import "modules/emoji"
 
 Scope {
     LeftPanel {}
@@ -52,5 +53,6 @@ Scope {
     FocusWindow {}
     BoothPanel {}
     SwitcherPanel {}
+    EmojiPanel {}
     Ipc {}
 }

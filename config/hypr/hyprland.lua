@@ -136,6 +136,7 @@ hl.bind(mod .. " + n", hl.dsp.exec_cmd("qs ipc call notes toggle"))
 hl.bind(mod .. " + SHIFT + p", hl.dsp.exec_cmd("qs ipc call booth toggle"))
 hl.bind(mod .. " + o", hl.dsp.exec_cmd("qs ipc call overview toggle"))
 hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("qs ipc call calendar toggle"))
+hl.bind(mod .. " + period", hl.dsp.exec_cmd("qs ipc call emoji toggle"))
 hl.bind("ALT + Tab", hl.dsp.exec_cmd("qs ipc call switcher next windows"))
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call switcher prev windows"))
 hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs ipc call switcher next workspaces"))
@@ -170,7 +171,6 @@ hl.bind(mod .. " + CTRL + k", hl.dsp.window.resize({ x = 0, y = -20, relative = 
 hl.bind(mod .. " + CTRL + j", hl.dsp.window.resize({ x = 0, y = 20, relative = true }))
 
 -- Scrolling layout
-hl.bind(mod .. " + period", hl.dsp.layout("move +col"))
 hl.bind(mod .. " + comma", hl.dsp.layout("move -col"))
 hl.bind(mod .. " + SHIFT + period", hl.dsp.layout("swapcol r"))
 hl.bind(mod .. " + SHIFT + comma", hl.dsp.layout("swapcol l"))

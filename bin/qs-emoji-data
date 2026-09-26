@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+# Builds config/quickshell/assets/emoji.json for the Quickshell emoji picker.
+#   qs-emoji-data [MAX_VERSION]
+# Merges emojibase (CLDR names/tags, shortcodes, emoticons, skin tones) and
+# emojilib (casual keywords). Each row:
+#   [char, group, name, tags, keywords, shortcodes, emoticons, skins, popularity]
+
+import json
+import os
+import sys
+import urllib.request
+
+CDN = "https://cdn.jsdelivr.net/npm/"
+OUT = os.path.expanduser("~/dotfiles/config/quickshell/assets/emoji.json")
+GROUPS = [
+    "Smileys & Emotion", "People & Body", None, "Animals & Nature", "Food & Drink",
+    "Travel & Places", "Activities", "Objects", "Symbols", "Flags",
+]
+EXTRA_EMOTICONS = {
+    "2764": ["<3"], "1F494": ["</3"], "1F641": [":("], "1F615": [":/", ":\\"],
+    "1F610": [":|"], "1F62E": [":o", ":O"], "1F60E": ["B)", "8)"], "1F60A": ["^^", "^_^"],
+    "1F62D": ["T_T", ";_;"], "1F937": ["shrug"], "1F44D": ["+1"], "1F44E": ["-1"],
+}
+
+POPULAR = (
+    "😂❤️🤣👍😭🙏😘🥰😍😊🎉😁💕🥺😅🔥☺️🤦♥️🤷🙄😆🤗😉🎂🤔👏🙂😳🥳😎👌💜😔💪✨💖👀😋😏😢👉💗😩💯🌹💞"
+    "🎈💙😃😡💐😜🙈🤞😄🤤🙌🤪❣️😀💋💀👇💔😌💓🤩🙃😬😱😴🤭😐🌞😒😇🌸😈🎶✌️🎊🥵😞💚☀️🖤💰😚👑🎁💥🙋☹️😑🥴👈💩✅"
+)
+
+
+def fetch(path):
+    with urllib.request.urlopen(CDN + path) as r:
+        return json.load(r)
+
+
+def words(items):
+    out = []
+    for item in items:
+        for w in str(item).lower().replace("_", " ").split():
+            if w not in out:
+                out.append(w)
+    return " ".join(out)
+
+
+def as_list(value):
+    if not value:
+        return []
+    return value if isinstance(value, list) else [value]
+
+
+def main():
+    max_version = float(sys.argv[1]) if len(sys.argv) > 1 else 16
+    data = fetch("emojibase-data@latest/en/data.json")
+    github = fetch("emojibase-data@latest/en/shortcodes/github.json")
+    base = fetch("emojibase-data@latest/en/shortcodes/emojibase.json")
+    lib = fetch("emojilib@latest/dist/emoji-en-US.json")
+
+    popular = []
+    for e in sorted(data, key=lambda e: e.get("order", 1e9)):
+        if e["emoji"] in POPULAR or e["emoji"].replace("\ufe0f", "") in POPULAR:
+            popular.append((POPULAR.find(e["emoji"].replace("\ufe0f", "")), e["hexcode"]))
+    ranks = {h: i for i, (_, h) in enumerate(sorted(p for p in popular if p[0] >= 0))}
+
+    rows = []
+    for e in sorted(data, key=lambda e: e.get("order", 1e9)):
+        group = e.get("group")
+        if group is None or GROUPS[group] is None or e.get("version", 0) > max_version:
+            continue
+        char = e["emoji"]
+        hexcode = e["hexcode"]
+        name = e["label"].lower()
+        keywords = lib.get(char) or lib.get(char.replace("️", "")) or []
+        codes = as_list(github.get(hexcode)) + as_list(base.get(hexcode))
+        emoticons = as_list(e.get("emoticon")) + EXTRA_EMOTICONS.get(hexcode, [])
+        skins = [s["emoji"] for s in e.get("skins", []) if isinstance(s.get("tone"), int)]
+        rows.append([
+            char,
+            group,
+            name,
+            words(e.get("tags", [])),
+            words(k for k in keywords if k.replace(" ", "_") != name.replace(" ", "_")),
+            " ".join(dict.fromkeys(codes)),
+            " ".join(dict.fromkeys(emoticons)),
+            skins if len(skins) == 5 else 0,
+            len(ranks) - ranks[hexcode] if hexcode in ranks else 0,
+        ])
+
+    groups = [g for g in GROUPS if g]
+    for row in rows:
+        row[1] = groups.index(GROUPS[row[1]])
+
+    with open(OUT, "w") as f:
+        json.dump({"groups": groups, "emoji": rows}, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"{len(rows)} emoji -> {OUT}")
+
+
+if __name__ == "__main__":
+    main()
