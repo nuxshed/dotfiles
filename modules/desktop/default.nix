@@ -13,11 +13,15 @@ let
       install -Dm644 *.ttf -t $out/share/fonts/truetype
     '';
   };
+  qs-python = pkgs.writeShellScriptBin "qs-python" ''
+    exec ${pkgs.python3.withPackages (ps: [ ps.numpy ps.pillow ])}/bin/python3 "$@"
+  '';
 in {
   imports = [ ./spotlight.nix ];
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
     google-sans-flex
+    qs-python
     blueman
     swaybg
     grim
@@ -38,6 +42,7 @@ in {
     # tint2
     wf-recorder
     wl-clipboard-rs
+    wtype
     wl-screenrec
     poppler-utils
     xdotool
