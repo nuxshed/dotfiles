@@ -20,6 +20,7 @@ import "modules/focus"
 import "modules/booth"
 import "modules/switcher"
 import "modules/emoji"
+import "modules/controlcenter"
 
 Scope {
     LeftPanel {}
@@ -54,6 +55,7 @@ Scope {
     BoothPanel {}
     SwitcherPanel {}
     EmojiPanel {}
+    ControlCenter {}
     ScrollCapture {}
     Ipc {}
 }
