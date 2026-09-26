@@ -12,6 +12,9 @@ PopupWindow {
     property int contentHeight: 200
     property color surface: Colors.background
     property bool hovered: false
+    property bool shown: false
+    readonly property int pill: 56
+    readonly property var bezier: [0.2, 0.9, 0.3, 1, 1, 1]
 
     default property alias content: container.data
 
@@ -37,33 +40,97 @@ PopupWindow {
         anchor.edges = Edges.Top | Edges.Left
         anchor.gravity = Edges.Bottom | Edges.Right
 
+        const fresh = !root.shown
         hideTimer.stop()
         visible = true
-        wrapper.opacity = 1
-        wrapper.scale = 1
+        root.shown = true
         watchdog.restart()
+        if (fresh)
+            stagger()
         root.opened()
     }
 
     function hide() {
         watchdog.stop()
-        wrapper.opacity = 0
-        wrapper.scale = 0.94
+        root.shown = false
         hideTimer.restart()
+    }
+
+    function stagger() {
+        const layout = container.children[0]
+        if (!layout)
+            return
+        let i = 0
+        for (const child of layout.children) {
+            if (!child.visible || child.width <= 0 || child.height <= 0)
+                continue
+            child.opacity = 0
+            popIn.createObject(root, { target: child, delay: 30 + i++ * 30 }).start()
+        }
+    }
+
+    Component {
+        id: popIn
+
+        SequentialAnimation {
+            id: anim
+
+            required property Item target
+            required property int delay
+
+            onFinished: destroy()
+
+            PauseAnimation {
+                duration: anim.delay
+            }
+
+            ParallelAnimation {
+                NumberAnimation {
+                    target: anim.target
+                    property: "opacity"
+                    to: 1
+                    duration: 120
+                }
+                NumberAnimation {
+                    target: anim.target
+                    property: "scale"
+                    from: 0.94
+                    to: 1
+                    duration: 240
+                    easing.type: Easing.OutBack
+                    easing.overshoot: 1.4
+                }
+            }
+        }
     }
 
     Item {
         id: wrapper
+
         anchors.fill: parent
-        opacity: 0
-        scale: 0.94
-        transformOrigin: Item.Left
+        opacity: root.shown ? 1 : 0
+
+        transform: Translate {
+            x: root.shown ? 0 : -16
+
+            Behavior on x {
+                NumberAnimation {
+                    duration: 220
+                    easing.bezierCurve: root.bezier
+                }
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation { duration: 90 }
+        }
 
         HoverHandler {
             onHoveredChanged: root.hovered = hovered
         }
 
         RoundCorner {
+            y: card.y - root.notch
             corner: RoundCorner.CornerEnum.BottomLeft
             size: root.notch
             color: root.surface
@@ -71,17 +138,34 @@ PopupWindow {
 
         Rectangle {
             id: card
-            y: root.notch
-            width: parent.width
-            height: root.contentHeight
+
+            y: root.notch + (root.contentHeight - height) / 2
+            width: root.shown ? parent.width : root.pill
+            height: root.shown ? root.contentHeight : root.pill
             color: root.surface
             radius: root.notch + 6
             topLeftRadius: 0
             bottomLeftRadius: 0
+            clip: true
+
+            Behavior on width {
+                NumberAnimation {
+                    duration: 200
+                    easing.bezierCurve: root.bezier
+                }
+            }
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: 230
+                    easing.bezierCurve: root.bezier
+                }
+            }
 
             Item {
                 id: container
-                anchors.fill: parent
+                width: root.contentWidth
+                height: root.contentHeight
             }
         }
 
@@ -91,19 +175,11 @@ PopupWindow {
             size: root.notch
             color: root.surface
         }
-
-        Behavior on opacity {
-            NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
-        }
-
-        Behavior on scale {
-            NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
-        }
     }
 
     Timer {
         id: hideTimer
-        interval: 180
+        interval: 120
         onTriggered: root.visible = false
     }
 

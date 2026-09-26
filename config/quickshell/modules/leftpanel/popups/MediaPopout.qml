@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Widgets
 import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
@@ -8,6 +9,53 @@ import "../../../components"
 
 Popout {
     id: root
+
+    readonly property bool mubi: Mpris.trackTitle.endsWith("MUBI")
+
+    function time(seconds: real): string {
+        const s = Math.max(0, Math.floor(seconds));
+        return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    }
+
+    component Control: Rectangle {
+        id: control
+
+        property string icon
+        property int size: 24
+        property bool primary: false
+        property bool available: true
+
+        signal activated
+
+        Layout.preferredWidth: primary ? 56 : 44
+        Layout.preferredHeight: primary ? 56 : 44
+        radius: height / 2
+        color: primary ? Colors.text : controlArea.containsMouse && available ? Colors.surface : "transparent"
+        scale: controlArea.pressed && available ? 0.9 : 1
+
+        Behavior on color {
+            ColorAnimation { duration: 140 }
+        }
+
+        Behavior on scale {
+            NumberAnimation { duration: 160; easing.type: Easing.OutBack; easing.overshoot: 3 }
+        }
+
+        MaterialIcon {
+            anchors.centerIn: parent
+            text: control.icon
+            size: control.size
+            color: control.primary ? Colors.background : control.available ? Colors.textBright : Colors.textMuted
+        }
+
+        MouseArea {
+            id: controlArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: control.available ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: if (control.available) control.activated()
+        }
+    }
 
     notch: 18
     contentHeight: column.implicitHeight + 40
@@ -22,7 +70,7 @@ Popout {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.margins: 20
-        spacing: 16
+        spacing: 14
 
         Flow {
             Layout.fillWidth: true
@@ -93,56 +141,46 @@ Popout {
             }
         }
 
-        Rectangle {
+        ClippingRectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: 210
+            Layout.preferredHeight: width
             radius: 16
             color: Colors.surface
-            clip: true
-
-            Rectangle {
-                anchors.centerIn: parent
-                width: 80
-                height: 80
-                radius: 12
-                color: Colors.surface
-                visible: Mpris.trackTitle.endsWith("MUBI")
-
-                Image {
-                    id: mubiIcon
-                    anchors.centerIn: parent
-                    width: 56
-                    height: 56
-                    source: "../../../assets/icons/mubi.svg"
-                    sourceSize: Qt.size(56, 56)
-                    fillMode: Image.PreserveAspectFit
-                    asynchronous: true
-                }
-
-                ColorOverlay {
-                    anchors.fill: mubiIcon
-                    source: mubiIcon
-                    color: Colors.subtle
-                }
-            }
 
             Image {
+                id: art
                 anchors.fill: parent
-                anchors.margins: 8
-                source: Mpris.artworkUrl
-                fillMode: Image.PreserveAspectFit
+                source: root.mubi ? "" : Mpris.artworkUrl
+                sourceSize: Qt.size(width * 2, height * 2)
+                fillMode: Image.PreserveAspectCrop
                 asynchronous: true
-                visible: !Mpris.trackTitle.endsWith("MUBI") && Mpris.artworkUrl !== ""
+                visible: status === Image.Ready
             }
 
             Image {
+                id: mubiIcon
                 anchors.centerIn: parent
-                width: 72
-                height: 72
-                source: "../../../assets/icons/music-notes.svg"
-                sourceSize: Qt.size(72, 72)
-                visible: !Mpris.trackTitle.endsWith("MUBI") && Mpris.artworkUrl === ""
+                width: 64
+                height: 64
+                source: "../../../assets/icons/mubi.svg"
+                sourceSize: Qt.size(64, 64)
                 fillMode: Image.PreserveAspectFit
+                visible: false
+            }
+
+            ColorOverlay {
+                anchors.fill: mubiIcon
+                source: mubiIcon
+                color: Colors.subtle
+                visible: root.mubi
+            }
+
+            MaterialIcon {
+                anchors.centerIn: parent
+                visible: !root.mubi && !art.visible
+                text: "music_note"
+                size: 64
+                color: Colors.subtle
             }
         }
 
@@ -170,97 +208,73 @@ Popout {
             }
         }
 
-        Rectangle {
+        ColumnLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: 4
-            radius: 2
-            color: Colors.surfaceActive
+            spacing: 6
 
             Rectangle {
-                width: parent.width * Mpris.progress
-                height: parent.height
+                Layout.fillWidth: true
+                Layout.preferredHeight: 4
                 radius: 2
-                color: Colors.textBright
+                color: Colors.surfaceActive
 
-                Behavior on width {
-                    NumberAnimation { duration: 200 }
+                Rectangle {
+                    width: parent.width * Math.min(1, Mpris.progress)
+                    height: parent.height
+                    radius: 2
+                    color: Colors.textBright
+
+                    Behavior on width {
+                        NumberAnimation { duration: 200 }
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                visible: Mpris.length > 0
+
+                Text {
+                    text: root.time(Mpris.position)
+                    color: Colors.textMuted
+                    font.pixelSize: 10
+                    font.family: Fonts.family
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Text {
+                    text: root.time(Mpris.length)
+                    color: Colors.textMuted
+                    font.pixelSize: 10
+                    font.family: Fonts.family
                 }
             }
         }
 
-        Row {
+        RowLayout {
             Layout.alignment: Qt.AlignHCenter
-            spacing: 18
+            spacing: 22
 
-            Rectangle {
-                width: 40
-                height: 40
-                radius: 20
-                color: Colors.surface
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "⏮"
-                    color: Mpris.canGoPrevious ? Colors.textBright : Colors.textDimmed
-                    font.pixelSize: 16
-                    font.family: Fonts.family
-                }
-
-                HoverHandler {
-                    cursorShape: Mpris.canGoPrevious ? Qt.PointingHandCursor : Qt.ArrowCursor
-                }
-
-                TapHandler {
-                    enabled: Mpris.canGoPrevious
-                    onTapped: Mpris.previous()
-                }
+            Control {
+                icon: "skip_previous"
+                available: Mpris.canGoPrevious
+                onActivated: Mpris.previous()
             }
 
-            Rectangle {
-                width: 48
-                height: 48
-                radius: 24
-                color: Colors.surface
-
-                Text {
-                    anchors.centerIn: parent
-                    text: Mpris.isPlaying ? "⏸" : "▶"
-                    color: Colors.textBright
-                    font.pixelSize: 20
-                    font.family: Fonts.family
-                }
-
-                HoverHandler {
-                    cursorShape: Qt.PointingHandCursor
-                }
-
-                TapHandler {
-                    onTapped: Mpris.togglePlayPause()
-                }
+            Control {
+                icon: Mpris.isPlaying ? "pause" : "play_arrow"
+                size: 30
+                primary: true
+                onActivated: Mpris.togglePlayPause()
             }
 
-            Rectangle {
-                width: 40
-                height: 40
-                radius: 20
-                color: Colors.surface
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "⏭"
-                    color: Mpris.canGoNext ? Colors.textBright : Colors.textDimmed
-                    font.pixelSize: 16
-                    font.family: Fonts.family
-                }
-
-                HoverHandler {
-                    cursorShape: Mpris.canGoNext ? Qt.PointingHandCursor : Qt.ArrowCursor
-                }
-
-                TapHandler {
-                    enabled: Mpris.canGoNext
-                    onTapped: Mpris.next()
-                }
+            Control {
+                icon: "skip_next"
+                available: Mpris.canGoNext
+                onActivated: Mpris.next()
             }
         }
     }

@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 import "../../../config"
 import "../../../services"
+import "../../../components"
 
 Item {
     id: mediaItem
@@ -75,12 +76,11 @@ Item {
             color: Qt.rgba(0, 0, 0, 0)
             visible: !isPlaying
 
-            Text {
+            MaterialIcon {
                 anchors.centerIn: parent
-                text: "▶"
+                text: "play_arrow"
+                size: 18
                 color: Colors.textBright
-                font.pixelSize: 14
-                font.family: Fonts.family
             }
         }
 

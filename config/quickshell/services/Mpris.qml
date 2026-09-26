@@ -11,8 +11,14 @@ Singleton {
     id: root
 
     readonly property list<MprisPlayer> players: Mpris.players.values
-    property int activePlayerIndex: 0
-    readonly property MprisPlayer active: players[activePlayerIndex] ?? null
+    property MprisPlayer pinned: null
+    readonly property MprisPlayer preferred: {
+        const playing = p => p.playbackState === MprisPlaybackState.Playing;
+        const spotify = players.filter(p => `${p.identity} ${p.desktopEntry}`.toLowerCase().includes("spotify"));
+        return spotify.find(playing) ?? spotify[0] ?? players.find(playing) ?? players[0] ?? null;
+    }
+    readonly property MprisPlayer active: pinned && players.includes(pinned) ? pinned : preferred
+    readonly property int activePlayerIndex: players.indexOf(active)
     readonly property bool hasMultiplePlayers: players.length > 1
     
     readonly property bool hasActivePlayer: active !== null
@@ -55,17 +61,9 @@ Singleton {
         position = active?.position ?? 0
     }
     
-    // Reset to first player when players list changes
-    onPlayersChanged: {
-        if (activePlayerIndex >= players.length) {
-            activePlayerIndex = 0
-        }
-    }
-    
     function setActivePlayer(index) {
-        if (index >= 0 && index < players.length) {
-            activePlayerIndex = index
-        }
+        if (index >= 0 && index < players.length)
+            pinned = players[index]
     }
     
     function play() {
