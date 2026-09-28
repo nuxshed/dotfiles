@@ -65,6 +65,11 @@ Scope {
             Spotlight.show();
             Spotlight.setQuery(text);
         }
+
+        function scope(prefix: string): void {
+            Spotlight.show();
+            Spotlight.setQuery(prefix + " ");
+        }
     }
 
     IpcHandler {
@@ -304,6 +309,14 @@ Scope {
             Calendar.show(d);
             Calendar.draft(d.getTime(), false);
             Calendar.editing = Object.assign({}, Calendar.editing, { summary: title });
+        }
+    }
+
+    IpcHandler {
+        target: "pinentry"
+
+        function ask(fifo: string, title: string, desc: string, prompt: string, error: string, mode: string): void {
+            Pinentry.ask(fifo, title, desc, prompt, error, mode);
         }
     }
 

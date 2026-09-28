@@ -128,7 +128,8 @@ hl.gesture({ fingers = 3, direction = "right", action = function() hl.dispatch(h
 --------------------------------------------------------------------------------
 
 hl.bind(mod .. " + Return", hl.dsp.exec_cmd("wezterm"))
-hl.bind(mod .. " + space", hl.dsp.exec_cmd("qs ipc call spotlight toggle"))
+hl.bind(mod .. " + space", hl.dsp.exec_cmd("qs ipc call spotlight toggle")) -- Spotlight
+hl.bind(mod .. " + v", hl.dsp.exec_cmd("qs ipc call spotlight scope v")) -- Clipboard history
 hl.bind(mod .. " + e", hl.dsp.exec_cmd("qs ipc call files toggle"))
 hl.bind(mod .. " + SHIFT + Escape", hl.dsp.exec_cmd("qs ipc call sysmon toggle"))
 hl.bind(mod .. " + m", hl.dsp.exec_cmd("qs ipc call sysmon open overview"))

@@ -1,0 +1,74 @@
+#!/run/current-system/sw/bin/bash
+# Assuan pinentry that asks the Quickshell password dialog; falls back to a regular pinentry when Quickshell isn't running.
+
+export PATH="$HOME/.nix-profile/bin:/etc/profiles/per-user/$USER/bin:/run/current-system/sw/bin:$PATH"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+export LANG="${LANG:-C.UTF-8}"
+if [ -z "$WAYLAND_DISPLAY" ]; then
+  WAYLAND_DISPLAY="$(systemctl --user show-environment 2>/dev/null | sed -n 's/^WAYLAND_DISPLAY=//p')"
+  if [ -z "$WAYLAND_DISPLAY" ]; then
+    for s in "$XDG_RUNTIME_DIR"/wayland-*; do [ -S "$s" ] && WAYLAND_DISPLAY="${s##*/}" && break; done
+  fi
+  export WAYLAND_DISPLAY
+fi
+
+fallback() {
+  for p in pinentry-rbw pinentry-qt pinentry-gnome3 pinentry-curses pinentry; do
+    command -v "$p" >/dev/null 2>&1 && exec "$p" "$@"
+  done
+  exit 1
+}
+
+qs ipc show 2>/dev/null | grep -q 'target pinentry' || fallback "$@"
+
+decode() { local s="${1//%/\\x}"; printf '%b' "$s"; }
+
+title="" desc="" prompt="" error=""
+
+ask() {
+  local fifo reply pin
+  fifo="${XDG_RUNTIME_DIR:-/tmp}/qs-pinentry-$$-$RANDOM"
+  rm -f "$fifo"
+  mkfifo -m 600 "$fifo" || { echo "ERR 83886179 Operation cancelled"; return; }
+  if ! qs ipc call pinentry ask "$fifo" "$title" "$desc" "$prompt" "$error" "$1" >/dev/null 2>&1; then
+    rm -f "$fifo"; echo "ERR 83886179 Operation cancelled"; return
+  fi
+  IFS= read -r reply < <(timeout 300 cat "$fifo")
+  rm -f "$fifo"
+  error=""
+  case "$reply" in
+    OK*)
+      if [ "$1" = pin ]; then
+        pin="${reply#OK}"; pin="${pin# }"
+        pin="${pin//%/%25}"; pin="${pin//$'\r'/%0D}"
+        [ -n "$pin" ] && echo "D $pin"
+      fi
+      echo OK ;;
+    *) echo "ERR 83886179 Operation cancelled" ;;
+  esac
+}
+
+echo "OK Pleased to meet you"
+while IFS= read -r line; do
+  cmd="${line%% *}"
+  arg=""
+  [[ "$line" == *" "* ]] && arg="${line#* }"
+  case "$cmd" in
+    SETTITLE) title="$(decode "$arg")"; echo OK ;;
+    SETDESC) desc="$(decode "$arg")"; echo OK ;;
+    SETPROMPT) prompt="$(decode "$arg")"; echo OK ;;
+    SETERROR) error="$(decode "$arg")"; echo OK ;;
+    GETPIN) ask pin ;;
+    CONFIRM) [[ "$arg" == *--one-button* ]] && echo OK || ask confirm ;;
+    MESSAGE) echo OK ;;
+    GETINFO)
+      case "$arg" in
+        pid) echo "D $$"; echo OK ;;
+        version) echo "D 1.3.2"; echo OK ;;
+        flavor) echo "D qs"; echo OK ;;
+        *) echo OK ;;
+      esac ;;
+    BYE) echo "OK closing connection"; exit 0 ;;
+    *) echo OK ;;
+  esac
+done

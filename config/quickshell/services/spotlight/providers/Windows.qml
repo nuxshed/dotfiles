@@ -9,14 +9,16 @@ Provider {
     name: "windows"
     label: "Windows"
     prefix: "w"
+    icon: "web_asset"
+    keywords: ["windows", "switch window", "open windows"]
     weight: 1.05
 
     function appClass(t) {
-        return t.lastIpcObject?.class ?? ""
+        return t.wayland?.appId || t.lastIpcObject?.class || ""
     }
 
     function focus(t) {
-        Hyprland.dispatch("focuswindow address:" + t.address)
+        Hyprland.dispatch(`hl.dsp.focus({ window = 'address:0x${t.address}' })`)
     }
 
     function search(text) {
@@ -45,7 +47,7 @@ Provider {
                 score: s * 0.98,
                 activate: () => root.focus(t),
                 altHint: "Close window",
-                altActivate: () => Hyprland.dispatch("closewindow address:" + t.address)
+                altActivate: () => Hyprland.dispatch(`hl.dsp.window.close({ window = 'address:0x${t.address}' })`)
             })
         }
 

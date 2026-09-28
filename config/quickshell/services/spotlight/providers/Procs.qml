@@ -8,6 +8,8 @@ Provider {
     name: "procs"
     label: "Processes"
     prefix: "k"
+    icon: "memory"
+    keywords: ["processes", "kill", "task manager", "system monitor"]
     weight: 0.9
     cap: 6
 

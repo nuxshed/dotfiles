@@ -33,6 +33,8 @@ in {
     pkgs.plocate
     pkgs.libqalculate
     pkgs.cliphist
+    pkgs.rbw
+    (pkgs.writeShellScriptBin "pinentry-rbw" ''exec ${pkgs.pinentry-qt}/bin/pinentry-qt "$@"'')
     spotlight-index
   ];
 
@@ -55,6 +57,23 @@ in {
       Persistent = true;
     };
     Install.WantedBy = [ "timers.target" ];
+  };
+
+  home.file.".gnupg/gpg-agent.conf".text = ''
+    pinentry-program ${home}/dotfiles/bin/pinentry-qs
+  '';
+
+  systemd.user.services.cliphist-images = {
+    Unit = {
+      Description = "Image clipboard history for spotlight";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   systemd.user.services.cliphist = {

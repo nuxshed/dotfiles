@@ -35,8 +35,8 @@ Singleton {
         root.items = root.items.concat([{ uid: ++root.counter, kind: "stopwatch", duration: 0, elapsed: 0, since: Date.now(), running: true, done: false, pinned: true }]);
     }
 
-    function timer(minutes: real): void {
-        root.items = root.items.concat([{ uid: ++root.counter, kind: "timer", duration: minutes * 60000, elapsed: 0, since: Date.now(), running: true, done: false, pinned: true }]);
+    function timer(minutes: real, label): void {
+        root.items = root.items.concat([{ uid: ++root.counter, kind: "timer", label: label ?? "", duration: minutes * 60000, elapsed: 0, since: Date.now(), running: true, done: false, pinned: true }]);
     }
 
     function update(uid: int, patch: var): void {
@@ -74,7 +74,7 @@ Singleton {
             for (const t of root.running)
                 if (t.kind === "timer" && !t.done && root.remaining(t) <= 0) {
                     root.update(t.uid, { running: false, elapsed: t.duration, done: true });
-                    Quickshell.execDetached(["notify-send", "-a", "Timer", "-i", "alarm-timer", "Timer done", root.clock(t.duration, false) + " is up"]);
+                    Quickshell.execDetached(["notify-send", "-a", "Timer", "-i", "alarm-timer", t.label || "Timer done", t.label ? root.clock(t.duration, false) + " timer is up" : root.clock(t.duration, false) + " is up"]);
                 }
         }
     }

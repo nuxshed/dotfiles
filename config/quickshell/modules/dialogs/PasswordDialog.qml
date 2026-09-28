@@ -64,6 +64,10 @@ PanelWindow {
             NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
         }
 
+        MouseArea {
+            anchors.fill: parent
+        }
+
         ColumnLayout {
             id: layout
 
@@ -94,13 +98,27 @@ PanelWindow {
                     color: Colors.textMuted
                     font.pixelSize: 11
                     font.family: Fonts.family
+                    wrapMode: Text.WordWrap
+                    maximumLineCount: 6
                     elide: Text.ElideRight
+                }
+
+                Text {
+                    Layout.fillWidth: true
+                    Layout.topMargin: 4
+                    visible: Prompt.error.length > 0
+                    text: Prompt.error
+                    color: Colors.red
+                    font.pixelSize: 11
+                    font.family: Fonts.family
+                    wrapMode: Text.WordWrap
                 }
             }
 
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 44
+                Layout.preferredHeight: Prompt.inputless ? 0 : 44
+                opacity: Prompt.inputless ? 0 : 1
                 radius: 12
                 color: Colors.surface
                 border.color: input.activeFocus ? Colors.blue : Colors.border
@@ -123,7 +141,7 @@ PanelWindow {
                     selectByMouse: true
                     selectionColor: Colors.blue
                     verticalAlignment: TextInput.AlignVCenter
-                    onAccepted: if (text.length > 0) Prompt.submit(text)
+                    onAccepted: if (Prompt.inputless || text.length > 0) Prompt.submit(Prompt.inputless ? "" : text)
                     Keys.onEscapePressed: Prompt.close()
 
                     Text {
@@ -177,7 +195,7 @@ PanelWindow {
                     implicitWidth: actionText.width + 36
                     implicitHeight: 36
                     radius: height / 2
-                    color: input.text.length === 0 ? Colors.surface
+                    color: !Prompt.inputless && input.text.length === 0 ? Colors.surface
                         : actionHover.hovered ? Qt.lighter(Colors.blue, 1.1) : Colors.blue
 
                     Behavior on color {
@@ -188,7 +206,7 @@ PanelWindow {
                         id: actionText
                         anchors.centerIn: parent
                         text: Prompt.action
-                        color: input.text.length === 0 ? Colors.textMuted : Colors.background
+                        color: !Prompt.inputless && input.text.length === 0 ? Colors.textMuted : Colors.background
                         font.pixelSize: 12
                         font.family: Fonts.family
                         font.weight: Font.Medium
@@ -200,8 +218,8 @@ PanelWindow {
                     }
 
                     TapHandler {
-                        enabled: input.text.length > 0
-                        onTapped: Prompt.submit(input.text)
+                        enabled: Prompt.inputless || input.text.length > 0
+                        onTapped: Prompt.submit(Prompt.inputless ? "" : input.text)
                     }
                 }
             }

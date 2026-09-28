@@ -78,6 +78,8 @@ Singleton {
         const words = t.split(root.boundary).filter(w => w.length > 0)
 
         for (const w of words) {
+            if (w.charAt(0) !== q.charAt(0))
+                continue
             if (root.levenshtein(q, w, max) <= max)
                 return 0.5
             if (w.length > q.length && root.levenshtein(q, w.substring(0, q.length), max) <= max)

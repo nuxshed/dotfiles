@@ -1,0 +1,14 @@
+#!/bin/sh
+# Ranked search over the qs-nixindex file. Usage: qs-nixsearch <index> <words...>
+
+f="$1"; shift
+awk -F'\t' -v q="$*" '
+BEGIN { n = split(tolower(q), w, " ") }
+{
+  a = tolower($1); l = a " " tolower($3)
+  for (i = 1; i <= n; i++) if (index(l, w[i]) == 0) next
+  leaf = a; sub(/.*\./, "", leaf)
+  inattr = 1; for (i = 1; i <= n; i++) if (index(a, w[i]) == 0) inattr = 0
+  r = (leaf == w[1] || leaf == w[n]) ? 0 : (index(leaf, w[1]) == 1) ? 1 : inattr ? 2 : 3
+  print r "\t" length(a) "\t" $0
+}' "$f" | sort -t'	' -k1,1n -k2,2n | head -40 | cut -f3-

@@ -12,7 +12,7 @@ PanelWindow {
     id: root
 
     readonly property int cardWidth: 620
-    readonly property int listMax: 380
+    readonly property int listMax: 440
 
     visible: Spotlight.open
     color: "transparent"
@@ -83,6 +83,10 @@ PanelWindow {
             Anim { duration: 180 }
         }
 
+        MouseArea {
+            anchors.fill: parent
+        }
+
         ColumnLayout {
             id: layout
 
@@ -132,16 +136,31 @@ PanelWindow {
                     verticalAlignment: TextInput.AlignVCenter
                     onTextChanged: Spotlight.query = text
 
-                    Keys.onEscapePressed: Spotlight.hide()
-                    Keys.onUpPressed: Spotlight.move(-1)
-                    Keys.onDownPressed: Spotlight.move(1)
+                    Keys.onEscapePressed: Spotlight.back()
+                    Keys.onUpPressed: Spotlight.vertical(-1)
+                    Keys.onDownPressed: Spotlight.vertical(1)
+                    Keys.onLeftPressed: (event) => {
+                        if (Spotlight.home)
+                            Spotlight.move(-1)
+                        else
+                            event.accepted = false
+                    }
+                    Keys.onRightPressed: (event) => {
+                        if (Spotlight.home)
+                            Spotlight.move(1)
+                        else
+                            event.accepted = false
+                    }
                     Keys.onTabPressed: Spotlight.complete()
                     Keys.onReturnPressed: (event) => Spotlight.activate(event.modifiers & Qt.AltModifier)
                     Keys.onEnterPressed: (event) => Spotlight.activate(event.modifiers & Qt.AltModifier)
                     Keys.onPressed: (event) => {
                         if (!(event.modifiers & Qt.ControlModifier))
                             return
-                        if (event.key === Qt.Key_J) {
+                        if (event.key === Qt.Key_Space) {
+                            Spotlight.toggleActions()
+                            event.accepted = true
+                        } else if (event.key === Qt.Key_J) {
                             Spotlight.move(1)
                             event.accepted = true
                         } else if (event.key === Qt.Key_K) {
@@ -164,17 +183,24 @@ PanelWindow {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
-                visible: list.count > 0
+                visible: Spotlight.home || list.count > 0
                 color: Colors.border
+            }
+
+            SpotlightHome {
+                Layout.fillWidth: true
+                Layout.margins: 12
+                visible: Spotlight.home
             }
 
             ListView {
                 id: list
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: Math.min(root.listMax, contentHeight)
-                Layout.topMargin: count > 0 ? 6 : 0
-                Layout.bottomMargin: count > 0 ? 6 : 0
+                Layout.preferredHeight: visible ? Math.min(root.listMax, contentHeight) : 0
+                Layout.topMargin: visible && count > 0 ? 6 : 0
+                Layout.bottomMargin: visible && count > 0 ? 6 : 0
+                visible: !Spotlight.home
                 clip: true
                 model: Spotlight.results
                 currentIndex: Spotlight.selected
@@ -182,6 +208,20 @@ PanelWindow {
                 boundsBehavior: Flickable.StopAtBounds
 
                 onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Contain)
+
+                Connections {
+                    target: Spotlight
+
+                    function onExpandedChanged() {
+                        reveal.restart()
+                    }
+                }
+
+                Timer {
+                    id: reveal
+                    interval: 240
+                    onTriggered: list.positionViewAtIndex(list.currentIndex, ListView.Contain)
+                }
 
                 delegate: ResultRow {
                     required property int index
@@ -191,6 +231,9 @@ PanelWindow {
                     item: modelData ?? ({})
                     selected: index === Spotlight.selected
                     showSection: index === 0 || (Spotlight.results[index - 1]?.section ?? "") !== (modelData?.section ?? "")
+                    expanded: selected && Spotlight.expanded
+                    actions: selected ? Spotlight.currentActions : []
+                    action: Spotlight.action
 
                     onClicked: {
                         Spotlight.selected = index
@@ -200,6 +243,11 @@ PanelWindow {
                     onAltClicked: {
                         Spotlight.selected = index
                         Spotlight.activate(true)
+                    }
+
+                    onActionClicked: (i) => {
+                        Spotlight.action = i
+                        Spotlight.activate(false)
                     }
                 }
             }

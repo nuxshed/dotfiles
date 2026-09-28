@@ -1,0 +1,10 @@
+#!/bin/sh
+# Build the spotlight nixpkgs-unstable index: "attr<TAB>version<TAB>description" per line.
+
+out="${XDG_CACHE_HOME:-$HOME/.cache}/spotlight/nixpkgs.tsv"
+mkdir -p "$(dirname "$out")"
+
+nix search nixpkgs/nixpkgs-unstable ^ --json 2>/dev/null \
+  | jq -r 'to_entries[] | [(.key | sub("^legacyPackages\\.[^.]+\\."; "")), .value.version, (.value.description // "" | gsub("[\t\n]"; " "))] | @tsv' \
+  > "$out.tmp" && [ -s "$out.tmp" ] && mv -f "$out.tmp" "$out"
+rm -f "$out.tmp"

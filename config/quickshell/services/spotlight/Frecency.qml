@@ -24,6 +24,14 @@ Singleton {
         return 1 + Math.min(1.1, Math.log(1 + (e.n ?? 0)) * 0.45) * decay
     }
 
+    function ranked() {
+        const now = Date.now()
+        return Object.keys(root.entries)
+            .map(k => [k, (root.entries[k].n ?? 0) * Math.pow(0.5, (now - (root.entries[k].t ?? 0)) / root.halfLife)])
+            .sort((a, b) => b[1] - a[1])
+            .map(e => e[0])
+    }
+
     function record(key) {
         if (!key)
             return

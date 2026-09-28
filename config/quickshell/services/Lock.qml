@@ -25,6 +25,7 @@ Singleton {
     function lock(): void {
         if (root.locked)
             return;
+        Quickshell.execDetached(["sh", "-c", "command -v rbw >/dev/null && rbw lock"]);
         root.buffer = "";
         root.error = "";
         root.locked = true;

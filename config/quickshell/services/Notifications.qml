@@ -14,6 +14,7 @@ Singleton {
 
     property list<NotifData> list: []
     property int holds: 0
+    property bool dnd: false
 
     readonly property bool paused: holds > 0
     readonly property var all: list.slice()
@@ -135,6 +136,7 @@ Singleton {
             appIcon = notification.appIcon;
             image = notification.image;
             critical = notification.urgency === NotificationUrgency.Critical;
+            popup = !root.dnd || critical;
             updateTime();
         }
 
