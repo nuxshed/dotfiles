@@ -135,6 +135,7 @@ PanelWindow {
                     anchors.leftMargin: 16
                     anchors.rightMargin: 16
                     echoMode: TextInput.Password
+                    clip: true
                     color: Colors.textBright
                     font.pixelSize: 12
                     font.family: Fonts.family
