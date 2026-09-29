@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import "../../../config"
+import "../.."
 import ".."
 
 Provider {
@@ -33,6 +34,8 @@ Provider {
     function ctl(u, verb) {
         if (u.user)
             Quickshell.execDetached(["systemctl", "--user", verb, u.unit])
+        else if (Polkit.registered)
+            Quickshell.execDetached(["systemctl", verb, u.unit])
         else
             root.terminal(`sudo systemctl ${verb} ${root.q(u.unit)} && systemctl status --no-pager -n 5 ${root.q(u.unit)}; echo; read -r -p 'Press Enter to close' _`)
     }

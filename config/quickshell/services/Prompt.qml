@@ -16,6 +16,7 @@ Singleton {
     property string action: "Confirm"
     property string error: ""
     property bool inputless: false
+    property bool echo: false
     property var callback: null
     property var cancelCallback: null
 
@@ -28,6 +29,7 @@ Singleton {
         root.action = config.action ?? "Confirm"
         root.error = config.error ?? ""
         root.inputless = config.inputless ?? false
+        root.echo = config.echo ?? false
         root.callback = config.onSubmit ?? null
         root.cancelCallback = config.onCancel ?? null
         root.open = true

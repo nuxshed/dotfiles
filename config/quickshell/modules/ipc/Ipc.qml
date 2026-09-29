@@ -5,6 +5,8 @@ import "../../services"
 import "../../services/spotlight"
 
 Scope {
+    readonly property bool polkit: Polkit.registered
+
     IpcHandler {
         target: "screenshot"
 
@@ -318,6 +320,18 @@ Scope {
 
         function ask(fifo: string, title: string, desc: string, prompt: string, error: string, mode: string): void {
             Pinentry.ask(fifo, title, desc, prompt, error, mode);
+        }
+    }
+
+    IpcHandler {
+        target: "polkit"
+
+        function status(): string {
+            return Polkit.registered ? (Polkit.flow ? "active " + Polkit.flow.actionId : "registered") : "unregistered";
+        }
+
+        function cancel(): void {
+            Polkit.cancel();
         }
     }
 
