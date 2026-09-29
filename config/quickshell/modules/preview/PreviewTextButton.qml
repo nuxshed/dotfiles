@@ -12,7 +12,7 @@ Rectangle {
     implicitWidth: label.width + 28
     implicitHeight: 32
     radius: height / 2
-    color: root.primary ? (!root.enabled ? Colors.surfaceActive : mouse.containsMouse ? Qt.lighter(Colors.blue, 1.1) : Colors.blue)
+    color: root.primary ? (!root.enabled ? Colors.surfaceActive : mouse.containsMouse ? Qt.lighter(Colors.primary, 1.1) : Colors.primary)
         : mouse.containsMouse ? Colors.subtle : "transparent"
     opacity: root.enabled ? 1 : 0.5
 
@@ -22,7 +22,7 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         text: root.text
-        color: root.primary ? (root.enabled ? Colors.background : Colors.textMuted) : Colors.text
+        color: root.primary ? (root.enabled ? Colors.primaryText : Colors.textMuted) : Colors.text
         font.pixelSize: 12
         font.family: Fonts.family
         font.weight: root.primary ? Font.Medium : Font.Normal

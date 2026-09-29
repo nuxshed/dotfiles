@@ -117,7 +117,7 @@ PanelWindow {
                         id: scopeLabel
                         anchors.centerIn: parent
                         text: Spotlight.scope?.label ?? ""
-                        color: Colors.blue
+                        color: Colors.primary
                         font.pixelSize: 10
                         font.family: Fonts.family
                     }
@@ -132,7 +132,7 @@ PanelWindow {
                     font.pixelSize: 14
                     font.family: Fonts.family
                     selectByMouse: true
-                    selectionColor: Colors.blue
+                    selectionColor: Colors.primaryContainer
                     verticalAlignment: TextInput.AlignVCenter
                     onTextChanged: Spotlight.query = text
 

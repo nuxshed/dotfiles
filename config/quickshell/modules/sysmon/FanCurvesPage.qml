@@ -128,7 +128,7 @@ ColumnLayout {
                                 for (const p of pts)
                                     ctx.lineTo(px(p.t), py(p.pwm));
                                 ctx.lineTo(width - 1, py(pts[pts.length - 1].pwm));
-                                ctx.strokeStyle = fanCard.modelData.enabled ? Colors.blue : Colors.textDimmed;
+                                ctx.strokeStyle = fanCard.modelData.enabled ? Colors.primary : Colors.textDimmed;
                                 ctx.lineWidth = 1.5;
                                 ctx.lineJoin = "round";
                                 ctx.stroke();

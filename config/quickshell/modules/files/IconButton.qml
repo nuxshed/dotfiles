@@ -24,7 +24,7 @@ Rectangle {
         anchors.centerIn: parent
         text: root.icon
         size: 18
-        color: root.active ? Colors.blue : mouse.containsMouse ? Colors.textBright : Colors.textDimmed
+        color: root.active ? Colors.primary : mouse.containsMouse ? Colors.textBright : Colors.textDimmed
     }
 
     MouseArea {

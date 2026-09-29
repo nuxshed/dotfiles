@@ -21,8 +21,12 @@ import "modules/booth"
 import "modules/switcher"
 import "modules/emoji"
 import "modules/controlcenter"
+import "modules/background"
+import "modules/pickers"
+import "modules/settings"
 
 Scope {
+    Wallpaper {}
     LeftPanel {}
 
     Variants {
@@ -57,5 +61,7 @@ Scope {
     EmojiPanel {}
     ControlCenter {}
     ScrollCapture {}
+    PickerPanel {}
+    SettingsWindow {}
     Ipc {}
 }

@@ -116,7 +116,7 @@ Variants {
         ]
 
         screen: modelData
-        visible: isActive
+        visible: isActive && Settings.toolbar
         exclusiveZone: 0
         color: "transparent"
 
@@ -187,7 +187,7 @@ Variants {
                 radius: height / 2
                 bottomLeftRadius: 0
                 bottomRightRadius: 0
-                color: Colors.backgroundDeep
+                color: Colors.background
                 opacity: win.revealed ? 1 : 0
 
                 Behavior on width {
@@ -207,7 +207,7 @@ Variants {
                     anchors.right: parent.left
                     anchors.bottom: parent.bottom
                     size: 14
-                    color: Colors.backgroundDeep
+                    color: Colors.background
                     corner: RoundCorner.CornerEnum.BottomRight
                 }
 
@@ -215,7 +215,7 @@ Variants {
                     anchors.left: parent.right
                     anchors.bottom: parent.bottom
                     size: 14
-                    color: Colors.backgroundDeep
+                    color: Colors.background
                     corner: RoundCorner.CornerEnum.BottomLeft
                 }
 

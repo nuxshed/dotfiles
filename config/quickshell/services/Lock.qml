@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import QtQuick
+import "../config"
 
 Singleton {
     id: root
@@ -28,6 +29,8 @@ Singleton {
         Quickshell.execDetached(["sh", "-c", "command -v rbw >/dev/null && rbw lock"]);
         root.buffer = "";
         root.error = "";
+        root.autoBounce = false;
+        root.mode = Settings.lockStyle;
         root.locked = true;
         root.touch();
     }

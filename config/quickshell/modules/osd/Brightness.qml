@@ -1,9 +1,7 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
-import Quickshell.Widgets
-import "../../config"
+import "../../components"
 
 Scope {
     id: root
@@ -59,59 +57,9 @@ Scope {
     LazyLoader {
         active: root.shouldShowOsd
 
-        PanelWindow {
-            anchors.bottom: true
-            margins.bottom: screen.height / 13
-            exclusiveZone: 0
-
-            implicitWidth: 300
-            implicitHeight: 60
-            color: "transparent"
-
-            mask: Region {}
-
-            Rectangle {
-                anchors.centerIn: parent
-                width: parent.width - 40
-                height: parent.height - 20
-                radius: 12
-                color: Colors.surface
-                border.color: Colors.border
-                border.width: 1
-
-                RowLayout {
-                    anchors.centerIn: parent
-                    width: parent.width - 30
-                    spacing: 15
-
-                    Rectangle {
-                        Layout.fillWidth: true
-                        implicitHeight: 8
-                        radius: 4
-                        color: Colors.border
-
-                        Rectangle {
-                            anchors {
-                                left: parent.left
-                                top: parent.top
-                                bottom: parent.bottom
-                            }
-                            width: parent.width * (root.brightnessLevel / root.maxBrightness)
-                            radius: parent.radius
-                            color: Colors.text
-                        }
-                    }
-
-                    Text {
-                        text: Math.round((root.brightnessLevel / root.maxBrightness) * 100) + "%"
-                        color: Colors.text
-                        font.pixelSize: 14
-                        font.family: "Cartograph CF"
-                        font.weight: Font.Medium
-                        Layout.preferredWidth: 40
-                    }
-                }
-            }
+        OsdCard {
+            icon: "brightness_6"
+            value: root.brightnessLevel / root.maxBrightness
         }
     }
 }

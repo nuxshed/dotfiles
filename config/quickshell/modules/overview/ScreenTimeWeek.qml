@@ -14,7 +14,7 @@ Rectangle {
     readonly property int active: ScreenTime.week.filter(d => d.seconds > 0).length
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     ColumnLayout {
         anchors.fill: parent
@@ -80,7 +80,7 @@ Rectangle {
                             width: parent.width
                             height: Math.max(4, parent.height * col.modelData.seconds / root.max)
                             radius: 4
-                            color: col.modelData.today ? Colors.primary : Colors.surfaceActive
+                            color: col.modelData.today ? Colors.primary : Colors.subtle
 
                             Behavior on height {
                                 NumberAnimation { duration: 400; easing.type: Easing.OutCubic }

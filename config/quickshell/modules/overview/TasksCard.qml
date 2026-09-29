@@ -10,7 +10,7 @@ Rectangle {
     id: root
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     Connections {
         target: Overview
@@ -68,7 +68,7 @@ Rectangle {
             Layout.fillWidth: true
             height: 32
             radius: 8
-            color: Colors.surface
+            color: Colors.surfaceActive
             border.width: 1
             border.color: input.activeFocus ? Colors.outline : "transparent"
 
@@ -136,7 +136,7 @@ Rectangle {
                 width: list.width
                 height: 28
                 radius: 7
-                color: rowArea.containsMouse ? Colors.surface : "transparent"
+                color: rowArea.containsMouse ? Colors.surfaceActive : "transparent"
 
                 Behavior on color {
                     ColorAnimation { duration: 120 }
@@ -190,7 +190,7 @@ Rectangle {
                         width: 22
                         height: 22
                         radius: 11
-                        color: delArea.containsMouse ? Colors.surfaceActive : "transparent"
+                        color: delArea.containsMouse ? Colors.subtle : "transparent"
                         opacity: rowArea.containsMouse || delArea.containsMouse ? 1 : 0
 
                         Behavior on opacity {

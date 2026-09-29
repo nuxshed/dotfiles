@@ -13,7 +13,7 @@ Rectangle {
     readonly property int max: apps[0]?.seconds ?? 1
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     ColumnLayout {
         anchors.fill: parent
@@ -75,7 +75,7 @@ Rectangle {
                     Layout.fillWidth: true
                     height: 4
                     radius: 2
-                    color: Colors.surfaceActive
+                    color: Colors.subtle
 
                     Rectangle {
                         width: parent.width * row.modelData.seconds / root.max

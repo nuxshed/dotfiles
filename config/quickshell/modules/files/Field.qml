@@ -18,7 +18,7 @@ Rectangle {
     radius: 10
     color: Colors.surface
     border.width: 1
-    border.color: input.activeFocus ? Colors.blue : Colors.border
+    border.color: input.activeFocus ? Colors.primary : Colors.border
 
     Behavior on border.color {
         ColorAnimation { duration: 150 }
@@ -44,8 +44,8 @@ Rectangle {
         font.pixelSize: 12
         font.family: Fonts.family
         selectByMouse: true
-        selectionColor: Colors.blue
-        selectedTextColor: Colors.background
+        selectionColor: Colors.primaryContainer
+        selectedTextColor: Colors.textBright
         clip: true
         verticalAlignment: TextInput.AlignVCenter
 

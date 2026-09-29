@@ -266,7 +266,7 @@ Popout {
                             SignalBars {
                                 Layout.alignment: Qt.AlignVCenter
                                 level: Math.ceil(apRow.modelData.strength / 25)
-                                tint: apRow.modelData.active ? Colors.blue : Colors.textBright
+                                tint: apRow.modelData.active ? Colors.primary : Colors.textBright
                             }
 
                             ColumnLayout {
@@ -276,7 +276,7 @@ Popout {
                                 Text {
                                     Layout.fillWidth: true
                                     text: apRow.modelData.ssid
-                                    color: apRow.modelData.active ? Colors.blue : Colors.text
+                                    color: apRow.modelData.active ? Colors.primary : Colors.text
                                     font.pixelSize: 11
                                     font.family: Fonts.family
                                     font.weight: apRow.modelData.active ? Font.Medium : Font.Normal
@@ -381,7 +381,7 @@ Popout {
                                 Text {
                                     Layout.fillWidth: true
                                     text: btRow.modelData.name
-                                    color: btRow.modelData.connected ? Colors.blue : Colors.text
+                                    color: btRow.modelData.connected ? Colors.primary : Colors.text
                                     font.pixelSize: 11
                                     font.family: Fonts.family
                                     font.weight: btRow.modelData.connected ? Font.Medium : Font.Normal

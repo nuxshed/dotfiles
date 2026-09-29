@@ -235,7 +235,7 @@ FloatingWindow {
                         radius: 8
                         color: Colors.surface
                         border.width: 2
-                        border.color: tile.index === Booth.effect ? Colors.blue : tileHover.hovered ? Colors.outline : "transparent"
+                        border.color: tile.index === Booth.effect ? Colors.primary : tileHover.hovered ? Colors.outline : "transparent"
                         clip: true
 
                         ShaderEffect {
@@ -412,7 +412,7 @@ FloatingWindow {
             anchors.centerIn: parent
             text: btn.icon
             size: 18
-            color: btn.active ? Colors.blue : btnArea.containsMouse ? Colors.textBright : Colors.textDimmed
+            color: btn.active ? Colors.primary : btnArea.containsMouse ? Colors.textBright : Colors.textDimmed
         }
 
         MouseArea {

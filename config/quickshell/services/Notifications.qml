@@ -4,12 +4,13 @@ pragma ComponentBehavior: Bound
 import Quickshell
 import Quickshell.Services.Notifications
 import QtQuick
+import "../config"
 
 Singleton {
     id: root
 
     readonly property int maxStored: 50
-    readonly property int expireDelay: 5000
+    readonly property int expireDelay: Settings.notifTimeout * 1000
     readonly property int exitDelay: 600
 
     property list<NotifData> list: []

@@ -234,12 +234,32 @@ Item {
                     return root.item.thumb ? Thumbs.lookup(root.item.thumb) : ""
                 }
                 readonly property string art: root.item.art ?? ""
+                readonly property string theme: root.item.theme ?? ""
                 readonly property string favicon: Favicons.path(root.item.favicon ?? "")
                 readonly property string themed: (root.item.iconIsImage ?? false) ? Quickshell.iconPath(root.item.icon ?? "", true) : ""
-                readonly property bool imaged: slot.art.length > 0 || slot.thumb.length > 0 || slot.favicon.length > 0 || slot.themed.length > 0
+                readonly property bool imaged: slot.theme.length > 0 || slot.art.length > 0 || slot.thumb.length > 0 || slot.favicon.length > 0 || slot.themed.length > 0
 
                 Layout.preferredWidth: 28
                 Layout.preferredHeight: 28
+
+                Rectangle {
+                    readonly property var p: slot.theme.length > 0 ? Colors.paletteOf(slot.theme) : null
+
+                    anchors.fill: parent
+                    visible: p !== null
+                    radius: 8
+                    color: p?.bg ?? "transparent"
+                    border.width: 1
+                    border.color: p?.subtle ?? "transparent"
+
+                    Rectangle {
+                        anchors.centerIn: parent
+                        width: 12
+                        height: 12
+                        radius: 6
+                        color: parent.p?.primary ?? "transparent"
+                    }
+                }
 
                 ClippingRectangle {
                     anchors.fill: parent

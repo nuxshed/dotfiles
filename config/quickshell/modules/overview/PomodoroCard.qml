@@ -19,7 +19,7 @@ Rectangle {
     }
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     ColumnLayout {
         anchors.fill: parent
@@ -128,7 +128,7 @@ Rectangle {
 
                             ShapePath {
                                 strokeWidth: 4
-                                strokeColor: Colors.surfaceActive
+                                strokeColor: Colors.subtle
                                 fillColor: "transparent"
 
                                 PathAngleArc {
@@ -280,7 +280,7 @@ Rectangle {
         Layout.preferredWidth: 26
         Layout.preferredHeight: 26
         radius: 13
-        color: smallArea.containsMouse ? Colors.surfaceActive : "transparent"
+        color: smallArea.containsMouse ? Colors.subtle : "transparent"
 
         Behavior on color {
             ColorAnimation { duration: 140 }
@@ -315,7 +315,7 @@ Rectangle {
         Layout.preferredWidth: 36
         Layout.preferredHeight: 34
         radius: 10
-        color: pill.accent ? Qt.tint(pill.fill, area.containsMouse ? "#18ffffff" : "transparent") : area.containsMouse ? Colors.surfaceActive : Colors.surface
+        color: pill.accent ? Qt.tint(pill.fill, area.containsMouse ? "#18ffffff" : "transparent") : area.containsMouse ? Colors.subtle : Colors.surfaceActive
 
         Behavior on color {
             ColorAnimation { duration: 140 }

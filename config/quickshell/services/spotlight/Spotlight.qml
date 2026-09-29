@@ -17,7 +17,7 @@ Singleton {
 
     signal queryReset
 
-    readonly property list<QtObject> providers: [apps, calc, countdowns, zones, dictionary, toggles, windowActions, media, events, todos, quicklinks, snippets, keybinds, selection, focusMode, notes, web, files, windows, commands, units, nixpkgs, manpages, vault, clipboard, procs]
+    readonly property list<QtObject> providers: [apps, calc, countdowns, zones, dictionary, toggles, themeSchemes, wallpaperList, windowActions, media, events, todos, quicklinks, snippets, keybinds, selection, focusMode, notes, web, files, windows, commands, units, nixpkgs, manpages, vault, clipboard, procs]
 
     readonly property bool home: root.query.length === 0
 
@@ -408,6 +408,8 @@ Singleton {
     readonly property Nixpkgs nixpkgs: Nixpkgs {}
     readonly property Manpages manpages: Manpages {}
     readonly property Toggles toggles: Toggles {}
+    readonly property ThemeSchemes themeSchemes: ThemeSchemes {}
+    readonly property WallpaperList wallpaperList: WallpaperList {}
     readonly property WindowActions windowActions: WindowActions {}
     readonly property MediaControls media: MediaControls {}
     readonly property Events events: Events {}

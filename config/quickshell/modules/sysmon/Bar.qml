@@ -5,7 +5,7 @@ Rectangle {
     id: root
 
     property real value: 0
-    property color accent: Colors.blue
+    property color accent: Colors.primary
 
     implicitHeight: 6
     radius: 3

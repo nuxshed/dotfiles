@@ -121,7 +121,7 @@ PanelWindow {
                 opacity: Prompt.inputless ? 0 : 1
                 radius: 12
                 color: Colors.surface
-                border.color: input.activeFocus ? Colors.blue : Colors.border
+                border.color: input.activeFocus ? Colors.primary : Colors.border
                 border.width: 1
 
                 Behavior on border.color {
@@ -140,7 +140,7 @@ PanelWindow {
                     font.pixelSize: 12
                     font.family: Fonts.family
                     selectByMouse: true
-                    selectionColor: Colors.blue
+                    selectionColor: Colors.primaryContainer
                     verticalAlignment: TextInput.AlignVCenter
                     onAccepted: if (Prompt.inputless || text.length > 0) Prompt.submit(Prompt.inputless ? "" : text)
                     Keys.onEscapePressed: Prompt.close()
@@ -197,7 +197,7 @@ PanelWindow {
                     implicitHeight: 36
                     radius: height / 2
                     color: !Prompt.inputless && input.text.length === 0 ? Colors.surface
-                        : actionHover.hovered ? Qt.lighter(Colors.blue, 1.1) : Colors.blue
+                        : actionHover.hovered ? Qt.lighter(Colors.primary, 1.1) : Colors.primary
 
                     Behavior on color {
                         ColorAnimation { duration: 150 }
@@ -207,7 +207,7 @@ PanelWindow {
                         id: actionText
                         anchors.centerIn: parent
                         text: Prompt.action
-                        color: !Prompt.inputless && input.text.length === 0 ? Colors.textMuted : Colors.background
+                        color: !Prompt.inputless && input.text.length === 0 ? Colors.textMuted : Colors.primaryText
                         font.pixelSize: 12
                         font.family: Fonts.family
                         font.weight: Font.Medium

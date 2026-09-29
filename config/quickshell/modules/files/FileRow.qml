@@ -28,7 +28,7 @@ Rectangle {
     radius: 8
     color: root.dropTarget ? Colors.subtle : root.selected ? Colors.surfaceActive : mouse.containsMouse ? Colors.surface : "transparent"
     border.width: (root.current && !root.selected) || root.dropTarget ? 1 : 0
-    border.color: root.dropTarget ? Colors.blue : Colors.subtle
+    border.color: root.dropTarget ? Colors.primary : Colors.subtle
 
     RowLayout {
         anchors.fill: parent
@@ -40,7 +40,7 @@ Rectangle {
         MaterialIcon {
             text: Files.iconFor(root.entry)
             size: 18
-            color: root.entry.isDir ? Colors.blue : root.selected ? Colors.textBright : Colors.textDimmed
+            color: root.entry.isDir ? Colors.primary : root.selected ? Colors.textBright : Colors.textDimmed
         }
 
         Text {

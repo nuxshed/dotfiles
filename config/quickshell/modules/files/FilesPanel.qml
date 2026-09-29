@@ -442,7 +442,7 @@ PanelWindow {
                     radius: 10
                     color: Colors.surface
                     border.width: 1
-                    border.color: pathInput.activeFocus ? Colors.blue : Colors.border
+                    border.color: pathInput.activeFocus ? Colors.primary : Colors.border
                     clip: true
 
                     Behavior on border.color {
@@ -501,7 +501,7 @@ PanelWindow {
                                         radius: 6
                                         color: dropTarget ? Colors.subtle : crumbMouse.containsMouse ? Colors.surfaceActive : "transparent"
                                         border.width: dropTarget ? 1 : 0
-                                        border.color: Colors.blue
+                                        border.color: Colors.primary
 
                                         DropArea {
                                             id: crumbDrop
@@ -546,8 +546,8 @@ PanelWindow {
                         font.pixelSize: 12
                         font.family: Fonts.family
                         selectByMouse: true
-                        selectionColor: Colors.blue
-                        selectedTextColor: Colors.background
+                        selectionColor: Colors.primaryContainer
+                        selectedTextColor: Colors.textBright
                         clip: true
                         verticalAlignment: TextInput.AlignVCenter
 
@@ -575,7 +575,7 @@ PanelWindow {
                     Layout.leftMargin: 6
                     icon: "search"
                     placeholder: Files.searching ? "Search everywhere…" : "Filter"
-                    border.color: Files.searching ? Colors.blue : input.activeFocus ? Colors.blue : Colors.border
+                    border.color: Files.searching ? Colors.primary : input.activeFocus ? Colors.primary : Colors.border
 
                     Behavior on Layout.preferredWidth {
                         Anim { duration: 160 }
@@ -1104,7 +1104,7 @@ PanelWindow {
             radius: 8
             color: Colors.surfaceActive
             border.width: 1
-            border.color: Colors.blue
+            border.color: Colors.primary
             opacity: 0.95
             z: 40
 
@@ -1125,7 +1125,7 @@ PanelWindow {
                     anchors.verticalCenter: parent.verticalCenter
                     text: ghost.copy ? "content_copy" : "open_with"
                     size: 15
-                    color: Colors.blue
+                    color: Colors.primary
                 }
 
                 Text {

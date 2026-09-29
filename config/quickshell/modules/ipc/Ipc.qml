@@ -1,5 +1,6 @@
 import Quickshell
 import Quickshell.Io
+import "../../config"
 import "../../services"
 import "../../services/spotlight"
 
@@ -357,6 +358,68 @@ Scope {
 
         function toggle(): void {
             Emoji.toggle();
+        }
+    }
+
+    IpcHandler {
+        target: "theme"
+
+        function toggle(): void {
+            Pickers.toggle("theme");
+        }
+
+        function set(id: string): void {
+            if (Themes.list.some(t => t.id === id))
+                Settings.set("theme", id);
+        }
+
+        function next(): void {
+            const i = Themes.list.findIndex(t => t.id === Settings.theme);
+            Settings.set("theme", Themes.list[(i + 1) % Themes.list.length].id);
+        }
+
+        function get(): string {
+            return Settings.theme;
+        }
+
+        function list(): string {
+            return Themes.list.map(t => t.id).join("\n");
+        }
+    }
+
+    IpcHandler {
+        target: "wallpaper"
+
+        function toggle(): void {
+            Pickers.toggle("wallpaper");
+        }
+
+        function set(path: string): void {
+            Wallpapers.set(path);
+        }
+
+        function next(): void {
+            Wallpapers.step(1);
+        }
+
+        function random(): void {
+            Wallpapers.random();
+        }
+
+        function get(): string {
+            return Settings.wallpaper;
+        }
+    }
+
+    IpcHandler {
+        target: "settings"
+
+        function toggle(): void {
+            SettingsApp.toggle();
+        }
+
+        function open(page: string): void {
+            SettingsApp.show(page);
         }
     }
 }

@@ -138,6 +138,9 @@ hl.bind(mod .. " + SHIFT + p", hl.dsp.exec_cmd("qs ipc call booth toggle"))
 hl.bind(mod .. " + o", hl.dsp.exec_cmd("qs ipc call overview toggle"))
 hl.bind(mod .. " + SHIFT + c", hl.dsp.exec_cmd("qs ipc call calendar toggle"))
 hl.bind(mod .. " + period", hl.dsp.exec_cmd("qs ipc call emoji toggle"))
+hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("qs ipc call theme toggle")) -- Theme picker
+hl.bind(mod .. " + SHIFT + w", hl.dsp.exec_cmd("qs ipc call wallpaper toggle")) -- Wallpaper picker
+hl.bind(mod .. " + i", hl.dsp.exec_cmd("qs ipc call settings toggle")) -- Settings
 hl.bind("ALT + Tab", hl.dsp.exec_cmd("qs ipc call switcher next windows"))
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call switcher prev windows"))
 hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs ipc call switcher next workspaces"))
@@ -235,7 +238,6 @@ hl.window_rule({ match = { class = "org.quickshell", title = "^(Calendar|Focus)$
 --------------------------------------------------------------------------------
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprpaper")
     hl.exec_cmd("batd")
     hl.exec_cmd("quickshell")
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")

@@ -126,7 +126,7 @@ Item {
                 Bar {
                     Layout.fillWidth: true
                     value: fsRow.frac
-                    accent: fsRow.frac > 0.9 ? Colors.red : fsRow.frac > 0.75 ? Colors.yellow : Colors.blue
+                    accent: fsRow.frac > 0.9 ? Colors.red : fsRow.frac > 0.75 ? Colors.yellow : Colors.primary
                 }
                 Text {
                     Layout.preferredWidth: 150

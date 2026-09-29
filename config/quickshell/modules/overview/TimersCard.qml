@@ -12,7 +12,7 @@ Rectangle {
     readonly property var presets: [5, 10, 15, 25, 45, 60]
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     ColumnLayout {
         anchors.fill: parent
@@ -69,7 +69,7 @@ Rectangle {
                 Layout.fillWidth: true
                 height: 30
                 radius: 8
-                color: Colors.surface
+                color: Colors.surfaceActive
                 border.width: 1
                 border.color: custom.activeFocus ? Colors.outline : "transparent"
 
@@ -111,7 +111,7 @@ Rectangle {
                 width: 30
                 height: 30
                 radius: 8
-                color: goArea.containsMouse ? Colors.surfaceActive : Colors.surface
+                color: goArea.containsMouse ? Colors.subtle : Colors.surfaceActive
 
                 MaterialIcon {
                     anchors.centerIn: parent
@@ -144,7 +144,7 @@ Rectangle {
 
         height: 44
         radius: 10
-        color: launchArea.containsMouse ? Colors.surfaceActive : Colors.surface
+        color: launchArea.containsMouse ? Colors.subtle : Colors.surfaceActive
 
         Behavior on color {
             ColorAnimation { duration: 140 }
@@ -205,7 +205,7 @@ Rectangle {
 
         height: 30
         radius: 8
-        color: presetArea.containsMouse ? Colors.surfaceActive : Colors.surface
+        color: presetArea.containsMouse ? Colors.subtle : Colors.surfaceActive
 
         Behavior on color {
             ColorAnimation { duration: 140 }

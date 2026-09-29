@@ -14,7 +14,7 @@ Item {
             spacing: 1
             Text {
                 id: hoursText
-                text: Qt.formatDateTime(new Date(), "hh")
+                text: Qt.formatDateTime(new Date(), Settings.clock24 ? "hh" : "hh ap").slice(0, 2)
                 color: Colors.textBright
                 font.pixelSize: 14
                 font.family: Fonts.family
@@ -53,7 +53,7 @@ Item {
         running: true
         repeat: true
         onTriggered: {
-            hoursText.text = Qt.formatDateTime(new Date(), "hh")
+            hoursText.text = Qt.formatDateTime(new Date(), Settings.clock24 ? "hh" : "hh ap").slice(0, 2)
             minutesText.text = Qt.formatDateTime(new Date(), "mm")
         }
     }

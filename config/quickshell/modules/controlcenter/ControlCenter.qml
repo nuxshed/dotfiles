@@ -27,7 +27,7 @@ Variants {
         property bool hovered: false
 
         screen: modelData
-        visible: isActive
+        visible: isActive && Settings.controlCenter
         exclusiveZone: 0
         color: "transparent"
         implicitWidth: cardWidth + 40
@@ -103,7 +103,7 @@ Variants {
                 radius: 28
                 topRightRadius: 0
                 bottomRightRadius: 0
-                color: Colors.backgroundDeep
+                color: Colors.background
                 opacity: win.revealed ? 1 : 0
                 clip: true
 
@@ -287,7 +287,7 @@ Variants {
                 anchors.bottom: card.top
                 corner: RoundCorner.CornerEnum.BottomRight
                 size: win.corner
-                color: Colors.backgroundDeep
+                color: Colors.background
                 opacity: card.opacity
             }
 
@@ -296,7 +296,7 @@ Variants {
                 anchors.top: card.bottom
                 corner: RoundCorner.CornerEnum.TopRight
                 size: win.corner
-                color: Colors.backgroundDeep
+                color: Colors.background
                 opacity: card.opacity
             }
         }

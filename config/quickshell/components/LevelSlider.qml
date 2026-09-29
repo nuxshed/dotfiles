@@ -9,6 +9,7 @@ Item {
     property bool muted: false
     readonly property bool dragging: mouse.pressed
     property real shown: value
+    property color track: Colors.surface
 
     signal moved(real value)
     signal iconClicked
@@ -24,7 +25,7 @@ Item {
         id: track
         anchors.fill: parent
         radius: height / 2
-        color: Colors.surface
+        color: root.track
 
         Rectangle {
             readonly property real lead: root.icon ? root.height : 0

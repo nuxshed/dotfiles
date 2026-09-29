@@ -36,7 +36,7 @@ Rectangle {
     }
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     ColumnLayout {
         anchors.fill: parent
@@ -104,7 +104,7 @@ Rectangle {
                 width: list.width
                 height: 24
                 radius: 6
-                color: rowHover.hovered ? Colors.surface : "transparent"
+                color: rowHover.hovered ? Colors.surfaceActive : "transparent"
 
                 RowLayout {
                     anchors.fill: parent
@@ -171,7 +171,7 @@ Rectangle {
         Layout.preferredWidth: 24
         Layout.preferredHeight: 24
         radius: 12
-        color: area.containsMouse ? Colors.surfaceActive : "transparent"
+        color: area.containsMouse ? Colors.subtle : "transparent"
 
         Behavior on color {
             ColorAnimation { duration: 140 }

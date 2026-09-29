@@ -9,7 +9,7 @@ Rectangle {
     property string title: ""
     property string subtitle: ""
     property string value: ""
-    property color accent: Colors.blue
+    property color accent: Colors.primary
     property var series: []
     property real max: 100
     property int span: -1

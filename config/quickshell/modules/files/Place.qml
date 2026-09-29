@@ -24,7 +24,7 @@ Rectangle {
     radius: 8
     color: root.dropTarget ? Colors.subtle : root.active ? Colors.surfaceActive : mouse.containsMouse ? Colors.surface : "transparent"
     border.width: root.dropTarget ? 1 : 0
-    border.color: Colors.blue
+    border.color: Colors.primary
 
     RowLayout {
         id: row
@@ -37,7 +37,7 @@ Rectangle {
         MaterialIcon {
             text: root.icon
             size: 17
-            color: root.active ? Colors.blue : Colors.textDimmed
+            color: root.active ? Colors.primary : Colors.textDimmed
         }
 
         Text {

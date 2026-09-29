@@ -21,16 +21,16 @@ Item {
             height: Preview.cropSel ? Preview.cropSel.h * parent.height : 0
             color: "transparent"
             border.width: 1
-            border.color: Colors.blue
+            border.color: Colors.primary
 
-            Rectangle { anchors.fill: parent; color: Colors.blue; opacity: 0.12 }
+            Rectangle { anchors.fill: parent; color: Colors.primary; opacity: 0.12 }
 
             Repeater {
                 model: 4
                 Rectangle {
                     required property int index
                     width: 8; height: 8; radius: 4
-                    color: Colors.blue
+                    color: Colors.primary
                     x: (index % 2) * (parent.width - width)
                     y: Math.floor(index / 2) * (parent.height - height)
                 }

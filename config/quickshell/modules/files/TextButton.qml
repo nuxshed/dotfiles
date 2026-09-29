@@ -15,7 +15,7 @@ Rectangle {
     radius: height / 2
     color: {
         if (root.primary) {
-            const base = root.danger ? Colors.red : Colors.blue;
+            const base = root.danger ? Colors.red : Colors.primary;
             return !root.enabled ? Colors.surface : mouse.containsMouse ? Qt.lighter(base, 1.1) : base;
         }
         return mouse.containsMouse ? Colors.surface : "transparent";
@@ -30,7 +30,7 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         text: root.text
-        color: root.primary ? (root.enabled ? Colors.background : Colors.textMuted) : Colors.text
+        color: root.primary ? (root.enabled ? Colors.primaryText : Colors.textMuted) : Colors.text
         font.pixelSize: 12
         font.family: Fonts.family
         font.weight: root.primary ? Font.Medium : Font.Normal

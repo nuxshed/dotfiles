@@ -59,7 +59,7 @@ ColumnLayout {
             valueLabel: temp ? "package temperature" : "utilisation"
             modes: ["Usage", "Temperature"]
             fmt: temp ? (v => `${v.toFixed(0)}°C`) : null
-            series: temp ? [{ data: SysMon.cpuTempHist, color: Colors.orange }] : [{ data: SysMon.cpuHist, color: Colors.blue }]
+            series: temp ? [{ data: SysMon.cpuTempHist, color: Colors.orange }] : [{ data: SysMon.cpuHist, color: Colors.primary }]
             extraTitle: "Cores"
             stats: [
                 { label: "Frequency", value: `${(SysMon.freq / 1000).toFixed(2)} GHz` },

@@ -105,7 +105,7 @@ Variants {
                 radius: 18
                 topLeftRadius: 0
                 topRightRadius: 0
-                color: Colors.backgroundDeep
+                color: Colors.background
                 opacity: win.revealed || win.live ? 1 : 0
                 clip: true
 
@@ -258,7 +258,7 @@ Variants {
                 anchors.rightMargin: -1
                 anchors.top: parent.top
                 size: 14
-                color: Colors.backgroundDeep
+                color: Colors.background
                 corner: RoundCorner.CornerEnum.TopRight
                 opacity: card.opacity
             }
@@ -268,7 +268,7 @@ Variants {
                 anchors.leftMargin: -1
                 anchors.top: parent.top
                 size: 14
-                color: Colors.backgroundDeep
+                color: Colors.background
                 corner: RoundCorner.CornerEnum.TopLeft
                 opacity: card.opacity
             }

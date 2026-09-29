@@ -19,7 +19,7 @@ Rectangle {
     }
 
     radius: 12
-    color: Colors.background
+    color: Colors.surface
 
     WheelHandler {
         onWheel: event => root.shift(event.angleDelta.y > 0 ? -1 : 1)
@@ -90,7 +90,7 @@ Rectangle {
                     width: 22
                     height: 22
                     radius: 7
-                    color: day.model.today ? Colors.primary : day.selected ? Colors.surfaceActive : dayHover.hovered ? Colors.surface : "transparent"
+                    color: day.model.today ? Colors.primary : day.selected ? Colors.subtle : dayHover.hovered ? Colors.surfaceActive : "transparent"
 
                     Behavior on color {
                         ColorAnimation { duration: 120 }
@@ -100,7 +100,7 @@ Rectangle {
                         anchors.centerIn: parent
                         text: day.model.day
                         color: day.model.today ? Colors.primaryText
-                            : day.model.month !== grid.month ? Colors.subtle
+                            : day.model.month !== grid.month ? Colors.outline
                             : day.weekend ? Colors.textMuted : Colors.text
                         font.pixelSize: 11
                         font.family: Fonts.family
@@ -150,7 +150,7 @@ Rectangle {
         Layout.preferredWidth: 24
         Layout.preferredHeight: 24
         radius: 12
-        color: area.containsMouse ? Colors.surfaceActive : "transparent"
+        color: area.containsMouse ? Colors.subtle : "transparent"
 
         Behavior on color {
             ColorAnimation { duration: 140 }

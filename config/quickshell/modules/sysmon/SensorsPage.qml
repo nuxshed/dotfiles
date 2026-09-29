@@ -13,7 +13,7 @@ ColumnLayout {
     readonly property var profiles: ["Quiet", "Balanced", "Performance"]
 
     function tempColor(v: real): color {
-        return v >= 85 ? Colors.red : v >= 70 ? Colors.yellow : Colors.blue;
+        return v >= 85 ? Colors.red : v >= 70 ? Colors.yellow : Colors.primary;
     }
 
     spacing: 16

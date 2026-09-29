@@ -38,10 +38,10 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
             title: "CPU"
-            accent: Colors.blue
+            accent: Colors.primary
             subtitle: (SysMon.cpuTemp > 0 ? `${SysMon.cpuTemp.toFixed(0)}°C · ` : "") + `${(SysMon.freq / 1000).toFixed(2)} GHz`
             value: `${SysMon.cpu.toFixed(0)}%`
-            series: [{ data: SysMon.cpuHist, color: Colors.blue }]
+            series: [{ data: SysMon.cpuHist, color: Colors.primary }]
             clickable: true
             onClicked: SysMon.perfTab = "cpu"
         }

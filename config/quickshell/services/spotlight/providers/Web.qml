@@ -25,7 +25,7 @@ Provider {
     }
 
     function searchUrl(bang, term) {
-        const b = SpotlightConfig.bangs[bang] ?? SpotlightConfig.bangs[SpotlightConfig.defaultBang]
+        const b = SpotlightConfig.bangs[bang] ?? SpotlightConfig.bangs[Settings.searchEngine]
         return b.url.replace("%s", encodeURIComponent(term))
     }
 
@@ -147,7 +147,7 @@ Provider {
             })
         }
 
-        const fallback = root.searchItem(SpotlightConfig.defaultBang, trimmed, 0.01, "Web")
+        const fallback = root.searchItem(Settings.searchEngine, trimmed, 0.01, "Web")
         fallback.fallback = true
         out.push(fallback)
 

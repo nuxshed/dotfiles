@@ -89,7 +89,7 @@ Item {
                         anchors.centerIn: parent
                         text: root.info ? Files.iconFor({ isDir: root.info.isDir, suffix: (root.info.name.lastIndexOf(".") > 0 ? root.info.name.slice(root.info.name.lastIndexOf(".") + 1) : "") }) : "insert_drive_file"
                         size: 24
-                        color: root.info?.isDir ? Colors.blue : Colors.textDimmed
+                        color: root.info?.isDir ? Colors.primary : Colors.textDimmed
                     }
                 }
 

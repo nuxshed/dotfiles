@@ -14,7 +14,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: height / 2
-        color: root.checked ? Colors.blue : Colors.surfaceActive
+        color: root.checked ? Colors.primary : Colors.subtle
         opacity: root.enabled ? 1 : 0.4
 
         Behavior on color {
@@ -27,7 +27,7 @@ Item {
             width: root.checked ? 16 : 12
             height: width
             radius: width / 2
-            color: root.checked ? Colors.background : Colors.textMuted
+            color: root.checked ? Colors.primaryText : Colors.textMuted
 
             Behavior on x {
                 NumberAnimation { duration: 180; easing.type: Easing.OutCubic }

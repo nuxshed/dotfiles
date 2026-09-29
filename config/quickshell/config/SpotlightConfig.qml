@@ -22,7 +22,6 @@ QtObject {
 
     readonly property string homeCurrency: "INR"
     readonly property var currencies: ["USD", "EUR", "GBP"]
-    readonly property string weatherLocation: ""
     readonly property int homeApps: 6
     readonly property var defaultApps: ["zen-beta", "org.wezfurlong.wezterm", "obsidian", "spotify", "code", "thunar"]
 
@@ -63,7 +62,6 @@ QtObject {
         { keyword: "gcal", name: "Google Calendar", url: "https://calendar.google.com", domain: "calendar.google.com" }
     ]
 
-    readonly property string defaultBang: "ddg"
 
     readonly property var bangs: ({
         ddg: { name: "DuckDuckGo", icon: "public", domain: "duckduckgo.com", url: "https://duckduckgo.com/?q=%s" },

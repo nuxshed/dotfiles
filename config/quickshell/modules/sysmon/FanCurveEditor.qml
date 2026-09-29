@@ -89,7 +89,7 @@ Item {
             const pts = root.points;
             if (pts.length === 0)
                 return;
-            const col = root.enabled ? Colors.blue : Colors.textDimmed;
+            const col = root.enabled ? Colors.primary : Colors.textDimmed;
             ctx.beginPath();
             ctx.moveTo(root.padL, root.py(pts[0].pwm));
             for (const p of pts)

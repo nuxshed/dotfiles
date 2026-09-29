@@ -1,53 +1,135 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 
-QtObject {
-    // bgs (material-you dark, cool grey)
-    readonly property string background: "#101114"
-    readonly property string backgroundDeep: "#000000"
-    readonly property string surface: "#1b1c1f"
-    readonly property string surfaceActive: "#212226"
-    readonly property string subtle: "#2f3136"
-    readonly property string border: "#2a2c31"
-    readonly property string outline: "#3b3e44"
+Singleton {
+    id: root
 
-    // text
-    readonly property string text: "#d0d3d9"
-    readonly property string textMuted: "#8b9099"
-    readonly property string textBright: "#e8eaef"
-    readonly property string textDimmed: "#b3b7bf"
+    property string preview: ""
+    property bool instant: false
+    property string previewWallpaper: ""
 
-    // accent (light blue primary, teal container)
-    readonly property string primary: "#a8ccff"
-    readonly property string primaryText: "#0b2a44"
-    readonly property string primaryContainer: "#124a5e"
-    readonly property string primaryContainerText: "#c4e4ff"
+    readonly property string themeId: preview.length > 0 ? preview : Settings.theme
+    readonly property var base: Themes.find(themeId)
+    readonly property var theme: base.dynamic ? dynamic : base
 
-    // colors
-    readonly property string red: "#b46958"
-    readonly property string green: "#90A959"
-    readonly property string blue: "#a8ccff"
-    readonly property string yellow: "#F4BF75"
-    readonly property string magenta: "#AA759F"
-    readonly property string orange: "#FFA557"
-    readonly property string cyan: "#88afa2"
-    
+    readonly property var dynamic: {
+        const fallback = Themes.find("wallpaper");
+        const seed = pickSeed(quantizer.colors);
+        if (!seed)
+            return fallback;
+        const h = seed.hslHue;
+        const s = Math.max(0.45, Math.min(0.75, seed.hslSaturation));
+        return Object.assign({}, fallback, Themes.neutrals(h), {
+            primary: Qt.hsla(h, s, 0.78, 1),
+            blue: Qt.hsla(h, s, 0.78, 1)
+        });
+    }
 
-    
-    // battery
-    readonly property string batteryCharging: green
-    readonly property string batteryNotCharging: cyan
-    readonly property string batteryDischarging: yellow
-    
-    // power
-    readonly property string profileEco: green
-    readonly property string profileBalance: blue
-    readonly property string profilePower: orange
-    
-    // workspaces
-    readonly property string workspaceActive: "#282828"
-    readonly property string workspaceInactive: surface
-    readonly property string workspaceTextActive: "#fafafa"
-    readonly property string workspaceTextInactive: "#aaaaaa"
+    function pickSeed(colors: var): var {
+        let best = null;
+        let bestScore = -1;
+        for (const c of colors) {
+            if (c.hsvValue < 0.2)
+                continue;
+            const score = c.hsvSaturation * 0.8 + c.hsvValue * 0.2;
+            if (score > bestScore) {
+                bestScore = score;
+                best = c;
+            }
+        }
+        return best && best.hsvSaturation > 0.12 ? best : null;
+    }
+
+    function mix(a: color, b: color, t: real): color {
+        return Qt.tint(a, Qt.alpha(b, t));
+    }
+
+    function paletteOf(id: string): var {
+        const t = Themes.find(id).dynamic ? dynamic : Themes.find(id);
+        return {
+            bg: t.bg,
+            surface: mix(t.bg, t.fg, 0.07),
+            subtle: mix(t.bg, t.fg, 0.16),
+            muted: mix(t.bg, t.fg, 0.6),
+            fg: t.fg,
+            primary: t.primary,
+            accents: [t.red, t.yellow, t.green, t.cyan, t.magenta]
+        };
+    }
+
+    ColorQuantizer {
+        id: quantizer
+        source: "file://" + (root.base.dynamic && root.previewWallpaper.length > 0 ? root.previewWallpaper : Settings.wallpaper)
+        depth: 3
+        rescaleSize: 96
+    }
+
+    property color background: theme.bg
+    property color backgroundDeep: mix(theme.bg, "#000000", 0.6)
+    property color surface: mix(theme.bg, theme.fg, 0.055)
+    property color surfaceActive: mix(theme.bg, theme.fg, 0.09)
+    property color subtle: mix(theme.bg, theme.fg, 0.16)
+    property color border: mix(theme.bg, theme.fg, 0.12)
+    property color outline: mix(theme.bg, theme.fg, 0.22)
+
+    property color text: theme.fg
+    property color textMuted: mix(theme.bg, theme.fg, 0.6)
+    property color textBright: mix(theme.fg, "#ffffff", 0.5)
+    property color textDimmed: mix(theme.bg, theme.fg, 0.84)
+
+    property color primary: theme.primary
+    property color primaryText: mix(theme.primary, "#000000", 0.74)
+    property color primaryContainer: mix(theme.bg, theme.primary, 0.2)
+    property color primaryContainerText: mix(theme.primary, "#ffffff", 0.45)
+
+    property color red: theme.red
+    property color green: theme.green
+    property color blue: theme.blue
+    property color yellow: theme.yellow
+    property color magenta: theme.magenta
+    property color orange: theme.orange
+    property color cyan: theme.cyan
+
+    readonly property color batteryCharging: green
+    readonly property color batteryNotCharging: cyan
+    readonly property color batteryDischarging: yellow
+
+    readonly property color profileEco: green
+    readonly property color profileBalance: blue
+    readonly property color profilePower: orange
+
+    readonly property color workspaceActive: subtle
+    readonly property color workspaceInactive: surface
+    readonly property color workspaceTextActive: textBright
+    readonly property color workspaceTextInactive: textMuted
+
+    Behavior on background { Fade {} }
+    Behavior on backgroundDeep { Fade {} }
+    Behavior on surface { Fade {} }
+    Behavior on surfaceActive { Fade {} }
+    Behavior on subtle { Fade {} }
+    Behavior on border { Fade {} }
+    Behavior on outline { Fade {} }
+    Behavior on text { Fade {} }
+    Behavior on textMuted { Fade {} }
+    Behavior on textBright { Fade {} }
+    Behavior on textDimmed { Fade {} }
+    Behavior on primary { Fade {} }
+    Behavior on primaryText { Fade {} }
+    Behavior on primaryContainer { Fade {} }
+    Behavior on primaryContainerText { Fade {} }
+    Behavior on red { Fade {} }
+    Behavior on green { Fade {} }
+    Behavior on blue { Fade {} }
+    Behavior on yellow { Fade {} }
+    Behavior on magenta { Fade {} }
+    Behavior on orange { Fade {} }
+    Behavior on cyan { Fade {} }
+
+    component Fade: ColorAnimation {
+        duration: root.instant ? 0 : 320
+        easing.type: Easing.OutCubic
+    }
 }

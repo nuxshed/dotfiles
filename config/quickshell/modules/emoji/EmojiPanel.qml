@@ -109,7 +109,7 @@ PanelWindow {
                     font.pixelSize: 14
                     font.family: Fonts.family
                     selectByMouse: true
-                    selectionColor: Colors.blue
+                    selectionColor: Colors.primaryContainer
                     verticalAlignment: TextInput.AlignVCenter
                     onTextChanged: {
                         Emoji.query = text;

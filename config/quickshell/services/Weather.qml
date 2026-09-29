@@ -36,9 +36,17 @@ Singleton {
 
     readonly property string icon: iconFor(code, night)
 
+    Connections {
+        target: Settings
+
+        function onWeatherLocationChanged(): void {
+            root.refresh();
+        }
+    }
+
     function refresh(): void {
         fetch.running = false;
-        fetch.command = ["curl", "-fsS", "--max-time", "15", "https://wttr.in/" + encodeURIComponent(SpotlightConfig.weatherLocation) + "?format=j1"];
+        fetch.command = ["curl", "-fsS", "--max-time", "15", "https://wttr.in/" + encodeURIComponent(Settings.weatherLocation) + "?format=j1"];
         fetch.running = true;
     }
 
