@@ -154,7 +154,7 @@ Singleton {
     }
 
     function editSession(id: real, edit: var): void {
-        root.history = root.history.flatMap(s => {
+        root.history = [].concat(...root.history.map(s => {
             if (root.keyOf(s) !== id)
                 return [s];
             const segs = edit(s.segments.map(x => Object.assign({}, x))).filter(x => x.end - x.start >= 1000).sort((a, b) => a.start - b.start);
@@ -162,7 +162,7 @@ Singleton {
                 segs[i].end = Math.min(segs[i].end, segs[i + 1].start);
             const clean = segs.filter(x => x.end - x.start >= 1000);
             return clean.length === 0 ? [] : [{ id: root.keyOf(s), start: clean[0].start, end: clean[clean.length - 1].end, segments: clean }];
-        });
+        }));
         root.saveHistory();
     }
 

@@ -232,7 +232,7 @@ Singleton {
         let pool = words.length ? Object.keys(per[0]).filter(i => per.every(p => p[i] !== undefined)) : [];
         const strict = pool.length > 0;
         if (!strict)
-            pool = [...new Set(per.flatMap(p => Object.keys(p)))];
+            pool = [...new Set([].concat(...per.map(p => Object.keys(p))))];
         for (const i of pool) {
             const e = root.all[i];
             let s = per.reduce((sum, p) => sum + (p[i] ?? 0), 0) / words.length * (strict ? 1 : 0.7);
