@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Screen time sub-label for the focused window: qs-appdetail <app-id> <title>
+# Browsers print the site of the page (via a copy of history), wezterm prints the foreground program.
+
+app=$1
+title=$2
+cache="${XDG_RUNTIME_DIR:-/tmp}/qs-appdetail"
+mkdir -p "$cache"
+
+profile() {
+    local root=$1 path
+    path=$(awk -F= '/^\[/{d=0} /^Default=1/{d=1} /^Path=/{p=$2} d&&p{print p; exit}' "$root/profiles.ini" 2>/dev/null)
+    [ -z "$path" ] && path=$(awk -F= '/^Path=/{print $2; exit}' "$root/profiles.ini" 2>/dev/null)
+    echo "$root/$path"
+}
+
+browser() {
+    local dir=$1 suffix=$2 page db url host
+    page=${title% — $suffix}
+    page=$(sed -E 's/^\([0-9]+\) //' <<<"$page")
+    db="$cache/$app.sqlite"
+    if [ "$dir/places.sqlite-wal" -nt "$db-wal" ] || [ ! -f "$db" ]; then
+        cp -p "$dir/places.sqlite" "$db" 2>/dev/null || return
+        cp -p "$dir/places.sqlite-wal" "$db-wal" 2>/dev/null || rm -f "$db-wal"
+    fi
+    url=$(sqlite3 "$db" "select url from moz_places where title = '${page//\'/\'\'}' order by last_visit_date desc limit 1;" 2>/dev/null)
+    case $url in
+        http://* | https://*) host=${url#*://}; host=${host%%[/:?#]*}; echo "${host#www.}" ;;
+        file://*) echo "Local files" ;;
+    esac
+}
+
+terminal() {
+    local tty
+    tty=$(wezterm cli list --format json 2>/dev/null | jq -r --arg t "$title" '[.[] | select(.is_active)] as $a | (($a | map(select(.title == $t)) | .[0]) // $a[0]) | .tty_name // empty')
+    [ -z "$tty" ] && return
+    ps -t "${tty#/dev/}" -o pid=,tpgid=,comm=,args= 2>/dev/null | awk '$1 == $2 { $1 = $2 = ""; print; exit }' | {
+        read -r comm args
+        case "$comm $args" in
+            *claude*) echo "Claude Code" ;;
+            nvim* | vim*) echo "Neovim" ;;
+            zsh* | bash* | fish* | sh\ *) echo "Shell" ;;
+            ssh*) echo "SSH" ;;
+            btop* | htop* | top*) echo "System monitor" ;;
+            lazygit* | git*) echo "Git" ;;
+            yazi*) echo "Yazi" ;;
+            nix* | nh*) echo "Nix" ;;
+            python* | node*) echo "${comm}" ;;
+            *) echo "$comm" ;;
+        esac
+    }
+}
+
+case $app in
+    zen*) browser "$(profile "$HOME/.config/zen")" "Zen Browser" ;;
+    firefox*) browser "$(profile "$HOME/.mozilla/firefox")" "Mozilla Firefox" ;;
+    org.wezfurlong.wezterm) terminal ;;
+esac

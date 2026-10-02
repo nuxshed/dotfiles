@@ -17,6 +17,7 @@ import "modules/notes"
 import "modules/overview"
 import "modules/calendar"
 import "modules/focus"
+import "modules/screentime"
 import "modules/booth"
 import "modules/switcher"
 import "modules/emoji"
@@ -52,6 +53,7 @@ Scope {
     TimerPins {}
     CalendarWindow {}
     FocusWindow {}
+    ScreenTimeWindow {}
     BoothPanel {}
     SwitcherPanel {}
     EmojiPanel {}

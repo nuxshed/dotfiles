@@ -266,6 +266,26 @@ Scope {
     }
 
     IpcHandler {
+        target: "screentime"
+
+        function toggle(): void {
+            ScreenTime.appOpen = !ScreenTime.appOpen;
+        }
+
+        function open(): void {
+            ScreenTime.show("", "");
+        }
+
+        function close(): void {
+            ScreenTime.appOpen = false;
+        }
+
+        function view(name: string): void {
+            ScreenTime.show("", name);
+        }
+    }
+
+    IpcHandler {
         target: "agenda"
 
         function add(url: string): void {

@@ -2,16 +2,23 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import "../../components"
 import "../../config"
 import "../../services"
+import "../screentime"
 
 Rectangle {
     id: root
 
-    readonly property int total: ScreenTime.week.reduce((s, d) => s + d.seconds, 0)
-    readonly property int max: Math.max(1, ...ScreenTime.week.map(d => d.seconds))
-    readonly property int active: ScreenTime.week.filter(d => d.seconds > 0).length
+    readonly property string start: {
+        const d = ScreenTime.dateOf(ScreenTime.today);
+        d.setDate(d.getDate() - (d.getDay() + 6) % 7);
+        return ScreenTime.key(d);
+    }
+    readonly property var days: ScreenTime.range(start, 7)
+    readonly property var week: ScreenTime.merge(days)
+    readonly property real avg: week.active > 0 ? week.total / week.active : 0
+    readonly property real max: Math.max(3600, ...days.map(d => d.total))
+    readonly property var cats: ScreenTime.categoryList.filter(c => (week.cats[c.id] ?? 0) > 0).sort((a, b) => week.cats[b.id] - week.cats[a.id]).slice(0, 3)
 
     radius: 12
     color: Colors.surface
@@ -30,6 +37,7 @@ Rectangle {
                 spacing: 0
 
                 Text {
+                    Layout.fillWidth: true
                     text: "This week"
                     color: Colors.textMuted
                     font.pixelSize: 11
@@ -37,7 +45,7 @@ Rectangle {
                 }
 
                 Text {
-                    text: ScreenTime.format(root.total)
+                    text: ScreenTime.format(root.week.total)
                     color: Colors.textBright
                     font.pixelSize: 22
                     font.family: Fonts.family
@@ -47,51 +55,97 @@ Rectangle {
 
             Text {
                 Layout.alignment: Qt.AlignBottom
-                text: root.active > 0 ? ScreenTime.format(Math.round(root.total / root.active)) + " avg" : ""
+                Layout.bottomMargin: 4
+                visible: root.avg > 0
+                text: ScreenTime.format(root.avg) + " daily avg"
                 color: Colors.textMuted
                 font.pixelSize: 10
                 font.family: Fonts.family
             }
         }
 
-        RowLayout {
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 6
+
+            StackBars {
+                id: bars
+
+                anchors.fill: parent
+                bars: root.days
+                max: root.max
+                spacing: 8
+                barRadius: 4
+                interactive: true
+                current: root.days.findIndex(d => d.key === ScreenTime.today)
+                onClicked: index => ScreenTime.show(root.days[index].key, "day")
+            }
+
+            Row {
+                visible: root.avg > 0
+                y: parent.height - root.avg / root.max * parent.height
+                width: parent.width
+                spacing: 3
+
+                Repeater {
+                    model: Math.floor(parent.width / 6)
+
+                    Rectangle {
+                        width: 3
+                        height: 1
+                        color: Colors.textMuted
+                        opacity: 0.6
+                    }
+                }
+            }
+        }
+
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 8
 
             Repeater {
-                model: ScreenTime.week
+                model: root.days
 
-                ColumnLayout {
-                    id: col
-
+                Text {
                     required property var modelData
 
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    spacing: 6
+                    Layout.preferredWidth: 1
+                    horizontalAlignment: Text.AlignHCenter
+                    text: Qt.formatDate(ScreenTime.dateOf(modelData.key), "ddd").slice(0, 2)
+                    color: modelData.key === ScreenTime.today ? Colors.textBright : Colors.textMuted
+                    font.pixelSize: 10
+                    font.family: Fonts.family
+                    font.weight: modelData.key === ScreenTime.today ? Font.Medium : Font.Normal
+                }
+            }
+        }
 
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 12
 
-                        Rectangle {
-                            anchors.bottom: parent.bottom
-                            width: parent.width
-                            height: Math.max(4, parent.height * col.modelData.seconds / root.max)
-                            radius: 4
-                            color: col.modelData.today ? Colors.primary : Colors.subtle
+            Repeater {
+                model: root.cats
 
-                            Behavior on height {
-                                NumberAnimation { duration: 400; easing.type: Easing.OutCubic }
-                            }
-                        }
+                RowLayout {
+                    id: chip
+
+                    required property var modelData
+
+                    spacing: 5
+
+                    Rectangle {
+                        implicitWidth: 6
+                        implicitHeight: 6
+                        radius: 3
+                        color: chip.modelData.color
                     }
 
                     Text {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: col.modelData.label
-                        color: col.modelData.today ? Colors.textBright : Colors.textMuted
+                        text: chip.modelData.name + " " + ScreenTime.format(root.week.cats[chip.modelData.id])
+                        color: Colors.textMuted
                         font.pixelSize: 10
                         font.family: Fonts.family
                     }
