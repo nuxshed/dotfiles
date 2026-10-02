@@ -58,6 +58,13 @@ Rectangle {
             }
 
             Small {
+                visible: Agenda.sources.length > 0
+                icon: "sync"
+                spinning: Agenda.loading
+                onActivated: Agenda.refresh()
+            }
+
+            Small {
                 icon: "event"
                 onActivated: Calendar.show(Overview.selected)
             }
@@ -165,6 +172,7 @@ Rectangle {
         id: btn
 
         property string icon: ""
+        property bool spinning: false
 
         signal activated
 
@@ -178,10 +186,21 @@ Rectangle {
         }
 
         MaterialIcon {
+            id: glyph
+
             anchors.centerIn: parent
             text: btn.icon
             size: 14
-            color: area.containsMouse ? Colors.textBright : Colors.textMuted
+            color: area.containsMouse || btn.spinning ? Colors.textBright : Colors.textMuted
+
+            RotationAnimation on rotation {
+                running: btn.spinning
+                from: 0
+                to: -360
+                duration: 900
+                loops: Animation.Infinite
+                onStopped: glyph.rotation = 0
+            }
         }
 
         MouseArea {

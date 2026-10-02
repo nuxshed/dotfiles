@@ -10,6 +10,8 @@ Row {
 
     property bool expanded: false
 
+    readonly property real baseWidth: root.children.filter(c => c.visible && c.baseWidth !== undefined).reduce((s, c) => s + c.baseWidth, 0)
+
     function clock(seconds: int): string {
         const p = n => String(n).padStart(2, "0");
         return `${p(Math.floor(seconds / 60))}:${p(seconds % 60)}`;
@@ -63,18 +65,17 @@ Row {
         }
     }
 
-    Chip {
-        visible: Activities.camera
-        tint: Colors.green
-        icon: "videocam"
-        label: "Camera"
-    }
+    Item {
+        readonly property real baseWidth: width
 
-    Chip {
-        visible: Activities.micOnly
-        tint: Colors.orange
-        icon: "mic"
-        label: "Mic"
+        visible: privacy.shown
+        width: privacy.implicitWidth + 12
+        height: root.height
+
+        Privacy {
+            id: privacy
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
 
     component Chip: Item {
@@ -93,11 +94,13 @@ Row {
             for (const c of root.children) {
                 if (c === chip)
                     break;
-                if (c.visible)
+                if (c.visible && c.tint !== undefined)
                     i++;
             }
             return i;
         }
+
+        readonly property real baseWidth: main.implicitWidth + 24
 
         width: row.implicitWidth + 24
         height: root.height
@@ -115,51 +118,55 @@ Row {
             id: row
 
             anchors.centerIn: parent
-            spacing: 8
 
-            MaterialIcon {
+            Row {
+                id: main
+
                 anchors.verticalCenter: parent.verticalCenter
-                text: chip.icon
-                size: 14
-                color: chip.tint
+                spacing: 8
 
-                SequentialAnimation on opacity {
-                    running: chip.pulse
-                    loops: Animation.Infinite
+                MaterialIcon {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: chip.icon
+                    size: 14
+                    color: chip.tint
 
-                    NumberAnimation { to: 0.35; duration: 800; easing.type: Easing.InOutSine }
-                    NumberAnimation { to: 1; duration: 800; easing.type: Easing.InOutSine }
+                    SequentialAnimation on opacity {
+                        running: chip.pulse
+                        loops: Animation.Infinite
 
-                    onRunningChanged: if (!running)
-                        opacity = 1
+                        NumberAnimation { to: 0.35; duration: 800; easing.type: Easing.InOutSine }
+                        NumberAnimation { to: 1; duration: 800; easing.type: Easing.InOutSine }
+
+                        onRunningChanged: if (!running)
+                            opacity = 1
+                    }
+                }
+
+                Text {
+                    visible: chip.value.length > 0
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: chip.value
+                    color: Colors.textBright
+                    font.pixelSize: 12
+                    font.family: Fonts.family
+                    font.weight: Font.Medium
+                    font.features: { "tnum": 1 }
+                }
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: chip.label
+                    color: Colors.textMuted
+                    font.pixelSize: 11
+                    font.family: Fonts.family
                 }
             }
 
-            Text {
-                visible: chip.value.length > 0
+            Item {
                 anchors.verticalCenter: parent.verticalCenter
-                text: chip.value
-                color: Colors.textBright
-                font.pixelSize: 12
-                font.family: Fonts.family
-                font.weight: Font.Medium
-                font.features: { "tnum": 1 }
-            }
-
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: chip.label
-                color: Colors.textMuted
-                font.pixelSize: 11
-                font.family: Fonts.family
-            }
-
-            Row {
-                id: actionRow
-
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 4
-                width: root.expanded ? implicitWidth : 0
+                width: root.expanded ? actionRow.implicitWidth + 8 : 0
+                height: actionRow.implicitHeight
                 opacity: root.expanded ? 1 : 0
                 clip: true
 
@@ -169,6 +176,13 @@ Row {
 
                 Behavior on opacity {
                     NumberAnimation { duration: 160 }
+                }
+
+                Row {
+                    id: actionRow
+
+                    x: 8
+                    spacing: 4
                 }
             }
         }

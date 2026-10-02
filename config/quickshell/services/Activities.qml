@@ -14,7 +14,7 @@ Singleton {
     readonly property bool pomodoro: Pomodoro.active
     readonly property bool micOnly: mic && Recorder.kind !== "voice"
     readonly property bool timers: Timers.any
-    readonly property bool any: recording || pomodoro || timers || camera || micOnly
+    readonly property bool any: recording || pomodoro || timers
 
     Process {
         id: probe
