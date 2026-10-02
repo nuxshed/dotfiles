@@ -41,7 +41,7 @@ Page {
         SettingRow {
             icon: "clear_all"
             label: "Notification centre"
-            description: "Hover the top-right corner to open it"
+            description: "Hover the island in the top-right corner, or press Super+A"
 
             Button {
                 text: "Clear all"

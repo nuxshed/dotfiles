@@ -29,11 +29,7 @@ Scope {
     Wallpaper {}
     LeftPanel {}
 
-    Variants {
-        model: Quickshell.screens
-
-        delegate: NotificationPanel {}
-    }
+    NotificationCenter {}
 
     Volume {}
     Brightness {}

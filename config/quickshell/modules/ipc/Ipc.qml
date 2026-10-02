@@ -324,6 +324,34 @@ Scope {
     }
 
     IpcHandler {
+        target: "notifications"
+
+        function toggle(): void {
+            Notifications.toggle();
+        }
+
+        function dismiss(): void {
+            Notifications.dismissLatest();
+        }
+
+        function hide(): void {
+            Notifications.hidePopups();
+        }
+
+        function clear(): void {
+            Notifications.clear();
+        }
+
+        function dnd(): void {
+            Notifications.dnd = !Notifications.dnd;
+        }
+
+        function status(): string {
+            return `${Notifications.all.length} stored, ${Notifications.unread.length} unread, ${Notifications.popups.length} popups, ${Notifications.groups.length} groups${Notifications.dnd ? ", dnd" : ""}${Notifications.open ? ", open" : ""}`;
+        }
+    }
+
+    IpcHandler {
         target: "polkit"
 
         function status(): string {

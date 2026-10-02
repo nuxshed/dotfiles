@@ -9,17 +9,66 @@ import "../config"
 Singleton {
     id: root
 
-    readonly property int maxStored: 50
-    readonly property int expireDelay: Settings.notifTimeout * 1000
-    readonly property int exitDelay: 600
+    readonly property int maxStored: 100
+    readonly property int maxPopups: 3
+    readonly property int exitDelay: 400
 
-    property list<NotifData> list: []
-    property int holds: 0
+    property list<Notif> list: []
     property bool dnd: false
+    property bool open: false
+    property bool replying: false
+    property int holds: 0
 
-    readonly property bool paused: holds > 0
-    readonly property var all: list.slice()
-    readonly property var popups: list.filter(n => n.popup || n.exit.running)
+    readonly property bool paused: holds > 0 || replying
+    readonly property var all: list.filter(n => !n.closing)
+    readonly property var popups: all.filter(n => n.popup)
+    readonly property var unread: all.filter(n => !n.read)
+    readonly property var groups: {
+        const keys = [];
+        for (const n of all)
+            if (!keys.includes(n.key))
+                keys.push(n.key);
+        return keys;
+    }
+    readonly property var unreadApps: {
+        const seen = [];
+        for (const n of unread)
+            if (!seen.some(s => s.key === n.key))
+                seen.push(n);
+        return seen;
+    }
+
+    function items(key: string): var {
+        return all.filter(n => n.key === key);
+    }
+
+    function dismissGroup(key: string): void {
+        for (const n of items(key))
+            n.dismiss();
+    }
+
+    function clear(): void {
+        for (const n of all)
+            n.dismiss();
+    }
+
+    function dismissLatest(): void {
+        popups[0]?.dismiss();
+    }
+
+    function hidePopups(): void {
+        for (const n of popups)
+            n.popup = false;
+    }
+
+    function markRead(): void {
+        for (const n of unread)
+            n.read = true;
+    }
+
+    function toggle(): void {
+        open = !open;
+    }
 
     function hold(): void {
         holds++;
@@ -29,37 +78,41 @@ Singleton {
         holds = Math.max(0, holds - 1);
     }
 
-    function clear(): void {
-        for (const n of list.slice())
-            n.dismiss();
+    function promote(n: Notif): void {
+        list = [n, ...list.filter(o => o !== n)];
+        for (const p of popups.slice(maxPopups))
+            p.popup = false;
     }
 
     Timer {
-        running: root.list.length > 0
+        running: root.all.length > 0
         repeat: true
-        interval: 10000
-        triggeredOnStart: true
+        interval: 30000
         onTriggered: {
-            for (const n of root.list)
-                n.updateTime();
+            for (const n of root.all)
+                n.tick();
         }
     }
 
     NotificationServer {
-        keepOnReload: false
+        keepOnReload: true
         actionsSupported: true
         bodyMarkupSupported: true
         bodyHyperlinksSupported: true
         imageSupported: true
+        inlineReplySupported: true
+        persistenceSupported: true
 
         onNotification: notif => {
-            const data = notifComp.createObject(root, {
+            notif.tracked = true;
+            const n = notifComp.createObject(root, {
                 notification: notif
             });
-            data.init();
-            root.list = [data, ...root.list];
-
-            for (const old of root.list.slice(root.maxStored))
+            n.sync();
+            n.read = notif.lastGeneration;
+            n.popup = !notif.lastGeneration && (!root.dnd || n.critical);
+            root.promote(n);
+            for (const old of root.all.slice(root.maxStored))
                 old.dismiss();
         }
     }
@@ -67,106 +120,165 @@ Singleton {
     Component {
         id: notifComp
 
-        NotifData {}
+        Notif {}
     }
 
-    component NotifData: QtObject {
-        id: data
+    component Notif: QtObject {
+        id: n
 
-        required property Notification notification
-        property bool popup: true
-        property bool closing: false
-        property bool appClosed: false
-        property string timeStr: "now"
-
-        property int remaining: root.expireDelay
-        property real resumedAt: 0
-
-        readonly property date time: new Date()
-        readonly property var actions: notification?.actions ?? []
-
+        property Notification notification
+        property string key
+        property string appName
+        property string icon
         property string summary
         property string body
-        property string appName
-        property string appIcon
         property string image
         property bool critical
+        property bool ephemeral
+        property bool resident
+        property bool hasReply
+        property string replyHint
+        property bool hasDefault
+        property var actions: []
+        property date time: new Date()
+        property string timeStr: "now"
 
-        readonly property RetainableLock lock: RetainableLock {
-            object: data.notification
-            locked: true
+        property bool popup: false
+        property bool read: false
+        property bool closing: false
+        property real progress: 1
 
-            onDropped: {
-                data.appClosed = true;
-                data.popup = false;
+        readonly property NumberAnimation drain: NumberAnimation {
+            target: n
+            property: "progress"
+            from: 1
+            to: 0
+            duration: Settings.notifTimeout * 1000
+            running: n.popup && !n.critical && !n.closing
+            paused: running && root.paused
+            onFinished: {
+                if (n.progress <= 0)
+                    n.popup = false;
             }
-        }
-
-        readonly property Timer timer: Timer {
-            interval: Math.max(1, data.remaining)
-            running: data.popup && !data.critical && !data.closing && !root.paused
-
-            onTriggered: data.popup = false
-
-            onRunningChanged: {
-                if (running)
-                    data.resumedAt = Date.now();
-                else if (data.resumedAt > 0) {
-                    data.remaining = Math.max(0, data.remaining - (Date.now() - data.resumedAt));
-                    data.resumedAt = 0;
-                }
-            }
-        }
-
-        readonly property Timer exit: Timer {
-            interval: root.exitDelay
         }
 
         readonly property Timer reaper: Timer {
             interval: root.exitDelay
             onTriggered: {
-                root.list = root.list.filter(n => n !== data);
-                data.destroy();
+                root.list = root.list.filter(o => o !== n);
+                n.destroy();
             }
         }
 
-        function init(): void {
-            summary = notification.summary;
-            body = notification.body;
-            appName = notification.appName;
-            appIcon = notification.appIcon;
-            image = notification.image;
-            critical = notification.urgency === NotificationUrgency.Critical;
-            popup = !root.dnd || critical;
-            updateTime();
+        readonly property Connections conn: Connections {
+            target: n.notification
+
+            function onClosed(): void {
+                n.drop();
+            }
+
+            function onSummaryChanged(): void {
+                n.refresh();
+            }
+
+            function onBodyChanged(): void {
+                n.refresh();
+            }
+
+            function onImageChanged(): void {
+                n.sync();
+            }
+
+            function onAppIconChanged(): void {
+                n.sync();
+            }
+
+            function onActionsChanged(): void {
+                n.sync();
+            }
         }
 
-        function updateTime(): void {
-            const diff = Math.floor((Date.now() - time.getTime()) / 1000);
-            if (diff < 60)
-                timeStr = "now";
-            else if (diff < 3600)
-                timeStr = `${Math.floor(diff / 60)}m`;
-            else if (diff < 86400)
-                timeStr = `${Math.floor(diff / 3600)}h`;
-            else
-                timeStr = `${Math.floor(diff / 86400)}d`;
+        function sync(): void {
+            const src = notification;
+            if (!src)
+                return;
+            const entry = src.desktopEntry || src.appName;
+            key = (entry || "unknown").toLowerCase();
+            appName = src.appName || DesktopEntries.heuristicLookup(entry)?.name || "Notification";
+            const themed = src.image.startsWith("image://icon/") ? src.image.slice(13) : "";
+            icon = src.appIcon || themed || DesktopEntries.heuristicLookup(entry)?.icon || "";
+            summary = src.summary;
+            body = src.body;
+            image = themed ? "" : src.image;
+            critical = src.urgency === NotificationUrgency.Critical;
+            ephemeral = src.transient;
+            resident = src.resident;
+            hasReply = src.hasInlineReply;
+            replyHint = src.inlineReplyPlaceholder || "Reply";
+            hasDefault = src.actions.some(a => a.identifier === "default");
+            actions = src.actions.filter(a => a.identifier !== "default" && a.text).map(a => ({
+                        id: a.identifier,
+                        text: a.text
+                    }));
+        }
+
+        function refresh(): void {
+            sync();
+            time = new Date();
+            timeStr = "now";
+            read = false;
+            if (!root.dnd || critical) {
+                popup = true;
+                drain.restart();
+            }
+            root.promote(n);
+        }
+
+        function tick(): void {
+            const s = Math.floor((Date.now() - time.getTime()) / 1000);
+            timeStr = s < 60 ? "now" : s < 3600 ? `${Math.floor(s / 60)}m` : s < 86400 ? `${Math.floor(s / 3600)}h` : `${Math.floor(s / 86400)}d`;
+        }
+
+        function invoke(id: string): void {
+            const action = notification?.actions.find(a => a.identifier === id);
+            if (!action)
+                return;
+            action.invoke();
+            if (!resident)
+                dismiss();
+        }
+
+        function activate(): void {
+            if (hasDefault)
+                invoke("default");
+        }
+
+        function reply(text: string): void {
+            if (!hasReply || !notification)
+                return;
+            notification.sendInlineReply(text);
+            if (!resident)
+                dismiss();
         }
 
         function dismiss(): void {
             if (closing)
                 return;
+            notification?.dismiss();
+            drop();
+        }
+
+        function drop(): void {
+            if (closing)
+                return;
             closing = true;
             popup = false;
-            if (!appClosed)
-                notification?.dismiss();
-            lock.locked = false;
-            reaper.restart();
+            reaper.start();
         }
 
         onPopupChanged: {
-            if (!popup)
-                exit.restart();
+            if (!popup && ephemeral && !closing)
+                notification?.expire();
         }
     }
 }
