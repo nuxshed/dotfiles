@@ -141,6 +141,8 @@ hl.bind(mod .. " + period", hl.dsp.exec_cmd("qs ipc call emoji toggle"))
 hl.bind(mod .. " + SHIFT + t", hl.dsp.exec_cmd("qs ipc call theme toggle")) -- Theme picker
 hl.bind(mod .. " + SHIFT + w", hl.dsp.exec_cmd("qs ipc call wallpaper toggle")) -- Wallpaper picker
 hl.bind(mod .. " + i", hl.dsp.exec_cmd("qs ipc call settings toggle")) -- Settings
+hl.bind(mod .. " + a", hl.dsp.exec_cmd("qs ipc call notifications toggle")) -- Notification centre
+hl.bind(mod .. " + Escape", hl.dsp.exec_cmd("qs ipc call notifications dismiss")) -- Dismiss newest notification
 hl.bind("ALT + Tab", hl.dsp.exec_cmd("qs ipc call switcher next windows"))
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call switcher prev windows"))
 hl.bind(mod .. " + Tab", hl.dsp.exec_cmd("qs ipc call switcher next workspaces"))
@@ -231,7 +233,7 @@ hl.bind(mod .. " + SHIFT + e", hl.dsp.exit())
 
 -- Quickshell toplevels (e.g. the Preview window) should float, not tile.
 hl.window_rule({ match = { class = "org.quickshell" }, float = true, center = true })
-hl.window_rule({ match = { class = "org.quickshell", title = "^(Calendar|Focus)$" }, tile = true, maximize = true })
+hl.window_rule({ match = { class = "org.quickshell", title = "^(Calendar|Focus|Screen Time)$" }, tile = true, maximize = true })
 
 --------------------------------------------------------------------------------
 -- Autostart

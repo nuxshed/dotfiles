@@ -530,26 +530,12 @@ Singleton {
             root.notify(id, title, body, urgency);
     }
 
-    function sustained(hist: var, n: int, limit: real): bool {
-        if (hist.length < n)
-            return false;
-        return hist.slice(-n).every(v => v >= limit);
-    }
-
     function checkAlerts(): void {
-        const n = root.open ? 30 : 3;
-        root.alert("cpu", root.sustained(root.cpuHist, n, 90), "High CPU usage", `CPU has been above 90% for 30 seconds (${root.cpu.toFixed(0)}%)`, "normal");
         root.alert("mem", root.memPct >= 90, "Memory almost full", `${root.fmtBytes(root.memAvail, 1)} available of ${root.fmtBytes(root.memTotal, 1)}`, "critical");
-        root.alert("gpu", root.gpuState === "active" && root.sustained(root.gpuHist, n, 95), "High GPU usage", `${root.gpuName} at ${root.gpuUtil.toFixed(0)}%`, "normal");
-        root.alert("vram", root.gpuState === "active" && root.gpuMemTotal > 0 && root.gpuMemUsed / root.gpuMemTotal >= 0.9, "VRAM almost full", `${root.fmtBytes(root.gpuMemUsed, 1)} of ${root.fmtBytes(root.gpuMemTotal, 1)} used`, "normal");
-        root.alert("temp", root.cpuTemp >= 95, "CPU running hot", `Package temperature ${root.cpuTemp.toFixed(0)}°C`, "critical");
         if (root.batPresent) {
             const dis = root.batStatus === "Discharging";
-            root.alert("unplugged", !root.acOnline, "On battery power", `${root.batCapacity}% · about ${root.fmtHours(root.batTimeLeft)} remaining`, "low");
-            root.alert("plugged", root.acOnline, "Charger connected", root.batStatus === "Charging" ? `Charging from ${root.batCapacity}%` : `${root.batCapacity}% · ${root.batStatus.toLowerCase()}`, "low");
             root.alert("low", dis && root.batCapacity <= 25 && root.batCapacity > 10, "Battery low", `${root.batCapacity}% remaining · about ${root.fmtHours(root.batTimeLeft)}`, "normal");
             root.alert("critical", dis && root.batCapacity <= 10, "Battery critically low", `${root.batCapacity}% remaining — plug in now`, "critical");
-            root.alert("full", root.batStatus === "Full" || (root.acOnline && root.batThreshold < 100 && root.batCapacity >= root.batThreshold), "Battery charged", `${root.batCapacity}%`, "low");
         }
         root.alertsPrimed = true;
     }
@@ -626,7 +612,6 @@ Singleton {
             root.gpuHist = root.push(root.gpuHist, 0);
             root.gpuTempHist = root.push(root.gpuTempHist, 0);
             root.gpuProcs = [];
-            root.alert("dgpu", false, "", "", "low");
         }
         root.checkAlerts();
     }
@@ -789,7 +774,6 @@ Singleton {
         root.gpuPower = Number(f[5]) || 0;
         root.gpuHist = root.push(root.gpuHist, root.gpuUtil);
         root.gpuTempHist = root.push(root.gpuTempHist, root.gpuTemp);
-        root.alert("dgpu", true, "Discrete GPU woke up", procs.length > 0 ? `Used by ${procs.map(p => p.name).join(", ")}` : "No process is listed yet — check the GPU tab", "low");
     }
 
     function parseProcs(text: string): void {
