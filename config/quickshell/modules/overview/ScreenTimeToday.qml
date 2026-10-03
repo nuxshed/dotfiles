@@ -10,9 +10,11 @@ import "../screentime"
 Rectangle {
     id: root
 
+    property bool active: true
+
     readonly property var stats: ScreenTime.todayStats
     readonly property var apps: stats.apps.slice(0, 4)
-    readonly property real usual: ScreenTime.usual(ScreenTime.today, ScreenTime.now)
+    readonly property real usual: active ? ScreenTime.usual(ScreenTime.today, ScreenTime.now) : -1
     readonly property real delta: stats.total - usual
 
     radius: 12

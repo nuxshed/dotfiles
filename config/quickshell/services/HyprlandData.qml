@@ -20,22 +20,30 @@ Singleton {
     property var activeWorkspace: null
     property var monitors: []
     property var layers: ({})
+    property var appsByWorkspace: ({})
+
+    function run(proc) {
+        if (proc.running)
+            proc.again = true;
+        else
+            proc.running = true;
+    }
 
     function updateWindowList() {
-        getClients.running = true;
+        run(getClients);
     }
 
     function updateLayers() {
-        getLayers.running = true;
+        run(getLayers);
     }
 
     function updateMonitors() {
-        getMonitors.running = true;
+        run(getMonitors);
     }
 
     function updateWorkspaces() {
-        getWorkspaces.running = true;
-        getActiveWorkspace.running = true;
+        run(getWorkspaces);
+        run(getActiveWorkspace);
     }
 
     function updateAll() {
@@ -67,14 +75,28 @@ Singleton {
         target: Hyprland
 
         function onRawEvent(event) {
-            // console.log("Hyprland raw event:", event.name);
-            updateAll()
+            coalesce.restart();
         }
     }
 
-    Process {
+    Timer {
+        id: coalesce
+        interval: 15
+        onTriggered: root.updateAll()
+    }
+
+    component Query: Process {
+        property bool again: false
+
+        onExited: if (again) {
+            again = false;
+            running = true;
+        }
+    }
+
+    Query {
         id: getClients
-        command: ["bash", "-c", "hyprctl clients -j"]
+        command: ["hyprctl", "clients", "-j"]
         stdout: StdioCollector {
             id: clientsCollector
             onStreamFinished: {
@@ -86,13 +108,18 @@ Singleton {
                 }
                 root.windowByAddress = tempWinByAddress;
                 root.addresses = root.windowList.map(win => win.address);
+                let apps = {};
+                for (const win of root.windowList)
+                    (apps[win.workspace.id] = apps[win.workspace.id] ?? []).push(win.class);
+                if (JSON.stringify(apps) !== JSON.stringify(root.appsByWorkspace))
+                    root.appsByWorkspace = apps;
             }
         }
     }
 
-    Process {
+    Query {
         id: getMonitors
-        command: ["bash", "-c", "hyprctl monitors -j"]
+        command: ["hyprctl", "monitors", "-j"]
         stdout: StdioCollector {
             id: monitorsCollector
             onStreamFinished: {
@@ -101,9 +128,9 @@ Singleton {
         }
     }
 
-    Process {
+    Query {
         id: getLayers
-        command: ["bash", "-c", "hyprctl layers -j"]
+        command: ["hyprctl", "layers", "-j"]
         stdout: StdioCollector {
             id: layersCollector
             onStreamFinished: {
@@ -112,9 +139,9 @@ Singleton {
         }
     }
 
-    Process {
+    Query {
         id: getWorkspaces
-        command: ["bash", "-c", "hyprctl workspaces -j"]
+        command: ["hyprctl", "workspaces", "-j"]
         stdout: StdioCollector {
             id: workspacesCollector
             onStreamFinished: {
@@ -130,9 +157,9 @@ Singleton {
         }
     }
 
-    Process {
+    Query {
         id: getActiveWorkspace
-        command: ["bash", "-c", "hyprctl activeworkspace -j"]
+        command: ["hyprctl", "activeworkspace", "-j"]
         stdout: StdioCollector {
             id: activeWorkspaceCollector
             onStreamFinished: {

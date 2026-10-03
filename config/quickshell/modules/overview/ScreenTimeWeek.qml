@@ -9,12 +9,14 @@ import "../screentime"
 Rectangle {
     id: root
 
+    property bool active: true
+
     readonly property string start: {
         const d = ScreenTime.dateOf(ScreenTime.today);
         d.setDate(d.getDate() - (d.getDay() + 6) % 7);
         return ScreenTime.key(d);
     }
-    readonly property var days: ScreenTime.range(start, 7)
+    readonly property var days: active ? ScreenTime.range(start, 7) : []
     readonly property var week: ScreenTime.merge(days)
     readonly property real avg: week.active > 0 ? week.total / week.active : 0
     readonly property real max: Math.max(3600, ...days.map(d => d.total))

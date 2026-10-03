@@ -10,6 +10,12 @@ Rectangle {
     id: root
 
     property bool instant: false
+    property int activeId: Hyprland.focusedWorkspace?.id ?? 1
+    property Item activeItem: null
+    property int lastId: 0
+    property bool down: true
+
+    readonly property var bezier: [0.2, 0.9, 0.3, 1, 1, 1]
 
     signal preview(Item item, int workspace)
 
@@ -17,6 +23,58 @@ Rectangle {
     radius: 6
     width: 44
     implicitHeight: mainLayout.implicitHeight + 10
+
+    Component.onCompleted: lastId = activeId
+
+    onActiveIdChanged: {
+        down = activeId > lastId;
+        lastId = activeId;
+    }
+
+    Connections {
+        target: Hyprland
+
+        function onFocusedWorkspaceChanged() {
+            if (Hyprland.focusedWorkspace)
+                root.activeId = Hyprland.focusedWorkspace.id;
+        }
+
+        function onRawEvent(event) {
+            if (event.name === "workspacev2")
+                root.activeId = parseInt(event.data);
+            else if (event.name === "focusedmonv2")
+                root.activeId = parseInt(event.data.split(",")[1]);
+        }
+    }
+
+    Rectangle {
+        id: highlight
+
+        property real from: root.activeItem ? mainLayout.y + root.activeItem.y : 0
+        property real to: root.activeItem ? mainLayout.y + root.activeItem.y + root.activeItem.height : 0
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: from
+        width: 30
+        height: Math.max(0, to - from)
+        radius: 6
+        color: Colors.workspaceActive
+        visible: root.activeItem !== null
+
+        Behavior on from {
+            NumberAnimation {
+                duration: root.down ? 380 : 240
+                easing.bezierCurve: root.bezier
+            }
+        }
+
+        Behavior on to {
+            NumberAnimation {
+                duration: root.down ? 240 : 380
+                easing.bezierCurve: root.bezier
+            }
+        }
+    }
 
     ColumnLayout {
         id: mainLayout
@@ -33,12 +91,19 @@ Rectangle {
                 Layout.preferredHeight: windows.length > 0 ? iconColumn.implicitHeight + 12 : 30
                 Layout.alignment: Qt.AlignHCenter
 
-                readonly property var windows: HyprlandData.windowsForWorkspace(modelData.id)
+                readonly property int wsId: modelData.id
+                readonly property bool active: wsId === root.activeId
+                readonly property var windows: HyprlandData.appsByWorkspace[wsId] ?? []
                 property bool isHovered: false
 
-                color: modelData.id === Hyprland.focusedWorkspace.id ? Colors.workspaceActive : Colors.workspaceInactive
+                color: "transparent"
                 radius: 6
-                
+
+                onActiveChanged: if (active)
+                    root.activeItem = workspaceItem
+                Component.onCompleted: if (active)
+                    root.activeItem = workspaceItem
+
                 Behavior on Layout.preferredHeight {
                     NumberAnimation {
                         duration: 350
@@ -49,11 +114,15 @@ Rectangle {
                 Text {
                     anchors.centerIn: parent
                     text: modelData.name || modelData.id
-                    color: modelData.id === Hyprland.focusedWorkspace.id ? Colors.workspaceTextActive : Colors.workspaceTextInactive
+                    color: workspaceItem.active ? Colors.workspaceTextActive : Colors.workspaceTextInactive
                     font.pixelSize: 11
                     font.family: Fonts.family
                     font.weight: Font.Medium
                     visible: workspaceItem.windows.length === 0
+
+                    Behavior on color {
+                        ColorAnimation { duration: 200 }
+                    }
                 }
 
                 ColumnLayout {
@@ -69,7 +138,7 @@ Rectangle {
                             Layout.preferredWidth: 18
                             Layout.preferredHeight: 18
                             fillMode: Image.PreserveAspectFit
-                            source: Quickshell.iconPath(DesktopEntries.heuristicLookup(modelData.class)?.icon ?? modelData.class, "image-missing")
+                            source: Quickshell.iconPath(DesktopEntries.heuristicLookup(modelData)?.icon ?? modelData, "image-missing")
                         }
                     }
                 }

@@ -302,6 +302,7 @@ Variants {
 
                             ScreenTimeToday {
                                 anchors.fill: parent
+                                active: win.revealed && Overview.tab === "screentime"
                             }
                         }
 
@@ -313,6 +314,7 @@ Variants {
 
                             ScreenTimeWeek {
                                 anchors.fill: parent
+                                active: win.revealed && Overview.tab === "screentime"
                             }
                         }
                     }

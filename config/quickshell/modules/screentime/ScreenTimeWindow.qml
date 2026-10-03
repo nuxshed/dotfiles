@@ -35,15 +35,16 @@ FloatingWindow {
         const d = ScreenTime.dateOf(start);
         return new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     }
-    readonly property var list: ScreenTime.range(start, count)
+    readonly property bool live: ScreenTime.appOpen
+    readonly property var list: live ? ScreenTime.range(start, count) : []
     readonly property var agg: ScreenTime.merge(list)
-    readonly property var prev: ScreenTime.merge(ScreenTime.range(ScreenTime.shift(start, view === "month" ? -ScreenTime.dateOf(ScreenTime.shift(start, -1)).getDate() : -count), view === "month" ? ScreenTime.dateOf(ScreenTime.shift(start, -1)).getDate() : count))
+    readonly property var prev: !live ? ScreenTime.merge([]) : ScreenTime.merge(ScreenTime.range(ScreenTime.shift(start, view === "month" ? -ScreenTime.dateOf(ScreenTime.shift(start, -1)).getDate() : -count), view === "month" ? ScreenTime.dateOf(ScreenTime.shift(start, -1)).getDate() : count))
     readonly property real avg: agg.active > 0 ? agg.total / agg.active : 0
     readonly property real prevAvg: prev.active > 0 ? prev.total / prev.active : 0
     readonly property bool isToday: view === "day" && cursor === today
-    readonly property real usual: view !== "day" ? -1 : isToday ? ScreenTime.usual(today, ScreenTime.now) : ScreenTime.average(cursor, 7)
+    readonly property real usual: !live || view !== "day" ? -1 : isToday ? ScreenTime.usual(today, ScreenTime.now) : ScreenTime.average(cursor, 7)
     readonly property real dayStart: ScreenTime.dateOf(cursor).getTime()
-    readonly property var focus: view === "day" ? Pomodoro.sessionsBetween(dayStart, dayStart + 86400000).reduce((all, s) => all.concat(s.segments), []).filter(s => s.kind === "focus") : []
+    readonly property var focus: live && view === "day" ? Pomodoro.sessionsBetween(dayStart, dayStart + 86400000).reduce((all, s) => all.concat(s.segments), []).filter(s => s.kind === "focus") : []
     readonly property var bars: view === "day" ? agg.hours.map((cats, h) => ({ cats, hour: h })) : list.map(d => ({ cats: d.cats, key: d.key, total: d.total }))
     readonly property real max: view === "day" ? 3600 : Math.max(3600, Math.ceil(Math.max(...list.map(d => d.total)) / 3600) * 3600)
     readonly property var apps: filter ? agg.apps.map(a => ({ id: a.id, seconds: agg.appCats[a.id]?.[filter] ?? 0 })).filter(a => a.seconds > 0).sort((a, b) => b.seconds - a.seconds) : agg.apps

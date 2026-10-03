@@ -39,6 +39,8 @@ Singleton {
     property real spanStart: 0
     property string detail: ""
     property var labels: ({})
+    property var lookups: ({})
+    property real changedAt: 0
     property bool pending: false
     property real streakStart: Date.now()
     property bool wasAway: false
@@ -84,8 +86,12 @@ Singleton {
     }
 
     function lookup(id: string): var {
-        root.entries;
-        return id.startsWith(root.shellPrefix) ? null : DesktopEntries.heuristicLookup(id);
+        const cache = root.lookups;
+        if (id.startsWith(root.shellPrefix))
+            return null;
+        if (!(id in cache))
+            cache[id] = DesktopEntries.heuristicLookup(id) ?? null;
+        return cache[id];
     }
 
     function group(id: string): string {
@@ -198,7 +204,8 @@ Singleton {
     }
 
     function sync(): void {
-        const t = Date.now();
+        const t = root.changedAt || Date.now();
+        root.changedAt = 0;
         const gap = t - root.beat > 60000;
         const cut = gap ? root.beat : idle.isIdle ? Math.max(root.spanStart, t - root.idleTimeout * 1000) : t;
         const away = root.away || gap;
@@ -490,9 +497,16 @@ Singleton {
             file.setText(root.snapshot());
     }
 
+    function defer(): void {
+        if (!settle.running)
+            root.changedAt = Date.now();
+        settle.restart();
+    }
+
+    onEntriesChanged: lookups = {}
     onAppChanged: {
         root.detail = root.browser ? root.labels[root.app + "\n" + root.title] ?? "" : "";
-        root.sync();
+        root.defer();
         lookup.restart();
     }
     onTitleChanged: if (root.detailed) {
@@ -501,13 +515,19 @@ Singleton {
             root.detail = hit;
         lookup.restart();
     }
-    onDetailChanged: sync()
+    onDetailChanged: defer()
     onAwayChanged: sync()
 
     Component.onCompleted: {
         root.spanStart = Date.now();
         root.spanApp = root.away ? "" : root.app;
         lookup.restart();
+    }
+
+    Timer {
+        id: settle
+        interval: 400
+        onTriggered: root.sync()
     }
 
     Timer {
