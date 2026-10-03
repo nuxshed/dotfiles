@@ -180,6 +180,15 @@ Singleton {
         root.persist();
     }
 
+    Connections {
+        target: Clock
+
+        function onDayChanged(from: string, to: string): void {
+            if (Qt.formatDate(root.selected, "yyyy-MM-dd") === from)
+                root.goto(Clock.now);
+        }
+    }
+
     function show(d: date): void {
         root.cursor = d;
         root.selected = d;

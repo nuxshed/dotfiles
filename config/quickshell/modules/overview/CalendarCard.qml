@@ -12,6 +12,15 @@ Rectangle {
 
     property date shown: new Date()
 
+    Connections {
+        target: Clock
+
+        function onDayChanged(from: string, to: string): void {
+            if (Qt.formatDate(root.shown, "yyyy-MM") === from.slice(0, 7))
+                root.shown = Clock.now;
+        }
+    }
+
     readonly property var locale: Qt.locale("en_GB")
 
     function shift(months: int): void {
@@ -44,7 +53,7 @@ Rectangle {
                 font.weight: Font.Medium
 
                 TapHandler {
-                    onTapped: root.shown = new Date()
+                    onTapped: root.shown = Clock.now
                 }
             }
 
@@ -81,16 +90,19 @@ Rectangle {
 
                 required property var model
 
-                readonly property bool weekend: model.date.getDay() === 0 || model.date.getDay() === 6
-                readonly property var dayEvents: Calendar.eventsOn(model.date)
-                readonly property bool selected: Qt.formatDate(model.date, "yyyy-MM-dd") === Qt.formatDate(Overview.selected, "yyyy-MM-dd")
+                readonly property date date: new Date(model.year, model.month, model.day)
+                readonly property string key: Qt.formatDate(date, "yyyy-MM-dd")
+                readonly property bool today: key === Clock.key
+                readonly property bool weekend: date.getDay() === 0 || date.getDay() === 6
+                readonly property var dayEvents: Calendar.eventsOn(date)
+                readonly property bool selected: key === Qt.formatDate(Overview.selected, "yyyy-MM-dd")
 
                 Rectangle {
                     anchors.centerIn: parent
                     width: 22
                     height: 22
                     radius: 7
-                    color: day.model.today ? Colors.primary : day.selected ? Colors.subtle : dayHover.hovered ? Colors.surfaceActive : "transparent"
+                    color: day.today ? Colors.primary : day.selected ? Colors.subtle : dayHover.hovered ? Colors.surfaceActive : "transparent"
 
                     Behavior on color {
                         ColorAnimation { duration: 120 }
@@ -99,12 +111,12 @@ Rectangle {
                     Text {
                         anchors.centerIn: parent
                         text: day.model.day
-                        color: day.model.today ? Colors.primaryText
+                        color: day.today ? Colors.primaryText
                             : day.model.month !== grid.month ? Colors.outline
                             : day.weekend ? Colors.textMuted : Colors.text
                         font.pixelSize: 11
                         font.family: Fonts.family
-                        font.weight: day.model.today ? Font.Medium : Font.Normal
+                        font.weight: day.today ? Font.Medium : Font.Normal
                     }
                 }
 
@@ -133,8 +145,8 @@ Rectangle {
                 }
 
                 TapHandler {
-                    onTapped: Overview.selected = day.model.date
-                    onDoubleTapped: Calendar.show(day.model.date)
+                    onTapped: Overview.selected = day.date
+                    onDoubleTapped: Calendar.show(day.date)
                 }
             }
         }

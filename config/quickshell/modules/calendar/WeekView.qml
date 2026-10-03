@@ -73,7 +73,7 @@ Item {
                     required property int index
 
                     readonly property date date: new Date(root.first.getTime() + index * 86400000)
-                    readonly property bool today: Qt.formatDate(date, "yyyy-MM-dd") === Qt.formatDate(new Date(), "yyyy-MM-dd")
+                    readonly property bool today: Qt.formatDate(date, "yyyy-MM-dd") === Clock.key
 
                     width: root.colWidth
                     height: 40

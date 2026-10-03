@@ -77,7 +77,7 @@ ColumnLayout {
 
                         readonly property date date: new Date(root.first.getFullYear(), root.first.getMonth(), root.first.getDate() + index)
                         readonly property string key: Qt.formatDate(date, "yyyy-MM-dd")
-                        readonly property bool today: key === Qt.formatDate(new Date(), "yyyy-MM-dd")
+                        readonly property bool today: key === Clock.key
                         readonly property bool selected: key === Qt.formatDate(Calendar.selected, "yyyy-MM-dd")
                         readonly property bool inMonth: date.getMonth() === Calendar.cursor.getMonth()
 

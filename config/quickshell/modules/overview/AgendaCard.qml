@@ -18,12 +18,9 @@ Rectangle {
     }
 
     function dayLabel(key: string): string {
-        const today = Qt.formatDate(new Date(), "yyyy-MM-dd");
-        const t = new Date();
-        t.setDate(t.getDate() + 1);
-        if (key === today)
+        if (key === Clock.key)
             return "Today";
-        if (key === Qt.formatDate(t, "yyyy-MM-dd"))
+        if (key === Clock.tomorrowKey)
             return "Tomorrow";
         return Qt.formatDate(new Date(key + "T00:00:00"), "ddd d MMM");
     }

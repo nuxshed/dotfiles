@@ -14,7 +14,7 @@ Item {
         d.setDate(1 - (d.getDay() + 6) % 7);
         return d;
     }
-    readonly property string todayKey: Qt.formatDate(new Date(), "yyyy-MM-dd")
+    readonly property string todayKey: Clock.key
     readonly property string selectedKey: Qt.formatDate(Calendar.selected, "yyyy-MM-dd")
 
     ColumnLayout {

@@ -17,6 +17,15 @@ Singleton {
         { id: "screentime", icon: "data_usage", name: "Screen time" }
     ]
 
+    Connections {
+        target: Clock
+
+        function onDayChanged(from: string, to: string): void {
+            if (Qt.formatDate(root.selected, "yyyy-MM-dd") === from)
+                root.selected = Clock.now;
+        }
+    }
+
     function toggle(): void {
         root.open = !root.open;
     }
