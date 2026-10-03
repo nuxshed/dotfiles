@@ -68,10 +68,12 @@ in {
       Description = "Image clipboard history for spotlight";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
+      StartLimitIntervalSec = 0;
     };
     Service = {
       ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.cliphist}/bin/cliphist store";
-      Restart = "on-failure";
+      Restart = "always";
+      RestartSec = 2;
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
@@ -81,10 +83,12 @@ in {
       Description = "Clipboard history for spotlight";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
+      StartLimitIntervalSec = 0;
     };
     Service = {
       ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.cliphist}/bin/cliphist store";
-      Restart = "on-failure";
+      Restart = "always";
+      RestartSec = 2;
     };
     Install.WantedBy = [ "graphical-session.target" ];
   };
