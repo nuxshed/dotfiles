@@ -24,17 +24,23 @@ Variants {
 
         implicitWidth: 70
         color: Colors.background
-        WlrLayershell.keyboardFocus: timePopout.visible ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+        readonly property bool keyed: timePopout.visible || networkPopout.visible
+
+        WlrLayershell.keyboardFocus: keyed ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
 
         Item {
-            focus: timePopout.visible
+            focus: panelWindow.keyed
             Keys.onPressed: event => {
-                if (event.key === Qt.Key_Tab)
-                    timePopout.offset++;
-                else if (event.key === Qt.Key_Backtab)
-                    timePopout.offset--;
-                else if (event.key === Qt.Key_Escape)
+                const tab = event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab;
+                const step = event.key === Qt.Key_Backtab ? -1 : 1;
+                if (tab && timePopout.visible)
+                    timePopout.offset += step;
+                else if (tab && networkPopout.visible)
+                    networkPopout.tab = 1 - networkPopout.tab;
+                else if (event.key === Qt.Key_Escape && timePopout.visible)
                     timePopout.hide();
+                else if (event.key === Qt.Key_Escape && networkPopout.visible)
+                    networkPopout.hide();
                 else
                     return;
                 event.accepted = true;

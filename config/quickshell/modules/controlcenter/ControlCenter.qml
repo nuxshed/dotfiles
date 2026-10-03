@@ -74,7 +74,7 @@ Variants {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             width: win.revealed ? win.cardWidth : 2
-            height: win.revealed ? content.implicitHeight + 40 + win.corner * 2 : 200
+            height: content.implicitHeight + 40 + win.corner * 2
         }
 
         Item {

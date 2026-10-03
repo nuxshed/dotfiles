@@ -12,8 +12,7 @@ Popout {
     property int offset: 0
 
     readonly property date day: {
-        const d = new Date();
-        d.setHours(0, 0, 0, 0);
+        const d = new Date(Clock.key + "T00:00:00");
         d.setDate(d.getDate() + root.offset);
         return d;
     }
@@ -23,8 +22,9 @@ Popout {
     readonly property var allDay: events.filter(e => e.allDay || e.end - e.start >= 86400000)
     readonly property int fromHour: 0
     readonly property int toHour: 24
-    readonly property real hourHeight: chart.height / (toHour - fromHour)
-    readonly property real now: Date.now()
+    readonly property int visibleHours: 5
+    readonly property real hourHeight: flick.height / visibleHours
+    readonly property real now: Clock.now.getTime()
     readonly property var laidOut: {
         const list = timed.slice().sort((a, b) => a.start - b.start || b.end - a.end);
         const lanes = [];
@@ -46,6 +46,15 @@ Popout {
         return Math.max(0, Math.min(chart.height, (ms - root.dayStart - root.fromHour * 3600000) / 3600000 * root.hourHeight));
     }
 
+    function focusHour(): void {
+        let h = 8;
+        if (root.offset === 0)
+            h = new Date().getHours() - 0.5;
+        else if (root.timed.length > 0)
+            h = new Date(root.timed[0].start).getHours() - 0.5;
+        flick.contentY = Math.max(0, Math.min(flick.contentHeight - flick.height, h * root.hourHeight));
+    }
+
     function label(): string {
         if (root.offset === 0)
             return "Today";
@@ -60,18 +69,11 @@ Popout {
     contentWidth: 320
     contentHeight: 424
 
-    onOpened: root.offset = 0
-
-    Timer {
-        interval: 30000
-        running: root.visible
-        repeat: true
-        onTriggered: root.now = Date.now()
+    onOpened: {
+        root.offset = 0;
+        Qt.callLater(root.focusHour);
     }
-
-    WheelHandler {
-        onWheel: event => root.offset += event.angleDelta.y > 0 ? -1 : 1
-    }
+    onOffsetChanged: Qt.callLater(root.focusHour)
 
     ColumnLayout {
         id: column
@@ -85,6 +87,10 @@ Popout {
             Layout.preferredHeight: 38
             Layout.fillHeight: false
             spacing: 2
+
+            WheelHandler {
+                onWheel: event => root.offset += event.angleDelta.y > 0 ? -1 : 1
+            }
 
             ColumnLayout {
                 Layout.fillWidth: true
@@ -190,115 +196,131 @@ Popout {
         }
 
         Item {
-            id: chart
-
-            readonly property int gutter: 28
-
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Repeater {
-                model: root.toHour - root.fromHour + 1
+            Flickable {
+                id: flick
+
+                anchors.fill: parent
+                contentWidth: width
+                contentHeight: chart.height + 12
+                boundsBehavior: Flickable.StopAtBounds
+                clip: true
 
                 Item {
-                    id: tick
+                    id: chart
 
-                    required property int index
+                    readonly property int gutter: 28
 
-                    readonly property int hour: root.fromHour + index
+                    y: 6
+                    width: flick.width
+                    height: (root.toHour - root.fromHour) * root.hourHeight
 
-                    y: index * root.hourHeight
-                    width: chart.width
+                    Repeater {
+                        model: root.toHour - root.fromHour + 1
+
+                        Item {
+                            id: tick
+
+                            required property int index
+
+                            readonly property int hour: root.fromHour + index
+
+                            y: index * root.hourHeight
+                            width: chart.width
+
+                            Rectangle {
+                                x: chart.gutter
+                                width: parent.width - chart.gutter
+                                height: 1
+                                color: Colors.border
+                            }
+
+                            Text {
+                                visible: tick.index < root.toHour - root.fromHour
+                                y: -5
+                                text: String(tick.hour).padStart(2, "0")
+                                color: Colors.textMuted
+                                font.pixelSize: 9
+                                font.family: Fonts.family
+                            }
+                        }
+                    }
+
+                    Repeater {
+                        model: root.laidOut
+
+                        Rectangle {
+                            id: block
+
+                            required property var modelData
+
+                            readonly property real laneWidth: (chart.width - chart.gutter - 2) / modelData.count
+                            readonly property bool live: modelData.event.start <= root.now && modelData.event.end > root.now
+
+                            x: chart.gutter + 2 + modelData.lane * laneWidth
+                            y: root.yOf(modelData.event.start) + 1
+                            width: laneWidth - 3
+                            height: Math.max(16, root.yOf(modelData.event.end) - root.yOf(modelData.event.start) - 2)
+                            radius: 6
+                            color: Qt.tint(Colors.background, Qt.alpha(block.modelData.event.color, block.live ? 0.4 : 0.2))
+                            opacity: block.modelData.event.end < root.now ? 0.55 : 1
+                            clip: true
+
+                            Rectangle {
+                                width: 3
+                                height: parent.height
+                                color: block.modelData.event.color
+                            }
+
+                            Column {
+                                anchors.fill: parent
+                                anchors.leftMargin: 7
+                                anchors.rightMargin: 4
+                                anchors.topMargin: 2
+                                spacing: 0
+
+                                Text {
+                                    width: parent.width
+                                    text: block.modelData.event.summary
+                                    color: Colors.textBright
+                                    font.pixelSize: 10
+                                    font.family: Fonts.family
+                                    font.weight: Font.Medium
+                                    elide: Text.ElideRight
+                                }
+
+                                Text {
+                                    visible: block.height > 28
+                                    width: parent.width
+                                    text: Qt.formatTime(new Date(block.modelData.event.start), "HH:mm") + " – " + Qt.formatTime(new Date(block.modelData.event.end), "HH:mm")
+                                    color: Colors.textDimmed
+                                    font.pixelSize: 9
+                                    font.family: Fonts.family
+                                    elide: Text.ElideRight
+                                }
+                            }
+                        }
+                    }
 
                     Rectangle {
+                        visible: root.offset === 0 && root.now > root.dayStart + root.fromHour * 3600000 && root.now < root.dayStart + root.toHour * 3600000
                         x: chart.gutter
-                        width: parent.width - chart.gutter
-                        height: 1
-                        color: Colors.border
-                    }
+                        y: root.yOf(root.now)
+                        width: chart.width - chart.gutter
+                        height: 2
+                        color: Colors.red
 
-                    Text {
-                        visible: tick.index < root.toHour - root.fromHour && tick.hour % 3 === 0
-                        y: -5
-                        text: String(tick.hour).padStart(2, "0")
-                        color: Colors.textMuted
-                        font.pixelSize: 9
-                        font.family: Fonts.family
-                    }
-                }
-            }
-
-            Repeater {
-                model: root.laidOut
-
-                Rectangle {
-                    id: block
-
-                    required property var modelData
-
-                    readonly property real laneWidth: (chart.width - chart.gutter - 2) / modelData.count
-                    readonly property bool live: modelData.event.start <= root.now && modelData.event.end > root.now
-
-                    x: chart.gutter + 2 + modelData.lane * laneWidth
-                    y: root.yOf(modelData.event.start) + 1
-                    width: laneWidth - 3
-                    height: Math.max(16, root.yOf(modelData.event.end) - root.yOf(modelData.event.start) - 2)
-                    radius: 6
-                    color: Qt.tint(Colors.background, Qt.alpha(block.modelData.event.color, block.live ? 0.4 : 0.2))
-                    opacity: block.modelData.event.end < root.now ? 0.55 : 1
-                    clip: true
-
-                    Rectangle {
-                        width: 3
-                        height: parent.height
-                        color: block.modelData.event.color
-                    }
-
-                    Column {
-                        anchors.fill: parent
-                        anchors.leftMargin: 7
-                        anchors.rightMargin: 4
-                        anchors.topMargin: 2
-                        spacing: 0
-
-                        Text {
-                            width: parent.width
-                            text: block.modelData.event.summary
-                            color: Colors.textBright
-                            font.pixelSize: 10
-                            font.family: Fonts.family
-                            font.weight: Font.Medium
-                            elide: Text.ElideRight
-                        }
-
-                        Text {
-                            visible: block.height > 28
-                            width: parent.width
-                            text: Qt.formatTime(new Date(block.modelData.event.start), "HH:mm") + " – " + Qt.formatTime(new Date(block.modelData.event.end), "HH:mm")
-                            color: Colors.textDimmed
-                            font.pixelSize: 9
-                            font.family: Fonts.family
-                            elide: Text.ElideRight
+                        Rectangle {
+                            x: -3
+                            y: -2
+                            width: 6
+                            height: 6
+                            radius: 3
+                            color: Colors.red
                         }
                     }
-                }
-            }
-
-            Rectangle {
-                visible: root.offset === 0 && root.now > root.dayStart + root.fromHour * 3600000 && root.now < root.dayStart + root.toHour * 3600000
-                x: chart.gutter
-                y: root.yOf(root.now)
-                width: chart.width - chart.gutter
-                height: 2
-                color: Colors.red
-
-                Rectangle {
-                    x: -3
-                    y: -2
-                    width: 6
-                    height: 6
-                    radius: 3
-                    color: Colors.red
                 }
             }
 
