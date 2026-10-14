@@ -8,12 +8,20 @@ Singleton {
     id: root
 
     readonly property string dir: Quickshell.env("HOME") + "/Pictures/Camera"
-    readonly property var effects: ["Normal", "Sepia", "Black & White", "Thermal", "X-Ray", "Pop Art", "Comic", "Kaleidoscope", "Bulge", "Dent", "Twirl", "Squeeze", "Mirror", "Fish Eye", "Stretch", "Light Tunnel"]
+    readonly property var effects: [
+        "Normal", "Black & White", "Thermal", "X-Ray", "Pop Art", "Comic", "Glow", "Bulge",
+        "Twirl", "Squeeze", "Fish Eye", "Left Mirror", "Right Mirror", "Top Mirror", "Bottom Mirror", "Upside Down",
+        "Vintage", "Retro", "Rose", "Duotone", "Night Vision", "Ghost", "Color Ghost", "Glitch",
+        "VHS", "CRT", "8-Bit", "Halftone", "Cross-hatch", "Emboss", "Cyber", "Prism"
+    ]
+    readonly property int perPage: 16
+    readonly property int pages: Math.ceil(effects.length / perPage)
 
     property bool open: false
     property int effect: 0
     property bool mirror: true
     property bool picking: false
+    property int page: 0
     property int countdown: 0
     property bool flash: false
     property string notice: ""
@@ -35,6 +43,17 @@ Singleton {
         root.picking = false;
         root.open = false;
     }
+
+    function step(delta: int): void {
+        root.effect = (root.effect + delta + root.effects.length) % root.effects.length;
+    }
+
+    function turn(delta: int): void {
+        root.page = (root.page + delta + root.pages) % root.pages;
+    }
+
+    onPickingChanged: if (picking)
+        root.page = Math.floor(root.effect / root.perPage)
 
     function pick(i: int): void {
         root.effect = i;
