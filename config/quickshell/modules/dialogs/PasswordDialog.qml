@@ -142,7 +142,7 @@ PanelWindow {
                     selectByMouse: true
                     selectionColor: Colors.primaryContainer
                     verticalAlignment: TextInput.AlignVCenter
-                    onAccepted: if (Prompt.inputless || text.length > 0) Prompt.submit(Prompt.inputless ? "" : text)
+                    onAccepted: if (Prompt.inputless || Prompt.allowEmpty || text.length > 0) Prompt.submit(Prompt.inputless ? "" : text)
                     Keys.onEscapePressed: Prompt.close()
 
                     Text {
@@ -196,7 +196,7 @@ PanelWindow {
                     implicitWidth: actionText.width + 36
                     implicitHeight: 36
                     radius: height / 2
-                    color: !Prompt.inputless && input.text.length === 0 ? Colors.surface
+                    color: !Prompt.inputless && !Prompt.allowEmpty && input.text.length === 0 ? Colors.surface
                         : actionHover.hovered ? Qt.lighter(Colors.primary, 1.1) : Colors.primary
 
                     Behavior on color {
@@ -207,7 +207,7 @@ PanelWindow {
                         id: actionText
                         anchors.centerIn: parent
                         text: Prompt.action
-                        color: !Prompt.inputless && input.text.length === 0 ? Colors.textMuted : Colors.primaryText
+                        color: !Prompt.inputless && !Prompt.allowEmpty && input.text.length === 0 ? Colors.textMuted : Colors.primaryText
                         font.pixelSize: 12
                         font.family: Fonts.family
                         font.weight: Font.Medium
@@ -219,7 +219,7 @@ PanelWindow {
                     }
 
                     TapHandler {
-                        enabled: Prompt.inputless || input.text.length > 0
+                        enabled: Prompt.inputless || Prompt.allowEmpty || input.text.length > 0
                         onTapped: Prompt.submit(Prompt.inputless ? "" : input.text)
                     }
                 }

@@ -16,6 +16,7 @@ Singleton {
             action: confirm ? "OK" : "Unlock",
             error: error,
             inputless: confirm,
+            allowEmpty: true,
             onSubmit: value => root.reply(fifo, "OK " + value),
             onCancel: () => root.reply(fifo, "CANCEL")
         });

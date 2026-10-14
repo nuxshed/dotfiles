@@ -17,6 +17,7 @@ Singleton {
     property string error: ""
     property bool inputless: false
     property bool echo: false
+    property bool allowEmpty: false
     property var callback: null
     property var cancelCallback: null
 
@@ -30,6 +31,7 @@ Singleton {
         root.error = config.error ?? ""
         root.inputless = config.inputless ?? false
         root.echo = config.echo ?? false
+        root.allowEmpty = config.allowEmpty ?? false
         root.callback = config.onSubmit ?? null
         root.cancelCallback = config.onCancel ?? null
         root.open = true
