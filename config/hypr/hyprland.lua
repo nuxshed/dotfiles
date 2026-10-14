@@ -236,6 +236,7 @@ hl.bind(mod .. " + SHIFT + e", hl.dsp.exit())
 hl.window_rule({ match = { class = "org.quickshell" }, float = true, center = true })
 hl.window_rule({ match = { class = "org.quickshell", title = "^(Calendar|Focus|Screen Time)$" }, tile = true, maximize = true })
 hl.window_rule({ match = { class = "org.quickshell", title = "^Files$" }, workspace = "special:files silent", size = "980 640" })
+hl.window_rule({ match = { class = "^(spotify|zen.*|com\\.anthropic\\.Claude|Beeper)$" }, scrolling_width = 1.0 })
 
 --------------------------------------------------------------------------------
 -- Autostart
