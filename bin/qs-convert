@@ -1,0 +1,192 @@
+#!/usr/bin/env bash
+# qs-convert - non-interactive media conversion and archive extraction for the quickshell file explorer
+#
+#   qs-convert to <format> <files...>     convert each file (video/audio/image/gif)
+#   qs-convert extract <archives...>      extract next to each archive
+#   qs-convert zip <dest.zip> <paths...>  compress paths into dest.zip
+#
+# stdout protocol: "@p <0..1>" overall progress, "@out <path>" for each result.
+
+set -o pipefail
+shopt -s nocasematch
+
+die() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+unique() {
+  local path=$1 dir stem ext i=2
+  [[ -e $path ]] || { printf '%s' "$path"; return; }
+  dir=${path%/*}
+  stem=${path##*/}
+  ext=
+  if [[ $stem == *.* && $stem != .* ]]; then
+    ext=.${stem##*.}
+    stem=${stem%.*}
+  fi
+  while [[ -e "$dir/$stem ($i)$ext" ]]; do i=$((i + 1)); done
+  printf '%s' "$dir/$stem ($i)$ext"
+}
+
+progress() {
+  awk -v base="$1" -v span="$2" '{ if ($0 ~ /^@f /) { printf "@p %.4f\n", base + span * substr($0, 4); fflush() } }'
+}
+
+duration() {
+  ffprobe -v error -show_entries format=duration -of csv=p=0 "$1" 2>/dev/null | head -n1
+}
+
+ff() {
+  local in=$1 out=$2 base=$3 span=$4 dur
+  shift 4
+  dur=$(duration "$in")
+  ffmpeg -nostdin -hide_banner -v error -y -progress pipe:1 -nostats -i "$in" "$@" "$out" |
+    awk -v d="${dur:-0}" -F= '/^out_time_us=/ { if (d + 0 > 0 && $2 > 0) { f = $2 / 1e6 / d; if (f > 1) f = 1; printf "@f %.4f\n", f; fflush() } }' |
+    progress "$base" "$span"
+}
+
+palette='fps=15,scale=min(iw\,720):-2:flags=lanczos,split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=4'
+
+convert_one() {
+  local in=$1 fmt=$2 base=$3 span=$4 src=${1##*.} out tmp
+  out=$(unique "${in%.*}.$fmt")
+  tmp="$(dirname -- "$out")/.qs-convert-$$.$fmt"
+  trap 'rm -f -- "$tmp"' EXIT
+
+  case $fmt in
+  mp4)
+    if [[ $src == gif ]]; then
+      ff "$in" "$tmp" "$base" "$span" -movflags +faststart -pix_fmt yuv420p -vf 'scale=trunc(iw/2)*2:trunc(ih/2)*2' -c:v libx264 -crf 20
+    else
+      ff "$in" "$tmp" "$base" "$span" -map 0:v:0 -map '0:a?' -c copy -movflags +faststart ||
+        ff "$in" "$tmp" "$base" "$span" -map 0:v:0 -map '0:a?' -c:v libx264 -crf 20 -preset medium -pix_fmt yuv420p -c:a aac -b:a 192k -movflags +faststart
+    fi
+    ;;
+  mkv) ff "$in" "$tmp" "$base" "$span" -map 0 -c copy || ff "$in" "$tmp" "$base" "$span" -c:v libx264 -crf 20 -c:a aac ;;
+  mov) ff "$in" "$tmp" "$base" "$span" -map 0:v:0 -map '0:a?' -c copy || ff "$in" "$tmp" "$base" "$span" -c:v libx264 -crf 20 -pix_fmt yuv420p -c:a aac ;;
+  webm) ff "$in" "$tmp" "$base" "$span" -c:v libvpx-vp9 -crf 32 -b:v 0 -row-mt 1 -deadline good -cpu-used 4 -c:a libopus -b:a 128k ;;
+  gif) ff "$in" "$tmp" "$base" "$span" -vf "$palette" -loop 0 ;;
+  mp3) ff "$in" "$tmp" "$base" "$span" -vn -c:a libmp3lame -q:a 2 ;;
+  m4a) ff "$in" "$tmp" "$base" "$span" -vn -c:a aac -b:a 256k ;;
+  opus) ff "$in" "$tmp" "$base" "$span" -vn -c:a libopus -b:a 160k ;;
+  ogg) ff "$in" "$tmp" "$base" "$span" -vn -c:a libvorbis -q:a 6 ;;
+  flac) ff "$in" "$tmp" "$base" "$span" -vn -c:a flac ;;
+  wav) ff "$in" "$tmp" "$base" "$span" -vn -c:a pcm_s16le ;;
+  webp)
+    if [[ $src == gif ]]; then
+      magick "$in" -coalesce -quality 85 "webp:$tmp"
+    else
+      magick "$in[0]" -auto-orient -quality 90 "webp:$tmp"
+    fi
+    ;;
+  png | jpg | avif | bmp | tiff | ico)
+    local opts=(-auto-orient)
+    [[ $fmt == jpg ]] && opts+=(-background white -alpha remove -quality 92)
+    [[ $fmt == avif ]] && opts+=(-quality 70)
+    [[ $fmt == ico ]] && opts+=(-resize '256x256>')
+    magick "$in[0]" "${opts[@]}" "$fmt:$tmp"
+    ;;
+  *) die "Unsupported format: $fmt" ;;
+  esac || die "Could not convert ${in##*/}"
+
+  [[ -s $tmp ]] || die "Could not convert ${in##*/}"
+  mv -- "$tmp" "$out" || die "Could not write ${out##*/}"
+  trap - EXIT
+  printf '@out %s\n' "$out"
+}
+
+stem_of() {
+  local name=${1##*/}
+  case $name in
+  *.tar.gz | *.tar.xz | *.tar.bz2 | *.tar.zst | *.tar.lz | *.tar.lzma) printf '%s' "${name%.*.*}" ;;
+  *) printf '%s' "${name%.*}" ;;
+  esac
+}
+
+extract_one() {
+  local in=$1 dir tmp items dest
+  dir=$(dirname -- "$in")
+  tmp=$(mktemp -d "$dir/.qs-extract-XXXXXX") || die "Cannot write to ${dir##*/}"
+  trap 'rm -rf -- "$tmp"' EXIT
+
+  case ${in##*/} in
+  *.zip | *.jar | *.apk) unzip -qq -o "$in" -d "$tmp" </dev/null ;;
+  *.rar) unrar x -idq -o+ -p- "$in" "$tmp/" </dev/null ;;
+  *.7z) 7z x -y -bd -bso0 -bsp0 -p "-o$tmp" "$in" </dev/null ;;
+  *.tar | *.tar.* | *.tgz | *.txz | *.tbz | *.tbz2 | *.tzst) tar -xf "$in" -C "$tmp" ;;
+  *.gz) gzip -dc -- "$in" >"$tmp/$(stem_of "$in")" ;;
+  *.xz) xz -dc -- "$in" >"$tmp/$(stem_of "$in")" ;;
+  *.bz2) bzip2 -dc -- "$in" >"$tmp/$(stem_of "$in")" ;;
+  *.zst) zstd -qdc -- "$in" >"$tmp/$(stem_of "$in")" ;;
+  *) die "Unsupported archive: ${in##*/}" ;;
+  esac || die "Could not extract ${in##*/} (corrupt or password protected?)"
+
+  shopt -s dotglob nullglob
+  items=("$tmp"/*)
+  shopt -u dotglob nullglob
+
+  if ((${#items[@]} == 0)); then
+    die "${in##*/} is empty"
+  elif ((${#items[@]} == 1)); then
+    dest=$(unique "$dir/${items[0]##*/}")
+    mv -- "${items[0]}" "$dest" || die "Could not move extracted files"
+    rmdir -- "$tmp"
+  else
+    dest=$(unique "$dir/$(stem_of "$in")")
+    mv -- "$tmp" "$dest" || die "Could not move extracted files"
+  fi
+  trap - EXIT
+  printf '@out %s\n' "$dest"
+}
+
+run() {
+  trap 'exit 143' TERM
+  local cmd=$1
+  shift || die "usage: qs-convert to|extract|zip ..."
+
+  case $cmd in
+  to)
+    fmt=${1,,}
+    shift
+    (($# > 0)) || die "No files"
+    n=$#
+    i=0
+    for f in "$@"; do
+      convert_one "$f" "$fmt" "$(awk -v i=$i -v n=$n 'BEGIN { print i / n }')" "$(awk -v n=$n 'BEGIN { print 1 / n }')" || exit 1
+      i=$((i + 1))
+      printf '@p %s\n' "$(awk -v i=$i -v n=$n 'BEGIN { print i / n }')"
+    done
+    ;;
+  extract)
+    (($# > 0)) || die "No archives"
+    n=$#
+    i=0
+    for f in "$@"; do
+      extract_one "$f" || exit 1
+      i=$((i + 1))
+      printf '@p %s\n' "$(awk -v i=$i -v n=$n 'BEGIN { print i / n }')"
+    done
+    ;;
+  zip)
+    dest=$(unique "$1")
+    shift
+    (($# > 0)) || die "No files"
+    cd -- "$(dirname -- "$1")" || die "Cannot open folder"
+    names=()
+    for p in "$@"; do names+=("${p##*/}"); done
+    tmp=".qs-zip-$$.zip"
+    trap 'rm -f -- "$tmp"' EXIT
+    zip -qr -y "$tmp" -- "${names[@]}" </dev/null || die "Could not create ${dest##*/}"
+    mv -- "$tmp" "$dest" || die "Could not write ${dest##*/}"
+    trap - EXIT
+    printf '@out %s\n' "$dest"
+    ;;
+  *) die "usage: qs-convert to|extract|zip ..." ;;
+  esac
+}
+
+run "$@" &
+worker=$!
+trap 'kill -TERM "$worker" 2>/dev/null; pkill -TERM -P "$worker"; wait "$worker"; exit 143' TERM INT
+wait "$worker"

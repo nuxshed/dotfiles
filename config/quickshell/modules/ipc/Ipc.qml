@@ -127,14 +127,19 @@ Scope {
         }
 
         function toggle(): void {
-            if (Files.open)
-                Files.hide();
-            else
-                Files.show();
+            Files.toggleWindow();
         }
 
         function browse(path: string): void {
             Files.browse(path);
+        }
+
+        function window(): void {
+            Files.toggleWindow();
+        }
+
+        function tile(): void {
+            Files.openTiled();
         }
 
         function recent(): void {

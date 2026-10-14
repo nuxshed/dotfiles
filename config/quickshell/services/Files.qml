@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Hyprland
 import "../config"
 import "spotlight"
 
@@ -12,6 +13,11 @@ Singleton {
     readonly property string home: Quickshell.env("HOME")
 
     property bool open: false
+    property bool windowed: false
+    property string placement: ""
+    property var stash: null
+    readonly property bool windowShown: HyprlandData.monitors.some(m => m.specialWorkspace?.name === "special:files")
+    readonly property var windowInfo: HyprlandData.windowList.find(w => w.class === "org.quickshell" && w.title === "Files") ?? null
     property bool picker: false
     property bool multiple: false
     property bool directory: false
@@ -56,6 +62,21 @@ Singleton {
     property bool busy: op.running
     property string folderSize: ""
     property string sizedPath: ""
+    property var jobs: []
+    property int jobSerial: 0
+    property var jobProcs: ({})
+
+    readonly property string convertScript: root.home + "/dotfiles/bin/qs-convert"
+    readonly property var formats: ({
+        video: ["mp4", "webm", "mkv", "mov", "gif", "mp3"],
+        audio: ["mp3", "m4a", "opus", "ogg", "flac", "wav"],
+        image: ["png", "jpg", "webp", "avif", "ico"],
+        gif: ["mp4", "webm", "webp", "png"]
+    })
+    readonly property var formatNames: ({
+        mp4: "MP4", webm: "WebM", mkv: "MKV", mov: "MOV", gif: "GIF", mp3: "MP3", m4a: "M4A",
+        opus: "Opus", ogg: "OGG", flac: "FLAC", wav: "WAV", png: "PNG", jpg: "JPEG", webp: "WebP", avif: "AVIF", ico: "ICO"
+    })
 
     readonly property var visibleEntries: root.searching ? root.searchResults : root.special === "recent" ? root.recentEntries : root.entries
 
@@ -162,16 +183,16 @@ Singleton {
     function browse(path: string): void {
         if (root.open && root.picker)
             root.finish([]);
-        root.saveCallback = null;
-        root.picker = false;
-        root.multiple = true;
-        root.directory = false;
-        root.save = false;
-        root.outFile = "";
-        root.begin(path.length > 0 && path.startsWith("/") ? path : root.home, "");
+        const start = root.normalize(path.length > 0 && path.startsWith("/") ? path : root.home);
+        if (start !== root.cwd)
+            root.navigate(start);
+        if (!root.windowShown)
+            root.toggleWindow();
     }
 
     function begin(start: string, name: string): void {
+        if (!root.stash)
+            root.stash = { cwd: root.cwd, tabs: root.tabs, tab: root.tab, back: root.arr(root.backStack), forward: root.arr(root.forwardStack), special: root.special };
         root.backStack = [];
         root.forwardStack = [];
         root.selected = [];
@@ -195,6 +216,54 @@ Singleton {
         root.open = true;
     }
 
+    function toggleWindow(): void {
+        const w = root.windowInfo;
+        if (!root.windowed || !w) {
+            root.placement = "drawer";
+            root.windowed = true;
+        } else if (w.workspace.name === "special:files") {
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special("files")`);
+        } else {
+            root.toDrawer(w.address);
+        }
+    }
+
+    function openTiled(): void {
+        const w = root.windowInfo;
+        if (!root.windowed || !w) {
+            root.placement = "tiled";
+            root.windowed = true;
+        } else {
+            root.toTiled(w.address);
+        }
+    }
+
+    function toDrawer(address: string): void {
+        const target = `window = "address:${address}"`;
+        Hyprland.dispatch(`hl.dsp.window.move({ workspace = "special:files", follow = false, ${target} })`);
+        Hyprland.dispatch(`hl.dsp.window.float({ action = "enable", ${target} })`);
+        Hyprland.dispatch(`hl.dsp.window.resize({ x = 980, y = 640, relative = false, ${target} })`);
+        Hyprland.dispatch(`hl.dsp.window.center({ ${target} })`);
+        if (!root.windowShown)
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special("files")`);
+    }
+
+    function toTiled(address: string): void {
+        const target = `window = "address:${address}"`;
+        const ws = Hyprland.focusedMonitor?.activeWorkspace?.id ?? 1;
+        if (root.windowShown)
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special("files")`);
+        Hyprland.dispatch(`hl.dsp.window.move({ workspace = ${ws}, follow = false, ${target} })`);
+        Hyprland.dispatch(`hl.dsp.window.float({ action = "disable", ${target} })`);
+        Hyprland.dispatch(`hl.dsp.focus({ ${target} })`);
+        Hyprland.dispatch(`hl.dsp.layout("fit active")`);
+    }
+
+    function hideWindow(): void {
+        if (root.windowShown)
+            Hyprland.dispatch(`hl.dsp.workspace.toggle_special("files")`);
+    }
+
     function hide(): void {
         if (root.picker)
             root.cancel();
@@ -213,6 +282,24 @@ Singleton {
         root.openWith = null;
         root.props = null;
         root.selected = [];
+        root.picker = false;
+        root.save = false;
+        root.directory = false;
+        root.multiple = true;
+        root.fileName = "";
+        const s = root.stash;
+        root.stash = null;
+        if (s) {
+            root.tabs = s.tabs;
+            root.tab = s.tab;
+            root.backStack = s.back;
+            root.forwardStack = s.forward;
+            root.special = s.special;
+            if (s.cwd !== root.cwd)
+                root.cwd = s.cwd;
+            else
+                root.refresh(true);
+        }
     }
 
     signal refreshing(bool clear)
@@ -649,7 +736,7 @@ Singleton {
             root.fileName = entry.name;
         else if (!root.picker) {
             root.openExternal(entry.path);
-            root.close();
+            root.hideWindow();
         }
         else if (!root.directory)
             root.finish([entry.path]);
@@ -876,6 +963,116 @@ Singleton {
         }
     }
 
+    function extOf(entry: var): string {
+        const ext = entry.suffix.toLowerCase();
+        return { jpeg: "jpg", tif: "tiff", heif: "heic" }[ext] ?? ext;
+    }
+
+    function mediaKind(entry: var): string {
+        if (entry.isDir)
+            return "";
+        const ext = root.extOf(entry);
+        if (ext === "gif")
+            return "gif";
+        if (["mp4", "mkv", "webm", "mov", "avi", "m4v", "flv", "wmv", "ts", "mpg", "mpeg", "3gp"].includes(ext))
+            return "video";
+        if (["mp3", "flac", "wav", "ogg", "m4a", "opus", "aac", "wma", "aiff"].includes(ext))
+            return "audio";
+        if (["png", "jpg", "webp", "avif", "heic", "bmp", "tiff", "svg", "ico"].includes(ext))
+            return "image";
+        return "";
+    }
+
+    function isArchive(entry: var): bool {
+        return !entry.isDir && /\.(zip|jar|rar|7z|tar|tgz|txz|tbz2?|tzst|gz|xz|bz2|zst)$/i.test(entry.name);
+    }
+
+    function convertTargets(): var {
+        const sel = root.selectedEntries;
+        if (sel.length === 0)
+            return [];
+        const kind = root.mediaKind(sel[0]);
+        if (!kind || sel.some(e => root.mediaKind(e) !== kind))
+            return [];
+        return root.formats[kind].filter(f => !sel.every(e => root.extOf(e) === f));
+    }
+
+    function formatLabel(fmt: string): string {
+        const kind = root.selectedEntries.length > 0 ? root.mediaKind(root.selectedEntries[0]) : "";
+        const name = root.formatNames[fmt] ?? fmt.toUpperCase();
+        if (kind === "video" && fmt === "mp3")
+            return name + " (audio only)";
+        if (kind === "gif" && fmt === "webp")
+            return name + " (animated)";
+        if (kind === "gif" && fmt === "png")
+            return name + " (first frame)";
+        return name;
+    }
+
+    function describe(paths: var): string {
+        return paths.length === 1 ? root.basename(paths[0]) : `${paths.length} files`;
+    }
+
+    function convert(fmt: string): void {
+        const paths = root.selectedEntries.map(e => e.path);
+        if (paths.length > 0)
+            root.startJob(`Converting ${root.describe(paths)} to ${root.formatNames[fmt] ?? fmt}`, "Converted", ["to", fmt, ...paths]);
+    }
+
+    function extract(): void {
+        const paths = root.selectedEntries.filter(e => root.isArchive(e)).map(e => e.path);
+        if (paths.length > 0)
+            root.startJob(`Extracting ${root.describe(paths)}`, "Extracted", ["extract", ...paths]);
+    }
+
+    function compress(): void {
+        const sel = root.selectedEntries;
+        if (sel.length === 0)
+            return;
+        const name = sel.length === 1 ? (sel[0].isDir ? sel[0].name : sel[0].name.replace(/\.[^.]+$/, "")) + ".zip" : "Archive.zip";
+        const paths = sel.map(e => e.path);
+        root.startJob(`Compressing ${sel.length === 1 ? sel[0].name : sel.length + " items"}`, "Compressed", ["zip", root.join(root.parentOf(paths[0]), name), ...paths]);
+    }
+
+    function startJob(label: string, verb: string, args: var): void {
+        const id = ++root.jobSerial;
+        root.jobs = root.jobs.concat([{ id, label, progress: 0 }]);
+        root.jobProcs[id] = jobComponent.createObject(root, { jobId: id, label, verb, command: [root.convertScript, ...args] });
+    }
+
+    function cancelJob(id: int): void {
+        const job = root.jobProcs[id];
+        if (!job)
+            return;
+        job.cancelled = true;
+        job.running = false;
+    }
+
+    function jobProgress(id: int, value: real): void {
+        root.jobs = root.jobs.map(j => j.id === id ? Object.assign({}, j, { progress: value }) : j);
+    }
+
+    function jobDone(job: var, code: int): void {
+        delete root.jobProcs[job.jobId];
+        root.jobs = root.jobs.filter(j => j.id !== job.jobId);
+        const outputs = root.arr(job.outputs);
+        let message = "";
+        if (job.cancelled)
+            message = "Cancelled";
+        else if (code === 0)
+            message = outputs.length === 1 ? `${job.verb} to ${root.basename(outputs[0])}` : job.verb;
+        else
+            message = job.errors.trim().split("\n").pop() || "Operation failed";
+        root.flash(message);
+        if (!root.windowShown && !job.cancelled)
+            Quickshell.execDetached(["notify-send", "-a", "Files", "-i", code === 0 ? "folder" : "dialog-error", code === 0 ? job.verb : job.label + " failed", message]);
+        const here = outputs.filter(p => root.parentOf(p) === root.cwd);
+        if (here.length > 0)
+            root.selected = here;
+        root.refresh();
+        job.destroy();
+    }
+
     function exec(cmd: var, done: string, selectName: var): void {
         if (root.busy)
             return root.flash("Another operation is still running");
@@ -1062,6 +1259,22 @@ Singleton {
         root.places = list;
     }
 
+    Connections {
+        target: HyprlandData
+
+        function onWindowListChanged() {
+            const w = root.windowInfo;
+            if (!root.placement || !w)
+                return;
+            const p = root.placement;
+            root.placement = "";
+            if (p === "tiled")
+                root.toTiled(w.address);
+            else
+                root.toDrawer(w.address);
+        }
+    }
+
     Process {
         id: lister
 
@@ -1115,6 +1328,38 @@ Singleton {
                 root.flash(line.length > 0 ? line : "Operation failed");
             }
             root.refresh();
+        }
+    }
+
+    Component {
+        id: jobComponent
+
+        Process {
+            id: job
+
+            property int jobId: 0
+            property string label: ""
+            property string verb: ""
+            property bool cancelled: false
+            property var outputs: []
+            property string errors: ""
+
+            Component.onCompleted: running = true
+
+            stdout: SplitParser {
+                onRead: line => {
+                    if (line.startsWith("@p "))
+                        root.jobProgress(job.jobId, Number(line.slice(3)));
+                    else if (line.startsWith("@out "))
+                        job.outputs = job.outputs.concat([line.slice(5)]);
+                }
+            }
+
+            stderr: StdioCollector {
+                onStreamFinished: job.errors = text
+            }
+
+            onExited: code => Qt.callLater(root.jobDone, job, code)
         }
     }
 

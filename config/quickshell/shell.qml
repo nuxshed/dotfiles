@@ -45,6 +45,7 @@ Scope {
     LockScreen {}
     SpotlightPanel {}
     FilesPanel {}
+    FilesWindow {}
     PreviewPanel {}
     SysMonPanel {}
     MaintenancePanel {}
