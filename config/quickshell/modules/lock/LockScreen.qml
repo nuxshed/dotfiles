@@ -9,7 +9,7 @@ WlSessionLock {
     onSecureChanged: Lock.secure = secure
 
     WlSessionLockSurface {
-        color: Colors.backgroundDeep
+        color: Lock.mode === "bounce" ? "#000000" : Colors.backgroundDeep
 
         LockSurface {
             anchors.fill: parent
