@@ -4,7 +4,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import QtQuick
-import "../config"
 
 Singleton {
     id: root
@@ -13,15 +12,12 @@ Singleton {
     property string buffer: ""
     property string error: ""
     property string sessionPath: ""
-    property string mode: "clock"
     property bool dimmed: false
     property bool unlocking: false
     property bool secure: false
     property bool sleeping: false
-    property bool autoBounce: false
 
     readonly property bool busy: pam.active
-    readonly property int idleTimeout: 120000
 
     function lock(): void {
         if (root.locked)
@@ -29,32 +25,12 @@ Singleton {
         Quickshell.execDetached(["sh", "-c", "command -v rbw >/dev/null && rbw lock"]);
         root.buffer = "";
         root.error = "";
-        root.autoBounce = false;
-        root.mode = Settings.lockStyle;
         root.locked = true;
         root.touch();
     }
 
     function touch(): void {
         root.dimmed = false;
-        if (root.autoBounce) {
-            root.autoBounce = false;
-            root.mode = "clock";
-        }
-        if (root.mode === "clock")
-            idle.restart();
-        else
-            idle.stop();
-    }
-
-    function setMode(name: string): void {
-        root.autoBounce = false;
-        root.mode = name === "bounce" ? "bounce" : "clock";
-        root.touch();
-    }
-
-    function toggleMode(): void {
-        root.setMode(root.mode === "clock" ? "bounce" : "clock");
     }
 
     function type(text: string): void {
@@ -109,7 +85,6 @@ Singleton {
             if (result === PamResult.Success) {
                 root.error = "";
                 root.unlocking = true;
-                idle.stop();
                 release.start();
             } else {
                 root.error = result === PamResult.Failed ? "incorrect password" : "authentication error";
@@ -122,16 +97,6 @@ Singleton {
 
         running: true
         command: ["systemd-inhibit", "--what=sleep", "--who=quickshell", "--why=lock screen", "--mode=delay", "sleep", "infinity"]
-    }
-
-    Timer {
-        id: idle
-
-        interval: root.idleTimeout
-        onTriggered: {
-            root.autoBounce = true;
-            root.mode = "bounce";
-        }
     }
 
     Timer {

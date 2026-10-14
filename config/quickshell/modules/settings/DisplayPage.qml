@@ -51,20 +51,6 @@ Page {
         title: "Lock screen"
 
         SettingRow {
-            icon: "access_time"
-            label: "Clock style"
-            description: "Shown when the screen locks"
-
-            Segmented {
-                width: 180
-                implicitHeight: 32
-                items: ["Clock", "Bounce"]
-                currentIndex: Settings.lockStyle === "bounce" ? 1 : 0
-                onSelected: index => Settings.set("lockStyle", index === 1 ? "bounce" : "clock")
-            }
-        }
-
-        SettingRow {
             icon: "lock"
             label: "Lock now"
             description: "Also locks the password vault"

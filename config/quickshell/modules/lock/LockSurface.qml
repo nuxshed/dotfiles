@@ -45,9 +45,7 @@ Item {
         if (wake)
             return;
 
-        if (event.key === Qt.Key_Tab)
-            Lock.toggleMode();
-        else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
+        if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter)
             Lock.submit();
         else if (event.key === Qt.Key_Backspace)
             Lock.erase(event.modifiers & Qt.ControlModifier);
@@ -89,26 +87,9 @@ Item {
         onWheel: wheel => wheel.accepted = true
     }
 
-    Loader {
+    BounceClock {
         anchors.fill: parent
-        sourceComponent: Lock.mode === "bounce" ? bounce : clock
-    }
-
-    Component {
-        id: clock
-
-        OrbitalClock {
-            unit: root.unit
-            active: !Lock.dimmed
-        }
-    }
-
-    Component {
-        id: bounce
-
-        BounceClock {
-            unit: root.unit
-        }
+        unit: root.unit
     }
 
     Item {
@@ -118,7 +99,7 @@ Item {
         anchors.bottomMargin: 80 * root.unit
         width: 360 * root.unit
         height: dots.height + captionText.height + 14 * root.unit
-        opacity: Lock.mode === "clock" || root.typing ? 1 : 0
+        opacity: root.typing ? 1 : 0
         transform: Translate { x: root.shake }
 
         Behavior on opacity {

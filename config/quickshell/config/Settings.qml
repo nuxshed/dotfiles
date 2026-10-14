@@ -8,7 +8,7 @@ Singleton {
     id: root
 
     readonly property string home: Quickshell.env("HOME")
-    readonly property var keys: ["theme", "wallpaper", "wallpaperDir", "wallpaperFit", "clock24", "toolbar", "controlCenter", "notifTimeout", "lockStyle", "weatherLocation", "searchEngine"]
+    readonly property var keys: ["theme", "wallpaper", "wallpaperDir", "wallpaperFit", "clock24", "toolbar", "controlCenter", "notifTimeout", "weatherLocation", "searchEngine"]
 
     property bool ready: false
 
@@ -20,7 +20,6 @@ Singleton {
     property bool toolbar: true
     property bool controlCenter: true
     property int notifTimeout: 5
-    property string lockStyle: "clock"
     property string weatherLocation: ""
     property string searchEngine: "ddg"
 

@@ -1,5 +1,4 @@
 import Quickshell.Wayland
-import "../../config"
 import "../../services"
 
 WlSessionLock {
@@ -9,7 +8,7 @@ WlSessionLock {
     onSecureChanged: Lock.secure = secure
 
     WlSessionLockSurface {
-        color: Lock.mode === "bounce" ? "#000000" : Colors.backgroundDeep
+        color: "#000000"
 
         LockSurface {
             anchors.fill: parent
