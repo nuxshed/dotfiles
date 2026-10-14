@@ -9,6 +9,10 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+    helium = {
+      url = "github:AlvaroParker/helium-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     spicetify-nix.url = "github:Gerg-L/spicetify-nix";
     quickshell = {
@@ -31,59 +35,42 @@
       url = "github:andOrlando/rubato";
       flake = false;
     };
-
-    hyprland = {
-      type = "git";
-      url = "https://github.com/hyprwm/Hyprland";
-      submodules = true;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, spicetify-nix, quickshell, ... }@inputs: {
-    nixosConfigurations = {
-      earth = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/earth/configuration.nix
-          {
-            nixpkgs.overlays =
-              [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
-          }
-        ];
-      };
-      zephyrus = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/zephyrus/configuration.nix
-          {
-            nixpkgs.overlays =
-              [ emacs-overlay.overlay nixpkgs-f2k.overlays.window-managers ];
-          }
-        ];
-      };
-    };
+  outputs = { nixpkgs, home-manager, nixpkgs-f2k, emacs-overlay, ... }@inputs:
+    let
+      overlays = [
+        emacs-overlay.overlay
+        nixpkgs-f2k.overlays.window-managers
+        (self: super: {
+          mpv = super.mpv.override { scripts = [ self.mpvScripts.mpris ]; };
+        })
+      ];
 
-    homeConfigurations = {
-      "zephyrus" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        extraSpecialArgs = { inherit inputs; };
+      # Home Manager runs as part of the system switch (one `nh os switch` does both).
+      mkHost = host: { withHome ? true }: nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/zephyrus/user.nix
+          ./hosts/${host}/configuration.nix
+          { nixpkgs.overlays = overlays; }
+        ] ++ nixpkgs.lib.optionals withHome [
+          home-manager.nixosModules.home-manager
           {
-            nixpkgs.overlays =
-              [
-                emacs-overlay.overlay
-                nixpkgs-f2k.overlays.window-managers
-                    (self: super: {
-      mpv = super.mpv.override {
-        scripts = [ self.mpvScripts.mpris ];
-      };
-    })
-              ];
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "hm-bak";
+              extraSpecialArgs = { inherit inputs; };
+              users.nuxsh = import ./hosts/${host}/user.nix;
+            };
           }
         ];
       };
+    in {
+      nixosConfigurations = {
+        # earth's user.nix still targets HM 23.05 defaults (hyprlang, not our Lua config).
+        earth = mkHost "earth" { withHome = false; };
+        zephyrus = mkHost "zephyrus" { };
+      };
     };
-  };
 }

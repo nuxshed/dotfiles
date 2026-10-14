@@ -1,57 +1,38 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
-{ config, pkgs, self, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ../../modules/system ];
 
-  networking = {
-    hostName = "zephyrus";
-    networkmanager.enable = true;
-  };
+  networking.hostName = "zephyrus";
 
   services.pulseaudio.enable = false;
 
   services.supergfxd.enable = true;
   systemd.services.supergfxd.path = [ pkgs.pciutils ];
 
-  hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.open = true;
-
-  services.asusd = {
-    enable = true;
+  hardware.nvidia = {
+    open = true;
+    # Intel Arc renders everything; the RTX 4070 only wakes for `nvidia-offload <cmd>`
+    # (Steam: `nvidia-offload %command%`) or a monitor on HDMI/DP-5, which are wired to it.
+    prime = {
+      offload.enable = true;
+      offload.enableOffloadCmd = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
+    # RTD3: power the dGPU off entirely when idle.
+    powerManagement.enable = true;
+    powerManagement.finegrained = true;
   };
 
-  time.timeZone = "Asia/Kolkata";
+  services.asusd.enable = true;
+  # Power profiles (asusctl and the Fn fan key drive these too).
+  services.power-profiles-daemon.enable = true;
 
-  console = { font = "Lat2-Terminus16"; };
+  users.users.nuxsh.extraGroups = [ "audio" "docker" "dialout" "tty" ];
 
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    enableGlobalCompInit = false;
-  };
-
-  environment.binsh = "${pkgs.dash}/bin/dash";
-
-  users.users.nuxsh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "docker" "dialout" "tty" ];
-    shell = pkgs.zsh;
-  };
-
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [ stdenv.cc.cc ];
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
+  programs.nix-ld.libraries = [ pkgs.stdenv.cc.cc ];
 
   services.mysql = {
     enable = true;
@@ -63,21 +44,18 @@
     enableTCPIP = true;
   };
 
+  # Databases start on demand (`sudo systemctl start mysql postgresql`), not at boot.
+  systemd.services.mysql.wantedBy = lib.mkForce [ ];
+  systemd.services.postgresql.wantedBy = lib.mkForce [ ];
+
   # 15G and no swap device. A flake update once let nix fan out to 22 parallel
   # builds on 22 cores each; cc1plus exhausted RAM and the OOM killer took out
   # dbus-broker and user@1000.service, leaving the session without a bus.
   zramSwap.enable = true;
 
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      trusted-users = [ "root" "nuxsh" ];
-      max-jobs = 4;
-      cores = 4;
-    };
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+  nix.settings = {
+    max-jobs = 4;
+    cores = 4;
   };
 
   system.stateVersion = "26.05";

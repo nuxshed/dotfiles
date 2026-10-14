@@ -38,7 +38,11 @@ let
   '';
 in
 {
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    # /boot is a 511M ESP; each generation with a new kernel+initrd costs ~70M there.
+    configurationLimit = 10;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -89,20 +93,16 @@ in
     updateResolvConf = false;
   };
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      openldap = prev.openldap.overrideAttrs (old: {
-        doCheck = false;
-      });
-    })
-  ];
-
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
 
   programs.steam.enable = true;
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    # Socket-activated on first `docker` use instead of holding boot on network-online.
+    enableOnBoot = false;
+  };
 
   programs.hyprland.enable = true;
   services.displayManager.defaultSession = "hyprland";
@@ -125,15 +125,14 @@ in
     };
   };
 
+  # Unlocked at login through ly's PAM stack, which includes `login` (the keyring module hooks that).
   services.gnome.gnome-keyring.enable = true;
-
-  security.pam.services.ly.enableGnomeKeyring = true;
-
-  services.dbus.packages = [ pkgs.gcr_4 ];
+  # gpg-agent (programs.gnupg.agent.enableSSHSupport + pinentry-qs) owns SSH_AUTH_SOCK.
+  services.gnome.gcr-ssh-agent.enable = false;
 
   nixpkgs.config.allowUnfree = true;
 
-  imports = [ ./env.nix ./fonts.nix ./xserver.nix ];
+  imports = [ ./env.nix ./fonts.nix ./host.nix ./xserver.nix ];
 
   environment.systemPackages = [
     pkgs.coreutils
@@ -154,7 +153,6 @@ in
     pkgs.kdePackages.wayland-protocols 
     inputs.quickshell.packages.x86_64-linux.default
     pkgs.libxkbcommon
-    pkgs.xdg-desktop-portal-hyprland
     pkgs.qt5.qtwayland
     pkgs.qt6.qtwayland
     pkgs.uxplay

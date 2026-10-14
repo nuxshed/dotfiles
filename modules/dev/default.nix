@@ -9,7 +9,6 @@
     lua
     luarocks
     stylua
-    direnv
     clojure
     clojure-lsp
     clj-kondo
@@ -23,7 +22,7 @@
     python3
     uv
     gemini-cli
-    (texlive.combine { inherit (texlive) scheme-full latexmk; })
+    texliveFull
     sqlite
   ];
   # nixpkgs python uses the nix ld.so (bypasses nix-ld), so manylinux wheels

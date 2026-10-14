@@ -22,7 +22,6 @@
   boot.kernelParams = [
     "quiet"
     "splash"
-    "nvidia-drm.modeset=1"
     "i915.enable_dpcd_backlight=1"
     "nvidia.NVreg_EnableBacklightHandler=0"
     "nvidia.NVRegistryDwords=EnableBrightnessControl=0"

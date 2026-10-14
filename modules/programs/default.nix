@@ -44,8 +44,9 @@ let
 in {
   home.packages = with pkgs; [
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.helium.packages.${pkgs.stdenv.hostPlatform.system}.default
     claude-desktop
-    antigravity
+    antigravity-ide
     beeper
     deluge-gtk
     discord
@@ -62,11 +63,9 @@ in {
     vlc
     wezterm
     xcolor
-    xdotool
   ];
   imports = [ ./alacritty inputs.spicetify-nix.homeManagerModules.default ];
 
-  nixpkgs.config = { allowUnfree = true; };
 
   home.file.".config/rofi".source = config.lib.file.mkOutOfStoreSymlink
     "${config.home.homeDirectory}/dotfiles/config/rofi";

@@ -128,7 +128,7 @@ fetch() {
   echo "shell|$(basename "${SHELL:-sh}") $("${SHELL:-sh}" --version 2>/dev/null | head -1 | grep -oE '[0-9]+\.[0-9]+(\.[0-9]+)?' | head -1)"
   echo "locale|${LANG:-?}"
   echo "pkgs_system|$(nix-store -q --requisites /run/current-system 2>/dev/null | wc -l)"
-  echo "pkgs_user|$(nix-store -q --requisites "$HOME/.nix-profile" 2>/dev/null | wc -l)"
+  echo "pkgs_user|$(nix-store -q --requisites "/etc/profiles/per-user/$USER" "$HOME/.nix-profile" 2>/dev/null | sort -u | wc -l)"
   echo "pkgs_gen|$(readlink /nix/var/nix/profiles/system 2>/dev/null | grep -oE '[0-9]+' | head -1)"
   echo "wm|Hyprland $(hyprctl version -j 2>/dev/null | grep -oE '"tag": *"[^"]*"' | head -1 | sed 's/.*"\(v[^"]*\)"/\1/')"
   echo "layout|$(hyprctl getoption general:layout -j 2>/dev/null | grep -oE '"str": *"[^"]*"' | sed 's/.*"\([^"]*\)"$/\1/')"
